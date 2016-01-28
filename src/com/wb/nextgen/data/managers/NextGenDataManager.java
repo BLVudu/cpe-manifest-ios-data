@@ -1,4 +1,4 @@
-package managers;
+package com.wb.nextgen.data.managers;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import models.Inventory;
+import com.wb.nextgen.data.models.Inventory;
 
 public class NextGenDataManager {
 

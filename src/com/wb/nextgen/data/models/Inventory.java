@@ -1,4 +1,4 @@
-package models;
+package com.wb.nextgen.data.models;
 
 import java.util.HashMap;
 import java.util.Map;

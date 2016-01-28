@@ -4,6 +4,7 @@ reated by https://www.gitignore.io/api/eclipse
 
 .metadata
 bin/
+build/
 tmp/
 *.tmp
 *.bak
@@ -12,6 +13,7 @@ tmp/
 local.properties
 .settings/
 .loadpath
+*-classpath
 
 # Eclipse Core
 .project

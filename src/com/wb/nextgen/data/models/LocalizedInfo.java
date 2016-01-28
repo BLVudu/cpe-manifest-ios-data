@@ -1,4 +1,4 @@
-package models;
+package com.wb.nextgen.data.models;
 
 import java.net.MalformedURLException;
 import java.net.URL;

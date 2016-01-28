@@ -1,6 +1,6 @@
-package example;
+package com.wb.nextgen.example;
 
-import managers.NextGenDataManager;
+import com.wb.nextgen.data.managers.*;
 
 public class NextGenDataExample {
 

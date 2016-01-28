@@ -1,8 +1,8 @@
-package models;
+package com.wb.nextgen.data.models;
 
 import org.w3c.dom.Element;
 
-import utils.XMLUtils;
+import com.wb.nextgen.data.utils.XMLUtils;
 
 /*
 	<xs:complexType name="InventoryMetadata-type">

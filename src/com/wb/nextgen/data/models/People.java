@@ -1,11 +1,10 @@
-package models;
+package com.wb.nextgen.data.models;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import enums.Gender;
-import enums.JobFunction;
+import com.wb.nextgen.data.enums.*;
 
 /*
 	<xs:complexType name="BasicMetadataPeople-type">

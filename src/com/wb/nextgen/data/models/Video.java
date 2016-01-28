@@ -1,4 +1,4 @@
-package models;
+package com.wb.nextgen.data.models;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import javax.xml.datatype.DatatypeFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import enums.ColorType;
+import com.wb.nextgen.data.enums.ColorType;
 
 import org.w3c.dom.Node;
 
