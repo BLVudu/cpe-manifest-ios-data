@@ -1,4 +1,4 @@
-package com.wb.nextgen.data.models;
+package com.wb.nextgen.data.inventory;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

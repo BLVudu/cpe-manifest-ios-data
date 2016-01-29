@@ -1,4 +1,4 @@
-package com.wb.nextgen.data.models;
+package com.wb.nextgen.data.inventory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,8 +30,9 @@ public class Inventory {
 	private Map<String, Subtitle> subtitleMap = new HashMap<String, Subtitle>();
 	private Map<String, Image> imageMap = new HashMap<String, Image>();
 	private Map<String, Interactive> interactiveMap = new HashMap<String, Interactive>();
+	private Map<String, Ancillary> ancillaryMap = new HashMap<String, Ancillary>();
 	private Map<String, Metadata> metadataMap = new HashMap<String, Metadata>();
-	// TODO: Many things
+	private Map<String, TextObject> textObjectMap = new HashMap<String, TextObject>();
 	
 	public Inventory(Element xmlElement) {
 		NodeList childNodes = xmlElement.getChildNodes();
@@ -64,10 +65,20 @@ public class Inventory {
 					Interactive interactive = new Interactive(nodeElement);
 					this.interactiveMap.put(interactive.interactiveTrackId, interactive);
 					break;
+					
+				case Ancillary.NODE_ROOT:
+					Ancillary ancillary = new Ancillary(nodeElement);
+					this.ancillaryMap.put(ancillary.ancillaryTrackId, ancillary);
+					break;
 				
 				case Metadata.NODE_ROOT:
 					Metadata metadata = new Metadata(nodeElement);
 					this.metadataMap.put(metadata.contentId, metadata);
+					break;
+					
+				case TextObject.NODE_ROOT:
+					TextObject textObject = new TextObject(nodeElement);
+					this.textObjectMap.put(textObject.textObjectId, textObject);
 					break;
 				}
 			}
@@ -82,6 +93,10 @@ public class Inventory {
 		return this.videoMap.get(videoTrackId);
 	}
 	
+	public Subtitle getSubtitleByTrackId(String subtitleTrackId) {
+		return this.subtitleMap.get(subtitleTrackId);
+	}
+	
 	public Image getImageById(String imageId) {
 		return this.imageMap.get(imageId);
 	}
@@ -90,8 +105,16 @@ public class Inventory {
 		return this.interactiveMap.get(interactiveTrackId);
 	}
 	
+	public Ancillary getAncillaryByTrackId(String ancillaryTrackId) {
+		return this.ancillaryMap.get(ancillaryTrackId);
+	}
+	
 	public Metadata getMetadataByContentId(String contentId) {
 		return this.metadataMap.get(contentId);
+	}
+	
+	public TextObject getTextObjectById(String textObjectId) {
+		return this.textObjectMap.get(textObjectId);
 	}
 
 }

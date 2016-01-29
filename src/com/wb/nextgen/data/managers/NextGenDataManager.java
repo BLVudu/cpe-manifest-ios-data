@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import com.wb.nextgen.data.models.Inventory;
+import com.wb.nextgen.data.inventory.Inventory;
 
 public class NextGenDataManager {
 
@@ -33,8 +33,8 @@ public class NextGenDataManager {
 		return instance;
 	}
 	
-	public void parseXML() {
-		File xmlFile = new File("/Users/alec/Desktop/mos_hls_manifest_v3.xml");
+	public void parseXML(String pathToXml) {
+		File xmlFile = new File(pathToXml);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		Document doc = null;
 		
@@ -52,12 +52,17 @@ public class NextGenDataManager {
 		
 		doc.getDocumentElement().normalize();
 		
-		NodeList nodeList = doc.getElementsByTagName(Inventory.NODE_ROOT);
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node node = nodeList.item(i);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				this.inventory = new Inventory((Element) node);
-				break;
+		NodeList childNodes = doc.getChildNodes(); doc.getElementsByTagName(Inventory.NODE_ROOT);
+		for (int i = 0; i < childNodes.getLength(); i++) {
+			Node childNode = childNodes.item(i);
+			if (childNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element nodeElement = (Element) childNode;
+				
+				switch (nodeElement.getNodeName()) {
+				case Inventory.NODE_ROOT:
+					this.inventory = new Inventory(nodeElement);
+					break;
+				}
 			}
 		}
 	}
