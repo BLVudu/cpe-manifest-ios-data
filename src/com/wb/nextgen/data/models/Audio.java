@@ -12,6 +12,17 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 
 /*
+ 	<xs:complexType name="InventoryAudio-type">
+		<xs:complexContent>
+			<xs:extension base="md:DigitalAssetAudioData-type">
+				<xs:sequence>
+					<xs:element name="ContainerReference" type="manifest:ContainerReference-type" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="AudioTrackID" type="manifest:AudioTrackID-type" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="DigitalAssetAudioData-type">
 		<xs:sequence>
 			<xs:element name="Description" type="xs:string" minOccurs="0"/>
@@ -48,7 +59,7 @@ public class Audio {
 	private String channels;
 	// TODO: TrackReference
 	// TODO: TrackIdentifier
-	private URL containerLocation;
+	private URL url;
 	
 	public Audio(Element xmlElement) {
 		this.audioTrackId = xmlElement.getAttribute(ATTRIBUTE_AUDIO_TRACK_ID);
@@ -85,7 +96,7 @@ public class Audio {
 					NodeList locationNodes = nodeElement.getElementsByTagName(NODE_CONTAINER_LOCATION);
 					if (locationNodes.getLength() > 0) {
 						try {
-							this.containerLocation = new URL(locationNodes.item(0).getTextContent());
+							this.url = new URL(locationNodes.item(0).getTextContent());
 						} catch (MalformedURLException | DOMException e) {
 							e.printStackTrace();
 						}
@@ -97,7 +108,7 @@ public class Audio {
 	}
 	
 	@Override public String toString() {
-		return "[" + this.audioTrackId + "] " + this.containerLocation;
+		return "[" + this.audioTrackId + "] " + this.url;
 	}
 	
 	/*

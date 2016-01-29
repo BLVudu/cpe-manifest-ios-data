@@ -1,11 +1,14 @@
 package com.wb.nextgen.data.models;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -14,6 +17,17 @@ import com.wb.nextgen.data.enums.ColorType;
 import org.w3c.dom.Node;
 
 /*
+	<xs:complexType name="InventoryVideo-type">
+		<xs:complexContent>
+			<xs:extension base="md:DigitalAssetVideoData-type">
+				<xs:sequence>
+					<xs:element name="ContainerReference" type="manifest:ContainerReference-type" minOccurs="0"/>
+				</xs:sequence>
+				<xs:attribute name="VideoTrackID" type="manifest:VideoTrackID-type" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="DigitalAssetVideoData-type">
 		<xs:sequence>
 			<xs:element name="Description" type="xs:string" minOccurs="0"/>
@@ -45,6 +59,8 @@ public class Video {
 	private final String NODE_PICTURE_FORMAT = "PictureFormat";
 	private final String NODE_LANGUAGE = "Language";
 	private final String NODE_SIGNED_LANGUAGE = "SignedLanguage";
+	private final String NODE_CONTAINER_REFERENCE = "manifest:ContainerReference";
+	private final String NODE_CONTAINER_LOCATION = "manifest:ContainerLocation";
 	
 	public String videoTrackId;
 	
@@ -61,6 +77,7 @@ public class Video {
 	// TODO: TrackReference
 	// TODO: TrackIdentifier
 	// TODO: Private
+	private URL url;
 	
 	public Video(Element xmlElement) {
 		this.videoTrackId = xmlElement.getAttribute(ATTRIBUTE_VIDEO_TRACK_ID);
@@ -109,13 +126,24 @@ public class Video {
 				case NODE_SIGNED_LANGUAGE:
 					this.signedLanguage = nodeText;
 					break;
+					
+				case NODE_CONTAINER_REFERENCE:
+					NodeList locationNodes = nodeElement.getElementsByTagName(NODE_CONTAINER_LOCATION);
+					if (locationNodes.getLength() > 0) {
+						try {
+							this.url = new URL(locationNodes.item(0).getTextContent());
+						} catch (MalformedURLException | DOMException e) {
+							e.printStackTrace();
+						}
+					}
+					break;
 				}
 			}
 		}
 	}
 	
 	@Override public String toString() {
-		return "[" + this.videoTrackId + "]";
+		return "[" + this.videoTrackId + "] " + this.url;
 	}
 	
 	/*
