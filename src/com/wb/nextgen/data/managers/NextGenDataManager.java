@@ -15,7 +15,9 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
+import com.wb.nextgen.data.appgroups.AppGroup;
 import com.wb.nextgen.data.inventory.Inventory;
+import com.wb.nextgen.data.picturegroups.PictureGroup;
 import com.wb.nextgen.data.presentations.Presentation;
 
 public class NextGenDataManager {
@@ -23,9 +25,13 @@ public class NextGenDataManager {
 	private static NextGenDataManager instance = null;
 	
 	private final String NODE_PRESENTATIONS = "manifest:Presentations";
+	private final String NODE_PICTURE_GROUPS = "manifest:PictureGroups";
+	private final String NODE_APP_GROUPS = "manifest:AppGroups";
 	
 	private Inventory inventory;
 	private Map<String, Presentation> presentationsMap = new HashMap<String, Presentation>();
+	private Map<String, PictureGroup> pictureGroupsMap = new HashMap<String, PictureGroup>();
+	private Map<String, AppGroup> appGroupsMap = new HashMap<String, AppGroup>();
 	
 	protected NextGenDataManager() {
 		
@@ -78,6 +84,30 @@ public class NextGenDataManager {
 							Element subNodeElement = (Element) subNode;
 							Presentation presentation = new Presentation(subNodeElement);
 							this.presentationsMap.put(presentation.presentationId, presentation);
+						}
+					}
+					break;
+					
+				case NODE_PICTURE_GROUPS:
+					subNodes = nodeElement.getElementsByTagName(PictureGroup.NODE_ROOT);
+					for (int j = 0; j < subNodes.getLength(); i++) {
+						Node subNode = subNodes.item(i);
+						if (subNode.getNodeType() == Element.ELEMENT_NODE) {
+							Element subNodeElement = (Element) subNode;
+							PictureGroup pictureGroup = new PictureGroup(subNodeElement);
+							this.pictureGroupsMap.put(pictureGroup.pictureGroupId, pictureGroup);
+						}
+					}
+					break;
+					
+				case NODE_APP_GROUPS:
+					subNodes = nodeElement.getElementsByTagName(AppGroup.NODE_ROOT);
+					for (int j = 0; j < subNodes.getLength(); i++) {
+						Node subNode = subNodes.item(i);
+						if (subNode.getNodeType() == Element.ELEMENT_NODE) {
+							Element subNodeElement = (Element) subNode;
+							AppGroup appGroup = new AppGroup(subNodeElement);
+							this.appGroupsMap.put(appGroup.appGroupId, appGroup);
 						}
 					}
 					break;
