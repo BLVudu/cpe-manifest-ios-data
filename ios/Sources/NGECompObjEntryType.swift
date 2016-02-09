@@ -12,9 +12,9 @@ class NGECompObjEntryType : NSObject{
     
     var EntryList: [NGECompObjEntryType]?
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
-    var BasicMetadata: NGEBasicMetadataType?
+    var BasicMetadata: NGEBasicMetadataType!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -82,7 +82,7 @@ class NGECompObjEntryType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
+                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

@@ -4,47 +4,47 @@ import Foundation
 @objc
 class NGETimedEventType : NSObject{
     
-    var StartTimecode: NGETimecodeType?
+    var StartTimecode: NGETimecodeType!
     
-    var EndTimecode: NGETimecodeType?
+    var EndTimecode: NGETimecodeType!
     
-    var Type: String?
+    var Type: String!
     
     var SubTypeList: [String]?
     
-    var PresentationID: NSURL?
+    var PresentationID: String!
     
-    var PlayableSequenceID: NSURL?
+    var PlayableSequenceID: String!
     
-    var ExperienceID: NSURL?
+    var ExperienceID: String!
     
-    var PictureID: NSURL?
+    var PictureID: String!
     
-    var GalleryID: NSURL?
+    var GalleryID: String!
     
-    var AppGroupID: NSURL?
+    var AppGroupID: String!
     
-    var TextGroupID: NGETextGroupID?
+    var TextGroupID: NGETextGroupID!
     
-    var URL: NSURL?
+    var URL: String!
     
-    var AdID: String?
+    var AdID: String!
     
-    var ISRC: String?
+    var ISRC: String!
     
-    var ProductID: NGEOtherIDType?
+    var ProductID: NGEOtherIDType!
     
-    var OtherID: NGEOtherIDType?
+    var OtherID: NGEOtherIDType!
     
-    var TimePeriod: NGEEventPeriodType?
+    var TimePeriod: NGEEventPeriodType!
     
-    var Location: NGEEventLocationType?
+    var Location: NGEEventLocationType!
     
-    var Offset: Int?
+    var Offset: Int!
     
-    var TimecodeOffset: NGETimecodeType?
+    var TimecodeOffset: NGETimecodeType!
     
-    var Initialization: String?
+    var Initialization: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -115,7 +115,7 @@ class NGETimedEventType : NSObject{
                     let PresentationIDElementValue = xmlTextReaderConstValue(reader)
                     if PresentationIDElementValue != nil {
                         
-                        self.PresentationID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))!)
+                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -128,7 +128,7 @@ class NGETimedEventType : NSObject{
                     let PlayableSequenceIDElementValue = xmlTextReaderConstValue(reader)
                     if PlayableSequenceIDElementValue != nil {
                         
-                        self.PlayableSequenceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))!)
+                        self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -141,7 +141,7 @@ class NGETimedEventType : NSObject{
                     let ExperienceIDElementValue = xmlTextReaderConstValue(reader)
                     if ExperienceIDElementValue != nil {
                         
-                        self.ExperienceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))!)
+                        self.ExperienceID = String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -154,7 +154,7 @@ class NGETimedEventType : NSObject{
                     let PictureIDElementValue = xmlTextReaderConstValue(reader)
                     if PictureIDElementValue != nil {
                         
-                        self.PictureID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))!)
+                        self.PictureID = String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -167,7 +167,7 @@ class NGETimedEventType : NSObject{
                     let GalleryIDElementValue = xmlTextReaderConstValue(reader)
                     if GalleryIDElementValue != nil {
                         
-                        self.GalleryID = NSURL(string: String.fromCString(UnsafePointer<CChar>(GalleryIDElementValue))!)
+                        self.GalleryID = String.fromCString(UnsafePointer<CChar>(GalleryIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -180,7 +180,7 @@ class NGETimedEventType : NSObject{
                     let AppGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if AppGroupIDElementValue != nil {
                         
-                        self.AppGroupID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))!)
+                        self.AppGroupID = String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -198,7 +198,7 @@ class NGETimedEventType : NSObject{
                     let URLElementValue = xmlTextReaderConstValue(reader)
                     if URLElementValue != nil {
                         
-                        self.URL = NSURL(string: String.fromCString(UnsafePointer<CChar>(URLElementValue))!)
+                        self.URL = String.fromCString(UnsafePointer<CChar>(URLElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

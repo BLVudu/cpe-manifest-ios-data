@@ -4,37 +4,37 @@ import Foundation
 @objc
 class NGEMediaManifestEditDeleteType : NSObject{
     
-    var AudioTrackIDList: [NSURL]?
+    var AudioTrackIDList: [String]?
     
-    var VideoTrackIDList: [NSURL]?
+    var VideoTrackIDList: [String]?
     
-    var SubtitleTrackIDList: [NSURL]?
+    var SubtitleTrackIDList: [String]?
     
-    var ImageIDList: [NSURL]?
+    var ImageIDList: [String]?
     
-    var InteractiveTrackIDList: [NSURL]?
+    var InteractiveTrackIDList: [String]?
     
-    var TextObjectIDList: [NSURL]?
+    var TextObjectIDList: [String]?
     
-    var PlayableSequenceIDList: [NSURL]?
+    var PlayableSequenceIDList: [String]?
     
-    var PresentationIDList: [NSURL]?
+    var PresentationIDList: [String]?
     
-    var PictureIDList: [NSURL]?
+    var PictureIDList: [String]?
     
-    var GalleryIDList: [NSURL]?
+    var GalleryIDList: [String]?
     
-    var AppGroupIDList: [NSURL]?
+    var AppGroupIDList: [String]?
     
-    var TextGroupIDList: [NSURL]?
+    var TextGroupIDList: [String]?
     
-    var TimedSequenceIDList: [NSURL]?
+    var TimedSequenceIDList: [String]?
     
-    var ExperienceIDList: [NSURL]?
+    var ExperienceIDList: [String]?
     
     var ALIDExperienceMapList: [NGEALIDExperienceMapType]?
     
-    var ContentIDList: [NSURL]?
+    var ContentIDList: [String]?
     
     var LocalizedInfoRefList: [NGEMediaManifestEditLocRefType]?
     
@@ -48,22 +48,22 @@ class NGEMediaManifestEditDeleteType : NSObject{
         
         self.readAttributes(reader)
         
-        var AudioTrackIDListArray = [NSURL]()
-        var VideoTrackIDListArray = [NSURL]()
-        var SubtitleTrackIDListArray = [NSURL]()
-        var ImageIDListArray = [NSURL]()
-        var InteractiveTrackIDListArray = [NSURL]()
-        var TextObjectIDListArray = [NSURL]()
-        var PlayableSequenceIDListArray = [NSURL]()
-        var PresentationIDListArray = [NSURL]()
-        var PictureIDListArray = [NSURL]()
-        var GalleryIDListArray = [NSURL]()
-        var AppGroupIDListArray = [NSURL]()
-        var TextGroupIDListArray = [NSURL]()
-        var TimedSequenceIDListArray = [NSURL]()
-        var ExperienceIDListArray = [NSURL]()
+        var AudioTrackIDListArray = [String]()
+        var VideoTrackIDListArray = [String]()
+        var SubtitleTrackIDListArray = [String]()
+        var ImageIDListArray = [String]()
+        var InteractiveTrackIDListArray = [String]()
+        var TextObjectIDListArray = [String]()
+        var PlayableSequenceIDListArray = [String]()
+        var PresentationIDListArray = [String]()
+        var PictureIDListArray = [String]()
+        var GalleryIDListArray = [String]()
+        var AppGroupIDListArray = [String]()
+        var TextGroupIDListArray = [String]()
+        var TimedSequenceIDListArray = [String]()
+        var ExperienceIDListArray = [String]()
         var ALIDExperienceMapListArray = [NGEALIDExperienceMapType]()
-        var ContentIDListArray = [NSURL]()
+        var ContentIDListArray = [String]()
         var LocalizedInfoRefListArray = [NGEMediaManifestEditLocRefType]()
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -82,7 +82,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let AudioTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if AudioTrackIDElementValue != nil {
                         
-                        AudioTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(AudioTrackIDElementValue))!)!) //bad unwrapping
+                        AudioTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(AudioTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -94,7 +94,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let VideoTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if VideoTrackIDElementValue != nil {
                         
-                        VideoTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(VideoTrackIDElementValue))!)!) //bad unwrapping
+                        VideoTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(VideoTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -106,7 +106,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let SubtitleTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if SubtitleTrackIDElementValue != nil {
                         
-                        SubtitleTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDElementValue))!)!) //bad unwrapping
+                        SubtitleTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -118,7 +118,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let ImageIDElementValue = xmlTextReaderConstValue(reader)
                     if ImageIDElementValue != nil {
                         
-                        ImageIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))!)!) //bad unwrapping
+                        ImageIDListArray.append(String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -130,7 +130,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let InteractiveTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if InteractiveTrackIDElementValue != nil {
                         
-                        InteractiveTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(InteractiveTrackIDElementValue))!)!) //bad unwrapping
+                        InteractiveTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(InteractiveTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -142,7 +142,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let TextObjectIDElementValue = xmlTextReaderConstValue(reader)
                     if TextObjectIDElementValue != nil {
                         
-                        TextObjectIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TextObjectIDElementValue))!)!) //bad unwrapping
+                        TextObjectIDListArray.append(String.fromCString(UnsafePointer<CChar>(TextObjectIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -154,7 +154,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let PlayableSequenceIDElementValue = xmlTextReaderConstValue(reader)
                     if PlayableSequenceIDElementValue != nil {
                         
-                        PlayableSequenceIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))!)!) //bad unwrapping
+                        PlayableSequenceIDListArray.append(String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -166,7 +166,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let PresentationIDElementValue = xmlTextReaderConstValue(reader)
                     if PresentationIDElementValue != nil {
                         
-                        PresentationIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))!)!) //bad unwrapping
+                        PresentationIDListArray.append(String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -178,7 +178,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let PictureIDElementValue = xmlTextReaderConstValue(reader)
                     if PictureIDElementValue != nil {
                         
-                        PictureIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))!)!) //bad unwrapping
+                        PictureIDListArray.append(String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -190,7 +190,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let GalleryIDElementValue = xmlTextReaderConstValue(reader)
                     if GalleryIDElementValue != nil {
                         
-                        GalleryIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(GalleryIDElementValue))!)!) //bad unwrapping
+                        GalleryIDListArray.append(String.fromCString(UnsafePointer<CChar>(GalleryIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -202,7 +202,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let AppGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if AppGroupIDElementValue != nil {
                         
-                        AppGroupIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))!)!) //bad unwrapping
+                        AppGroupIDListArray.append(String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -214,7 +214,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let TextGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if TextGroupIDElementValue != nil {
                         
-                        TextGroupIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TextGroupIDElementValue))!)!) //bad unwrapping
+                        TextGroupIDListArray.append(String.fromCString(UnsafePointer<CChar>(TextGroupIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -226,7 +226,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let TimedSequenceIDElementValue = xmlTextReaderConstValue(reader)
                     if TimedSequenceIDElementValue != nil {
                         
-                        TimedSequenceIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TimedSequenceIDElementValue))!)!) //bad unwrapping
+                        TimedSequenceIDListArray.append(String.fromCString(UnsafePointer<CChar>(TimedSequenceIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -238,7 +238,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let ExperienceIDElementValue = xmlTextReaderConstValue(reader)
                     if ExperienceIDElementValue != nil {
                         
-                        ExperienceIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))!)!) //bad unwrapping
+                        ExperienceIDListArray.append(String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -255,7 +255,7 @@ class NGEMediaManifestEditDeleteType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        ContentIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)!) //bad unwrapping
+                        ContentIDListArray.append(String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

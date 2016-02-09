@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventorySubtitleType : NGEDigitalAssetSubtitleDataType {
     
-    var SubtitleTrackID: NSURL?
+    var SubtitleTrackID: String!
     
     var ContainerReference: NGEContainerReferenceType?
     
@@ -15,7 +15,7 @@ class NGEInventorySubtitleType : NGEDigitalAssetSubtitleDataType {
         let SubtitleTrackIDAttrValue = xmlTextReaderGetAttribute(reader, SubtitleTrackIDAttrName)
         if(SubtitleTrackIDAttrValue != nil) {
             
-            self.SubtitleTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDAttrValue))!)
+            self.SubtitleTrackID = String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDAttrValue))
             xmlFree(SubtitleTrackIDAttrValue)
         }
     }

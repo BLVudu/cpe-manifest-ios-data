@@ -4,19 +4,19 @@ import Foundation
 @objc
 class NGEAudiovisualType : NSObject{
     
-    var Type: String?
+    var Type: String!
     
     var SubTypeList: [String]?
     
-    var PresentationID: NSURL?
+    var PresentationID: String!
     
-    var PlayableSequenceID: NSURL?
+    var PlayableSequenceID: String!
     
-    var PlayableSequence: NGEPlayableSequenceType?
+    var PlayableSequence: NGEPlayableSequenceType!
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
-    var BasicMetadata: NGEBasicMetadataType?
+    var BasicMetadata: NGEBasicMetadataType!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -71,7 +71,7 @@ class NGEAudiovisualType : NSObject{
                     let PresentationIDElementValue = xmlTextReaderConstValue(reader)
                     if PresentationIDElementValue != nil {
                         
-                        self.PresentationID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))!)
+                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -84,7 +84,7 @@ class NGEAudiovisualType : NSObject{
                     let PlayableSequenceIDElementValue = xmlTextReaderConstValue(reader)
                     if PlayableSequenceIDElementValue != nil {
                         
-                        self.PlayableSequenceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))!)
+                        self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -102,7 +102,7 @@ class NGEAudiovisualType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
+                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

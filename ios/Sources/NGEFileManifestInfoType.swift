@@ -4,17 +4,17 @@ import Foundation
 @objc
 class NGEFileManifestInfoType : NSObject{
     
-    var PackageID: String?
+    var PackageID: String!
     
-    var PackageDateTime: NSDate?
+    var PackageDateTime: NSDate!
     
-    var Publisher: NGEOrgNameType?
+    var Publisher: NGEOrgNameType!
     
-    var AvailsEntryIDList: [NSURL]?
+    var AvailsEntryIDList: [String]?
     
-    var TotalFilesInPackage: Int?
+    var TotalFilesInPackage: Int!
     
-    var FileInfoList: [NGEFileInfoType]?
+    var FileInfoList: [NGEFileInfoType]!
     
     var ExceptionFlag: Bool?
     
@@ -38,9 +38,10 @@ class NGEFileManifestInfoType : NSObject{
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        
         self.readAttributes(reader)
         
-        var AvailsEntryIDListArray = [NSURL]()
+        var AvailsEntryIDListArray = [String]()
         
         var FileInfoListArray = [NGEFileInfoType]()
         
@@ -91,7 +92,7 @@ class NGEFileManifestInfoType : NSObject{
                     let AvailsEntryIDElementValue = xmlTextReaderConstValue(reader)
                     if AvailsEntryIDElementValue != nil {
                         
-                        AvailsEntryIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(AvailsEntryIDElementValue))!)!) //bad unwrapping
+                        AvailsEntryIDListArray.append(String.fromCString(UnsafePointer<CChar>(AvailsEntryIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

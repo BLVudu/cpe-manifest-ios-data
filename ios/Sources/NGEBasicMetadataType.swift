@@ -4,21 +4,21 @@ import Foundation
 @objc
 class NGEBasicMetadataType : NSObject{
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
     var UpdateNum: Int?
     
-    var LocalizedInfoList: [NGEBasicMetadataInfoType]?
+    var LocalizedInfoList: [NGEBasicMetadataInfoType]!
     
     var RunLength: String?
     
-    var ReleaseYear: Int?
+    var ReleaseYear: Int!
     
     var ReleaseDate: NSDate?
     
     var ReleaseHistoryList: [NGEReleaseHistoryType]?
     
-    var WorkType: String?
+    var WorkType: String!
     
     var WorkTypeDetail: String?
     
@@ -51,18 +51,18 @@ class NGEBasicMetadataType : NSObject{
     var ParentList: [NGEBasicMetadataParentType]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
         let dateOnlyFormatter = NSDateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
         let ContentIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ContentID").UTF8String)
         let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
         if(ContentIDAttrValue != nil) {
             
-            self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))!)
+            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
             xmlFree(ContentIDAttrValue)
         }
     }
@@ -71,12 +71,12 @@ class NGEBasicMetadataType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
         let dateOnlyFormatter = NSDateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
         self.readAttributes(reader)
         

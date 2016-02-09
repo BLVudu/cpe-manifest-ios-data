@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEContentRatingType : NSObject{
     
-    var NotRated: NGENotRated?
+    var NotRated: NGENotRated!
     
-    var RatingList: [NGEContentRatingDetailType]?
+    var RatingList: [NGEContentRatingDetailType]!
     
     var AdultContent: Bool?
     

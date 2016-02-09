@@ -6,14 +6,13 @@ class NGEAncillaryTrackReferenceType : NSObject{
     
     var priority: Int?
     
-    var AncillaryTrackIDList: [NSURL]?
+    var AncillaryTrackIDList: [String]!
     
     var AdaptationSetID: NGEAdaptationSetID?
     
     var TrackProfileList: [NGEMediaProfileType]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -35,7 +34,7 @@ class NGEAncillaryTrackReferenceType : NSObject{
         
         self.readAttributes(reader)
         
-        var AncillaryTrackIDListArray = [NSURL]()
+        var AncillaryTrackIDListArray = [String]()
         
         var TrackProfileListArray = [NGEMediaProfileType]()
         
@@ -55,7 +54,7 @@ class NGEAncillaryTrackReferenceType : NSObject{
                     let AncillaryTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if AncillaryTrackIDElementValue != nil {
                         
-                        AncillaryTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(AncillaryTrackIDElementValue))!)!) //bad unwrapping
+                        AncillaryTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(AncillaryTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEPlayableSequenceType : NSObject{
     
-    var ClipList: [NGEAudiovisualClipRefType]?
+    var ClipList: [NGEAudiovisualClipRefType]!
     
     var ImageClipList: [NGEImageClipRefType]?
     

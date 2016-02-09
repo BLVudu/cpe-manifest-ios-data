@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEGenre : NSObject{
     
-    var source: NSURL?
+    var source: String?
     
     var identifier: String?
     
@@ -16,7 +16,6 @@ class NGEGenre : NSObject{
     var value: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -24,7 +23,7 @@ class NGEGenre : NSObject{
         let sourceAttrValue = xmlTextReaderGetAttribute(reader, sourceAttrName)
         if(sourceAttrValue != nil) {
             
-            self.source = NSURL(string: String.fromCString(UnsafePointer<CChar>(sourceAttrValue))!)
+            self.source = String.fromCString(UnsafePointer<CChar>(sourceAttrValue))
             xmlFree(sourceAttrValue)
         }
         let idAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "id").UTF8String)

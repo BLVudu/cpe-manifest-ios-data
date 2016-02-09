@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEDigitalAssetImageDataType : NSObject{
     
-    var Width: Int?
+    var Width: Int!
     
-    var Height: Int?
+    var Height: Int!
     
-    var Encoding: String?
+    var Encoding: String!
     
     var Language: String?
     
@@ -19,7 +19,6 @@ class NGEDigitalAssetImageDataType : NSObject{
     var Private: NGEPrivateDataType?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         

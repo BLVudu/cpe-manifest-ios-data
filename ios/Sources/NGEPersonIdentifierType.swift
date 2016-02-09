@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEPersonIdentifierType : NSObject{
     
-    var Identifier: String?
+    var Identifier: String!
     
-    var Namespace: String?
+    var Namespace: String!
     
-    var ReferenceLocation: NSURL?
+    var ReferenceLocation: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -62,7 +62,7 @@ class NGEPersonIdentifierType : NSObject{
                     let ReferenceLocationElementValue = xmlTextReaderConstValue(reader)
                     if ReferenceLocationElementValue != nil {
                         
-                        self.ReferenceLocation = NSURL(string: String.fromCString(UnsafePointer<CChar>(ReferenceLocationElementValue))!)
+                        self.ReferenceLocation = String.fromCString(UnsafePointer<CChar>(ReferenceLocationElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

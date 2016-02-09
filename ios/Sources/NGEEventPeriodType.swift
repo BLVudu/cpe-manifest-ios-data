@@ -10,11 +10,11 @@ class NGEEventPeriodType : NSObject{
     
     var Name: String?
     
-    var Start: NSDate?
+    var Start: NSDate!
     
     var End: NSDate?
     
-    var FictionalStart: NGEFictionalStart?
+    var FictionalStart: NGEFictionalStart!
     
     var FictionalEnd: NGEFictionalEnd?
     

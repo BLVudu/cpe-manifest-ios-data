@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEPresentationListType : NSObject{
     
-    var PresentationList: [NGEPresentationType]?
+    var PresentationList: [NGEPresentationType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

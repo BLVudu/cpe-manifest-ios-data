@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEContactInfoType : NSObject{
     
-    var Name: String?
+    var Name: String!
     
-    var PrimaryEmail: String?
+    var PrimaryEmail: String!
     
     var AlternateEmailList: [String]?
     

@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEVideoFrameTimecode : NGETimecodeType {
     
-    var VideoTrackID: NSURL?
+    var VideoTrackID: String!
     
     override func readAttributes(reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
@@ -13,7 +13,7 @@ class NGEVideoFrameTimecode : NGETimecodeType {
         let VideoTrackIDAttrValue = xmlTextReaderGetAttribute(reader, VideoTrackIDAttrName)
         if(VideoTrackIDAttrValue != nil) {
             
-            self.VideoTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(VideoTrackIDAttrValue))!)
+            self.VideoTrackID = String.fromCString(UnsafePointer<CChar>(VideoTrackIDAttrValue))
             xmlFree(VideoTrackIDAttrValue)
         }
     }

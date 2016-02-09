@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEAppGroupType : NSObject{
     
-    var AppGroupID: NSURL?
+    var AppGroupID: String!
     
-    var InteractiveTrackReferenceList: [NGEInteractiveTrackReferenceType]?
+    var InteractiveTrackReferenceList: [NGEInteractiveTrackReferenceType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -14,7 +14,7 @@ class NGEAppGroupType : NSObject{
         let AppGroupIDAttrValue = xmlTextReaderGetAttribute(reader, AppGroupIDAttrName)
         if(AppGroupIDAttrValue != nil) {
             
-            self.AppGroupID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AppGroupIDAttrValue))!)
+            self.AppGroupID = String.fromCString(UnsafePointer<CChar>(AppGroupIDAttrValue))
             xmlFree(AppGroupIDAttrValue)
         }
     }

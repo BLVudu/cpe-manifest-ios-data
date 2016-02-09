@@ -6,7 +6,7 @@ class NGEContainerMetadataType : NSObject{
     
     var Type: String?
     
-    var TrackList: [NGEContainerTrackMetadataType]?
+    var TrackList: [NGEContainerTrackMetadataType]!
     
     var HashList: [NGEHashType]?
     

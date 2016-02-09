@@ -6,17 +6,17 @@ class NGEExperienceType : NSObject{
     
     var updateNum: Int?
     
-    var LanguageList: [String]?
+    var LanguageList: [String]!
     
-    var ExcludedLanguageList: [String]?
+    var ExcludedLanguageList: [String]!
     
-    var RegionList: [NGERegionType]?
+    var RegionList: [NGERegionType]!
     
-    var ExcludedRegionList: [NGERegionType]?
+    var ExcludedRegionList: [NGERegionType]!
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
-    var BasicMetadata: NGEBasicMetadataType?
+    var BasicMetadata: NGEBasicMetadataType!
     
     var AudiovisualList: [NGEAudiovisualType]?
     
@@ -24,16 +24,15 @@ class NGEExperienceType : NSObject{
     
     var GalleryList: [NGEGalleryType]?
     
-    var PictureGroupIDList: [NSURL]?
+    var PictureGroupIDList: [String]?
     
-    var TextGroupIDList: [NSURL]?
+    var TextGroupIDList: [String]?
     
-    var TimedSequenceIDList: [NSURL]?
+    var TimedSequenceIDList: [String]?
     
     var ExperienceChildList: [NGEExperienceChildType]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -63,9 +62,9 @@ class NGEExperienceType : NSObject{
         var AudiovisualListArray = [NGEAudiovisualType]()
         var AppListArray = [NGEExperienceAppType]()
         var GalleryListArray = [NGEGalleryType]()
-        var PictureGroupIDListArray = [NSURL]()
-        var TextGroupIDListArray = [NSURL]()
-        var TimedSequenceIDListArray = [NSURL]()
+        var PictureGroupIDListArray = [String]()
+        var TextGroupIDListArray = [String]()
+        var TimedSequenceIDListArray = [String]()
         var ExperienceChildListArray = [NGEExperienceChildType]()
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -118,7 +117,7 @@ class NGEExperienceType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
+                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -151,7 +150,7 @@ class NGEExperienceType : NSObject{
                     let PictureGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if PictureGroupIDElementValue != nil {
                         
-                        PictureGroupIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(PictureGroupIDElementValue))!)!) //bad unwrapping
+                        PictureGroupIDListArray.append(String.fromCString(UnsafePointer<CChar>(PictureGroupIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -163,7 +162,7 @@ class NGEExperienceType : NSObject{
                     let TextGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if TextGroupIDElementValue != nil {
                         
-                        TextGroupIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TextGroupIDElementValue))!)!) //bad unwrapping
+                        TextGroupIDListArray.append(String.fromCString(UnsafePointer<CChar>(TextGroupIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -175,7 +174,7 @@ class NGEExperienceType : NSObject{
                     let TimedSequenceIDElementValue = xmlTextReaderConstValue(reader)
                     if TimedSequenceIDElementValue != nil {
                         
-                        TimedSequenceIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TimedSequenceIDElementValue))!)!) //bad unwrapping
+                        TimedSequenceIDListArray.append(String.fromCString(UnsafePointer<CChar>(TimedSequenceIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

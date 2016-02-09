@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEMediaProfileType : NSObject{
     
-    var Namespace: String?
+    var Namespace: String!
     
-    var ProfileList: [NGEProfile]?
+    var ProfileList: [NGEProfile]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

@@ -6,14 +6,13 @@ class NGEAudioTrackReferenceType : NSObject{
     
     var priority: Int?
     
-    var AudioTrackIDList: [NSURL]?
+    var AudioTrackIDList: [String]!
     
     var AdaptationSetID: NGEAdaptationSetID?
     
     var TrackProfileList: [NGEMediaProfileType]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -35,7 +34,7 @@ class NGEAudioTrackReferenceType : NSObject{
         
         self.readAttributes(reader)
         
-        var AudioTrackIDListArray = [NSURL]()
+        var AudioTrackIDListArray = [String]()
         
         var TrackProfileListArray = [NGEMediaProfileType]()
         
@@ -55,7 +54,7 @@ class NGEAudioTrackReferenceType : NSObject{
                     let AudioTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if AudioTrackIDElementValue != nil {
                         
-                        AudioTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(AudioTrackIDElementValue))!)!) //bad unwrapping
+                        AudioTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(AudioTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

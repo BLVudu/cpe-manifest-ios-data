@@ -13,7 +13,7 @@ class NGEDigitalAssetExternalTrackReferenceType : NSObject{
     /**
     the type's underlying value
     */
-    var value: NSURL?
+    var value: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -59,7 +59,7 @@ class NGEDigitalAssetExternalTrackReferenceType : NSObject{
                     let contentValue = xmlTextReaderConstValue(reader)
                     if(contentValue != nil) {
                         let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = NSURL(string: value!)
+                        self.value = value
                     }
                 } else  if(true) {
                     print("Ignoring unexpected: \(_currentElementName)")

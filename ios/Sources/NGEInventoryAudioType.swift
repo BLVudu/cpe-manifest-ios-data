@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryAudioType : NGEDigitalAssetAudioDataType {
     
-    var AudioTrackID: NSURL?
+    var AudioTrackID: String!
     
     var ContainerReference: NGEContainerReferenceType?
     
@@ -15,7 +15,7 @@ class NGEInventoryAudioType : NGEDigitalAssetAudioDataType {
         let AudioTrackIDAttrValue = xmlTextReaderGetAttribute(reader, AudioTrackIDAttrName)
         if(AudioTrackIDAttrValue != nil) {
             
-            self.AudioTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AudioTrackIDAttrValue))!)
+            self.AudioTrackID = String.fromCString(UnsafePointer<CChar>(AudioTrackIDAttrValue))
             xmlFree(AudioTrackIDAttrValue)
         }
     }

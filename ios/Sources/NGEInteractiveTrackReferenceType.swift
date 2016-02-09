@@ -6,12 +6,11 @@ class NGEInteractiveTrackReferenceType : NSObject{
     
     var priority: Int?
     
-    var InteractiveTrackID: NSURL?
+    var InteractiveTrackID: String!
     
-    var CompatibilityList: [NGEDigitalAssetInteractiveEncodingType]?
+    var CompatibilityList: [NGEDigitalAssetInteractiveEncodingType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -51,7 +50,7 @@ class NGEInteractiveTrackReferenceType : NSObject{
                     let InteractiveTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if InteractiveTrackIDElementValue != nil {
                         
-                        self.InteractiveTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(InteractiveTrackIDElementValue))!)
+                        self.InteractiveTrackID = String.fromCString(UnsafePointer<CChar>(InteractiveTrackIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

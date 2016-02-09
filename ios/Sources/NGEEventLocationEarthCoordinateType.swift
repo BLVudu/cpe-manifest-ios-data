@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEEventLocationEarthCoordinateType : NSObject{
     
-    var Latitude: Double?
+    var Latitude: Double!
     
-    var Longitude: Double?
+    var Longitude: Double!
     
     var ElevationMeters: Double?
     

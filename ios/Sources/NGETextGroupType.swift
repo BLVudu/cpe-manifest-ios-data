@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGETextGroupType : NSObject{
     
-    var TextGroupID: NSURL?
+    var TextGroupID: String!
     
-    var TextObjectIDList: [NSURL]?
+    var TextObjectIDList: [String]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -14,7 +14,7 @@ class NGETextGroupType : NSObject{
         let TextGroupIDAttrValue = xmlTextReaderGetAttribute(reader, TextGroupIDAttrName)
         if(TextGroupIDAttrValue != nil) {
             
-            self.TextGroupID = NSURL(string: String.fromCString(UnsafePointer<CChar>(TextGroupIDAttrValue))!)
+            self.TextGroupID = String.fromCString(UnsafePointer<CChar>(TextGroupIDAttrValue))
             xmlFree(TextGroupIDAttrValue)
         }
     }
@@ -25,7 +25,7 @@ class NGETextGroupType : NSObject{
         
         self.readAttributes(reader)
         
-        var TextObjectIDListArray = [NSURL]()
+        var TextObjectIDListArray = [String]()
         
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -43,7 +43,7 @@ class NGETextGroupType : NSObject{
                     let TextObjectIDElementValue = xmlTextReaderConstValue(reader)
                     if TextObjectIDElementValue != nil {
                         
-                        TextObjectIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TextObjectIDElementValue))!)!) //bad unwrapping
+                        TextObjectIDListArray.append(String.fromCString(UnsafePointer<CChar>(TextObjectIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryMetadataAliasType : NSObject{
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
     var LocalizedPairList: [NGEInventoryMetadataLocalizedPairType]?
     
@@ -14,7 +14,7 @@ class NGEInventoryMetadataAliasType : NSObject{
         let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
         if(ContentIDAttrValue != nil) {
             
-            self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))!)
+            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
             xmlFree(ContentIDAttrValue)
         }
     }

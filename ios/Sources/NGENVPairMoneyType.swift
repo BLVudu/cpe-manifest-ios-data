@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGENVPairMoneyType : NSObject{
     
-    var Name: String?
+    var Name: String!
     
-    var Value: NGEMoneyType?
+    var Value: NGEMoneyType!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

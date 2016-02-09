@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGECompObjDataType : NGECompObjType {
     
-    var CompObjID: NSURL?
+    var CompObjID: String?
     
     var DisplayNameList: [NGEDisplayName]?
     
@@ -15,7 +15,7 @@ class NGECompObjDataType : NGECompObjType {
         let CompObjIDAttrValue = xmlTextReaderGetAttribute(reader, CompObjIDAttrName)
         if(CompObjIDAttrValue != nil) {
             
-            self.CompObjID = NSURL(string: String.fromCString(UnsafePointer<CChar>(CompObjIDAttrValue))!)
+            self.CompObjID = String.fromCString(UnsafePointer<CChar>(CompObjIDAttrValue))
             xmlFree(CompObjIDAttrValue)
         }
     }

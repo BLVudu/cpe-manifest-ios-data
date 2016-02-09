@@ -8,7 +8,7 @@ class NGEDigitalAssetCardsetListType : NSObject{
     
     var RegionList: [String]?
     
-    var CardsetList: [NGEDigitalAssetCardsetType]?
+    var CardsetList: [NGEDigitalAssetCardsetType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

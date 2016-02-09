@@ -4,13 +4,13 @@ import Foundation
 @objc
 class NGETimedEventSequenceType : NSObject{
     
-    var TimedSequenceID: NSURL?
+    var TimedSequenceID: String!
     
-    var PresentationID: NSURL?
+    var PresentationID: String!
     
-    var PlayableSequenceID: NSURL?
+    var PlayableSequenceID: String!
     
-    var TimedEventList: [NGETimedEventType]?
+    var TimedEventList: [NGETimedEventType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -18,7 +18,7 @@ class NGETimedEventSequenceType : NSObject{
         let TimedSequenceIDAttrValue = xmlTextReaderGetAttribute(reader, TimedSequenceIDAttrName)
         if(TimedSequenceIDAttrValue != nil) {
             
-            self.TimedSequenceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(TimedSequenceIDAttrValue))!)
+            self.TimedSequenceID = String.fromCString(UnsafePointer<CChar>(TimedSequenceIDAttrValue))
             xmlFree(TimedSequenceIDAttrValue)
         }
     }
@@ -47,7 +47,7 @@ class NGETimedEventSequenceType : NSObject{
                     let PresentationIDElementValue = xmlTextReaderConstValue(reader)
                     if PresentationIDElementValue != nil {
                         
-                        self.PresentationID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))!)
+                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -60,7 +60,7 @@ class NGETimedEventSequenceType : NSObject{
                     let PlayableSequenceIDElementValue = xmlTextReaderConstValue(reader)
                     if PlayableSequenceIDElementValue != nil {
                         
-                        self.PlayableSequenceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))!)
+                        self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEFileDeleteManifestType : NGEFileManifestType {
     
-    var type: String?
+    var type: String!
     
     var reference: String?
     

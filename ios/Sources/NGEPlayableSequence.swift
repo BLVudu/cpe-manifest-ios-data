@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEPlayableSequence : NGEPlayableSequenceType {
     
-    var PlayableSequenceID: NSURL?
+    var PlayableSequenceID: String?
     
     override func readAttributes(reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
@@ -13,7 +13,7 @@ class NGEPlayableSequence : NGEPlayableSequenceType {
         let PlayableSequenceIDAttrValue = xmlTextReaderGetAttribute(reader, PlayableSequenceIDAttrName)
         if(PlayableSequenceIDAttrValue != nil) {
             
-            self.PlayableSequenceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDAttrValue))!)
+            self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDAttrValue))
             xmlFree(PlayableSequenceIDAttrValue)
         }
     }

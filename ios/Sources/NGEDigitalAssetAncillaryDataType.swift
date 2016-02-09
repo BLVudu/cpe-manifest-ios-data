@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEDigitalAssetAncillaryDataType : NSObject{
     
-    var Type: String?
+    var Type: String!
     
     var SubType: String?
     
-    var BaseTrackID: NSURL?
+    var BaseTrackID: String?
     
     var BaseTrackReference: String?
     
@@ -74,7 +74,7 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
                     let BaseTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if BaseTrackIDElementValue != nil {
                         
-                        self.BaseTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(BaseTrackIDElementValue))!)
+                        self.BaseTrackID = String.fromCString(UnsafePointer<CChar>(BaseTrackIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

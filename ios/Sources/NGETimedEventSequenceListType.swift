@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGETimedEventSequenceListType : NSObject{
     
-    var TimedEventSequenceList: [NGETimedEventSequenceType]?
+    var TimedEventSequenceList: [NGETimedEventSequenceType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

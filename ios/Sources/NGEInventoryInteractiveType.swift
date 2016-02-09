@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
     
-    var InteractiveTrackID: NSURL?
+    var InteractiveTrackID: String?
     
     var ContainerReference: NGEContainerReferenceType?
     
@@ -15,7 +15,7 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
         let InteractiveTrackIDAttrValue = xmlTextReaderGetAttribute(reader, InteractiveTrackIDAttrName)
         if(InteractiveTrackIDAttrValue != nil) {
             
-            self.InteractiveTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(InteractiveTrackIDAttrValue))!)
+            self.InteractiveTrackID = String.fromCString(UnsafePointer<CChar>(InteractiveTrackIDAttrValue))
             xmlFree(InteractiveTrackIDAttrValue)
         }
     }

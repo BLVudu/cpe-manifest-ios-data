@@ -4,17 +4,17 @@ import Foundation
 @objc
 class NGEDigitalAssetMetadataType : NSObject{
     
-    var Audio: NGEDigitalAssetAudioDataType?
+    var Audio: NGEDigitalAssetAudioDataType!
     
-    var Video: NGEDigitalAssetVideoDataType?
+    var Video: NGEDigitalAssetVideoDataType!
     
-    var Subtitle: NGEDigitalAssetSubtitleDataType?
+    var Subtitle: NGEDigitalAssetSubtitleDataType!
     
-    var Image: NGEDigitalAssetImageDataType?
+    var Image: NGEDigitalAssetImageDataType!
     
-    var Interactive: NGEDigitalAssetInteractiveDataType?
+    var Interactive: NGEDigitalAssetInteractiveDataType!
     
-    var Ancillary: NGEDigitalAssetAncillaryDataType?
+    var Ancillary: NGEDigitalAssetAncillaryDataType!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

@@ -18,7 +18,7 @@ class NGEMediaManifestEditAddType : NSObject{
     
     var MetadataList: [NGEInventoryMetadataType]?
     
-    var TextObjectList: [NSURL]?
+    var TextObjectList: [String]?
     
     var TextGroupList: [NGETextGroupType]?
     
@@ -41,7 +41,7 @@ class NGEMediaManifestEditAddType : NSObject{
         self.readAttributes(reader)
         
         var MetadataListArray = [NGEInventoryMetadataType]()
-        var TextObjectListArray = [NSURL]()
+        var TextObjectListArray = [String]()
         var TextGroupListArray = [NGETextGroupType]()
         var TextGroupsListArray = [NGETextGroupListType]()
         var TimedEventSequenceListArray = [NGETimedEventSequenceType]()
@@ -97,7 +97,7 @@ class NGEMediaManifestEditAddType : NSObject{
                     let TextObjectElementValue = xmlTextReaderConstValue(reader)
                     if TextObjectElementValue != nil {
                         
-                        TextObjectListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(TextObjectElementValue))!)!) //bad unwrapping
+                        TextObjectListArray.append(String.fromCString(UnsafePointer<CChar>(TextObjectElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEContainerReferenceType : NSObject{
     
-    var ContainerLocation: NSURL?
+    var ContainerLocation: String?
     
     var ParentContainer: NGEContainerReferenceType?
     
@@ -15,7 +15,6 @@ class NGEContainerReferenceType : NSObject{
     var HashList: [NGEHashType]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -50,7 +49,7 @@ class NGEContainerReferenceType : NSObject{
                     let ContainerLocationElementValue = xmlTextReaderConstValue(reader)
                     if ContainerLocationElementValue != nil {
                         
-                        self.ContainerLocation = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContainerLocationElementValue))!)
+                        self.ContainerLocation = String.fromCString(UnsafePointer<CChar>(ContainerLocationElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

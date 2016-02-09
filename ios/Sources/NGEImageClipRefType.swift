@@ -8,9 +8,9 @@ class NGEImageClipRefType : NSObject{
     
     var seamless: Bool?
     
-    var ImageID: NSURL?
+    var ImageID: String!
     
-    var Duration: String?
+    var Duration: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -58,7 +58,7 @@ class NGEImageClipRefType : NSObject{
                     let ImageIDElementValue = xmlTextReaderConstValue(reader)
                     if ImageIDElementValue != nil {
                         
-                        self.ImageID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))!)
+                        self.ImageID = String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

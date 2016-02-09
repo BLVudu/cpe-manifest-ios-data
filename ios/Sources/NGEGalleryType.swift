@@ -4,17 +4,17 @@ import Foundation
 @objc
 class NGEGalleryType : NSObject{
     
-    var GalleryID: NSURL?
+    var GalleryID: String?
     
-    var Type: String?
+    var Type: String!
     
     var SubTypeList: [String]?
     
-    var PictureGroupID: NSURL?
+    var PictureGroupID: String!
     
     var GalleryNameList: [NGEGalleryName]?
     
-    var ContentID: NSURL?
+    var ContentID: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -22,7 +22,7 @@ class NGEGalleryType : NSObject{
         let GalleryIDAttrValue = xmlTextReaderGetAttribute(reader, GalleryIDAttrName)
         if(GalleryIDAttrValue != nil) {
             
-            self.GalleryID = NSURL(string: String.fromCString(UnsafePointer<CChar>(GalleryIDAttrValue))!)
+            self.GalleryID = String.fromCString(UnsafePointer<CChar>(GalleryIDAttrValue))
             xmlFree(GalleryIDAttrValue)
         }
     }
@@ -78,7 +78,7 @@ class NGEGalleryType : NSObject{
                     let PictureGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if PictureGroupIDElementValue != nil {
                         
-                        self.PictureGroupID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PictureGroupIDElementValue))!)
+                        self.PictureGroupID = String.fromCString(UnsafePointer<CChar>(PictureGroupIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -96,7 +96,7 @@ class NGEGalleryType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
+                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEMediaManifestEditLocRefType : NSObject{
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
-    var Language: String?
+    var Language: String!
     
     var Region: NGERegionType?
     
@@ -36,7 +36,7 @@ class NGEMediaManifestEditLocRefType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
+                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

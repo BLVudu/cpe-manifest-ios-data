@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEALIDExperienceMapType : NSObject{
     
-    var ALIDList: [NSURL]?
+    var ALIDList: [String]!
     
-    var ExperienceIDList: [NGEExperienceID]?
+    var ExperienceIDList: [NGEExperienceID]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -18,7 +18,7 @@ class NGEALIDExperienceMapType : NSObject{
         
         self.readAttributes(reader)
         
-        var ALIDListArray = [NSURL]()
+        var ALIDListArray = [String]()
         var ExperienceIDListArray = [NGEExperienceID]()
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -37,7 +37,7 @@ class NGEALIDExperienceMapType : NSObject{
                     let ALIDElementValue = xmlTextReaderConstValue(reader)
                     if ALIDElementValue != nil {
                         
-                        ALIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(ALIDElementValue))!)!) //bad unwrapping
+                        ALIDListArray.append(String.fromCString(UnsafePointer<CChar>(ALIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

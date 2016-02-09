@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEGroupingEntityType : NSObject{
     
-    var Type: String?
+    var Type: String!
     
-    var GroupIdentity: String?
+    var GroupIdentity: String!
     
-    var DisplayNameList: [NGEDisplayName]?
+    var DisplayNameList: [NGEDisplayName]!
     
     var Region: NGERegionType?
     

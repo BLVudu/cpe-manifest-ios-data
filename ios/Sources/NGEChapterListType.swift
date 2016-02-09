@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEChapterListType : NSObject{
     
-    var ChapterList: [NGEChapterType]?
+    var ChapterList: [NGEChapterType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

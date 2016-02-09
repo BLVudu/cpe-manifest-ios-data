@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEPictureGroupListType : NSObject{
     
-    var PictureGroupList: [NGEPictureGroupType]?
+    var PictureGroupList: [NGEPictureGroupType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

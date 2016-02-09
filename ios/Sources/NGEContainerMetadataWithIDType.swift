@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEContainerMetadataWithIDType : NGEContainerMetadataType {
     
-    var ContainerID: NGEContentIdentifierType?
+    var ContainerID: NGEContentIdentifierType!
     
     override func readAttributes(reader: xmlTextReaderPtr) {
         super.readAttributes(reader)

@@ -6,7 +6,7 @@ class NGESubtitleTrackReferenceType : NSObject{
     
     var priority: Int?
     
-    var SubtitleTrackIDList: [NSURL]?
+    var SubtitleTrackIDList: [String]!
     
     var AdaptationSetID: NGEAdaptationSetID?
     
@@ -35,7 +35,7 @@ class NGESubtitleTrackReferenceType : NSObject{
         
         self.readAttributes(reader)
         
-        var SubtitleTrackIDListArray = [NSURL]()
+        var SubtitleTrackIDListArray = [String]()
         
         var TrackProfileListArray = [NGEMediaProfileType]()
         
@@ -55,7 +55,7 @@ class NGESubtitleTrackReferenceType : NSObject{
                     let SubtitleTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if SubtitleTrackIDElementValue != nil {
                         
-                        SubtitleTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDElementValue))!)!) //bad unwrapping
+                        SubtitleTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

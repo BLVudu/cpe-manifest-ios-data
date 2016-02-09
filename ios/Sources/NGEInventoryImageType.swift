@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryImageType : NGEDigitalAssetImageDataType {
     
-    var ImageID: NSURL?
+    var ImageID: String?
     
     var ContainerReference: NGEContainerReferenceType?
     
@@ -17,7 +17,7 @@ class NGEInventoryImageType : NGEDigitalAssetImageDataType {
         let ImageIDAttrValue = xmlTextReaderGetAttribute(reader, ImageIDAttrName)
         if(ImageIDAttrValue != nil) {
             
-            self.ImageID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ImageIDAttrValue))!)
+            self.ImageID = String.fromCString(UnsafePointer<CChar>(ImageIDAttrValue))
             xmlFree(ImageIDAttrValue)
         }
     }

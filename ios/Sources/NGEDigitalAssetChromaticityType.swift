@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEDigitalAssetChromaticityType : NSObject{
     
-    var ChromaticityCIEx: Double?
+    var ChromaticityCIEx: Double!
     
-    var ChromaticityCIEy: Double?
+    var ChromaticityCIEy: Double!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         let decFormatter = NSNumberFormatter()

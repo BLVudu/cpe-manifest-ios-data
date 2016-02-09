@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGECoordinate : NSObject{
     
-    var label: String?
+    var label: String!
     
     /**
     the type's underlying value

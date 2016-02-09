@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEEventLocationType : NSObject{
     
-    var Type: NGEType?
+    var Type: NGEType!
     
     var Name: String?
     

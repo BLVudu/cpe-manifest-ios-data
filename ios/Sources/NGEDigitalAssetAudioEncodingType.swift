@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEDigitalAssetAudioEncodingType : NSObject{
     
-    var Codec: String?
+    var Codec: String!
     
     var CodecTypeList: [String]?
     

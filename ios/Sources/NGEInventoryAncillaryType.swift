@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryAncillaryType : NGEDigitalAssetAncillaryDataType {
     
-    var AncillaryTrackID: NSURL?
+    var AncillaryTrackID: String!
     
     var ContainerReference: NGEContainerReferenceType?
     
@@ -15,7 +15,7 @@ class NGEInventoryAncillaryType : NGEDigitalAssetAncillaryDataType {
         let AncillaryTrackIDAttrValue = xmlTextReaderGetAttribute(reader, AncillaryTrackIDAttrName)
         if(AncillaryTrackIDAttrValue != nil) {
             
-            self.AncillaryTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AncillaryTrackIDAttrValue))!)
+            self.AncillaryTrackID = String.fromCString(UnsafePointer<CChar>(AncillaryTrackIDAttrValue))
             xmlFree(AncillaryTrackIDAttrValue)
         }
     }

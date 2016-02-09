@@ -13,8 +13,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(NSBundle.mainBundle().pathForResource("mos_hls_manifest_v3", ofType: "xml")!) {
-            print(manifest.Inventory?.MetadataList?.first?.BasicMetadata?.ReleaseDate)
+        if NextGenDataManager.sharedInstance.loadXMLFile(NSBundle.mainBundle().pathForResource("mos_hls_manifest_v3", ofType: "xml")!) {
+            for experience in NextGenDataManager.sharedInstance.allExtras() {
+                print(experience.metadata()?.BasicMetadata?.LocalizedInfoList?.first?.TitleDisplayUnlimited)
+            }
         }
     }
     

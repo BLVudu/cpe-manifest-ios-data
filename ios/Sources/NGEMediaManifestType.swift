@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEMediaManifestType : NSObject{
     
-    var ManifestID: NSURL?
+    var ManifestID: String?
     
     var updateNum: Int?
     
@@ -12,11 +12,11 @@ class NGEMediaManifestType : NSObject{
     
     var updateDeliveryType: String?
     
-    var Compatibility: NGECompatibilityType?
+    var Compatibility: NGECompatibilityType!
     
-    var Inventory: NGEInventoryType?
+    var Inventory: NGEInventoryType!
     
-    var Presentations: NGEPresentationListType?
+    var Presentations: NGEPresentationListType!
     
     var PlayableSequences: NGEPlayableSequenceListType?
     
@@ -26,13 +26,14 @@ class NGEMediaManifestType : NSObject{
     
     var TextGroups: NGETextGroupListType?
     
-    var Experiences: NGEExperienceListType?
+    var Experiences: NGEExperienceListType!
     
     var TimedEventSequences: NGETimedEventSequenceListType?
     
     var ALIDExperienceMaps: NGEALIDExperienceMapListType?
     
     func readAttributes(reader: xmlTextReaderPtr) {
+        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -40,7 +41,7 @@ class NGEMediaManifestType : NSObject{
         let ManifestIDAttrValue = xmlTextReaderGetAttribute(reader, ManifestIDAttrName)
         if(ManifestIDAttrValue != nil) {
             
-            self.ManifestID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ManifestIDAttrValue))!)
+            self.ManifestID = String.fromCString(UnsafePointer<CChar>(ManifestIDAttrValue))
             xmlFree(ManifestIDAttrValue)
         }
         let updateNumAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateNum").UTF8String)

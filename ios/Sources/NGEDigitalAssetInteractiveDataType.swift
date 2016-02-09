@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEDigitalAssetInteractiveDataType : NSObject{
     
-    var EncodingList: [NGEDigitalAssetInteractiveEncodingType]?
+    var EncodingList: [NGEDigitalAssetInteractiveEncodingType]!
     
     var TrackReference: String?
     

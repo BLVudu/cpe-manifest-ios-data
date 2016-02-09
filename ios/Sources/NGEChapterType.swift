@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEChapterType : NSObject{
     
-    var index: String?
+    var index: String!
     
-    var EntryTimecode: NGETimecodeType?
+    var EntryTimecode: NGETimecodeType!
     
     var DisplayLabelList: [NGEDisplayLabel]?
     

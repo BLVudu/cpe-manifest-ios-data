@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEBasicMetadataPeopleType : NSObject{
     
-    var JobList: [NGEBasicMetadataJobType]?
+    var JobList: [NGEBasicMetadataJobType]!
     
-    var Name: NGEPersonNameType?
+    var Name: NGEPersonNameType!
     
     var IdentifierList: [NGEPersonIdentifierType]?
     

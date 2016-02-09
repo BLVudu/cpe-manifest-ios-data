@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEBasicMetadataInfoType : NSObject{
     
-    var language: String?
+    var language: String!
     
     var isDefault: Bool?
     
@@ -14,11 +14,11 @@ class NGEBasicMetadataInfoType : NSObject{
     
     var TitleDisplayUnlimited: String?
     
-    var TitleSort: String?
+    var TitleSort: String!
     
     var ArtReferenceList: [NGEArtReference]?
     
-    var Summary190: NGESummary190?
+    var Summary190: NGESummary190!
     
     var Summary400: NGESummary400?
     

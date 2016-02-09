@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEDigitalAssetCardsetType : NSObject{
     
-    var TypeList: [String]?
+    var TypeList: [String]!
     
     var Description: String?
     

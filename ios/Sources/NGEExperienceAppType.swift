@@ -4,19 +4,19 @@ import Foundation
 @objc
 class NGEExperienceAppType : NSObject{
     
-    var AppID: NSURL?
+    var AppID: String?
     
-    var Type: String?
+    var Type: String!
     
     var SubTypeList: [String]?
     
-    var AppGroupID: NSURL?
+    var AppGroupID: String!
     
     var AppNameList: [NGEAppName]?
     
     var RatingList: [NGEContentRatingType]?
     
-    var ContentID: NSURL?
+    var ContentID: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -24,7 +24,7 @@ class NGEExperienceAppType : NSObject{
         let AppIDAttrValue = xmlTextReaderGetAttribute(reader, AppIDAttrName)
         if(AppIDAttrValue != nil) {
             
-            self.AppID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AppIDAttrValue))!)
+            self.AppID = String.fromCString(UnsafePointer<CChar>(AppIDAttrValue))
             xmlFree(AppIDAttrValue)
         }
     }
@@ -81,7 +81,7 @@ class NGEExperienceAppType : NSObject{
                     let AppGroupIDElementValue = xmlTextReaderConstValue(reader)
                     if AppGroupIDElementValue != nil {
                         
-                        self.AppGroupID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))!)
+                        self.AppGroupID = String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -104,7 +104,7 @@ class NGEExperienceAppType : NSObject{
                     let ContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ContentIDElementValue != nil {
                         
-                        self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))!)
+                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

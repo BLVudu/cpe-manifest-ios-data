@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEPlayableSequenceListType : NSObject{
     
-    var PlayableSequenceList: [NGEPlayableSequence]?
+    var PlayableSequenceList: [NGEPlayableSequence]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEExperienceChildType : NSObject{
     
-    var Relationship: String?
+    var Relationship: String!
     
     var SequenceInfo: NGEContentSequenceInfoType?
     
-    var ExperienceID: NSURL?
+    var ExperienceID: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -54,7 +54,7 @@ class NGEExperienceChildType : NSObject{
                     let ExperienceIDElementValue = xmlTextReaderConstValue(reader)
                     if ExperienceIDElementValue != nil {
                         
-                        self.ExperienceID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))!)
+                        self.ExperienceID = String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

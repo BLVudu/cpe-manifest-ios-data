@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEPresentationLanguagePairType : NSObject{
     
-    var SystemLanguage: String?
+    var SystemLanguage: String!
     
-    var AudioLanguage: String?
+    var AudioLanguage: String!
     
-    var SubtitleLanguage: String?
+    var SubtitleLanguage: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

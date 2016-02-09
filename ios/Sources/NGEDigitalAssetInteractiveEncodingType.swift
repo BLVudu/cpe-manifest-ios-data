@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEDigitalAssetInteractiveEncodingType : NSObject{
     
-    var RuntimeEnvironment: String?
+    var RuntimeEnvironment: String!
     
     var FirstVersion: String?
     

@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEDigitalAssetColorEncodingType : NSObject{
     
-    var Primaries: String?
+    var Primaries: String!
     
-    var TransferFunction: String?
+    var TransferFunction: String!
     
-    var ColorDifferencing: String?
+    var ColorDifferencing: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

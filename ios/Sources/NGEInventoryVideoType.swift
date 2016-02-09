@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryVideoType : NGEDigitalAssetVideoDataType {
     
-    var VideoTrackID: NSURL?
+    var VideoTrackID: String!
     
     var ContainerReference: NGEContainerReferenceType?
     
@@ -15,7 +15,7 @@ class NGEInventoryVideoType : NGEDigitalAssetVideoDataType {
         let VideoTrackIDAttrValue = xmlTextReaderGetAttribute(reader, VideoTrackIDAttrName)
         if(VideoTrackIDAttrValue != nil) {
             
-            self.VideoTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(VideoTrackIDAttrValue))!)
+            self.VideoTrackID = String.fromCString(UnsafePointer<CChar>(VideoTrackIDAttrValue))
             xmlFree(VideoTrackIDAttrValue)
         }
     }

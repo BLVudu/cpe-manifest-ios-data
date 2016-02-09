@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEContentIdentifierType : NSObject{
     
-    var Namespace: String?
+    var Namespace: String!
     
-    var Identifier: String?
+    var Identifier: String!
     
-    var Location: NSURL?
+    var Location: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -62,7 +62,7 @@ class NGEContentIdentifierType : NSObject{
                     let LocationElementValue = xmlTextReaderConstValue(reader)
                     if LocationElementValue != nil {
                         
-                        self.Location = NSURL(string: String.fromCString(UnsafePointer<CChar>(LocationElementValue))!)
+                        self.Location = String.fromCString(UnsafePointer<CChar>(LocationElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

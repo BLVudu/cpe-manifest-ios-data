@@ -4,15 +4,15 @@ import Foundation
 @objc
 class NGEInventoryTextObjectType : NSObject{
     
-    var TextObjectID: NSURL?
+    var TextObjectID: String!
     
     var language: String?
     
-    var ContainerReference: NGEContainerReference?
+    var ContainerReference: NGEContainerReference!
     
-    var SubtitleID: NSURL?
+    var SubtitleID: String!
     
-    var TextStringList: [NGETextString]?
+    var TextStringList: [NGETextString]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -20,7 +20,7 @@ class NGEInventoryTextObjectType : NSObject{
         let TextObjectIDAttrValue = xmlTextReaderGetAttribute(reader, TextObjectIDAttrName)
         if(TextObjectIDAttrValue != nil) {
             
-            self.TextObjectID = NSURL(string: String.fromCString(UnsafePointer<CChar>(TextObjectIDAttrValue))!)
+            self.TextObjectID = String.fromCString(UnsafePointer<CChar>(TextObjectIDAttrValue))
             xmlFree(TextObjectIDAttrValue)
         }
         let languageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "language").UTF8String)
@@ -61,7 +61,7 @@ class NGEInventoryTextObjectType : NSObject{
                     let SubtitleIDElementValue = xmlTextReaderConstValue(reader)
                     if SubtitleIDElementValue != nil {
                         
-                        self.SubtitleID = NSURL(string: String.fromCString(UnsafePointer<CChar>(SubtitleIDElementValue))!)
+                        self.SubtitleID = String.fromCString(UnsafePointer<CChar>(SubtitleIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

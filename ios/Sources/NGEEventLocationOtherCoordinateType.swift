@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEEventLocationOtherCoordinateType : NSObject{
     
-    var system: String?
+    var system: String!
     
-    var CoordinateList: [NGECoordinate]?
+    var CoordinateList: [NGECoordinate]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

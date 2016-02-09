@@ -6,14 +6,13 @@ class NGEVideoTrackReferenceType : NSObject{
     
     var priority: Int?
     
-    var VideoTrackIDList: [NSURL]?
+    var VideoTrackIDList: [String]!
     
     var AdaptationSetID: NGEAdaptationSetID?
     
     var TrackProfileList: [NGEMediaProfileType]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -35,7 +34,7 @@ class NGEVideoTrackReferenceType : NSObject{
         
         self.readAttributes(reader)
         
-        var VideoTrackIDListArray = [NSURL]()
+        var VideoTrackIDListArray = [String]()
         
         var TrackProfileListArray = [NGEMediaProfileType]()
         
@@ -55,7 +54,7 @@ class NGEVideoTrackReferenceType : NSObject{
                     let VideoTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if VideoTrackIDElementValue != nil {
                         
-                        VideoTrackIDListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(VideoTrackIDElementValue))!)!) //bad unwrapping
+                        VideoTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(VideoTrackIDElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

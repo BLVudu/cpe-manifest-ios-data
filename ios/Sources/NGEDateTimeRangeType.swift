@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEDateTimeRangeType : NSObject{
     
-    var Start: NSDate?
+    var Start: NSDate!
     
-    var End: NSDate?
+    var End: NSDate!
     
     func readAttributes(reader: xmlTextReaderPtr) {let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

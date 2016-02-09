@@ -4,17 +4,17 @@ import Foundation
 @objc
 class NGEDigitalAssetColorVolumeType : NSObject{
     
-    var PrimaryRChromaticity: NGEDigitalAssetChromaticityType?
+    var PrimaryRChromaticity: NGEDigitalAssetChromaticityType!
     
-    var PrimaryGChromaticity: NGEDigitalAssetChromaticityType?
+    var PrimaryGChromaticity: NGEDigitalAssetChromaticityType!
     
-    var PrimaryBChromaticity: NGEDigitalAssetChromaticityType?
+    var PrimaryBChromaticity: NGEDigitalAssetChromaticityType!
     
-    var WhitePointChromaticity: NGEDigitalAssetChromaticityType?
+    var WhitePointChromaticity: NGEDigitalAssetChromaticityType!
     
-    var LuminanceMin: Double?
+    var LuminanceMin: Double!
     
-    var LuminanceMax: Double?
+    var LuminanceMax: Double!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         let decFormatter = NSNumberFormatter()

@@ -8,7 +8,7 @@ class NGEAudiovisualClipRefType : NSObject{
     
     var seamless: Bool?
     
-    var PresentationID: NSURL?
+    var PresentationID: String!
     
     var EntryPointTimecode: NGETimecodeType?
     
@@ -60,7 +60,7 @@ class NGEAudiovisualClipRefType : NSObject{
                     let PresentationIDElementValue = xmlTextReaderConstValue(reader)
                     if PresentationIDElementValue != nil {
                         
-                        self.PresentationID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))!)
+                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

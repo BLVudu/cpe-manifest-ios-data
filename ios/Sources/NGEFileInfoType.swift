@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEFileInfoType : NSObject{
     
-    var Location: NSURL?
+    var Location: String!
     
     var IdentifierList: [NGEContentIdentifierType]?
     
@@ -12,7 +12,7 @@ class NGEFileInfoType : NSObject{
     
     var FiileDate: NSDate?
     
-    var Type: NGETypeEnum?
+    var Type: NGETypeEnum!
     
     var Length: Int?
     
@@ -27,7 +27,6 @@ class NGEFileInfoType : NSObject{
     var Delivery: NGEFileDeliveryType?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -68,7 +67,7 @@ class NGEFileInfoType : NSObject{
                     let LocationElementValue = xmlTextReaderConstValue(reader)
                     if LocationElementValue != nil {
                         
-                        self.Location = NSURL(string: String.fromCString(UnsafePointer<CChar>(LocationElementValue))!)
+                        self.Location = String.fromCString(UnsafePointer<CChar>(LocationElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

@@ -10,7 +10,7 @@ class NGEDigitalAssetVideoDataType : NSObject{
     
     var Encoding: NGEDigitalAssetVideoEncodingType?
     
-    var Picture: NGEDigitalAssetVideoPictureType?
+    var Picture: NGEDigitalAssetVideoPictureType!
     
     var ColorType: NGEColorTypeTypeEnum?
     

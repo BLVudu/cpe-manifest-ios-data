@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEPresentationType : NSObject{
     
-    var PresentationID: NSURL?
+    var PresentationID: String!
     
-    var TrackMetadataList: [NGETrackMetadata]?
+    var TrackMetadataList: [NGETrackMetadata]!
     
     var LanguagePairList: [NGEPresentationLanguagePairType]?
     
@@ -18,7 +18,7 @@ class NGEPresentationType : NSObject{
         let PresentationIDAttrValue = xmlTextReaderGetAttribute(reader, PresentationIDAttrName)
         if(PresentationIDAttrValue != nil) {
             
-            self.PresentationID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PresentationIDAttrValue))!)
+            self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDAttrValue))
             xmlFree(PresentationIDAttrValue)
         }
     }

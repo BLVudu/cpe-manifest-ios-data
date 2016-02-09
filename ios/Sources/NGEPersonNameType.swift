@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEPersonNameType : NSObject{
     
-    var DisplayNameList: [NGEStringAndLanguageType]?
+    var DisplayNameList: [NGEStringAndLanguageType]!
     
     var SortNameList: [NGEStringAndLanguageType]?
     

@@ -4,21 +4,21 @@ import Foundation
 @objc
 class NGEContainerTrackMetadataType : NSObject{
     
-    var Audio: NGEDigitalAssetAudioDataType?
+    var Audio: NGEDigitalAssetAudioDataType!
     
-    var Video: NGEDigitalAssetVideoDataType?
+    var Video: NGEDigitalAssetVideoDataType!
     
-    var Subtitle: NGEDigitalAssetSubtitleDataType?
+    var Subtitle: NGEDigitalAssetSubtitleDataType!
     
-    var Image: NGEDigitalAssetImageDataType?
+    var Image: NGEDigitalAssetImageDataType!
     
-    var Interactive: NGEDigitalAssetInteractiveDataType?
+    var Interactive: NGEDigitalAssetInteractiveDataType!
     
-    var Container: NGEContainerMetadataType?
+    var Container: NGEContainerMetadataType!
     
-    var ExternalTrackReference: NGEDigitalAssetExternalTrackReferenceType?
+    var ExternalTrackReference: NGEDigitalAssetExternalTrackReferenceType!
     
-    var InternalTrackReference: String?
+    var InternalTrackReference: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

@@ -6,9 +6,9 @@ class NGEFileDeliveryType : NSObject{
     
     var UpdateNum: String?
     
-    var DeliveryMethod: String?
+    var DeliveryMethod: String!
     
-    var TransferLocation: NSURL?
+    var TransferLocation: String?
     
     var Organization: NGEOrgNameType?
     
@@ -77,7 +77,7 @@ class NGEFileDeliveryType : NSObject{
                     let TransferLocationElementValue = xmlTextReaderConstValue(reader)
                     if TransferLocationElementValue != nil {
                         
-                        self.TransferLocation = NSURL(string: String.fromCString(UnsafePointer<CChar>(TransferLocationElementValue))!)
+                        self.TransferLocation = String.fromCString(UnsafePointer<CChar>(TransferLocationElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

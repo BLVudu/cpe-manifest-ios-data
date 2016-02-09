@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEBasicMetadataJobType : NSObject{
     
-    var JobFunction: NGEJobFunction?
+    var JobFunction: NGEJobFunction!
     
     var JobDisplayList: [NGEJobDisplay]?
     
@@ -15,7 +15,6 @@ class NGEBasicMetadataJobType : NSObject{
     var Guest: Bool?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         

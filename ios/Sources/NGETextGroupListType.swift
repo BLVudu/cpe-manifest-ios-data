@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGETextGroupListType : NSObject{
     
-    var TextGroupList: [NGETextGroupType]?
+    var TextGroupList: [NGETextGroupType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

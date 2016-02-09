@@ -4,15 +4,15 @@ import Foundation
 @objc
 class NGEContentRatingDetailType : NSObject{
     
-    var Region: NGERegionType?
+    var Region: NGERegionType!
     
-    var System: String?
+    var System: String!
     
-    var Value: String?
+    var Value: String!
     
     var ReasonList: [String]?
     
-    var LinkToLogo: NSURL?
+    var LinkToLogo: String?
     
     var Description: String?
     
@@ -87,7 +87,7 @@ class NGEContentRatingDetailType : NSObject{
                     let LinkToLogoElementValue = xmlTextReaderConstValue(reader)
                     if LinkToLogoElementValue != nil {
                         
-                        self.LinkToLogo = NSURL(string: String.fromCString(UnsafePointer<CChar>(LinkToLogoElementValue))!)
+                        self.LinkToLogo = String.fromCString(UnsafePointer<CChar>(LinkToLogoElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

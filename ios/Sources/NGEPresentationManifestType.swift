@@ -6,9 +6,9 @@ class NGEPresentationManifestType : NSObject{
     
     var updateNum: Int?
     
-    var Inventory: NGEInventoryType?
+    var Inventory: NGEInventoryType!
     
-    var Presentation: NGEPresentationType?
+    var Presentation: NGEPresentationType!
     
     var PictureGroups: NGEPictureGroupListType?
     

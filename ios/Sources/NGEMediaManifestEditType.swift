@@ -8,7 +8,7 @@ class NGEMediaManifestEditType : NSObject{
     
     var reference: String?
     
-    var ManifestID: NSURL?
+    var ManifestID: String?
     
     var updateDeliveryType: String?
     
@@ -47,7 +47,7 @@ class NGEMediaManifestEditType : NSObject{
         let ManifestIDAttrValue = xmlTextReaderGetAttribute(reader, ManifestIDAttrName)
         if(ManifestIDAttrValue != nil) {
             
-            self.ManifestID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ManifestIDAttrValue))!)
+            self.ManifestID = String.fromCString(UnsafePointer<CChar>(ManifestIDAttrValue))
             xmlFree(ManifestIDAttrValue)
         }
         let updateDeliveryTypeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateDeliveryType").UTF8String)

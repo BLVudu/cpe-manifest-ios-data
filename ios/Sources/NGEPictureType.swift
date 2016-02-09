@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEPictureType : NSObject{
     
-    var PictureID: NSURL?
+    var PictureID: String!
     
-    var ImageID: NSURL?
+    var ImageID: String!
     
-    var ThumbnailImageID: NSURL?
+    var ThumbnailImageID: String?
     
     var LanguageInImageList: [String]?
     
@@ -19,7 +19,6 @@ class NGEPictureType : NSObject{
     var Sequence: Int?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -54,7 +53,7 @@ class NGEPictureType : NSObject{
                     let PictureIDElementValue = xmlTextReaderConstValue(reader)
                     if PictureIDElementValue != nil {
                         
-                        self.PictureID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))!)
+                        self.PictureID = String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -67,7 +66,7 @@ class NGEPictureType : NSObject{
                     let ImageIDElementValue = xmlTextReaderConstValue(reader)
                     if ImageIDElementValue != nil {
                         
-                        self.ImageID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))!)
+                        self.ImageID = String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -80,7 +79,7 @@ class NGEPictureType : NSObject{
                     let ThumbnailImageIDElementValue = xmlTextReaderConstValue(reader)
                     if ThumbnailImageIDElementValue != nil {
                         
-                        self.ThumbnailImageID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ThumbnailImageIDElementValue))!)
+                        self.ThumbnailImageID = String.fromCString(UnsafePointer<CChar>(ThumbnailImageIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEExperienceListType : NSObject{
     
-    var ExperienceList: [NGEExperienceType]?
+    var ExperienceList: [NGEExperienceType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

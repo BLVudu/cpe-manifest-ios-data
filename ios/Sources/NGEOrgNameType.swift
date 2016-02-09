@@ -8,7 +8,7 @@ class NGEOrgNameType : NSObject{
     
     var idType: String?
     
-    var DisplayName: String?
+    var DisplayName: String!
     
     var SortName: String?
     

@@ -197,6 +197,8 @@
 		70C9E9D31C6294F8004DF35B /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C9E9D21C6294F8004DF35B /* libxml2.tbd */; };
 		70C9E9D51C62D768004DF35B /* mos_hls_manifest_v3.xml in Resources */ = {isa = PBXBuildFile; fileRef = 70C9E9D41C62D768004DF35B /* mos_hls_manifest_v3.xml */; };
 		70FECF851C6914BC005B1A44 /* NGEDisplayIndicatorsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FECF841C6914BC005B1A44 /* NGEDisplayIndicatorsEnum.swift */; };
+		70FECF891C696814005B1A44 /* NextGenDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FECF881C696814005B1A44 /* NextGenDataManager.swift */; };
+		70FECF8B1C6971A2005B1A44 /* NGEExperienceType+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FECF8A1C6971A2005B1A44 /* NGEExperienceType+Data.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -393,6 +395,8 @@
 		70C9E9D21C6294F8004DF35B /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		70C9E9D41C62D768004DF35B /* mos_hls_manifest_v3.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mos_hls_manifest_v3.xml; sourceTree = "<group>"; };
 		70FECF841C6914BC005B1A44 /* NGEDisplayIndicatorsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGEDisplayIndicatorsEnum.swift; sourceTree = "<group>"; };
+		70FECF881C696814005B1A44 /* NextGenDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NextGenDataManager.swift; sourceTree = "<group>"; };
+		70FECF8A1C6971A2005B1A44 /* NGEExperienceType+Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NGEExperienceType+Data.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -428,6 +432,7 @@
 			isa = PBXGroup;
 			children = (
 				70C9E8621C62948F004DF35B /* Sources */,
+				70FECF871C6967F8005B1A44 /* NextGenDataManager */,
 				70A411911C6026EC003A65D2 /* AppDelegate.swift */,
 				70A411931C6026EC003A65D2 /* ViewController.swift */,
 				70A411951C6026EC003A65D2 /* Main.storyboard */,
@@ -631,6 +636,15 @@
 			path = ../../Sources;
 			sourceTree = "<group>";
 		};
+		70FECF871C6967F8005B1A44 /* NextGenDataManager */ = {
+			isa = PBXGroup;
+			children = (
+				70FECF881C696814005B1A44 /* NextGenDataManager.swift */,
+				70FECF8A1C6971A2005B1A44 /* NGEExperienceType+Data.swift */,
+			);
+			path = NextGenDataManager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -784,6 +798,7 @@
 				70C9E9651C62948F004DF35B /* NGEDigitalAssetVideoSubtitleLanguageType.swift in Sources */,
 				70C9E9451C62948F004DF35B /* NGEContentMax.swift in Sources */,
 				70C9E9251C62948F004DF35B /* NGEArtReference.swift in Sources */,
+				70FECF891C696814005B1A44 /* NextGenDataManager.swift in Sources */,
 				70C9E9991C62948F004DF35B /* NGEMediaManifestEditLocRefType.swift in Sources */,
 				70C9E9561C62948F004DF35B /* NGEDigitalAssetImageDataType.swift in Sources */,
 				70C9E96E1C62948F004DF35B /* NGEEventLocationType.swift in Sources */,
@@ -811,6 +826,7 @@
 				70C9E9BC1C62948F004DF35B /* NGEStringVideoPicFrameRateMultiplierEnum.swift in Sources */,
 				70C9E9A31C62948F004DF35B /* NGEOrgNameType.swift in Sources */,
 				70C9E9801C62948F004DF35B /* NGEGalleryType.swift in Sources */,
+				70FECF8B1C6971A2005B1A44 /* NGEExperienceType+Data.swift in Sources */,
 				70C9E9B31C62948F004DF35B /* NGEPresentationType+File.swift in Sources */,
 				70C9E9C71C62948F004DF35B /* NGETimecodeType.swift in Sources */,
 				70C9E98D1C62948F004DF35B /* NGEInventoryMetadataLocalizedPairType.swift in Sources */,

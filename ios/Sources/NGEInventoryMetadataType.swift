@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryMetadataType : NSObject{
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
     var ContainerReferenceList: [NGEContainerReference]?
     
@@ -18,7 +18,7 @@ class NGEInventoryMetadataType : NSObject{
         let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
         if(ContentIDAttrValue != nil) {
             
-            self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))!)
+            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
             xmlFree(ContentIDAttrValue)
         }
     }

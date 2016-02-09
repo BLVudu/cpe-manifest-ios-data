@@ -4,17 +4,17 @@ import Foundation
 @objc
 class NGEAbbreviatedMetadataType : NSObject{
     
-    var ContentID: NSURL?
+    var ContentID: String!
     
     var UpdateNum: Int?
     
-    var LocalizedInfoList: [NGEAbbreviatedMetadataInfoType]?
+    var LocalizedInfoList: [NGEAbbreviatedMetadataInfoType]!
     
     var RatingList: [NGEContentRatingType]?
     
     var AltIdentifierList: [NGEContentIdentifierType]?
     
-    var Studio: String?
+    var Studio: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -25,7 +25,7 @@ class NGEAbbreviatedMetadataType : NSObject{
         let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
         if(ContentIDAttrValue != nil) {
             
-            self.ContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))!)
+            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
             xmlFree(ContentIDAttrValue)
         }
     }

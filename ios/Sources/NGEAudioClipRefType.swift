@@ -8,7 +8,7 @@ class NGEAudioClipRefType : NSObject{
     
     var seamless: Bool?
     
-    var AudioTrackID: NSURL?
+    var AudioTrackID: String!
     
     var EntryPointTimecode: NGETimecodeType?
     
@@ -60,7 +60,7 @@ class NGEAudioClipRefType : NSObject{
                     let AudioTrackIDElementValue = xmlTextReaderConstValue(reader)
                     if AudioTrackIDElementValue != nil {
                         
-                        self.AudioTrackID = NSURL(string: String.fromCString(UnsafePointer<CChar>(AudioTrackIDElementValue))!)
+                        self.AudioTrackID = String.fromCString(UnsafePointer<CChar>(AudioTrackIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

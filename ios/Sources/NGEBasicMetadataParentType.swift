@@ -6,9 +6,9 @@ class NGEBasicMetadataParentType : NSObject{
     
     var relationshipType: String?
     
-    var Parent: NGEBasicMetadataType?
+    var Parent: NGEBasicMetadataType!
     
-    var ParentContentID: NSURL?
+    var ParentContentID: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -48,7 +48,7 @@ class NGEBasicMetadataParentType : NSObject{
                     let ParentContentIDElementValue = xmlTextReaderConstValue(reader)
                     if ParentContentIDElementValue != nil {
                         
-                        self.ParentContentID = NSURL(string: String.fromCString(UnsafePointer<CChar>(ParentContentIDElementValue))!)
+                        self.ParentContentID = String.fromCString(UnsafePointer<CChar>(ParentContentIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)

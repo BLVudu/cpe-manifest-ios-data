@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEInventoryMetadataLocalizedPairType : NSObject{
     
-    var LanguageIncluded: String?
+    var LanguageIncluded: String!
     
     var RegionIncluded: NGERegionType?
     

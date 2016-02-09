@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGECompanyCreditsType : NSObject{
     
-    var DisplayStringList: [NGEDisplayString]?
+    var DisplayStringList: [NGEDisplayString]!
     
     var RegionList: [NGERegionType]?
     

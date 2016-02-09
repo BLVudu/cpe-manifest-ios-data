@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGERegionType : NSObject{
     
-    var country: String?
+    var country: String!
     
-    var countryRegion: String?
+    var countryRegion: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

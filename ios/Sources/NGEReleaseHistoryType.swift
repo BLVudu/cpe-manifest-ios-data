@@ -4,11 +4,11 @@ import Foundation
 @objc
 class NGEReleaseHistoryType : NSObject{
     
-    var ReleaseType: NGEReleaseType?
+    var ReleaseType: NGEReleaseType!
     
     var DistrTerritory: NGERegionType?
     
-    var Date: NGEDate?
+    var Date: NGEDate!
     
     var Description: String?
     

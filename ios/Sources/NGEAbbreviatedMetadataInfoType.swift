@@ -4,15 +4,15 @@ import Foundation
 @objc
 class NGEAbbreviatedMetadataInfoType : NSObject{
     
-    var language: String?
+    var language: String!
     
     var isDefault: Bool?
     
-    var TitleBrief: String?
+    var TitleBrief: String!
     
-    var ArtReferenceList: [NSURL]?
+    var ArtReferenceList: [String]?
     
-    var SummaryShort: String?
+    var SummaryShort: String!
     
     var DisplayIndicatorsList: [NGEDisplayIndicatorsEnum]?
     
@@ -40,7 +40,7 @@ class NGEAbbreviatedMetadataInfoType : NSObject{
         
         self.readAttributes(reader)
         
-        var ArtReferenceListArray = [NSURL]()
+        var ArtReferenceListArray = [String]()
         
         var DisplayIndicatorsListArray = [NGEDisplayIndicatorsEnum]()
         
@@ -73,7 +73,7 @@ class NGEAbbreviatedMetadataInfoType : NSObject{
                     let ArtReferenceElementValue = xmlTextReaderConstValue(reader)
                     if ArtReferenceElementValue != nil {
                         
-                        ArtReferenceListArray.append(NSURL(string: String.fromCString(UnsafePointer<CChar>(ArtReferenceElementValue))!)!) //bad unwrapping
+                        ArtReferenceListArray.append(String.fromCString(UnsafePointer<CChar>(ArtReferenceElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)

@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGENVPairType : NSObject{
     
-    var Name: String?
+    var Name: String!
     
-    var Value: String?
+    var Value: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

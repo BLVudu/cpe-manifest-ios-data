@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEAppGroupListType : NSObject{
     
-    var AppGroupList: [NGEAppGroupType]?
+    var AppGroupList: [NGEAppGroupType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

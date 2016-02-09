@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGETrackMetadataType : NSObject{
     
-    var TrackSelectionNumber: Int?
+    var TrackSelectionNumber: Int!
     
     var VideoTrackReferenceList: [NGEVideoTrackReferenceType]?
     

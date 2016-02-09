@@ -6,9 +6,9 @@ class NGEDigitalAssetWatermarkType : NSObject{
     
     var guaranteedAbsent: Bool?
     
-    var Vendor: String?
+    var Vendor: String!
     
-    var ProductAndVersionID: String?
+    var ProductAndVersionID: String!
     
     var Data: String?
     

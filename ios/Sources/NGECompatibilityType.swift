@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGECompatibilityType : NSObject{
     
-    var SpecVersion: String?
+    var SpecVersion: String!
     
     var SystemList: [String]?
     

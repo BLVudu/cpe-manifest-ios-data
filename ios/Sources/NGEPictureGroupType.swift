@@ -4,9 +4,9 @@ import Foundation
 @objc
 class NGEPictureGroupType : NSObject{
     
-    var PictureGroupID: NSURL?
+    var PictureGroupID: String?
     
-    var PictureList: [NGEPictureType]?
+    var PictureList: [NGEPictureType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -14,7 +14,7 @@ class NGEPictureGroupType : NSObject{
         let PictureGroupIDAttrValue = xmlTextReaderGetAttribute(reader, PictureGroupIDAttrName)
         if(PictureGroupIDAttrValue != nil) {
             
-            self.PictureGroupID = NSURL(string: String.fromCString(UnsafePointer<CChar>(PictureGroupIDAttrValue))!)
+            self.PictureGroupID = String.fromCString(UnsafePointer<CChar>(PictureGroupIDAttrValue))
             xmlFree(PictureGroupIDAttrValue)
         }
     }

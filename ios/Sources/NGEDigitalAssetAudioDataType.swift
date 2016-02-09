@@ -10,7 +10,7 @@ class NGEDigitalAssetAudioDataType : NSObject{
     
     var Encoding: NGEDigitalAssetAudioEncodingType?
     
-    var Language: NGEDigitalAssetAudioLanguageType?
+    var Language: NGEDigitalAssetAudioLanguageType!
     
     var Channels: String?
     

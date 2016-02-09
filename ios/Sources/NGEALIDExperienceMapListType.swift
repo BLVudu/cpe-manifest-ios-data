@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEALIDExperienceMapListType : NSObject{
     
-    var ALIDExperienceMapList: [NGEALIDExperienceMapType]?
+    var ALIDExperienceMapList: [NGEALIDExperienceMapType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         

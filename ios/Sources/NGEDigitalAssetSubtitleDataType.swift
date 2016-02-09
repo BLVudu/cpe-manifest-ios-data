@@ -8,11 +8,11 @@ class NGEDigitalAssetSubtitleDataType : NSObject{
     
     var Description: String?
     
-    var TypeList: [String]?
+    var TypeList: [String]!
     
     var FormatType: String?
     
-    var Language: String?
+    var Language: String!
     
     var Encoding: String?
     
