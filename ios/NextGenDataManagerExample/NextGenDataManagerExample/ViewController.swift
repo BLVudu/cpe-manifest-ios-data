@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         
         if NextGenDataManager.sharedInstance.loadXMLFile(NSBundle.mainBundle().pathForResource("mos_hls_manifest_v3", ofType: "xml")!) {
             for experience in NextGenDataManager.sharedInstance.allExtras() {
-                print(experience.metadata()?.BasicMetadata?.LocalizedInfoList?.first?.TitleDisplayUnlimited)
+                print(experience.thumbnailImagePath())
             }
         }
     }
