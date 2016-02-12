@@ -14,6 +14,8 @@ class NextGenDataManager: NSObject {
     
     var manifest: NGEMediaManifestType!
     var videoMap = [String: NGEInventoryVideoType]()
+    var imageMap = [String: NGEInventoryImageType]()
+    var pictureGroupMap = [String: NGEPictureGroupType]()
     var metadataMap = [String: NGEInventoryMetadataType]()
     var experienceMap = [String: NGEExperienceType]()
     var presentationMap = [String: NGEPresentationType]()
@@ -52,6 +54,30 @@ class NextGenDataManager: NSObject {
         }
         
         return videoMap[videoTrackId]
+    }
+    
+    func imageById(imageId: String) -> NGEInventoryImageType? {
+        if imageMap.count == 0 {
+            if let imageList = manifest.Inventory?.ImageList {
+                for image in imageList {
+                    imageMap[image.ImageID!] = image
+                }
+            }
+        }
+        
+        return imageMap[imageId]
+    }
+    
+    func pictureGroupById(pictureGroupId: String) -> NGEPictureGroupType? {
+        if pictureGroupMap.count == 0 {
+            if let pictureGroupList = manifest.PictureGroups?.PictureGroupList {
+                for pictureGroup in pictureGroupList {
+                    pictureGroupMap[pictureGroup.PictureGroupID!] = pictureGroup
+                }
+            }
+        }
+        
+        return pictureGroupMap[pictureGroupId]
     }
     
     func metadataByContentId(contentId: String) -> NGEInventoryMetadataType? {

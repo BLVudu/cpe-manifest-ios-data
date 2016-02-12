@@ -30,12 +30,28 @@ extension NGEInventoryMetadataType {
         return nil
     }
     
-    func fullTitle() -> String {
+    func fullTitle() -> String? {
         if let info = self.localizedInfo() {
             return info.TitleDisplayUnlimited != nil ? info.TitleDisplayUnlimited! : info.TitleSort
         }
         
-        return ""
+        return nil
+    }
+    
+    func fullSummary() -> String? {
+        if let info = self.localizedInfo() {
+            if let summary = info.Summary4000 {
+                return summary.value
+            }
+            
+            if let summary = info.Summary400 {
+                return summary.value
+            }
+            
+            return info.Summary190.value
+        }
+        
+        return nil
     }
     
     func thumbnailImage() -> String? {

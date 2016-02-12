@@ -29,7 +29,21 @@ extension NGEExperienceType {
             }
         }
         
+        if self.GalleryList?.count > 0 {
+            if let metadata = NextGenDataManager.sharedInstance.metadataByContentId(self.GalleryList!.first!.ContentID!) {
+                return metadata.thumbnailImage()
+            }
+        }
+        
         return nil
+    }
+    
+    func isVideoGallery() -> Bool {
+        return self.AudiovisualList?.count > 0
+    }
+    
+    func isImageGallery() -> Bool {
+        return self.GalleryList?.count > 0
     }
     
     func videoURL() -> NSURL? {
@@ -46,6 +60,10 @@ extension NGEExperienceType {
         }
         
         return nil
+    }
+    
+    func imageGallery() -> NGEGalleryType? {
+        return self.GalleryList?.first
     }
     
     func childExperiences() -> [NGEExperienceType] {
