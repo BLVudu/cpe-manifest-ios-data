@@ -25,6 +25,7 @@ class NextGenDataManager: NSObject {
         return manifest != nil
     }
     
+    // !!!TODO: Makes assumptions about manifest experience's structure. See if we can make it "menu manifest"
     func outOfMovieExperienceCategories() -> [NGEExperienceType] {
         if let mainExperience = manifest.Experiences.ExperienceList.first, mainChildList = mainExperience.ExperienceChildList, mainChild = mainChildList.first {
             if let outOfMovieExperienceParent = experienceById(mainChild.ExperienceID), subChildList = outOfMovieExperienceParent.ExperienceChildList {
