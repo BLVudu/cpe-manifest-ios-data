@@ -19,4 +19,22 @@ class NGDMMainExperience: NGDMExperience {
         return childExperiences[1]
     }
     
+    var audioVisual: NGDMAudioVisual? {
+        get {
+            if let presentationId = audioVisuals.keys.first, audioVisual = audioVisuals[presentationId] {
+                return audioVisual
+            }
+            
+            return nil
+        }
+    }
+    
+    func customIdentifier(namespace: String) -> String? {
+        if let audioVisual = audioVisual, contentId = audioVisual.contentId, metadata = NGDMMetadata.getById(contentId) {
+            return metadata.customIdentifier(namespace)
+        }
+        
+        return nil
+    }
+    
 }

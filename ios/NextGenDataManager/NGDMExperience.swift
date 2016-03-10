@@ -14,7 +14,22 @@ class NGDMExperience {
     private var _manifestObject: NGEExperienceType!
     
     var galleries = [String: NGDMGallery]()
-    var audioVisuals = [String: NGDMAudioVisual]()
+    
+    private var _audioVisuals = [String: NGDMAudioVisual]()
+    var audioVisuals: [String: NGDMAudioVisual]! {
+        get {
+            if _audioVisuals.count == 0 {
+                if let audioVisualList = _manifestObject.AudiovisualList {
+                    for audioVisualObj in audioVisualList {
+                        _audioVisuals[audioVisualObj.PresentationID] = NGDMAudioVisual(manifestObject: audioVisualObj)
+                    }
+                }
+            }
+            
+            return _audioVisuals
+        }
+    }
+    
     
     var id: String {
         get {
@@ -134,12 +149,6 @@ class NGDMExperience {
                         if let galleryId = galleryObj.GalleryID {
                             experience.galleries[galleryId] = NGDMGallery(manifestObject: galleryObj)
                         }
-                    }
-                }
-                
-                if let audioVisualList = obj.AudiovisualList {
-                    for audioVisualObj in audioVisualList {
-                        experience.audioVisuals[audioVisualObj.PresentationID] = NGDMAudioVisual(manifestObject: audioVisualObj)
                     }
                 }
             }

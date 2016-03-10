@@ -80,6 +80,18 @@ class NGDMMetadata {
         return _localizedInfoManifestObjectMap[language]
     }
     
+    func customIdentifier(namespace: String) -> String? {
+        if let altIdentifierList = _manifestObject.BasicMetadata?.AltIdentifierList {
+            for altIdentifier in altIdentifierList {
+                if altIdentifier.Namespace == namespace {
+                    return altIdentifier.Identifier
+                }
+            }
+        }
+        
+        return nil
+    }
+    
     static func getById(id: String) -> NGDMMetadata? {
         if objectMap.count == 0 {
             if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.MetadataList {

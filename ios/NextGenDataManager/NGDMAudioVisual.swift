@@ -23,6 +23,24 @@ class NGDMAudioVisual {
         }
     }
     
+    var contentId: String? {
+        get {
+            return _manifestObject.ContentID
+        }
+    }
+    
+    func getImageURL() -> NSURL? {
+        if let thumbnailImagePath = metadata?.thumbnailImagePath {
+            return NSURL(string: thumbnailImagePath)
+        }
+        
+        return nil
+    }
+    
+    func getPresentation() -> NGDMPresentation? {
+        return NGDMPresentation.getById(_manifestObject.PresentationID)
+    }
+    
     init(manifestObject: NGEAudiovisualType) {
         _manifestObject = manifestObject
     }

@@ -87,6 +87,14 @@ class NGDMTimedEvent: NSObject {
         return _manifestObject.GalleryID != nil
     }
     
+    func isProduct(namespace: String) -> Bool {
+        if let productId = _manifestObject.ProductID {
+            return productId.Namespace == namespace
+        }
+        
+        return false
+    }
+    
     func getAudioVisual(experience: NGDMExperience) -> NGDMAudioVisual? {
         if isAudioVisual() {
             return experience.audioVisuals[_manifestObject.PresentationID]
@@ -113,9 +121,7 @@ class NGDMTimedEvent: NSObject {
     
     func getImageURL(experience: NGDMExperience) -> NSURL? {
         if isAudioVisual() {
-            if let thumbnailImagePath = getAudioVisual(experience)?.metadata?.thumbnailImagePath {
-                return NSURL(string: thumbnailImagePath)
-            }
+            return getAudioVisual(experience)?.getImageURL()
         }
         
         return nil
