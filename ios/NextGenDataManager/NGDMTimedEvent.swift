@@ -20,6 +20,8 @@ class NGDMTimedEvent: NSObject {
                     _id = _manifestObject.PresentationID
                 } else if isGallery() {
                     _id = _manifestObject.GalleryID
+                } else if isAppGroup() {
+                    _id = _manifestObject.AppGroupID
                 } else if isTextItem() {
                     _id = "\(_manifestObject.TextGroupID.value)\(_manifestObject.TextGroupID.index)"
                 } else {
@@ -63,6 +65,16 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
+    var appGroup: NGDMAppGroup? {
+        get {
+            if isAppGroup() {
+                return NGDMAppGroup.getById(_manifestObject.AppGroupID)
+            }
+            
+            return nil
+        }
+    }
+    
     init(manifestObject: NGETimedEventType) {
         _manifestObject = manifestObject
     }
@@ -85,6 +97,10 @@ class NGDMTimedEvent: NSObject {
     
     func isGallery() -> Bool {
         return _manifestObject.GalleryID != nil
+    }
+    
+    func isAppGroup() -> Bool {
+        return _manifestObject.AppGroupID != nil
     }
     
     func isProduct(namespace: String) -> Bool {
@@ -111,9 +127,21 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
+    func getExperienceApp(experience: NGDMExperience) -> NGDMExperienceApp? {
+        if isAppGroup() {
+            return experience.apps[_manifestObject.AppGroupID]
+        }
+        
+        return nil
+    }
+    
     func getDescriptionText(experience: NGDMExperience) -> String? {
         if isAudioVisual() {
             return getAudioVisual(experience)?.metadata?.title
+        }
+        
+        if isTextItem() {
+            return text
         }
         
         return nil
@@ -122,6 +150,10 @@ class NGDMTimedEvent: NSObject {
     func getImageURL(experience: NGDMExperience) -> NSURL? {
         if isAudioVisual() {
             return getAudioVisual(experience)?.getImageURL()
+        }
+        
+        if isAppGroup() {
+            return getExperienceApp(experience)?.getImageURL()
         }
         
         return nil

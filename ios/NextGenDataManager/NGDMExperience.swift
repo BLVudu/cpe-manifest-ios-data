@@ -14,6 +14,7 @@ class NGDMExperience {
     private var _manifestObject: NGEExperienceType!
     
     var galleries = [String: NGDMGallery]()
+    var apps = [String: NGDMExperienceApp]()
     
     private var _audioVisuals = [String: NGDMAudioVisual]()
     var audioVisuals: [String: NGDMAudioVisual]! {
@@ -149,6 +150,12 @@ class NGDMExperience {
                         if let galleryId = galleryObj.GalleryID {
                             experience.galleries[galleryId] = NGDMGallery(manifestObject: galleryObj)
                         }
+                    }
+                }
+                
+                if let appList = obj.AppList {
+                    for appObj in appList {
+                        experience.apps[appObj.AppGroupID] = NGDMExperienceApp(manifestObject: appObj)
                     }
                 }
             }
