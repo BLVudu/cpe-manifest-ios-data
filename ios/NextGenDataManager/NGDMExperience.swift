@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NGDMExperience {
+class NGDMExperience: NSObject {
     
     private static var _objectMap = [String: NGDMExperience]()
     private var _manifestObject: NGEExperienceType!
@@ -43,11 +43,15 @@ class NGDMExperience {
         get {
             if _children.count == 0 {
                 if let childList = _manifestObject.ExperienceChildList {
+                    var childMap = [Int: NGDMExperience]()
                     for child in childList {
-                        if let childExperience = NGDMExperience.getById(child.ExperienceID) {
-                            _children.append(childExperience)
+                        if let index = child.SequenceInfo?.Number, childExperience = NGDMExperience.getById(child.ExperienceID) {
+                            childMap[index] = childExperience
                         }
                     }
+                    
+                    let sortedChildren = childMap.sort { $0.0 < $1.0 }
+                    _children = sortedChildren.map { return $0.1 }
                 }
             }
             
@@ -129,6 +133,14 @@ class NGDMExperience {
     
     init(manifestObject: NGEExperienceType) {
         _manifestObject = manifestObject
+    }
+    
+    override func isEqual(object: AnyObject?) -> Bool {
+        if let otherExperience = object as? NGDMExperience {
+            return otherExperience.id == id
+        }
+        
+        return false
     }
     
     func isAudioVisual() -> Bool {

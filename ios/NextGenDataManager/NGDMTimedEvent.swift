@@ -149,11 +149,11 @@ class NGDMTimedEvent: NSObject {
     
     func getImageURL(experience: NGDMExperience) -> NSURL? {
         if isAudioVisual() {
-            return getAudioVisual(experience)?.getImageURL()
+            return getAudioVisual(experience)?.imageURL
         }
         
         if isAppGroup() {
-            return getExperienceApp(experience)?.getImageURL()
+            return getExperienceApp(experience)?.imageURL
         }
         
         return nil

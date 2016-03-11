@@ -23,16 +23,18 @@ class NGDMExperienceApp {
         }
     }
     
-    init(manifestObject: NGEExperienceAppType) {
-        _manifestObject = manifestObject
+    var imageURL: NSURL? {
+        get {
+            if let thumbnailImagePath = metadata?.thumbnailImagePath {
+                return NSURL(string: thumbnailImagePath)
+            }
+            
+            return nil
+        }
     }
     
-    func getImageURL() -> NSURL? {
-        if let thumbnailImagePath = metadata?.thumbnailImagePath {
-            return NSURL(string: thumbnailImagePath)
-        }
-        
-        return nil
+    init(manifestObject: NGEExperienceAppType) {
+        _manifestObject = manifestObject
     }
     
 }
