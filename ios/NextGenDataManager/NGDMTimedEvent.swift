@@ -103,6 +103,10 @@ class NGDMTimedEvent: NSObject {
         return _manifestObject.AppGroupID != nil
     }
     
+    func isProduct() -> Bool {
+        return _manifestObject.ProductID != nil
+    }
+    
     func isProduct(namespace: String) -> Bool {
         if let productId = _manifestObject.ProductID {
             return productId.Namespace == namespace
