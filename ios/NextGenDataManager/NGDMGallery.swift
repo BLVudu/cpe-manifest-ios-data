@@ -8,10 +8,14 @@
 
 import Foundation
 
+// Wrapper class for `NGEGalleryType` Manifest object
 class NGDMGallery {
     
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEGalleryType!
     
+    /// Metadata associated with this Gallery
     private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
         get {
@@ -23,6 +27,7 @@ class NGDMGallery {
         }
     }
     
+    /// Pictures associated with this Gallery
     var pictures: [NGDMPicture] {
         get {
             if let pictureGroup = NGDMPictureGroup.getById(_manifestObject.PictureGroupID) {
@@ -33,6 +38,13 @@ class NGDMGallery {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Gallery
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEGalleryType) {
         _manifestObject = manifestObject
     }

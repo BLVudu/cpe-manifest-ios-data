@@ -8,14 +8,23 @@
 
 import Foundation
 
+// Wrapper class for `NGEExperienceType` Manifest object
 class NGDMExperience: NSObject {
     
+    // MARK: Static Variables
+    /// Static mapping of all Experiences - ExperienceID: Experience
     private static var _objectMap = [String: NGDMExperience]()
+    
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEExperienceType!
     
+    /// Mapping of all the Galleries associated with this Experience - GalleryID: Gallery
     var galleries = [String: NGDMGallery]()
+    /// Mapping of all the Apps associated with this Experience - AppID: App
     var apps = [String: NGDMExperienceApp]()
     
+    /// Mapping of all the AudioVisuals associated with this Experience - PresentationID: AudioVisual
     private var _audioVisuals = [String: NGDMAudioVisual]()
     var audioVisuals: [String: NGDMAudioVisual]! {
         get {
@@ -31,13 +40,14 @@ class NGDMExperience: NSObject {
         }
     }
     
-    
+    /// Unique identifier
     var id: String {
         get {
             return _manifestObject.ExperienceID
         }
     }
     
+    /// All children of this Experience
     private var _children = [NGDMExperience]()
     var childExperiences: [NGDMExperience] {
         get {
@@ -50,6 +60,7 @@ class NGDMExperience: NSObject {
                         }
                     }
                     
+                    // Sort the children by SequenceInfo.Number
                     let sortedChildren = childMap.sort { $0.0 < $1.0 }
                     _children = sortedChildren.map { return $0.1 }
                 }
@@ -59,6 +70,7 @@ class NGDMExperience: NSObject {
         }
     }
     
+    /// Metadata associated with this Experience
     private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
         get {
@@ -70,34 +82,39 @@ class NGDMExperience: NSObject {
         }
     }
     
-    var thumbnailImagePath: String? {
+    /// Image URL to be used for thumbnail displays
+    var imageURL: NSURL? {
         get {
-            if let imagePath = metadata?.thumbnailImagePath {
-                return imagePath
+            // Experience has an image directly associated with it
+            if let imageURL = metadata?.imageURL {
+                return imageURL
             }
             
+            // Experience has an AudioVisual with an image associated with it
             if let childList = _manifestObject.AudiovisualList, childItem = childList.first, metadata = NGDMMetadata.getById(childItem.ContentID) {
-                return metadata.thumbnailImagePath
+                return metadata.imageURL
             }
             
+            // Experience has a Gallery with an image associated with it
             if let childList = _manifestObject.GalleryList, childItem = childList.first, metadata = NGDMMetadata.getById(childItem.ContentID!) {
-                return metadata.thumbnailImagePath
+                return metadata.imageURL
             }
             
+            // Experience has an App with an image associated with it
             if let childList = _manifestObject.AppList, childItem = childList.first, metadata = NGDMMetadata.getById(childItem.ContentID!) {
-                return metadata.thumbnailImagePath
+                return metadata.imageURL
             }
             
-            if childExperiences.count > 0 {
-                if let childExperience = childExperiences.first {
-                    return childExperience.thumbnailImagePath
-                }
+            // Experience has a child Experience that should be used for the image
+            if let childExperience = childExperiences.first {
+                return childExperience.imageURL
             }
             
             return nil
         }
     }
     
+    /// Video URL to be used for video display
     var videoURL: NSURL? {
         get {
             if let audioVisual = _manifestObject.AudiovisualList?.first, presentation = NGDMPresentation.getById(audioVisual.PresentationID) {
@@ -108,6 +125,7 @@ class NGDMExperience: NSObject {
         }
     }
     
+    /// Gallery associated with this Experience
     private var _imageGallery: NGDMGallery!
     var imageGallery: NGDMGallery? {
         get {
@@ -121,6 +139,7 @@ class NGDMExperience: NSObject {
         }
     }
     
+    /// TimedEventSequence associated with this Experience
     var timedEventSequence: NGDMTimedEventSequence? {
         get {
             if let objList = _manifestObject.TimedSequenceIDList, objId = objList.first {
@@ -131,10 +150,26 @@ class NGDMExperience: NSObject {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Experience
+     
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEExperienceType) {
         _manifestObject = manifestObject
     }
     
+    // MARK: Helper Methods
+    /**
+        Overrides default equality check to compare unique identifiers
+     
+        - Parameters:
+            - object: Another object of the same type
+     
+        - Returns: `true` if both objects have the same unique identifier
+    */
     override func isEqual(object: AnyObject?) -> Bool {
         if let otherExperience = object as? NGDMExperience {
             return otherExperience.id == id
@@ -143,15 +178,35 @@ class NGDMExperience: NSObject {
         return false
     }
     
+    /**
+        Check if Experience is an AudioVisual type
+
+        - Returns: `true` if Experience is an AudioVisual type
+    */
     func isAudioVisual() -> Bool {
         return _manifestObject.AudiovisualList?.count > 0
     }
     
+    /**
+        Check if Experience is a Gallery type
+
+        - Returns: `true` if Experience is a Gallery type
+    */
     func isGallery() -> Bool {
         return _manifestObject.GalleryList?.count > 0
     }
     
+    // MARK: Search Methods
+    /**
+        Find an `NGDMExperience` object by unique identifier
+
+        - Parameters:
+            - id: Unique identifier to search for
+
+        - Returns: Object associated with identifier if it exists
+    */
     static func getById(id: String) -> NGDMExperience? {
+        // Populate the `_objectMap` for easy hash table lookup for future requests
         if _objectMap.count == 0 {
             for obj in NextGenDataManager.sharedInstance.manifest.Experiences.ExperienceList {
                 let experience = NGDMExperience(manifestObject: obj)
@@ -175,22 +230,5 @@ class NGDMExperience: NSObject {
         
         return _objectMap[id]
     }
-    
-    /*
-    func timedEvent(time: Double) -> NGETimedEventType? {
-        if let timedSequenceIds = self.TimedSequenceIDList, timedSequenceId = timedSequenceIds.first, timedEvents = NextGenDataManager.sharedInstance.timedEventsByTimedSequenceId(timedSequenceId) {
-            for startTime in timedEvents.keys {
-                if time >= startTime {
-                    if let timedEvent = timedEvents[startTime] {
-                        if Double(timedEvent.EndTimecode.value!) > time {
-                            return timedEvent
-                        }
-                    }
-                }
-            }
-        }
-        
-        return nil
-    }*/
     
 }

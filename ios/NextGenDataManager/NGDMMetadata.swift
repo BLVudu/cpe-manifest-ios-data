@@ -8,17 +8,25 @@
 
 import Foundation
 
+// Wrapper class for `NGEInventoryMetadataType` Manifest object
 class NGDMMetadata {
     
+    // MARK: Static Variables
+    /// Static mapping of all Metadatas - ContentID: Metadata
     private static var objectMap = [String: NGDMMetadata]()
+    
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEInventoryMetadataType!
     
+    /// Unique identifier
     var id: String {
         get {
             return _manifestObject.ContentID
         }
     }
     
+    /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
     private var _localizedInfoManifestObjectMap = [String: NGEBasicMetadataInfoType]()
     private var _localizedInfo: NGEBasicMetadataInfoType? {
         get {
@@ -26,6 +34,7 @@ class NGDMMetadata {
         }
     }
     
+    /// Full title associated with this Metadata
     var title: String {
         get {
             if let str = _localizedInfo?.TitleDisplayUnlimited {
@@ -36,6 +45,7 @@ class NGDMMetadata {
         }
     }
     
+    /// Full description or summary associated with this Metadata
     var description: String {
         get {
             if let str = _localizedInfo?.Summary4000?.value {
@@ -54,20 +64,37 @@ class NGDMMetadata {
         }
     }
     
-    var thumbnailImagePath: String? {
+    /// Image URL to be used for display
+    var imageURL: NSURL? {
         get {
-            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.first {
-                return artReference.value
+            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.first, url = artReference.value {
+                return NSURL(string: url)!
             }
             
             return nil
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Metadata
+     
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+     */
     init(manifestObject: NGEInventoryMetadataType) {
         _manifestObject = manifestObject
     }
     
+    // MARK: Helper Methods
+    /**
+        Get localized info associated with this Metadata by language
+
+        - Parameters:
+            - language: Desired language to search for
+
+        - Returns: LocalizedInfo for the desired language if it exists
+    */
     func localizedInfo(language: String) -> NGEBasicMetadataInfoType? {
         if _localizedInfoManifestObjectMap.count == 0 {
             if let localizedInfoList = _manifestObject.BasicMetadata?.LocalizedInfoList {
@@ -80,6 +107,14 @@ class NGDMMetadata {
         return _localizedInfoManifestObjectMap[language]
     }
     
+    /**
+        Find any custom identifier associated with this Experience
+     
+        - Parameters:
+            - namespace: The namespace of the custom identifier used in the Manifest (e.g. "thetake")
+     
+        - Returns: The value of the custom identifier if it exists
+     */
     func customIdentifier(namespace: String) -> String? {
         if let altIdentifierList = _manifestObject.BasicMetadata?.AltIdentifierList {
             for altIdentifier in altIdentifierList {
@@ -92,6 +127,15 @@ class NGDMMetadata {
         return nil
     }
     
+    // MARK: Search Methods
+    /**
+        Find an `NGDMMetadata` object by unique identifier
+     
+        - Parameters:
+            - id: Unique identifier to search for
+     
+        - Returns: Object associated with identifier if it exists
+     */
     static func getById(id: String) -> NGDMMetadata? {
         if objectMap.count == 0 {
             if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.MetadataList {

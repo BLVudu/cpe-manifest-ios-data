@@ -8,17 +8,25 @@
 
 import Foundation
 
+// Wrapper class for `NGEPresentationType` Manifest object
 class NGDMPresentation {
     
+    // MARK: Static Variables
+    /// Static mapping of all Presentations - PresentationID: Presentation
     private static var _objectMap = [String: NGDMPresentation]()
+    
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEPresentationType!
     
+    /// Unique identifier
     var id: String {
         get {
             return _manifestObject.PresentationID
         }
     }
     
+    /// Video URL to be used for display
     var videoURL: NSURL? {
         get {
             if let trackMetadata = _manifestObject.TrackMetadataList.first,
@@ -33,10 +41,26 @@ class NGDMPresentation {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Presentation
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEPresentationType) {
         _manifestObject = manifestObject
     }
     
+    // MARK: Search Methods
+    /**
+        Find an `NGDMPresentation` object by unique identifier
+    
+        - Parameters:
+            - id: Unique identifier to search for
+    
+        - Returns: Object associated with identifier if it exists
+    */
     static func getById(id: String) -> NGDMPresentation? {
         if _objectMap.count == 0 {
             for obj in NextGenDataManager.sharedInstance.manifest.Presentations.PresentationList {

@@ -8,10 +8,14 @@
 
 import Foundation
 
+// Wrapper class for `NGEExperienceAppType` Manifest object
 class NGDMExperienceApp {
     
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEExperienceAppType!
     
+    /// Metadata associated with this ExperienceApp
     private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
         get {
@@ -23,16 +27,20 @@ class NGDMExperienceApp {
         }
     }
     
+    /// Image URL to be used for display
     var imageURL: NSURL? {
         get {
-            if let thumbnailImagePath = metadata?.thumbnailImagePath {
-                return NSURL(string: thumbnailImagePath)
-            }
-            
-            return nil
+            return metadata?.imageURL
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new ExperienceApp
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEExperienceAppType) {
         _manifestObject = manifestObject
     }

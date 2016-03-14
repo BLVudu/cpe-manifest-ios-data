@@ -8,17 +8,25 @@
 
 import Foundation
 
+// Wrapper class for `NGEInventoryImageType` Manifest object
 class NGDMImage {
     
+    // MARK: Static Variables
+    /// Static mapping of all Images - ImageID: Image
     private static var _objectMap = [String: NGDMImage]()
+    
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEInventoryImageType!
     
+    /// Unique identifier
     var id: String {
         get {
             return _manifestObject.ImageID!
         }
     }
     
+    /// URL associated with this Image
     private var _url: NSURL!
     var url: NSURL? {
         get {
@@ -32,10 +40,26 @@ class NGDMImage {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Image
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEInventoryImageType) {
         _manifestObject = manifestObject
     }
     
+    // MARK: Search Methods
+    /**
+        Find an `NGDMImage` object by unique identifier
+    
+        - Parameters:
+            - id: Unique identifier to search for
+    
+        - Returns: Object associated with identifier if it exists
+    */
     static func getById(id: String) -> NGDMImage? {
         if _objectMap.count == 0 {
             if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.ImageList {

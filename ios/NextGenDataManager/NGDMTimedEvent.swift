@@ -8,10 +8,14 @@
 
 import Foundation
 
+// Wrapper class for `NGETimedEventType` Manifest object
 class NGDMTimedEvent: NSObject {
     
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGETimedEventType!
     
+    /// Unique identifier
     private var _id: String!
     var id: String {
         get {
@@ -33,6 +37,7 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
+    /// The TimedEvent's start time
     var startTime: Double {
         get {
             if let str = _manifestObject.StartTimecode.value {
@@ -43,6 +48,7 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
+    /// The TimedEvent's end time
     var endTime: Double {
         get {
             if let str = _manifestObject.EndTimecode.value {
@@ -53,6 +59,7 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
+    /// Text value associated with this TimedEvent if it exists
     var text: String? {
         get {
             if isTextItem() {
@@ -65,6 +72,7 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
+    /// AppGroup associated with this TimedEvent if it exists
     var appGroup: NGDMAppGroup? {
         get {
             if isAppGroup() {
@@ -75,10 +83,26 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new NGETimedEventType
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGETimedEventType) {
         _manifestObject = manifestObject
     }
     
+    // MARK: Helper Methods
+    /**
+        Overrides default equality check to compare unique identifiers
+    
+        - Parameters:
+            - object: Another object of the same type
+    
+        - Returns: `true` if both objects have the same unique identifier
+    */
     override func isEqual(object: AnyObject?) -> Bool {
         if let otherTimedEvent = object as? NGDMTimedEvent {
             return id == otherTimedEvent.id
@@ -87,26 +111,59 @@ class NGDMTimedEvent: NSObject {
         return false
     }
     
+    /**
+        Check if this is a text-based TimedEvent (e.g. trivia)
+
+        - Returns: `true` if this is a text-based TimedEvent
+    */
     func isTextItem() -> Bool {
         return _manifestObject.TextGroupID != nil
     }
     
+    /**
+        Check if this is an AudioVisual-based TimedEvent (e.g. deleted scene)
+     
+        - Returns: `true` if this is an AudioVisual-based TimedEvent
+     */
     func isAudioVisual() -> Bool {
         return _manifestObject.PresentationID != nil
     }
     
+    /**
+        Check if this is a Gallery-based TimedEvent (e.g. image gallery)
+     
+        - Returns: `true` if this is a Gallery-based TimedEvent
+     */
     func isGallery() -> Bool {
         return _manifestObject.GalleryID != nil
     }
     
+    /**
+        Check if this is an AppGroup-based TimedEvent (e.g. external HTML5 app)
+     
+        - Returns: `true` if this is an AppGroup-based TimedEvent
+     */
     func isAppGroup() -> Bool {
         return _manifestObject.AppGroupID != nil
     }
     
+    /**
+        Check if this is a Product-based TimedEvent (e.g. shop this scene with TheTake)
+     
+        - Returns: `true` if this is a Product-based TimedEvent
+     */
     func isProduct() -> Bool {
         return _manifestObject.ProductID != nil
     }
     
+    /**
+        Check if this is a Product-based TimedEvent within the given namespace
+     
+        - Parameters:
+            - namespace: The namespace in which to search for a product
+     
+        - Returns: `true` if this is a Product-based TimedEvent within the given `namespace`
+     */
     func isProduct(namespace: String) -> Bool {
         if let productId = _manifestObject.ProductID {
             return productId.Namespace == namespace
@@ -115,6 +172,14 @@ class NGDMTimedEvent: NSObject {
         return false
     }
     
+    /**
+        Find the AudioVisual associated with this TimedEvent for the given Experience
+     
+        - Parameters:
+            - experience: The Experience in which to search for an AudioVisual associated with this TimedEvent
+     
+        - Returns: AudioVisual associated with this TimedEvent if it exists
+     */
     func getAudioVisual(experience: NGDMExperience) -> NGDMAudioVisual? {
         if isAudioVisual() {
             return experience.audioVisuals[_manifestObject.PresentationID]
@@ -123,6 +188,14 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
+    /**
+        Find the Gallery associated with this TimedEvent for the given Experience
+     
+        - Parameters:
+            - experience: The Experience in which to search for a Gallery associated with this TimedEvent
+     
+        - Returns: Gallery associated with this TimedEvent if it exists
+     */
     func getGallery(experience: NGDMExperience) -> NGDMGallery? {
         if isGallery() {
             return experience.galleries[_manifestObject.GalleryID]
@@ -131,6 +204,14 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
+    /**
+        Find the ExperienceApp associated with this TimedEvent for the given Experience
+     
+        - Parameters:
+            - experience: The Experience in which to search for an ExperienceApp associated with this TimedEvent
+     
+        - Returns: ExperienceApp associated with this TimedEvent if it exists
+     */
     func getExperienceApp(experience: NGDMExperience) -> NGDMExperienceApp? {
         if isAppGroup() {
             return experience.apps[_manifestObject.AppGroupID]
@@ -139,6 +220,14 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
+    /**
+        Get the value of the description text or summary for this TimedEvent\
+
+        - Parameters:
+            - experience: The parent Experience to be used for the description value if this TimedEvent is not text-based
+
+        - Returns: The value of the TimedEvent's description text, if it exists
+    */
     func getDescriptionText(experience: NGDMExperience) -> String? {
         if isAudioVisual() {
             return getAudioVisual(experience)?.metadata?.title
@@ -151,6 +240,14 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
+    /**
+        Get the image URL associated with this TimedEvent
+     
+        - Parameters:
+            - experience: The parent Experience to be used for the image URL lookup
+     
+        - Returns: The image URL associated with this TimedEvent
+     */
     func getImageURL(experience: NGDMExperience) -> NSURL? {
         if isAudioVisual() {
             return getAudioVisual(experience)?.imageURL

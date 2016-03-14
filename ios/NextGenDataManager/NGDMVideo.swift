@@ -8,17 +8,25 @@
 
 import Foundation
 
+// Wrapper class for `NGEInventoryVideoType` Manifest object
 class NGDMVideo {
     
+    // MARK: Static Variables
+    /// Static mapping of all Videos - VideoTrackID: Video
     private static var _objectMap = [String: NGDMVideo]()
+    
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEInventoryVideoType!
     
+    /// Unique identifier
     var id: String {
         get {
             return _manifestObject.VideoTrackID
         }
     }
     
+    /// URL associated with this Video
     var url: NSURL? {
         get {
             if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
@@ -29,10 +37,26 @@ class NGDMVideo {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Video
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEInventoryVideoType) {
         _manifestObject = manifestObject
     }
     
+    // MARK: Search Methods
+    /**
+        Find an `NGDMVideo` object by unique identifier
+    
+        - Parameters:
+            - id: Unique identifier to search for
+    
+        - Returns: Object associated with identifier if it exists
+    */
     static func getById(id: String) -> NGDMVideo? {
         if _objectMap.count == 0 {
             if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.VideoList {

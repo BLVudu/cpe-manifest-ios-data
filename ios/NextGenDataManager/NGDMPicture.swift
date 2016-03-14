@@ -8,10 +8,14 @@
 
 import Foundation
 
+// Wrapper class for `NGEPictureType` Manifest object
 class NGDMPicture {
     
+    // MARK: Instance Variables
+    /// Reference to the root Manifest object
     private var _manifestObject: NGEPictureType!
     
+    /// Image URL to be used for full display
     var imageURL: NSURL? {
         get {
             if let image = NGDMImage.getById(_manifestObject.ImageID) {
@@ -22,6 +26,7 @@ class NGDMPicture {
         }
     }
     
+    /// Image URL to be used for thumbnail display
     var thumbnailImageURL: NSURL? {
         get {
             if let imageId = _manifestObject.ThumbnailImageID, image = NGDMImage.getById(imageId) {
@@ -32,6 +37,13 @@ class NGDMPicture {
         }
     }
     
+    // MARK: Initialization
+    /**
+        Initializes a new Picture
+    
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+    */
     init(manifestObject: NGEPictureType) {
         _manifestObject = manifestObject
     }
