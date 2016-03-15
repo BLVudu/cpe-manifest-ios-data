@@ -27,6 +27,13 @@ class NGDMExperienceApp {
         }
     }
     
+    /// Title associated with this ExperienceApp
+    var title: String? {
+        get {
+            return metadata?.title
+        }
+    }
+    
     /// Image URL to be used for display
     var imageURL: NSURL? {
         get {

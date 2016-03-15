@@ -221,7 +221,7 @@ class NGDMTimedEvent: NSObject {
     }
     
     /**
-        Get the value of the description text or summary for this TimedEvent\
+        Get the value of the description text or summary for this TimedEvent
 
         - Parameters:
             - experience: The parent Experience to be used for the description value if this TimedEvent is not text-based
@@ -258,6 +258,18 @@ class NGDMTimedEvent: NSObject {
         }
         
         return nil
+    }
+    
+    /**
+        Check if this TimedEvent has an image associated with it
+     
+        - Parameters:
+            - experience: The parent Experience to be used for the image lookup
+
+        - Returns: `true` if this TimedEvent has an image associated with it
+    */
+    func hasImage(experience: NGDMExperience) -> Bool {
+        return getImageURL(experience) != nil
     }
     
 }
