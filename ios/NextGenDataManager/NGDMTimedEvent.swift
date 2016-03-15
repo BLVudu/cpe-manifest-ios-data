@@ -28,8 +28,10 @@ class NGDMTimedEvent: NSObject {
                     _id = _manifestObject.AppGroupID
                 } else if isTextItem() {
                     _id = "\(_manifestObject.TextGroupID.value)\(_manifestObject.TextGroupID.index)"
+                } else if isLocation() {
+                    _id = _manifestObject.Location.Name
                 } else {
-                    _id = ""
+                    _id = NSUUID().UUIDString
                 }
             }
             
@@ -68,6 +70,23 @@ class NGDMTimedEvent: NSObject {
                 }
             }
             
+            if isLocation() {
+                if let location = location {
+                    return location.name
+                }
+            }
+            
+            return nil
+        }
+    }
+    
+    /// Extra description text associated with this TimedEvent if it exists
+    var extraDescriptionText: String? {
+        get {
+            if isLocation() {
+                return location?.address
+            }
+            
             return nil
         }
     }
@@ -80,6 +99,18 @@ class NGDMTimedEvent: NSObject {
             }
             
             return nil
+        }
+    }
+    
+    /// Location associated with this TimedEvent if it exists
+    private var _location: NGDMLocation!
+    var location: NGDMLocation? {
+        get {
+            if _location == nil && isLocation() {
+                _location = NGDMLocation(manifestObject: _manifestObject.Location)
+            }
+            
+            return _location
         }
     }
     
@@ -173,6 +204,15 @@ class NGDMTimedEvent: NSObject {
     }
     
     /**
+        Check if this is a Location-based TimedEvent (e.g. scene location)
+
+        - Returns: `true` if this is a Location-based TimedEvent
+    */
+    func isLocation() -> Bool {
+        return _manifestObject.Location != nil
+    }
+    
+    /**
         Find the AudioVisual associated with this TimedEvent for the given Experience
      
         - Parameters:
@@ -226,7 +266,7 @@ class NGDMTimedEvent: NSObject {
         - Parameters:
             - experience: The parent Experience to be used for the description value if this TimedEvent is not text-based
 
-        - Returns: The value of the TimedEvent's description text, if it exists
+        - Returns: The value of the TimedEvent's description text if it exists
     */
     func getDescriptionText(experience: NGDMExperience) -> String? {
         if isAudioVisual() {
@@ -235,6 +275,10 @@ class NGDMTimedEvent: NSObject {
         
         if isTextItem() {
             return text
+        }
+        
+        if isLocation() {
+            return location?.name
         }
         
         return nil
