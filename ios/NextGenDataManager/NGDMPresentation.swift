@@ -26,14 +26,24 @@ class NGDMPresentation {
         }
     }
     
-    /// Video URL to be used for display
-    var videoURL: NSURL? {
+    /// Video associated with this Presentation
+    var video: NGDMVideo? {
         get {
             if let trackMetadata = _manifestObject.TrackMetadataList.first,
                     videoTrackReference = trackMetadata.VideoTrackReferenceList?.first,
                     videoTrackId = videoTrackReference.VideoTrackIDList?.first,
-                    video = NGDMVideo.getById(videoTrackId),
-                    videoURL = video.url {
+                    video = NGDMVideo.getById(videoTrackId) {
+                return video
+            }
+            
+            return nil
+        }
+    }
+    
+    /// Video URL to be used for display
+    var videoURL: NSURL? {
+        get {
+            if let videoURL = video?.url {
                 return videoURL
             }
             

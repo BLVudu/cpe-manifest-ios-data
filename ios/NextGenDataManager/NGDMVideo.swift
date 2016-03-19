@@ -37,6 +37,17 @@ class NGDMVideo {
         }
     }
     
+    /// Video length in seconds
+    var runtimeInSeconds: NSTimeInterval {
+        get {
+            if let lengthString = _manifestObject.Encoding?.ActualLength {
+                return lengthString.iso8601TimeInSeconds()
+            }
+            
+            return 0
+        }
+    }
+    
     // MARK: Initialization
     /**
         Initializes a new Video

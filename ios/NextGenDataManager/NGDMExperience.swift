@@ -114,14 +114,36 @@ class NGDMExperience: NSObject {
         }
     }
     
-    /// Video URL to be used for video display
-    var videoURL: NSURL? {
+    /// AudioVisual associated with this Experience
+    var presentation: NGDMPresentation? {
         get {
             if let audioVisual = _manifestObject.AudiovisualList?.first, presentation = NGDMPresentation.getById(audioVisual.PresentationID) {
-                return presentation.videoURL
+                return presentation
             }
             
             return nil
+        }
+    }
+    
+    /// Video URL to be used for video display
+    var videoURL: NSURL? {
+        get {
+            if let videoURL = presentation?.videoURL {
+                return videoURL
+            }
+            
+            return nil
+        }
+    }
+    
+    /// Video runtime length in seconds
+    var videoRuntime: NSTimeInterval {
+        get {
+            if let runtime = presentation?.video?.runtimeInSeconds {
+                return runtime
+            }
+            
+            return 0
         }
     }
     
