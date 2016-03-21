@@ -218,6 +218,19 @@ class NGDMExperience: NSObject {
         return _manifestObject.GalleryList?.count > 0
     }
     
+    /**
+        Check if Experience is a parent of child Gallery-type Experiences
+
+        - Returns: `true` if Expreience is a parent of child Gallery-type Experiences
+    */
+    func isGalleryList() -> Bool {
+        if let firstChildExperience = childExperiences.first {
+            return firstChildExperience.isGallery()
+        }
+        
+        return false
+    }
+    
     // MARK: Search Methods
     /**
         Find an `NGDMExperience` object by unique identifier
