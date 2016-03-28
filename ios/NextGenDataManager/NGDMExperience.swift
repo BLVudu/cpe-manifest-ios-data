@@ -101,7 +101,7 @@ class NGDMExperience: NSObject {
             }
             
             // Experience has an App with an image associated with it
-            if let childList = _manifestObject.AppList, childItem = childList.first, metadata = NGDMMetadata.getById(childItem.ContentID!) {
+            if let childList = _manifestObject.AppList, childItem = childList.first, contentID = childItem.ContentID, metadata = NGDMMetadata.getById(contentID) {
                 return metadata.imageURL
             }
             
@@ -231,6 +231,15 @@ class NGDMExperience: NSObject {
         return false
     }
     
+    /**
+        Check if this is a shopping-based Experience (e.g. with TheTake)
+     
+        - Returns: `true` if this is a shopping based Experience
+     */
+    func isShopping() -> Bool {
+        return apps[kTheTakeIdentifierNamespace] != nil
+    }
+    
     // MARK: Search Methods
     /**
         Find an `NGDMExperience` object by unique identifier
@@ -257,7 +266,8 @@ class NGDMExperience: NSObject {
                 
                 if let appList = obj.AppList {
                     for appObj in appList {
-                        experience.apps[appObj.AppGroupID] = NGDMExperienceApp(manifestObject: appObj)
+                        let appID = (appObj.AppGroupID != nil ? appObj.AppGroupID : appObj.Type)
+                        experience.apps[appID] = NGDMExperienceApp(manifestObject: appObj)
                     }
                 }
             }
