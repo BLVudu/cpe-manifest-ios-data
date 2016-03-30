@@ -20,7 +20,9 @@ class NGDMExperienceApp {
     var metadata: NGDMMetadata? {
         get {
             if _metadata == nil {
-                _metadata = NGDMMetadata.getById(_manifestObject.ContentID!)
+                if let contentID = _manifestObject.ContentID {
+                    _metadata = NGDMMetadata.getById(contentID)
+                }
             }
             
             return _metadata

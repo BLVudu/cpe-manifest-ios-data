@@ -91,18 +91,24 @@ class NGDMExperience: NSObject {
             }
             
             // Experience has an AudioVisual with an image associated with it
-            if let childList = _manifestObject.AudiovisualList, childItem = childList.first, metadata = NGDMMetadata.getById(childItem.ContentID) {
-                return metadata.imageURL
+            if isAudioVisual() {
+                if let audioVisualID = audioVisuals.keys.first, audioVisual = audioVisuals[audioVisualID] {
+                    return audioVisual.imageURL
+                }
             }
             
             // Experience has a Gallery with an image associated with it
-            if let childList = _manifestObject.GalleryList, childItem = childList.first, metadata = NGDMMetadata.getById(childItem.ContentID!) {
-                return metadata.imageURL
+            if isGallery() {
+                if let galleryID = galleries.keys.first, gallery = galleries[galleryID] {
+                    return gallery.imageURL
+                }
             }
             
             // Experience has an App with an image associated with it
-            if let childList = _manifestObject.AppList, childItem = childList.first, contentID = childItem.ContentID, metadata = NGDMMetadata.getById(contentID) {
-                return metadata.imageURL
+            if isApp() {
+                if let appID = apps.keys.first, app = apps[appID] {
+                    return app.imageURL
+                }
             }
             
             // Experience has a child Experience that should be used for the image
@@ -229,6 +235,15 @@ class NGDMExperience: NSObject {
         }
         
         return false
+    }
+    
+    /**
+        Check if Experience is an App type
+ 
+        - Returns: `true` if Experience is an App type
+    */
+    func isApp() -> Bool {
+        return _manifestObject.AppList?.count > 0
     }
     
     /**

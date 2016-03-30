@@ -27,6 +27,32 @@ class NGDMGallery {
         }
     }
     
+    /// Title associated with this Gallery
+    var title: String? {
+        get {
+            if let galleryName = _manifestObject.GalleryNameList?.first?.value {
+                return galleryName
+            }
+            
+            return metadata?.title
+        }
+    }
+    
+    /// Image URL to be used for display
+    var imageURL: NSURL? {
+        get {
+            if let imageURL = metadata?.imageURL {
+                return imageURL
+            }
+            
+            if let picture = pictures.first {
+                return picture.thumbnailImageURL
+            }
+            
+            return nil
+        }
+    }
+    
     /// Pictures associated with this Gallery
     var pictures: [NGDMPicture] {
         get {

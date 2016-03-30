@@ -269,6 +269,10 @@ class NGDMTimedEvent: NSObject {
         - Returns: The value of the TimedEvent's description text if it exists
     */
     func getDescriptionText(experience: NGDMExperience) -> String? {
+        if isGallery() {
+            return getGallery(experience)?.title
+        }
+        
         if isAudioVisual() {
             return getAudioVisual(experience)?.metadata?.title
         }
@@ -293,6 +297,10 @@ class NGDMTimedEvent: NSObject {
         - Returns: The image URL associated with this TimedEvent
      */
     func getImageURL(experience: NGDMExperience) -> NSURL? {
+        if isGallery() {
+            return getGallery(experience)?.imageURL
+        }
+        
         if isAudioVisual() {
             return getAudioVisual(experience)?.imageURL
         }

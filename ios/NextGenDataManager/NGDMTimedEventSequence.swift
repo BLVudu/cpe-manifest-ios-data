@@ -20,7 +20,19 @@ class NGDMTimedEventSequence {
     private var _manifestObject: NGETimedEventSequenceType!
     
     /// Timed events associated with this TimedEventSequence - StartTime: TimedEvent
-    var timedEvents = [Double: NGDMTimedEvent]()
+    private var _timedEvents = [Double: NGDMTimedEvent]()
+    var timedEvents: [Double: NGDMTimedEvent] {
+        get {
+            if _timedEvents.count == 0 {
+                for eventObj in _manifestObject.TimedEventList {
+                    let timedEvent = NGDMTimedEvent(manifestObject: eventObj)
+                    _timedEvents[timedEvent.startTime] = timedEvent
+                }
+            }
+            
+            return _timedEvents
+        }
+    }
     
     /// Unique identifier
     var id: String {
@@ -74,11 +86,6 @@ class NGDMTimedEventSequence {
                 for obj in objList {
                     let timedEventSequence = NGDMTimedEventSequence(manifestObject: obj)
                     _objectMap[obj.TimedSequenceID] = timedEventSequence
-                    
-                    for eventObj in obj.TimedEventList {
-                        let timedEvent = NGDMTimedEvent(manifestObject: eventObj)
-                        timedEventSequence.timedEvents[timedEvent.startTime] = timedEvent
-                    }
                 }
             }
         }
