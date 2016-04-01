@@ -75,6 +75,13 @@ class NGDMMetadata {
         }
     }
     
+    /// Direct access to Manifest PeopleList
+    var PeopleList: [NGEBasicMetadataPeopleType]? {
+        get {
+            return _manifestObject.BasicMetadata?.PeopleList
+        }
+    }
+    
     // MARK: Initialization
     /**
         Initializes a new Metadata
