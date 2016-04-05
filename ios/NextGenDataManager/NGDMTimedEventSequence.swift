@@ -21,6 +21,7 @@ class NGDMTimedEventSequence {
     
     /// Timed events associated with this TimedEventSequence - StartTime: TimedEvent
     private var _timedEvents = [Double: NGDMTimedEvent]()
+    private var _sortedTimedEventStartTimes: [Double]?
     var timedEvents: [Double: NGDMTimedEvent] {
         get {
             if _timedEvents.count == 0 {
@@ -28,6 +29,8 @@ class NGDMTimedEventSequence {
                     let timedEvent = NGDMTimedEvent(manifestObject: eventObj)
                     _timedEvents[timedEvent.startTime] = timedEvent
                 }
+                
+                _sortedTimedEventStartTimes = _timedEvents.keys.sort()
             }
             
             return _timedEvents
@@ -62,9 +65,31 @@ class NGDMTimedEventSequence {
         - Returns: A TimedEvent that occurs at the given `time` if it exists
     */
     func timedEvent(time: Double) -> NGDMTimedEvent? {
-        for startTime in timedEvents.keys.sort() {
-            if time >= startTime && timedEvents[startTime]!.endTime > time {
-                return timedEvents[startTime]
+        if timedEvents.count > 0 {
+            if let startTimes = _sortedTimedEventStartTimes {
+                var lowerIndex = 0;
+                var upperIndex = startTimes.count - 1
+                
+                while (true) {
+                    let currentIndex = (lowerIndex + upperIndex) / 2
+                    let startTime = startTimes[currentIndex]
+                    
+                    if lowerIndex > upperIndex {
+                        return nil
+                    }
+                    
+                    if startTime > time {
+                        upperIndex = currentIndex - 1
+                    } else {
+                        if let timedEvent = timedEvents[startTime] {
+                            if timedEvent.endTime > time {
+                                return timedEvent
+                            }
+                        }
+                        
+                        lowerIndex = currentIndex + 1
+                    }
+                }
             }
         }
         
