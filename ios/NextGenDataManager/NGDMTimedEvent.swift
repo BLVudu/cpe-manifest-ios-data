@@ -80,17 +80,6 @@ class NGDMTimedEvent: NSObject {
         }
     }
     
-    /// Extra description text associated with this TimedEvent if it exists
-    var extraDescriptionText: String? {
-        get {
-            if isLocation() {
-                return location?.address
-            }
-            
-            return nil
-        }
-    }
-    
     /// AppGroup associated with this TimedEvent if it exists
     var appGroup: NGDMAppGroup? {
         get {
