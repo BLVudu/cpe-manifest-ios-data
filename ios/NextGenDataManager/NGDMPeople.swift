@@ -219,17 +219,21 @@ class TalentFilm: NSObject {
         title = baselineInfo[BaselineAPIUtil.Keys.ProjectName] as! String
     }
     
-    func getImageURL(successBlock: (imageURL: NSURL?) -> Void) {
+    func getImageURL(successBlock: (imageURL: NSURL?) -> Void) -> NSURLSessionDataTask?  {
         if imageURL != nil {
             successBlock(imageURL: imageURL!)
-        } else if BaselineAPIUtil.sharedInstance.isActive() {
-            BaselineAPIUtil.sharedInstance.getFilmImageURL(id, successBlock: { (imageURL) in
+            return nil
+        }
+        
+        if BaselineAPIUtil.sharedInstance.isActive() {
+            return BaselineAPIUtil.sharedInstance.getFilmImageURL(id, successBlock: { (imageURL) in
                 self.imageURL = imageURL
                 successBlock(imageURL: imageURL)
             })
-        } else {
-            successBlock(imageURL: nil)
         }
+        
+        successBlock(imageURL: nil)
+        return nil
     }
     
 }
