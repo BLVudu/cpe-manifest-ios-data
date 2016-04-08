@@ -67,7 +67,7 @@ class NGDMMetadata {
     /// Image URL to be used for display
     var imageURL: NSURL? {
         get {
-            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.first, url = artReference.value {
+            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.reverse().first, url = artReference.value {
                 return NSURL(string: url)!
             }
             

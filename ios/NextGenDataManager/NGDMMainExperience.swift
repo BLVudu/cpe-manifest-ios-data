@@ -14,12 +14,12 @@ class NGDMMainExperience: NGDMExperience {
     // MARK: Instance Variables
     /// Child Experience associated with the extras, or out-of-movie, features
     var extrasExperience: NGDMExperience! {
-        return childExperiences[0]
+        return childExperiences.first
     }
     
     /// Child Experience associated with the synced, or interior, extras
     var syncedExperience: NGDMExperience! {
-        return childExperiences[1]
+        return childExperiences.last
     }
     
     /// AudioVisual associated with the main experience, typically the feature film
