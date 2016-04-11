@@ -161,7 +161,7 @@ class Talent: NGDMPeople {
     func getBiography(successBlock: (biography: String?) -> Void) {
         if biography != nil {
             successBlock(biography: biography)
-        } else if BaselineAPIUtil.sharedInstance.isActive() {
+        } else if ConfigManager.sharedInstance.hasBaselineAPI {
             BaselineAPIUtil.sharedInstance.getTalentBio(id, successBlock: { (biography) in
                 self.biography = biography
                 successBlock(biography: self.biography)
@@ -174,7 +174,7 @@ class Talent: NGDMPeople {
     func getSocialAccounts(successBlock: (socialAccounts: [TalentSocialAccount]?) -> Void) {
         if socialAccounts != nil {
             successBlock(socialAccounts: socialAccounts)
-        } else if BaselineAPIUtil.sharedInstance.isActive() {
+        } else if ConfigManager.sharedInstance.hasBaselineAPI {
             BaselineAPIUtil.sharedInstance.getTalentSocialAccounts(id, successBlock: { (socialAccounts) in
                 self.socialAccounts = socialAccounts
                 successBlock(socialAccounts: socialAccounts)
@@ -187,7 +187,7 @@ class Talent: NGDMPeople {
     func getFilmography(successBlock: (films: [TalentFilm]) -> Void) {
         if films != nil {
             successBlock(films: films!)
-        } else if BaselineAPIUtil.sharedInstance.isActive() {
+        } else if ConfigManager.sharedInstance.hasBaselineAPI {
             BaselineAPIUtil.sharedInstance.getTalentFilmography(id, successBlock: { (films) in
                 self.films = films
                 successBlock(films: films)
@@ -225,7 +225,7 @@ class TalentFilm: NSObject {
             return nil
         }
         
-        if BaselineAPIUtil.sharedInstance.isActive() {
+        if ConfigManager.sharedInstance.hasBaselineAPI {
             return BaselineAPIUtil.sharedInstance.getFilmImageURL(id, successBlock: { (imageURL) in
                 self.imageURL = imageURL
                 successBlock(imageURL: imageURL)

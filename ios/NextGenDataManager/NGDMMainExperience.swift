@@ -78,7 +78,7 @@ class NGDMMainExperience: NGDMExperience {
                 let talent = Talent(manifestObject: person)
                 talents[talent.id] = talent
             }
-        } else if BaselineAPIUtil.sharedInstance.isActive() {
+        } else if ConfigManager.sharedInstance.hasBaselineAPI {
             BaselineAPIUtil.sharedInstance.prefetchCredits({ (talents) in
                 self.talents = talents
             })

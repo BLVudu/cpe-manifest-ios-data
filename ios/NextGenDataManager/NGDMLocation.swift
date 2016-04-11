@@ -14,24 +14,24 @@ class NGDMLocation {
     private var _manifestObject: NGEEventLocationType!
     
     /// Name of this Location
-    var name: String {
+    var name: String? {
         get {
             if let name = _manifestObject.Name {
                 return name
             }
             
-            return ""
+            return nil
         }
     }
     
     /// Address of this Location
-    var address: String {
+    var address: String? {
         get {
             if let address = _manifestObject.Address {
                 return address
             }
             
-            return ""
+            return nil
         }
     }
     
