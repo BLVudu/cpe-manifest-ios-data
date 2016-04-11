@@ -27,13 +27,21 @@ class NGDMVideo {
     }
     
     /// URL associated with this Video
+    private var _url: NSURL!
     var url: NSURL? {
         get {
-            if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
-                return NSURL(string: containerLocation)
+            if _url == nil {
+                if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
+                    if containerLocation.containsString("file://") {
+                        let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
+                        _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+                    } else {
+                        _url = NSURL(string: containerLocation)
+                    }
+                }
             }
             
-            return nil
+            return _url
         }
     }
     

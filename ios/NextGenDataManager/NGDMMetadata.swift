@@ -65,13 +65,21 @@ class NGDMMetadata {
     }
     
     /// Image URL to be used for display
+    private var _imageURL: NSURL!
     var imageURL: NSURL? {
         get {
-            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.reverse().first, url = artReference.value {
-                return NSURL(string: url)!
+            if _imageURL == nil {
+                if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.reverse().first, url = artReference.value {
+                    if url.containsString("file://") {
+                        let tempURL = NSURL(fileURLWithPath: url.stringByReplacingOccurrencesOfString("file://", withString: ""))
+                        _imageURL = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+                    } else {
+                        _imageURL = NSURL(string: url)
+                    }
+                }
             }
             
-            return nil
+            return _imageURL
         }
     }
     
