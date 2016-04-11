@@ -35,18 +35,18 @@ class NGDMMetadata {
     }
     
     /// Full title associated with this Metadata
-    var title: String {
+    var title: String? {
         get {
             if let str = _localizedInfo?.TitleDisplayUnlimited {
                 return str
             }
             
-            return ""
+            return nil
         }
     }
     
     /// Full description or summary associated with this Metadata
-    var description: String {
+    var description: String? {
         get {
             if let str = _localizedInfo?.Summary4000?.value {
                 return str
@@ -60,7 +60,7 @@ class NGDMMetadata {
                 return str
             }
             
-            return ""
+            return nil
         }
     }
     
