@@ -30,7 +30,7 @@ class NGDMMetadata {
     private var _localizedInfoManifestObjectMap = [String: NGEBasicMetadataInfoType]()
     private var _localizedInfo: NGEBasicMetadataInfoType? {
         get {
-            return localizedInfo("en")
+            return localizedInfo(NSLocale.currentLanguage())
         }
     }
     
@@ -119,7 +119,7 @@ class NGDMMetadata {
             }
         }
         
-        return _localizedInfoManifestObjectMap[language]
+        return (_localizedInfoManifestObjectMap[language] != nil ? _localizedInfoManifestObjectMap[language] : _localizedInfoManifestObjectMap["en"])
     }
     
     /**
