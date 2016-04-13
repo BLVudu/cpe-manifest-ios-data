@@ -70,6 +70,19 @@ class NGDMExperience: NSObject {
         }
     }
     
+    /// Child of this Experience that is a clip & share Experience
+    var childClipAndShareExperience: NGDMExperience? {
+        get {
+            for experience in childExperiences {
+                if experience.isClipAndShare() {
+                    return experience
+                }
+            }
+            
+            return nil
+        }
+    }
+    
     /// Metadata associated with this Experience
     private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
@@ -212,7 +225,16 @@ class NGDMExperience: NSObject {
         - Returns: `true` if Experience is an AudioVisual type
     */
     func isAudioVisual() -> Bool {
-        return _manifestObject.AudiovisualList?.count > 0
+        return _manifestObject.AudiovisualList?.count > 0 && !isClipAndShare()
+    }
+    
+    /**
+        Check if Experience is for clip & share
+ 
+        - Returns: `true` if Experience is for clip & share
+    */
+    func isClipAndShare() -> Bool {
+        return id.containsString("clipshare")
     }
     
     /**
