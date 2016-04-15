@@ -21,20 +21,20 @@ class NGDMInteractive {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.InteractiveTrackID!
+        if let interactiveTrackID = _manifestObject.InteractiveTrackID {
+            return interactiveTrackID
         }
+        
+        return NSUUID().UUIDString
     }
     
     /// URL associated with this Interactive
     var url: NSURL? {
-        get {
-            if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
-                return NSURL(string: containerLocation)
-            }
-            
-            return nil
+        if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
+            return NSURL(string: containerLocation)
         }
+        
+        return nil
     }
     
     // MARK: Initialization

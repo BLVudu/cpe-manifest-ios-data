@@ -24,9 +24,7 @@ class NGDMTextObject {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.TextObjectID
-        }
+        return _manifestObject.TextObjectID
     }
     
     // MARK: Initialization
@@ -49,12 +47,8 @@ class NGDMTextObject {
 
         - Returns: Value of the child TextString at the given `index` if it exists
     */
-    func textItem(index: Int) -> String {
-        if let textString = textStrings[index] {
-            return textString
-        }
-        
-        return ""
+    func textItem(index: Int) -> String? {
+        return textStrings[index]
     }
     
     // MARK: Search Methods

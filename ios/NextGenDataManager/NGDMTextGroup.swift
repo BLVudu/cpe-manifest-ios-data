@@ -21,9 +21,7 @@ class NGDMTextGroup {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.TextGroupID
-        }
+        return _manifestObject.TextGroupID
     }
     
     // MARK: Initialization
@@ -46,12 +44,12 @@ class NGDMTextGroup {
     
         - Returns: Value of the child TextString at the given `index` if it exists
     */
-    func textItem(index: Int) -> String {
+    func textItem(index: Int) -> String? {
         if let textObjectList = _manifestObject.TextObjectIDList, textObjectId = textObjectList.first, textObject = NGDMTextObject.getById(textObjectId) {
             return textObject.textItem(index)
         }
         
-        return ""
+        return nil
     }
     
     // MARK: Search Methods

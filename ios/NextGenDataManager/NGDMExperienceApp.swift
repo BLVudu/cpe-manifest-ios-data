@@ -16,31 +16,22 @@ class NGDMExperienceApp {
     private var _manifestObject: NGEExperienceAppType!
     
     /// Metadata associated with this ExperienceApp
-    private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
-        get {
-            if _metadata == nil {
-                if let contentID = _manifestObject.ContentID {
-                    _metadata = NGDMMetadata.getById(contentID)
-                }
-            }
-            
-            return _metadata
+        if let contentID = _manifestObject.ContentID {
+            return NGDMMetadata.getById(contentID)
         }
+        
+        return nil
     }
     
     /// Title associated with this ExperienceApp
     var title: String? {
-        get {
-            return metadata?.title
-        }
+        return metadata?.title
     }
     
     /// Image URL to be used for display
     var imageURL: NSURL? {
-        get {
-            return metadata?.imageURL
-        }
+        return metadata?.imageURL
     }
     
     // MARK: Initialization

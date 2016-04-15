@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum NGDMError: ErrorType {
+    case MainExperienceMissing
+    case InMovieExperienceMissing
+    case OutOfMovieExperienceMissing
+}
+
 /// Manager for communicating with parsed Manifest data
 class NextGenDataManager: NSObject {
     
@@ -20,21 +26,9 @@ class NextGenDataManager: NSObject {
     var manifest: NGEMediaManifestType!
     
     /// The Manifest's main Experience associated with the feature film
-    var _mainExperience: NGDMMainExperience!
-    var mainExperience: NGDMMainExperience! {
-        get {
-            if _mainExperience == nil {
-                // FIXME: Assumes the main experience is the first item in the ExperienceList
-                if let manifestObject = manifest.Experiences.ExperienceList.first {
-                    _mainExperience = NGDMMainExperience(manifestObject: manifestObject)
-                }
-            }
-            
-            return _mainExperience
-        }
-    }
+    private var _mainExperience: NGDMMainExperience?
     
-    // MARK: File Loading
+    // MARK: Helper Methods
     /**
         Initializes the `NGEMediaManifestType` object
      
@@ -46,6 +40,27 @@ class NextGenDataManager: NSObject {
     func loadXMLFile(filePath: String!) -> NGEMediaManifestType {
         manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)
         return manifest
+    }
+    
+    /**
+        Get the main Experience (feature film) associated with this Manifest file
+     
+        - Throws: `NGDMError.MainExperienceMissing` if no main Experience is found
+ 
+        - Returns: The main Experience (feature film) associated with this Manifest
+    */
+    func getMainExperience() throws -> NGDMMainExperience {
+        if let experience = _mainExperience {
+            return experience
+        }
+        
+        // IP1: Assumes the main experience is the first item in the ExperienceList
+        guard let manifestObject = manifest.Experiences.ExperienceList.first else {
+            throw NGDMError.MainExperienceMissing
+        }
+        
+        _mainExperience = NGDMMainExperience(manifestObject: manifestObject)
+        return _mainExperience!
     }
     
 }

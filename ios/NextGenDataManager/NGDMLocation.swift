@@ -15,46 +15,30 @@ class NGDMLocation {
     
     /// Name of this Location
     var name: String? {
-        get {
-            if let name = _manifestObject.Name {
-                return name
-            }
-            
-            return nil
-        }
+        return _manifestObject.Name
     }
     
     /// Address of this Location
     var address: String? {
-        get {
-            if let address = _manifestObject.Address {
-                return address
-            }
-            
-            return nil
-        }
+        return _manifestObject.Address
     }
     
     /// Latitude value for this Location's coordinates
     var latitude: Double {
-        get {
-            if let coordinates = _manifestObject.EarthCoordinate {
-                return coordinates.Latitude
-            }
-            
-            return 0
+        if let coordinates = _manifestObject.EarthCoordinate {
+            return coordinates.Latitude
         }
+        
+        return 0
     }
     
     /// Longitude value for this Location's coordinates
     var longitude: Double {
-        get {
-            if let coordinates = _manifestObject.EarthCoordinate {
-                return coordinates.Longitude
-            }
-            
-            return 0
+        if let coordinates = _manifestObject.EarthCoordinate {
+            return coordinates.Longitude
         }
+        
+        return 0
     }
     
     // MARK: Initialization

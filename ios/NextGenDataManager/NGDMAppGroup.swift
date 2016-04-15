@@ -21,20 +21,25 @@ class NGDMAppGroup {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.AppGroupID
-        }
+        return _manifestObject.AppGroupID
     }
     
     /// URL associated with this AppGroup
     var url: NSURL? {
-        get {
-            if let interactiveTrackReference = _manifestObject.InteractiveTrackReferenceList.first, interactive = NGDMInteractive.getById(interactiveTrackReference.InteractiveTrackID) {
-                return interactive.url
-            }
-            
-            return nil
+        if let interactiveTrackReference = _manifestObject.InteractiveTrackReferenceList.first, interactive = NGDMInteractive.getById(interactiveTrackReference.InteractiveTrackID) {
+            return interactive.url
         }
+        
+        return nil
+    }
+    
+    /// Check if this is an HTML5 app
+    var isHTML5: Bool {
+        if let interactiveTrackReference = _manifestObject.InteractiveTrackReferenceList.first, compatibility = interactiveTrackReference.CompatibilityList.first {
+            return compatibility == "HTML5"
+        }
+        
+        return false
     }
     
     // MARK: Initialization
@@ -46,20 +51,6 @@ class NGDMAppGroup {
     */
     init(manifestObject: NGEAppGroupType) {
         _manifestObject = manifestObject
-    }
-    
-    // MARK: Helper Methods
-    /**
-        Check if this is an HTML5 app
-
-        - Returns: `true` if this is an HTML5 app
-    */
-    func isHTML5() -> Bool {
-        if let interactiveTrackReference = _manifestObject.InteractiveTrackReferenceList.first, compatibility = interactiveTrackReference.CompatibilityList.first {
-            return compatibility == "HTML5"
-        }
-        
-        return false
     }
     
     // MARK: Search Methods

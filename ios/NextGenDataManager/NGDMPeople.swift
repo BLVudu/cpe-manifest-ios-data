@@ -18,6 +18,7 @@ enum SocialAccountType {
     case Unknown
     case Facebook
     case Twitter
+    case Instagram
 }
 
 // Wrapper class for `NGEBasicMetadataPeopleType` Manifest object
@@ -40,30 +41,14 @@ class NGDMPeople: NSObject {
     var images = [TalentImage]()
     var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
-    
-    var facebook: String?
-    var facebookID: String?
-    var twitter: String?
     var gallery = [String]()
     
     var thumbnailImageURL: NSURL? {
-        get {
-            if images.count > 0 {
-                return images[0].thumbnailImageURL
-            }
-            
-            return nil
-        }
+        return images.first?.thumbnailImageURL
     }
     
     var fullImageURL: NSURL? {
-        get {
-            if images.count > 0 {
-                return images[0].imageURL
-            }
-            
-            return nil
-        }
+        return images.first?.imageURL
     }
     
     // MARK: Initialization
@@ -199,27 +184,25 @@ class Talent: NGDMPeople {
     
 }
 
-class TalentImage: NSObject {
+public struct TalentImage {
     
     var thumbnailImageURL: NSURL?
     var imageURL: NSURL?
     
 }
 
-class TalentFilm: NSObject {
+public struct TalentFilm {
     
     var id: String!
     var title: String!
     var imageURL: NSURL?
     
-    required init(baselineInfo: NSDictionary) {
-        super.init()
-        
+    public init(baselineInfo: NSDictionary) {
         id = (baselineInfo[BaselineAPIUtil.Keys.ProjectID] as! NSNumber).stringValue
         title = baselineInfo[BaselineAPIUtil.Keys.ProjectName] as! String
     }
     
-    func getImageURL(successBlock: (imageURL: NSURL?) -> Void) -> NSURLSessionDataTask?  {
+    mutating public func getImageURL(successBlock: (imageURL: NSURL?) -> Void) -> NSURLSessionDataTask?  {
         if imageURL != nil {
             successBlock(imageURL: imageURL!)
             return nil
@@ -238,15 +221,13 @@ class TalentFilm: NSObject {
     
 }
 
-class TalentSocialAccount: NSObject {
+public struct TalentSocialAccount {
     
     var type = SocialAccountType.Unknown
     var handle: String!
     var url: NSURL!
     
-    required init(baselineInfo: NSDictionary) {
-        super.init()
-        
+    public init(baselineInfo: NSDictionary) {
         handle = baselineInfo[BaselineAPIUtil.Keys.Handle] as! String
         let urlString = baselineInfo[BaselineAPIUtil.Keys.URL] as! String
         url = NSURL(string: urlString)!
@@ -254,6 +235,8 @@ class TalentSocialAccount: NSObject {
             type = SocialAccountType.Twitter
         } else if urlString.containsString("facebook") {
             type = SocialAccountType.Facebook
+        } else if urlString.containsString("instagram") {
+            type = SocialAccountType.Instagram
         }
     }
     

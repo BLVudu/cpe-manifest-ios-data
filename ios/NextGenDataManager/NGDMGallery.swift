@@ -16,52 +16,43 @@ class NGDMGallery {
     private var _manifestObject: NGEGalleryType!
     
     /// Metadata associated with this Gallery
-    private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
-        get {
-            if _metadata == nil {
-                _metadata = NGDMMetadata.getById(_manifestObject.ContentID!)
-            }
-            
-            return _metadata
+        if let contentID = _manifestObject.ContentID {
+            return NGDMMetadata.getById(contentID)
         }
+        
+        return nil
     }
     
     /// Title associated with this Gallery
     var title: String? {
-        get {
-            if let galleryName = _manifestObject.GalleryNameList?.first?.value {
-                return galleryName
-            }
-            
-            return metadata?.title
+        if let galleryName = _manifestObject.GalleryNameList?.first?.value {
+            return galleryName
         }
+        
+        return metadata?.title
     }
     
     /// Image URL to be used for display
     var imageURL: NSURL? {
-        get {
-            if let imageURL = metadata?.imageURL {
-                return imageURL
-            }
-            
-            if let picture = pictures.first {
-                return picture.thumbnailImageURL
-            }
-            
-            return nil
+        if let imageURL = metadata?.imageURL {
+            return imageURL
         }
+        
+        if let picture = pictures?.first {
+            return picture.thumbnailImageURL
+        }
+        
+        return nil
     }
     
     /// Pictures associated with this Gallery
-    var pictures: [NGDMPicture] {
-        get {
-            if let pictureGroup = NGDMPictureGroup.getById(_manifestObject.PictureGroupID) {
-                return pictureGroup.pictures
-            }
-            
-            return [NGDMPicture]()
+    var pictures: [NGDMPicture]? {
+        if let pictureGroup = NGDMPictureGroup.getById(_manifestObject.PictureGroupID) {
+            return pictureGroup.pictures
         }
+        
+        return nil
     }
     
     // MARK: Initialization

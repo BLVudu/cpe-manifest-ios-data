@@ -21,39 +21,33 @@ class NGDMVideo {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.VideoTrackID
-        }
+        return _manifestObject.VideoTrackID
     }
     
     /// URL associated with this Video
-    private var _url: NSURL!
+    private var _url: NSURL?
     var url: NSURL? {
-        get {
-            if _url == nil {
-                if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
-                    if containerLocation.containsString("file://") {
-                        let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                        _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
-                    } else {
-                        _url = NSURL(string: containerLocation)
-                    }
+        if _url == nil {
+            if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
+                if containerLocation.containsString("file://") {
+                    let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
+                    _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+                } else {
+                    _url = NSURL(string: containerLocation)
                 }
             }
-            
-            return _url
         }
+        
+        return _url
     }
     
     /// Video length in seconds
     var runtimeInSeconds: NSTimeInterval {
-        get {
-            if let lengthString = _manifestObject.Encoding?.ActualLength {
-                return lengthString.iso8601TimeInSeconds()
-            }
-            
-            return 0
+        if let lengthString = _manifestObject.Encoding?.ActualLength {
+            return lengthString.iso8601TimeInSeconds()
         }
+        
+        return 0
     }
     
     // MARK: Initialization

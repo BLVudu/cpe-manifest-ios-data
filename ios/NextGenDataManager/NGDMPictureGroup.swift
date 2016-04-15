@@ -21,21 +21,22 @@ class NGDMPictureGroup {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.PictureGroupID!
-        }
+        return _manifestObject.PictureGroupID!
     }
     
     /// Pictures associated with this Gallery
-    var pictures: [NGDMPicture] {
-        get {
+    var pictures: [NGDMPicture]? {
+        let pictureListObjs = _manifestObject.PictureList
+        if pictureListObjs.count > 0 {
             var pictureList = [NGDMPicture]()
-            for manifestObject in _manifestObject.PictureList {
+            for manifestObject in pictureListObjs {
                 pictureList.append(NGDMPicture(manifestObject: manifestObject))
             }
             
             return pictureList
         }
+        
+        return nil
     }
     
     // MARK: Initialization

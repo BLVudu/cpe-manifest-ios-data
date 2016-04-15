@@ -21,73 +21,57 @@ class NGDMMetadata {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.ContentID
-        }
+        return _manifestObject.ContentID
     }
     
     /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
     private var _localizedInfoManifestObjectMap = [String: NGEBasicMetadataInfoType]()
     private var _localizedInfo: NGEBasicMetadataInfoType? {
-        get {
-            return localizedInfo(NSLocale.currentLanguage())
-        }
+        return localizedInfo(NSLocale.currentLanguage())
     }
     
     /// Full title associated with this Metadata
     var title: String? {
-        get {
-            if let str = _localizedInfo?.TitleDisplayUnlimited {
-                return str
-            }
-            
-            return nil
-        }
+        return _localizedInfo?.TitleDisplayUnlimited
     }
     
     /// Full description or summary associated with this Metadata
     var description: String? {
-        get {
-            if let str = _localizedInfo?.Summary4000?.value {
-                return str
-            }
-            
-            if let str = _localizedInfo?.Summary400?.value {
-                return str
-            }
-            
-            if let str = _localizedInfo?.Summary190?.value {
-                return str
-            }
-            
-            return nil
+        if let str = _localizedInfo?.Summary4000?.value {
+            return str
         }
+        
+        if let str = _localizedInfo?.Summary400?.value {
+            return str
+        }
+        
+        if let str = _localizedInfo?.Summary190?.value {
+            return str
+        }
+        
+        return nil
     }
     
     /// Image URL to be used for display
-    private var _imageURL: NSURL!
+    private var _imageURL: NSURL?
     var imageURL: NSURL? {
-        get {
-            if _imageURL == nil {
-                if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.reverse().first, url = artReference.value {
-                    if url.containsString("file://") {
-                        let tempURL = NSURL(fileURLWithPath: url.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                        _imageURL = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
-                    } else {
-                        _imageURL = NSURL(string: url)
-                    }
+        if _imageURL == nil {
+            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.reverse().first, url = artReference.value {
+                if url.containsString("file://") {
+                    let tempURL = NSURL(fileURLWithPath: url.stringByReplacingOccurrencesOfString("file://", withString: ""))
+                    _imageURL = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+                } else {
+                    _imageURL = NSURL(string: url)
                 }
             }
-            
-            return _imageURL
         }
+        
+        return _imageURL
     }
     
     /// Direct access to Manifest PeopleList
     var PeopleList: [NGEBasicMetadataPeopleType]? {
-        get {
-            return _manifestObject.BasicMetadata?.PeopleList
-        }
+        return _manifestObject.BasicMetadata?.PeopleList
     }
     
     // MARK: Initialization
@@ -119,7 +103,11 @@ class NGDMMetadata {
             }
         }
         
-        return (_localizedInfoManifestObjectMap[language] != nil ? _localizedInfoManifestObjectMap[language] : _localizedInfoManifestObjectMap["en"])
+        if let localizedInfo = _localizedInfoManifestObjectMap[language] {
+            return localizedInfo
+        }
+        
+        return _localizedInfoManifestObjectMap["en"]
     }
     
     /**

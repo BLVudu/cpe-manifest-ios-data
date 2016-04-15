@@ -23,25 +23,21 @@ class NGDMTimedEventSequence {
     private var _timedEvents = [Double: NGDMTimedEvent]()
     private var _sortedTimedEventStartTimes: [Double]?
     var timedEvents: [Double: NGDMTimedEvent] {
-        get {
-            if _timedEvents.count == 0 {
-                for eventObj in _manifestObject.TimedEventList {
-                    let timedEvent = NGDMTimedEvent(manifestObject: eventObj)
-                    _timedEvents[timedEvent.startTime] = timedEvent
-                }
-                
-                _sortedTimedEventStartTimes = _timedEvents.keys.sort()
+        if _timedEvents.count == 0 {
+            for eventObj in _manifestObject.TimedEventList {
+                let timedEvent = NGDMTimedEvent(manifestObject: eventObj)
+                _timedEvents[timedEvent.startTime] = timedEvent
             }
             
-            return _timedEvents
+            _sortedTimedEventStartTimes = _timedEvents.keys.sort()
         }
+        
+        return _timedEvents
     }
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.TimedSequenceID
-        }
+        return _manifestObject.TimedSequenceID
     }
     
     // MARK: Initialization

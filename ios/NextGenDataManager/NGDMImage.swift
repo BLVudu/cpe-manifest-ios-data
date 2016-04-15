@@ -21,28 +21,24 @@ class NGDMImage {
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.ImageID!
-        }
+        return _manifestObject.ImageID!
     }
     
     /// URL associated with this Image
-    private var _url: NSURL!
+    private var _url: NSURL?
     var url: NSURL? {
-        get {
-            if _url == nil {
-                if let containerLocation = _manifestObject.ContainerReference?.ContainerLocation {
-                    if containerLocation.containsString("file://") {
-                        let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                        _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
-                    }
-                    
-                    return NSURL(string: containerLocation)
+        if _url == nil {
+            if let containerLocation = _manifestObject.ContainerReference?.ContainerLocation {
+                if containerLocation.containsString("file://") {
+                    let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
+                    _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
                 }
+                
+                return NSURL(string: containerLocation)
             }
-            
-            return _url
         }
+        
+        return _url
     }
     
     // MARK: Initialization

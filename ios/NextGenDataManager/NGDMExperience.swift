@@ -26,169 +26,143 @@ class NGDMExperience: NSObject {
     
     /// Mapping of all the AudioVisuals associated with this Experience - PresentationID: AudioVisual
     private var _audioVisuals = [String: NGDMAudioVisual]()
-    var audioVisuals: [String: NGDMAudioVisual]! {
-        get {
-            if _audioVisuals.count == 0 {
-                if let audioVisualList = _manifestObject.AudiovisualList {
-                    for audioVisualObj in audioVisualList {
-                        _audioVisuals[audioVisualObj.PresentationID] = NGDMAudioVisual(manifestObject: audioVisualObj)
-                    }
+    var audioVisuals: [String: NGDMAudioVisual] {
+        if _audioVisuals.count == 0 {
+            if let audioVisualList = _manifestObject.AudiovisualList {
+                for audioVisualObj in audioVisualList {
+                    _audioVisuals[audioVisualObj.PresentationID] = NGDMAudioVisual(manifestObject: audioVisualObj)
                 }
             }
-            
-            return _audioVisuals
         }
+        
+        return _audioVisuals
     }
     
     /// Unique identifier
     var id: String {
-        get {
-            return _manifestObject.ExperienceID
-        }
+        return _manifestObject.ExperienceID
     }
     
     /// All children of this Experience
     private var _children = [NGDMExperience]()
     var childExperiences: [NGDMExperience] {
-        get {
-            if _children.count == 0 {
-                if let childList = _manifestObject.ExperienceChildList {
-                    var childMap = [Int: NGDMExperience]()
-                    for child in childList {
-                        if let index = child.SequenceInfo?.Number, childExperience = NGDMExperience.getById(child.ExperienceID) {
-                            childMap[index] = childExperience
-                        }
+        if _children.count == 0 {
+            if let childList = _manifestObject.ExperienceChildList {
+                var childMap = [Int: NGDMExperience]()
+                for child in childList {
+                    if let index = child.SequenceInfo?.Number, childExperience = NGDMExperience.getById(child.ExperienceID) {
+                        childMap[index] = childExperience
                     }
-                    
-                    // Sort the children by SequenceInfo.Number
-                    let sortedChildren = childMap.sort { $0.0 < $1.0 }
-                    _children = sortedChildren.map { return $0.1 }
                 }
+                
+                // Sort the children by SequenceInfo.Number
+                let sortedChildren = childMap.sort { $0.0 < $1.0 }
+                _children = sortedChildren.map { return $0.1 }
             }
-            
-            return _children
         }
+        
+        return _children
     }
     
     /// Child of this Experience that is a clip & share Experience
     var childClipAndShareExperience: NGDMExperience? {
-        get {
-            for experience in childExperiences {
-                if experience.isClipAndShare() {
-                    return experience
-                }
+        for experience in childExperiences {
+            if experience.isClipAndShare() {
+                return experience
             }
-            
-            return nil
         }
+        
+        return nil
     }
     
     /// Metadata associated with this Experience
-    private var _metadata: NGDMMetadata!
+    private var _metadata: NGDMMetadata?
     var metadata: NGDMMetadata? {
-        get {
-            if _metadata == nil {
-                _metadata = NGDMMetadata.getById(_manifestObject.ContentID)
-            }
-            
-            return _metadata
+        if _metadata == nil {
+            _metadata = NGDMMetadata.getById(_manifestObject.ContentID)
         }
+        
+        return _metadata
     }
     
     /// Image URL to be used for thumbnail displays
     var imageURL: NSURL? {
-        get {
-            // Experience has an image directly associated with it
-            if let imageURL = metadata?.imageURL {
-                return imageURL
-            }
-            
-            // Experience has an AudioVisual with an image associated with it
-            if isAudioVisual() {
-                if let audioVisualID = audioVisuals.keys.first, audioVisual = audioVisuals[audioVisualID] {
-                    return audioVisual.imageURL
-                }
-            }
-            
-            // Experience has a Gallery with an image associated with it
-            if isGallery() {
-                if let galleryID = galleries.keys.first, gallery = galleries[galleryID] {
-                    return gallery.imageURL
-                }
-            }
-            
-            // Experience has an App with an image associated with it
-            if isApp() {
-                if let appID = apps.keys.first, app = apps[appID] {
-                    return app.imageURL
-                }
-            }
-            
-            // Experience has a child Experience that should be used for the image
-            if let childExperience = childExperiences.first {
-                return childExperience.imageURL
-            }
-            
-            return nil
+        // Experience has an image directly associated with it
+        if let imageURL = metadata?.imageURL {
+            return imageURL
         }
+        
+        // Experience has an AudioVisual with an image associated with it
+        if isAudioVisual() {
+            if let audioVisualID = audioVisuals.keys.first, audioVisual = audioVisuals[audioVisualID] {
+                return audioVisual.imageURL
+            }
+        }
+        
+        // Experience has a Gallery with an image associated with it
+        if isGallery() {
+            if let galleryID = galleries.keys.first, gallery = galleries[galleryID] {
+                return gallery.imageURL
+            }
+        }
+        
+        // Experience has an App with an image associated with it
+        if isApp() {
+            if let appID = apps.keys.first, app = apps[appID] {
+                return app.imageURL
+            }
+        }
+        
+        // Experience has a child Experience that should be used for the image
+        if let childExperience = childExperiences.first {
+            return childExperience.imageURL
+        }
+        
+        return nil
     }
     
     /// AudioVisual associated with this Experience
     var presentation: NGDMPresentation? {
-        get {
-            if let audioVisual = _manifestObject.AudiovisualList?.first, presentation = NGDMPresentation.getById(audioVisual.PresentationID) {
-                return presentation
-            }
-            
-            return nil
+        if let audioVisual = _manifestObject.AudiovisualList?.first, presentation = NGDMPresentation.getById(audioVisual.PresentationID) {
+            return presentation
         }
+        
+        return nil
     }
     
     /// Video URL to be used for video display
     var videoURL: NSURL? {
-        get {
-            if let videoURL = presentation?.videoURL {
-                return videoURL
-            }
-            
-            return nil
-        }
+        return presentation?.videoURL
     }
     
     /// Video runtime length in seconds
     var videoRuntime: NSTimeInterval {
-        get {
-            if let runtime = presentation?.video?.runtimeInSeconds {
-                return runtime
-            }
-            
-            return 0
+        if let runtime = presentation?.video?.runtimeInSeconds {
+            return runtime
         }
+        
+        return 0
     }
     
     /// Gallery associated with this Experience
-    private var _imageGallery: NGDMGallery!
+    private var _imageGallery: NGDMGallery?
     var imageGallery: NGDMGallery? {
-        get {
-            if _imageGallery == nil {
-                if let manifestObject = _manifestObject.GalleryList?.first {
-                    _imageGallery = NGDMGallery(manifestObject: manifestObject)
-                }
+        if _imageGallery == nil {
+            if let manifestObject = _manifestObject.GalleryList?.first {
+                _imageGallery = NGDMGallery(manifestObject: manifestObject)
             }
-            
-            return _imageGallery
         }
+        
+        return _imageGallery
     }
     
     /// TimedEventSequence associated with this Experience
     var timedEventSequence: NGDMTimedEventSequence? {
-        get {
-            if let objList = _manifestObject.TimedSequenceIDList, objId = objList.first {
-                return NGDMTimedEventSequence.getById(objId)
-            }
-            
-            return nil
+        if let objList = _manifestObject.TimedSequenceIDList, objId = objList.first {
+            return NGDMTimedEventSequence.getById(objId)
         }
+        
+        return nil
     }
     
     // MARK: Initialization

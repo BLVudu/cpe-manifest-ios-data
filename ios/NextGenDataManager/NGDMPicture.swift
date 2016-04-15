@@ -17,24 +17,20 @@ class NGDMPicture {
     
     /// Image URL to be used for full display
     var imageURL: NSURL? {
-        get {
-            if let image = NGDMImage.getById(_manifestObject.ImageID) {
-                return image.url
-            }
-            
-            return nil
+        if let image = NGDMImage.getById(_manifestObject.ImageID) {
+            return image.url
         }
+        
+        return nil
     }
     
     /// Image URL to be used for thumbnail display
     var thumbnailImageURL: NSURL? {
-        get {
-            if let imageId = _manifestObject.ThumbnailImageID, image = NGDMImage.getById(imageId) {
-                return image.url
-            }
-            
-            return nil
+        if let imageId = _manifestObject.ThumbnailImageID, image = NGDMImage.getById(imageId) {
+            return image.url
         }
+        
+        return nil
     }
     
     // MARK: Initialization

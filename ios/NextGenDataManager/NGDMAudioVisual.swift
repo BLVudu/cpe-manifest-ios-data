@@ -16,45 +16,32 @@ class NGDMAudioVisual {
     private var _manifestObject: NGEAudiovisualType!
     
     /// Metadata associated with this AudioVisual
-    private var _metadata: NGDMMetadata!
     var metadata: NGDMMetadata? {
-        get {
-            if _metadata == nil {
-                if let contentId = contentId {
-                    _metadata = NGDMMetadata.getById(contentId)
-                }
-            }
-            
-            return _metadata
+        if let contentId = contentId {
+            return NGDMMetadata.getById(contentId)
         }
+        
+        return nil
     }
     
     /// Presentation associated with this AudioVisual
     var presentation: NGDMPresentation? {
-        get {
-            return NGDMPresentation.getById(_manifestObject.PresentationID)
-        }
+        return NGDMPresentation.getById(_manifestObject.PresentationID)
     }
     
     /// Metadata ContentID associated with this AudioVisual
     var contentId: String? {
-        get {
-            return _manifestObject.ContentID
-        }
+        return _manifestObject.ContentID
     }
     
     /// Image URL to be used for display
     var imageURL: NSURL? {
-        get {
-            return metadata?.imageURL
-        }
+        return metadata?.imageURL
     }
     
     /// Video URL to be used for display
     var videoURL: NSURL? {
-        get {
-            return presentation?.videoURL
-        }
+        return presentation?.videoURL
     }
     
     // MARK: Initialization
