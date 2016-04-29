@@ -22,6 +22,14 @@ class NGDMAppearance: NSObject{
     
     var titleLogoImage: UIImage?
     
+    var extrasTitleImage: UIImage?
+    
+    var backgroundExtrasImage : UIImage?
+    
+    var inMovieBackground: UIImage?
+    
+    var mapPin: UIImage?
+    
     var playButtonRect: CGRect?
     
     var extrasButtonRect: CGRect?
@@ -32,11 +40,15 @@ class NGDMAppearance: NSObject{
     
     override init() {
         
-        self.backgroundImage = UIImage(named: "MOSBackground")!
+        self.backgroundImage = UIImage(named: "MOSBackground")
         self.animatedBackground = NSURL(fileURLWithPath:NSBundle.mainBundle().pathForResource("mos-nextgen-background", ofType: "mp4")!)
-        self.playButtonImage = UIImage(named: "MOSPlay")!
-        self.extrasButtonImage = UIImage(named: "MOSExtras")!
+        self.backgroundExtrasImage = UIImage(named: "MOSExtrasBackground")
+        self.extrasTitleImage = UIImage(named: "MOSExtrasTitle")
+        self.playButtonImage = UIImage(named: "MOSPlay")
+        self.extrasButtonImage = UIImage(named: "MOSExtras")
         self.titleLogoImage = UIImage(named: "MOSLogo")
+        self.inMovieBackground = UIImage(named: "MOSIMEBackground")
+        self.mapPin = UIImage(named: "MOSMapPin")
         playButtonRect = CGRectMake(110, 303, 370, 100)
         extrasButtonRect = CGRectMake(195, 390, 200, 77)
         titleLogoRect = CGRectMake(121, 245, 345, 55)
