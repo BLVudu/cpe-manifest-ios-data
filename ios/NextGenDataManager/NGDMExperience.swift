@@ -19,6 +19,9 @@ class NGDMExperience: NSObject {
     /// Reference to the root Manifest object
     private var _manifestObject: NGEExperienceType!
     
+    /// Appearance object for background images, buttons, etc
+    var appearance: NGDMAppearance?
+    
     /// Mapping of all the Galleries associated with this Experience - GalleryID: Gallery
     var galleries = [String: NGDMGallery]()
     /// Mapping of all the Apps associated with this Experience - AppID: App
