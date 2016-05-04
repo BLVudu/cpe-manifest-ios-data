@@ -42,13 +42,13 @@ class NGDMAppearance {
     
     var backgroundVideoFadeTime: Double {
         get {
-            return 13
+            return 8.5
         }
     }
     
     var backgroundVideoLoopTime: Double {
         get {
-            return 23
+            return 14
         }
     }
     
