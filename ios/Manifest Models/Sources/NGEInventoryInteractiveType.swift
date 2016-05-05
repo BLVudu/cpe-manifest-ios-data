@@ -8,6 +8,10 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
     
     var ContainerReference: NGEContainerReferenceType?
     
+    var ManifestAppList: [NGEInventoryMediaManifestType]?
+    
+    var PictureID: String?
+    
     override func readAttributes(reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
@@ -24,6 +28,8 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init(reader: reader)
         
+        var ManifestAppListArray = [NGEInventoryMediaManifestType]()
+        
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
         var _currentXmlDept = xmlTextReaderDepth(reader)
@@ -38,6 +44,24 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
                     self.ContainerReference = NGEContainerReferenceType(reader: reader)
                     handledInChild = true
                     
+                } else if("ManifestApp" == _currentElementName) {
+                    
+                    ManifestAppListArray.append(NGEInventoryMediaManifestType(reader: reader))
+                    handledInChild = true
+                    
+                } else if("PictureID" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let PictureIDElementValue = xmlTextReaderConstValue(reader)
+                    if PictureIDElementValue != nil {
+                        
+                        self.PictureID = String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
                 } else   if(true) {
                     print("Ignoring unexpected in NGEInventoryInteractiveType: \(_currentElementName)")
                     if superclass != NSObject.self {
@@ -49,6 +73,8 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
             _currentNodeType = xmlTextReaderNodeType(reader)
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
+        
+        if(ManifestAppListArray.count > 0) { self.ManifestAppList = ManifestAppListArray }
         
     }
     
@@ -66,6 +92,16 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
         
         if(self.ContainerReference != nil) {
             dict["ContainerReference"] = self.ContainerReference!
+        }
+        
+        if(self.ManifestAppList != nil) {
+            dict["ManifestAppList"] = self.ManifestAppList!.map({$0.dictionary})
+        }
+        
+        if(self.PictureID != nil) {
+            
+            dict["PictureID"] = self.PictureID!
+            
         }
         
         return dict

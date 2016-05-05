@@ -22,28 +22,9 @@ class NGDMExperience: NSObject {
     /// Appearance object for background images, buttons, etc
     var appearance: NGDMAppearance?
     
-    /// Mapping of all the Galleries associated with this Experience - GalleryID: Gallery
-    var galleries = [String: NGDMGallery]()
-    /// Mapping of all the Apps associated with this Experience - AppID: App
-    var apps = [String: NGDMExperienceApp]()
-    
-    /// Mapping of all the AudioVisuals associated with this Experience - PresentationID: AudioVisual
-    private var _audioVisuals = [String: NGDMAudioVisual]()
-    var audioVisuals: [String: NGDMAudioVisual] {
-        if _audioVisuals.count == 0 {
-            if let audioVisualList = _manifestObject.AudiovisualList {
-                for audioVisualObj in audioVisualList {
-                    _audioVisuals[audioVisualObj.PresentationID] = NGDMAudioVisual(manifestObject: audioVisualObj)
-                }
-            }
-        }
-        
-        return _audioVisuals
-    }
-    
     /// Unique identifier
     var id: String {
-        return _manifestObject.ExperienceID
+        return _manifestObject.ExperienceID!
     }
     
     /// All children of this Experience
@@ -78,11 +59,59 @@ class NGDMExperience: NSObject {
         return nil
     }
     
+    /// Mapping of AudioVisuals in child Experiences - PresentationID: NGDMAudioVisual
+    private var _childAudioVisuals: [String: NGDMAudioVisual]?
+    var childAudioVisuals: [String: NGDMAudioVisual]? {
+        if _childAudioVisuals == nil {
+            _childAudioVisuals = [String: NGDMAudioVisual]()
+            
+            for experience in childExperiences {
+                if let audioVisual = experience.audioVisual, presentation = audioVisual.presentation {
+                    _childAudioVisuals![presentation.id] = audioVisual
+                }
+            }
+        }
+        
+        return _childAudioVisuals
+    }
+    
+    /// Mapping of Galleries in child Experiences - GalleryID: NGDMGallery
+    private var _childGalleries: [String: NGDMGallery]?
+    var childGalleries: [String: NGDMGallery]? {
+        if _childGalleries == nil {
+            _childGalleries = [String: NGDMGallery]()
+            
+            for experience in childExperiences {
+                if let gallery = experience.imageGallery {
+                    _childGalleries![gallery.id] = gallery
+                }
+            }
+        }
+        
+        return _childGalleries
+    }
+    
+    /// Mapping of Apps in child Experiences - AppGroupID: NGDMExperienceApp
+    private var _childApps: [String: NGDMExperienceApp]?
+    var childApps: [String: NGDMExperienceApp]? {
+        if _childApps == nil {
+            _childApps = [String: NGDMExperienceApp]()
+            
+            for experience in childExperiences {
+                if let app = experience.app {
+                    _childApps![app.id] = app
+                }
+            }
+        }
+        
+        return _childApps
+    }
+    
     /// Metadata associated with this Experience
     private var _metadata: NGDMMetadata?
     var metadata: NGDMMetadata? {
-        if _metadata == nil {
-            _metadata = NGDMMetadata.getById(_manifestObject.ContentID)
+        if let contentId = _manifestObject.ContentID where _metadata == nil {
+            _metadata = NGDMMetadata.getById(contentId)
         }
         
         return _metadata
@@ -97,23 +126,17 @@ class NGDMExperience: NSObject {
         
         // Experience has an AudioVisual with an image associated with it
         if isAudioVisual() {
-            if let audioVisualID = audioVisuals.keys.first, audioVisual = audioVisuals[audioVisualID] {
-                return audioVisual.imageURL
-            }
+            return audioVisual?.imageURL
         }
         
         // Experience has a Gallery with an image associated with it
         if isGallery() {
-            if let galleryID = galleries.keys.first, gallery = galleries[galleryID] {
-                return gallery.imageURL
-            }
+            return imageGallery?.imageURL
         }
         
         // Experience has an App with an image associated with it
         if isApp() {
-            if let appID = apps.keys.first, app = apps[appID] {
-                return app.imageURL
-            }
+            return app?.imageURL
         }
         
         // Experience has a child Experience that should be used for the image
@@ -124,16 +147,22 @@ class NGDMExperience: NSObject {
         return nil
     }
     
-    /// AudioVisual associated with this Experience
-    var presentation: NGDMPresentation? {
-        if let audioVisual = _manifestObject.AudiovisualList?.first, presentation = NGDMPresentation.getById(audioVisual.PresentationID) {
-            return presentation
+    /// AudioVisual associated with this Experience, if it exists
+    private var _audioVisual: NGDMAudioVisual?
+    var audioVisual: NGDMAudioVisual? {
+        if let obj = _manifestObject.Audiovisual where _audioVisual == nil {
+            _audioVisual = NGDMAudioVisual(manifestObject: obj)
         }
         
-        return nil
+        return _audioVisual
     }
     
-    /// Video URL to be used for video display
+    /// Presentation associated with this Experience's AudioVisual, if it exists
+    var presentation: NGDMPresentation? {
+        return audioVisual?.presentation
+    }
+    
+    /// Video URL to be used for video display, if it exists
     var videoURL: NSURL? {
         return presentation?.videoURL
     }
@@ -147,19 +176,27 @@ class NGDMExperience: NSObject {
         return 0
     }
     
-    /// Gallery associated with this Experience
+    /// Gallery associated with this Experience, if it exists
     private var _imageGallery: NGDMGallery?
     var imageGallery: NGDMGallery? {
-        if _imageGallery == nil {
-            if let manifestObject = _manifestObject.GalleryList?.first {
-                _imageGallery = NGDMGallery(manifestObject: manifestObject)
-            }
+        if let obj = _manifestObject.Gallery where _imageGallery == nil {
+            _imageGallery = NGDMGallery(manifestObject: obj)
         }
         
         return _imageGallery
     }
     
-    /// TimedEventSequence associated with this Experience
+    /// App associated with this Experience, if it exists
+    private var _app: NGDMExperienceApp?
+    var app: NGDMExperienceApp? {
+        if let obj = _manifestObject.App where _app == nil {
+            _app = NGDMExperienceApp(manifestObject: obj)
+        }
+        
+        return _app
+    }
+    
+    /// TimedEventSequence associated with this Experience, if it exists
     var timedEventSequence: NGDMTimedEventSequence? {
         if let objList = _manifestObject.TimedSequenceIDList, objId = objList.first {
             return NGDMTimedEventSequence.getById(objId)
@@ -202,7 +239,7 @@ class NGDMExperience: NSObject {
         - Returns: `true` if Experience is an AudioVisual type
     */
     func isAudioVisual() -> Bool {
-        return _manifestObject.AudiovisualList?.count > 0 && !isClipAndShare()
+        return _manifestObject.Audiovisual != nil && !isClipAndShare()
     }
     
     /**
@@ -220,7 +257,7 @@ class NGDMExperience: NSObject {
         - Returns: `true` if Experience is a Gallery type
     */
     func isGallery() -> Bool {
-        return _manifestObject.GalleryList?.count > 0
+        return _manifestObject.Gallery != nil
     }
     
     /**
@@ -242,7 +279,7 @@ class NGDMExperience: NSObject {
         - Returns: `true` if Experience is an App type
     */
     func isApp() -> Bool {
-        return _manifestObject.AppList?.count > 0
+        return _manifestObject.App != nil
     }
     
     /**
@@ -251,7 +288,7 @@ class NGDMExperience: NSObject {
         - Returns: `true` if this is a shopping based Experience
      */
     func isShopping() -> Bool {
-        return apps[kTheTakeIdentifierNamespace] != nil
+        return app?.id == kTheTakeIdentifierNamespace
     }
     
     // MARK: Search Methods
@@ -267,22 +304,8 @@ class NGDMExperience: NSObject {
         // Populate the `_objectMap` for easy hash table lookup for future requests
         if _objectMap.count == 0 {
             for obj in NextGenDataManager.sharedInstance.manifest.Experiences.ExperienceList {
-                let experience = NGDMExperience(manifestObject: obj)
-                _objectMap[obj.ExperienceID] = experience
-                
-                if let galleryList = obj.GalleryList {
-                    for galleryObj in galleryList {
-                        if let galleryId = galleryObj.GalleryID {
-                            experience.galleries[galleryId] = NGDMGallery(manifestObject: galleryObj)
-                        }
-                    }
-                }
-                
-                if let appList = obj.AppList {
-                    for appObj in appList {
-                        let appID = (appObj.AppGroupID != nil ? appObj.AppGroupID : appObj.Type)
-                        experience.apps[appID] = NGDMExperienceApp(manifestObject: appObj)
-                    }
+                if let experienceID = obj.ExperienceID {
+                    _objectMap[experienceID] = NGDMExperience(manifestObject: obj)
                 }
             }
         }

@@ -12,15 +12,6 @@ import Foundation
 class NGDMMainExperience: NGDMExperience {
     
     // MARK: Instance Variables
-    /// AudioVisual associated with the main experience, typically the feature film
-    var audioVisual: NGDMAudioVisual? {
-        if let presentationId = audioVisuals.keys.first, audioVisual = audioVisuals[presentationId] {
-            return audioVisual
-        }
-        
-        return nil
-    }
-    
     /// List of Talent associated with the feature film
     var talents = [String: Talent]()
     

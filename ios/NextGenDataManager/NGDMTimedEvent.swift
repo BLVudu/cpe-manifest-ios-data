@@ -26,7 +26,7 @@ class NGDMTimedEvent: NSObject {
             } else if isAppGroup {
                 _id = _manifestObject.AppGroupID
             } else if isTextItem {
-                _id = "\(_manifestObject.TextGroupID.value)\(_manifestObject.TextGroupID.index)"
+                _id = "\(_manifestObject.TextGroupIDList.first?.value)\(_manifestObject.TextGroupIDList.first?.index)"
             } else if isLocation {
                 _id = _manifestObject.Location.Name
             } else {
@@ -58,7 +58,7 @@ class NGDMTimedEvent: NSObject {
     /// Text value associated with this TimedEvent if it exists
     var text: String? {
         if isTextItem {
-            if let textGroupId = _manifestObject.TextGroupID.value, textGroupIndex = _manifestObject.TextGroupID.index, textGroup = NGDMTextGroup.getById(textGroupId) {
+            if let textGroupId = _manifestObject.TextGroupIDList?.first, textGroupIndex = textGroupId.index, textGroup = NGDMTextGroup.getById(textGroupId.value!) {
                 return textGroup.textItem(textGroupIndex)
             }
         }
@@ -93,7 +93,7 @@ class NGDMTimedEvent: NSObject {
     
     /// Check if this is a text-based TimedEvent (e.g. trivia)
     var isTextItem: Bool {
-        return _manifestObject.TextGroupID != nil
+        return _manifestObject.TextGroupIDList?.first?.value != nil
     }
     
     /// Check if this is an AudioVisual-based TimedEvent (e.g. deleted scene)
@@ -174,8 +174,8 @@ class NGDMTimedEvent: NSObject {
         - Returns: AudioVisual associated with this TimedEvent if it exists
      */
     func getAudioVisual(experience: NGDMExperience) -> NGDMAudioVisual? {
-        if isAudioVisual {
-            return experience.audioVisuals[_manifestObject.PresentationID]
+        if let presentationId = _manifestObject.PresentationID {
+            return experience.childAudioVisuals?[presentationId]
         }
         
         return nil
@@ -190,8 +190,8 @@ class NGDMTimedEvent: NSObject {
         - Returns: Gallery associated with this TimedEvent if it exists
      */
     func getGallery(experience: NGDMExperience) -> NGDMGallery? {
-        if isGallery {
-            return experience.galleries[_manifestObject.GalleryID]
+        if let galleryId = _manifestObject.GalleryID {
+            return experience.childGalleries?[galleryId]
         }
         
         return nil
@@ -206,8 +206,8 @@ class NGDMTimedEvent: NSObject {
         - Returns: ExperienceApp associated with this TimedEvent if it exists
      */
     func getExperienceApp(experience: NGDMExperience) -> NGDMExperienceApp? {
-        if isAppGroup {
-            return experience.apps[_manifestObject.AppGroupID]
+        if let appGroupId = _manifestObject.AppGroupID {
+            return experience.childApps?[appGroupId]
         }
         
         return nil
@@ -260,6 +260,11 @@ class NGDMTimedEvent: NSObject {
         
         if isAppGroup {
             return getExperienceApp(experience)?.imageURL
+        }
+        
+        // FIXME: Making assumption that PictureID is in the Initialization property
+        if let pictureId = _manifestObject.Initialization, picture = NGDMPicture.getById(pictureId) where isTextItem {
+            return picture.imageURL
         }
         
         return nil

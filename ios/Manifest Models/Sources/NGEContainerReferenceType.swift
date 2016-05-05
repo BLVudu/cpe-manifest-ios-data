@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEContainerReferenceType : NSObject{
     
-    var ContainerLocation: String?
+    var ContainerLocationList: [NGELocationType]?
     
     var ParentContainer: NGEContainerReferenceType?
     
@@ -29,6 +29,8 @@ class NGEContainerReferenceType : NSObject{
         
         self.readAttributes(reader)
         
+        var ContainerLocationListArray = [NGELocationType]()
+        
         var ContainerIdentifierListArray = [NGEContentIdentifierType]()
         
         var HashListArray = [NGEHashType]()
@@ -44,16 +46,8 @@ class NGEContainerReferenceType : NSObject{
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
                 if("ContainerLocation" == _currentElementName) {
                     
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ContainerLocationElementValue = xmlTextReaderConstValue(reader)
-                    if ContainerLocationElementValue != nil {
-                        
-                        self.ContainerLocation = String.fromCString(UnsafePointer<CChar>(ContainerLocationElementValue))
-                        
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    ContainerLocationListArray.append(NGELocationType(reader: reader))
+                    handledInChild = true
                     
                 } else if("ParentContainer" == _currentElementName) {
                     
@@ -95,6 +89,8 @@ class NGEContainerReferenceType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
+        if(ContainerLocationListArray.count > 0) { self.ContainerLocationList = ContainerLocationListArray }
+        
         if(ContainerIdentifierListArray.count > 0) { self.ContainerIdentifierList = ContainerIdentifierListArray }
         
         if(HashListArray.count > 0) { self.HashList = HashListArray }
@@ -103,10 +99,8 @@ class NGEContainerReferenceType : NSObject{
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.ContainerLocation != nil) {
-            
-            dict["ContainerLocation"] = self.ContainerLocation!
-            
+        if(self.ContainerLocationList != nil) {
+            dict["ContainerLocationList"] = self.ContainerLocationList!.map({$0.dictionary})
         }
         
         if(self.ParentContainer != nil) {

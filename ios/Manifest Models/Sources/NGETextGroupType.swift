@@ -6,6 +6,8 @@ class NGETextGroupType : NSObject{
     
     var TextGroupID: String!
     
+    var language: String?
+    
     var TextObjectIDList: [String]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
@@ -16,6 +18,13 @@ class NGETextGroupType : NSObject{
             
             self.TextGroupID = String.fromCString(UnsafePointer<CChar>(TextGroupIDAttrValue))
             xmlFree(TextGroupIDAttrValue)
+        }
+        let languageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "language").UTF8String)
+        let languageAttrValue = xmlTextReaderGetAttribute(reader, languageAttrName)
+        if(languageAttrValue != nil) {
+            
+            self.language = String.fromCString(UnsafePointer<CChar>(languageAttrValue))
+            xmlFree(languageAttrValue)
         }
     }
     
@@ -69,6 +78,12 @@ class NGETextGroupType : NSObject{
         if(self.TextGroupID != nil) {
             
             dict["TextGroupID"] = self.TextGroupID!
+            
+        }
+        
+        if(self.language != nil) {
+            
+            dict["language"] = self.language!
             
         }
         

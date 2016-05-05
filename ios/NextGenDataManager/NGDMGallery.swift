@@ -15,6 +15,11 @@ class NGDMGallery {
     /// Reference to the root Manifest object
     private var _manifestObject: NGEGalleryType!
     
+    /// Unique identifier
+    var id: String {
+        return _manifestObject.GalleryID!
+    }
+    
     /// Metadata associated with this Gallery
     var metadata: NGDMMetadata? {
         if let contentID = _manifestObject.ContentID {

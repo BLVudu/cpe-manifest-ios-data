@@ -15,6 +15,11 @@ class NGDMExperienceApp {
     /// Reference to the root Manifest object
     private var _manifestObject: NGEExperienceAppType!
     
+    /// Unique identifier
+    var id: String {
+        return _manifestObject.AppGroupID
+    }
+    
     /// Metadata associated with this ExperienceApp
     var metadata: NGDMMetadata? {
         if let contentID = _manifestObject.ContentID {

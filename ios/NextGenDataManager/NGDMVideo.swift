@@ -28,7 +28,7 @@ class NGDMVideo {
     private var _url: NSURL?
     var url: NSURL? {
         if _url == nil {
-            if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
+            if let containerLocation = _manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
                 if containerLocation.containsString("file://") {
                     let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
                     _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)

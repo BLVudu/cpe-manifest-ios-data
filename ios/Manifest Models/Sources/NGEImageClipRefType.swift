@@ -8,11 +8,14 @@ class NGEImageClipRefType : NSObject{
     
     var seamless: Bool?
     
+    var audioLanguage: String?
+    
     var ImageID: String!
     
     var Duration: String!
     
     func readAttributes(reader: xmlTextReaderPtr) {
+        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -29,6 +32,13 @@ class NGEImageClipRefType : NSObject{
             
             self.seamless = (String.fromCString(UnsafePointer<CChar>(seamlessAttrValue)) == "true")
             xmlFree(seamlessAttrValue)
+        }
+        let audioLanguageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "audioLanguage").UTF8String)
+        let audioLanguageAttrValue = xmlTextReaderGetAttribute(reader, audioLanguageAttrName)
+        if(audioLanguageAttrValue != nil) {
+            
+            self.audioLanguage = String.fromCString(UnsafePointer<CChar>(audioLanguageAttrValue))
+            xmlFree(audioLanguageAttrValue)
         }
     }
     
@@ -102,6 +112,12 @@ class NGEImageClipRefType : NSObject{
         if(self.seamless != nil) {
             
             dict["seamless"] = self.seamless!
+            
+        }
+        
+        if(self.audioLanguage != nil) {
+            
+            dict["audioLanguage"] = self.audioLanguage!
             
         }
         

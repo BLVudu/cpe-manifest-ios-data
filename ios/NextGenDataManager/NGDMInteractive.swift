@@ -30,7 +30,7 @@ class NGDMInteractive {
     
     /// URL associated with this Interactive
     var url: NSURL? {
-        if let containerReference = _manifestObject.ContainerReference, containerLocation = containerReference.ContainerLocation {
+        if let containerLocation = _manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
             return NSURL(string: containerLocation)
         }
         

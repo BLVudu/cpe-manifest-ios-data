@@ -8,6 +8,12 @@ class NGEPictureGroupType : NSObject{
     
     var PictureList: [NGEPictureType]!
     
+    var Type: String?
+    
+    var SubTypeList: [String]?
+    
+    var StyleRefList: [String]?
+    
     func readAttributes(reader: xmlTextReaderPtr) {
         
         let PictureGroupIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "PictureGroupID").UTF8String)
@@ -27,6 +33,9 @@ class NGEPictureGroupType : NSObject{
         
         var PictureListArray = [NGEPictureType]()
         
+        var SubTypeListArray = [String]()
+        var StyleRefListArray = [String]()
+        
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
         var _currentXmlDept = xmlTextReaderDepth(reader)
@@ -41,6 +50,43 @@ class NGEPictureGroupType : NSObject{
                     PictureListArray.append(NGEPictureType(reader: reader))
                     handledInChild = true
                     
+                } else if("Type" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let TypeElementValue = xmlTextReaderConstValue(reader)
+                    if TypeElementValue != nil {
+                        
+                        self.Type = String.fromCString(UnsafePointer<CChar>(TypeElementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
+                } else if("SubType" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let SubTypeElementValue = xmlTextReaderConstValue(reader)
+                    if SubTypeElementValue != nil {
+                        
+                        SubTypeListArray.append(String.fromCString(UnsafePointer<CChar>(SubTypeElementValue))!)
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
+                } else if("StyleRef" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let StyleRefElementValue = xmlTextReaderConstValue(reader)
+                    if StyleRefElementValue != nil {
+                        
+                        StyleRefListArray.append(String.fromCString(UnsafePointer<CChar>(StyleRefElementValue))!)
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
                 } else   if(true) {
                     print("Ignoring unexpected in NGEPictureGroupType: \(_currentElementName)")
                     if superclass != NSObject.self {
@@ -54,6 +100,9 @@ class NGEPictureGroupType : NSObject{
         }
         
         if(PictureListArray.count > 0) { self.PictureList = PictureListArray }
+        
+        if(SubTypeListArray.count > 0) { self.SubTypeList = SubTypeListArray }
+        if(StyleRefListArray.count > 0) { self.StyleRefList = StyleRefListArray }
     }
     
     /*var dictionary: [String: AnyObject] {
@@ -67,6 +116,24 @@ class NGEPictureGroupType : NSObject{
         
         if(self.PictureList != nil) {
             dict["PictureList"] = self.PictureList!.map({$0.dictionary})
+        }
+        
+        if(self.Type != nil) {
+            
+            dict["Type"] = self.Type!
+            
+        }
+        
+        if(self.SubTypeList != nil) {
+            
+            dict["SubTypeList"] = self.SubTypeList!
+            
+        }
+        
+        if(self.StyleRefList != nil) {
+            
+            dict["StyleRefList"] = self.StyleRefList!
+            
         }
         
         return dict

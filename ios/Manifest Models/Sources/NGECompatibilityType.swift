@@ -8,6 +8,8 @@ class NGECompatibilityType : NSObject{
     
     var SystemList: [String]?
     
+    var Profile: String!
+    
     func readAttributes(reader: xmlTextReaderPtr) {
         
     }
@@ -54,6 +56,19 @@ class NGECompatibilityType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
+                } else if("Profile" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let ProfileElementValue = xmlTextReaderConstValue(reader)
+                    if ProfileElementValue != nil {
+                        
+                        self.Profile = String.fromCString(UnsafePointer<CChar>(ProfileElementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
                 } else   if(true) {
                     print("Ignoring unexpected in NGECompatibilityType: \(_currentElementName)")
                     if superclass != NSObject.self {
@@ -67,6 +82,7 @@ class NGECompatibilityType : NSObject{
         }
         
         if(SystemListArray.count > 0) { self.SystemList = SystemListArray }
+        
     }
     
     /*var dictionary: [String: AnyObject] {
@@ -81,6 +97,12 @@ class NGECompatibilityType : NSObject{
         if(self.SystemList != nil) {
             
             dict["SystemList"] = self.SystemList!
+            
+        }
+        
+        if(self.Profile != nil) {
+            
+            dict["Profile"] = self.Profile!
             
         }
         

@@ -10,7 +10,10 @@ class NGEDigitalAssetCardsetType : NSObject{
     
     var Sequence: Int?
     
+    var LanguageList: [String]?
+    
     func readAttributes(reader: xmlTextReaderPtr) {
+        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -26,6 +29,8 @@ class NGEDigitalAssetCardsetType : NSObject{
         self.readAttributes(reader)
         
         var TypeListArray = [String]()
+        
+        var LanguageListArray = [String]()
         
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -74,6 +79,18 @@ class NGEDigitalAssetCardsetType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
+                } else if("Language" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let LanguageElementValue = xmlTextReaderConstValue(reader)
+                    if LanguageElementValue != nil {
+                        
+                        LanguageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageElementValue))!)
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
                 } else   if(true) {
                     print("Ignoring unexpected in NGEDigitalAssetCardsetType: \(_currentElementName)")
                     if superclass != NSObject.self {
@@ -88,6 +105,7 @@ class NGEDigitalAssetCardsetType : NSObject{
         
         if(TypeListArray.count > 0) { self.TypeList = TypeListArray }
         
+        if(LanguageListArray.count > 0) { self.LanguageList = LanguageListArray }
     }
     
     /*var dictionary: [String: AnyObject] {
@@ -108,6 +126,12 @@ class NGEDigitalAssetCardsetType : NSObject{
         if(self.Sequence != nil) {
             
             dict["Sequence"] = self.Sequence!
+            
+        }
+        
+        if(self.LanguageList != nil) {
+            
+            dict["LanguageList"] = self.LanguageList!
             
         }
         

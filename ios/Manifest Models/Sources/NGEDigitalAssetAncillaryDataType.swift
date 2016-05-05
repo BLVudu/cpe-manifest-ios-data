@@ -6,7 +6,7 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
     
     var Type: String!
     
-    var SubType: String?
+    var SubTypeList: [String]?
     
     var BaseTrackID: String?
     
@@ -29,6 +29,8 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
         super.init()
         
         self.readAttributes(reader)
+        
+        var SubTypeListArray = [String]()
         
         var BaseTrackIdentifierListArray = [NGEContentIdentifierType]()
         
@@ -61,8 +63,7 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
                     let SubTypeElementValue = xmlTextReaderConstValue(reader)
                     if SubTypeElementValue != nil {
                         
-                        self.SubType = String.fromCString(UnsafePointer<CChar>(SubTypeElementValue))
-                        
+                        SubTypeListArray.append(String.fromCString(UnsafePointer<CChar>(SubTypeElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -125,6 +126,8 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
+        if(SubTypeListArray.count > 0) { self.SubTypeList = SubTypeListArray }
+        
         if(BaseTrackIdentifierListArray.count > 0) { self.BaseTrackIdentifierList = BaseTrackIdentifierListArray }
         
     }
@@ -138,9 +141,9 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
             
         }
         
-        if(self.SubType != nil) {
+        if(self.SubTypeList != nil) {
             
-            dict["SubType"] = self.SubType!
+            dict["SubTypeList"] = self.SubTypeList!
             
         }
         
