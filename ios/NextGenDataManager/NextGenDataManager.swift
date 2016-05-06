@@ -12,6 +12,7 @@ enum NGDMError: ErrorType {
     case MainExperienceMissing
     case InMovieExperienceMissing
     case OutOfMovieExperienceMissing
+    case AppDataMissing
 }
 
 /// Manager for communicating with parsed Manifest data
@@ -25,6 +26,9 @@ class NextGenDataManager: NSObject {
     /// Reference to the root Manifest object
     var manifest: NGEMediaManifestType!
     
+    /// Reference to the root AppData object
+    var appDataSet: NGEManifestAppDataSetType!
+    
     /// The Manifest's main Experience associated with the feature film
     private var _mainExperience: NGDMMainExperience?
     
@@ -37,9 +41,22 @@ class NextGenDataManager: NSObject {
      
         - Returns: The resulting `NGEMediaManifestType` object
     */
-    func loadXMLFile(filePath: String!) -> NGEMediaManifestType {
+    func loadManifestXMLFile(filePath: String) -> NGEMediaManifestType {
         manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)
         return manifest
+    }
+    
+    /**
+        Initializes the `NGEManifestAppDataSetType` object
+ 
+        - Parameters:
+            - filePath: The path to the AppData.XML file for the desired title
+ 
+        - Returns: The resulting `NGEManifestAppDataSetType` object
+    */
+    func loadAppDataXMLFile(filePath: String) -> NGEManifestAppDataSetType {
+        appDataSet = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath)
+        return appDataSet
     }
     
     /**
@@ -61,6 +78,20 @@ class NextGenDataManager: NSObject {
         
         _mainExperience = NGDMMainExperience(manifestObject: manifestObject)
         return _mainExperience!
+    }
+    
+    func getAllAppData() throws -> [String: NGDMAppData] {
+        guard let manifestObjectList = appDataSet.ManifestAppDataList else {
+            throw NGDMError.AppDataMissing
+        }
+        
+        var allAppData = [String: NGDMAppData]()
+        for obj in manifestObjectList {
+            let appData = NGDMAppData(manifestObject: obj)
+            allAppData[appData.id] = appData
+        }
+        
+        return allAppData
     }
     
 }
