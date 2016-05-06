@@ -45,8 +45,8 @@ class NGDMAppData {
     }
     
     /// Map zoom level
-    var zoomLevel: Int {
-        return _nvPairObjects[NVPairName.Zoom]?.Integer ?? 0
+    var zoomLevel: Float {
+        return Float(_nvPairObjects[NVPairName.Zoom]?.Integer ?? 0)
     }
     
     // MARK: Initialization

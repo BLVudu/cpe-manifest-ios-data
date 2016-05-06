@@ -11,6 +11,10 @@ import Foundation
 // Wrapper class for `NGETimedEventType` Manifest object
 class NGDMTimedEvent: NSObject {
     
+    private struct Constants {
+        static let AppDataIDNamespace = "AppID"
+    }
+    
     // MARK: Instance Variables
     /// Reference to the root Manifest object
     private var _manifestObject: NGETimedEventType!
@@ -27,8 +31,8 @@ class NGDMTimedEvent: NSObject {
                 _id = _manifestObject.AppGroupID
             } else if isTextItem {
                 _id = "\(_manifestObject.TextGroupIDList.first?.value)\(_manifestObject.TextGroupIDList.first?.index)"
-            } else if isLocation {
-                _id = _manifestObject.Location.Name
+            } else if isAppData {
+                _id = appData!.id
             } else {
                 _id = NSUUID().UUIDString
             }
@@ -57,16 +61,12 @@ class NGDMTimedEvent: NSObject {
     
     /// Text value associated with this TimedEvent if it exists
     var text: String? {
-        if isTextItem {
-            if let textGroupId = _manifestObject.TextGroupIDList?.first, textGroupIndex = textGroupId.index, textGroup = NGDMTextGroup.getById(textGroupId.value!) {
-                return textGroup.textItem(textGroupIndex)
-            }
+        if let textGroupId = _manifestObject.TextGroupIDList?.first, textGroupIndex = textGroupId.index, textGroup = NGDMTextGroup.getById(textGroupId.value!) {
+            return textGroup.textItem(textGroupIndex)
         }
         
-        if isLocation {
-            if let location = location {
-                return location.name
-            }
+        if let location = location {
+            return location.name
         }
         
         return nil
@@ -81,14 +81,18 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
-    /// Location associated with this TimedEvent if it exists
-    private var _location: NGDMLocation!
-    var location: NGDMLocation? {
-        if _location == nil && isLocation {
-            _location = NGDMLocation(manifestObject: _manifestObject.Location)
+    /// AppData associated with this TimedEvent if it exists
+    var appData: NGDMAppData? {
+        if isAppData {
+            return CurrentManifest.allAppData?[_manifestObject.OtherID!.Identifier]
         }
         
-        return _location
+        return nil
+    }
+    
+    /// Location associated with this TimedEvent if it exists
+    var location: NGDMLocation? {
+        return appData?.location
     }
     
     /// Check if this is a text-based TimedEvent (e.g. trivia)
@@ -116,9 +120,14 @@ class NGDMTimedEvent: NSObject {
         return _manifestObject.ProductID != nil
     }
     
+    /// Check if this is an AppData-based TimedEvent (e.g. scene location)
+    var isAppData: Bool {
+        return _manifestObject.OtherID?.Namespace == Constants.AppDataIDNamespace
+    }
+    
     /// Check if this is a Location-based TimedEvent (e.g. scene location)
     var isLocation: Bool {
-        return _manifestObject.Location != nil
+        return appData?.location != nil
     }
     
     // MARK: Initialization
