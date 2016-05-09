@@ -51,7 +51,7 @@ class NGDMExperience: NSObject {
     /// Child of this Experience that is a clip & share Experience
     var childClipAndShareExperience: NGDMExperience? {
         for experience in childExperiences {
-            if experience.isClipAndShare() {
+            if experience.isClipAndShare {
                 return experience
             }
         }
@@ -125,17 +125,17 @@ class NGDMExperience: NSObject {
         }
         
         // Experience has an AudioVisual with an image associated with it
-        if isAudioVisual() {
+        if isAudioVisual {
             return audioVisual?.imageURL
         }
         
         // Experience has a Gallery with an image associated with it
-        if isGallery() {
+        if isGallery {
             return imageGallery?.imageURL
         }
         
         // Experience has an App with an image associated with it
-        if isApp() {
+        if isApp {
             return app?.imageURL
         }
         
@@ -196,6 +196,16 @@ class NGDMExperience: NSObject {
         return _app
     }
     
+    /// AppData associated with this Experience, if it exists
+    private var _appData: NGDMAppData?
+    var appData: NGDMAppData? {
+        if let app = app where _appData == nil {
+            _appData = CurrentManifest.allAppData?[app.id]
+        }
+        
+        return _appData
+    }
+    
     /// TimedEventSequence associated with this Experience, if it exists
     var timedEventSequence: NGDMTimedEventSequence? {
         if let objList = _manifestObject.TimedSequenceIDList, objId = objList.first {
@@ -203,6 +213,36 @@ class NGDMExperience: NSObject {
         }
         
         return nil
+    }
+    
+    /// Check if Experience is AudioVisual-based
+    var isAudioVisual: Bool {
+        return _manifestObject.Audiovisual != nil && !isClipAndShare
+    }
+    
+    /// Check if Experience is for Clip & Share
+    var isClipAndShare: Bool {
+        return id.containsString("clipshare")
+    }
+    
+    /// Check if Experience is a Gallery-based
+    var isGallery: Bool {
+        return _manifestObject.Gallery != nil
+    }
+    
+    /// Check if Experience is a App-based
+    var isApp: Bool {
+        return _manifestObject.App != nil
+    }
+    
+    /// Check if Experience is a shopping-based (e.g. with TheTake)
+    var isShopping: Bool {
+        return app?.id == kTheTakeIdentifierNamespace
+    }
+    
+    /// Check if Experience is AppData location-based
+    var isLocation: Bool {
+        return appData?.location != nil || childExperiences.first?.appData?.location != nil
     }
     
     // MARK: Initialization
@@ -231,64 +271,6 @@ class NGDMExperience: NSObject {
         }
         
         return false
-    }
-    
-    /**
-        Check if Experience is an AudioVisual type
-
-        - Returns: `true` if Experience is an AudioVisual type
-    */
-    func isAudioVisual() -> Bool {
-        return _manifestObject.Audiovisual != nil && !isClipAndShare()
-    }
-    
-    /**
-        Check if Experience is for clip & share
- 
-        - Returns: `true` if Experience is for clip & share
-    */
-    func isClipAndShare() -> Bool {
-        return id.containsString("clipshare")
-    }
-    
-    /**
-        Check if Experience is a Gallery type
-
-        - Returns: `true` if Experience is a Gallery type
-    */
-    func isGallery() -> Bool {
-        return _manifestObject.Gallery != nil
-    }
-    
-    /**
-        Check if Experience is a parent of child Gallery-type Experiences
-
-        - Returns: `true` if Expreience is a parent of child Gallery-type Experiences
-    */
-    func isGalleryList() -> Bool {
-        if let firstChildExperience = childExperiences.first {
-            return firstChildExperience.isGallery()
-        }
-        
-        return false
-    }
-    
-    /**
-        Check if Experience is an App type
- 
-        - Returns: `true` if Experience is an App type
-    */
-    func isApp() -> Bool {
-        return _manifestObject.App != nil
-    }
-    
-    /**
-        Check if this is a shopping-based Experience (e.g. with TheTake)
-     
-        - Returns: `true` if this is a shopping based Experience
-     */
-    func isShopping() -> Bool {
-        return app?.id == kTheTakeIdentifierNamespace
     }
     
     // MARK: Search Methods

@@ -49,6 +49,11 @@ class NGDMAppData {
         return Float(_nvPairObjects[NVPairName.Zoom]?.Integer ?? 0)
     }
     
+    /// Check if AppData is location-based
+    var isLocation: Bool {
+        return location != nil
+    }
+    
     // MARK: Initialization
     /**
         Initializes a new ExperienceApp

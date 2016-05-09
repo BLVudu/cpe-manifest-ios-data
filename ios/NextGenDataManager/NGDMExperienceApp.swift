@@ -17,7 +17,7 @@ class NGDMExperienceApp {
     
     /// Unique identifier
     var id: String {
-        return _manifestObject.AppGroupID
+        return _manifestObject.AppID ?? _manifestObject.AppGroupID
     }
     
     /// Metadata associated with this ExperienceApp
