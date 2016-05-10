@@ -10,11 +10,13 @@ class NGEDigitalAssetVideoDataType : NSObject{
     
     var Encoding: NGEDigitalAssetVideoEncodingType?
     
-    var Picture: NGEDigitalAssetVideoPictureType!
+    var Picture: NGEDigitalAssetVideoPictureType?
     
     var ColorType: NGEColorTypeTypeEnum?
     
     var PictureFormat: String?
+    
+    var LanguageList: [String]?
     
     var SubtitleLanguageList: [NGEDigitalAssetVideoSubtitleLanguageType]?
     
@@ -38,6 +40,7 @@ class NGEDigitalAssetVideoDataType : NSObject{
         
         self.readAttributes(reader)
         
+        var LanguageListArray = [String]()
         var SubtitleLanguageListArray = [NGEDigitalAssetVideoSubtitleLanguageType]()
         
         var CardsetListArray = [NGEDigitalAssetCardsetListType]()
@@ -115,6 +118,18 @@ class NGEDigitalAssetVideoDataType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
+                } else if("Language" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let LanguageElementValue = xmlTextReaderConstValue(reader)
+                    if LanguageElementValue != nil {
+                        
+                        LanguageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageElementValue))!)
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
                 } else if("SubtitleLanguage" == _currentElementName) {
                     
                     SubtitleLanguageListArray.append(NGEDigitalAssetVideoSubtitleLanguageType(reader: reader))
@@ -173,6 +188,7 @@ class NGEDigitalAssetVideoDataType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
+        if(LanguageListArray.count > 0) { self.LanguageList = LanguageListArray }
         if(SubtitleLanguageListArray.count > 0) { self.SubtitleLanguageList = SubtitleLanguageListArray }
         
         if(CardsetListArray.count > 0) { self.CardsetList = CardsetListArray }
@@ -214,6 +230,12 @@ class NGEDigitalAssetVideoDataType : NSObject{
         if(self.PictureFormat != nil) {
             
             dict["PictureFormat"] = self.PictureFormat!
+            
+        }
+        
+        if(self.LanguageList != nil) {
+            
+            dict["LanguageList"] = self.LanguageList!
             
         }
         

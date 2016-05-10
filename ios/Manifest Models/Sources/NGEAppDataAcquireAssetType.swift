@@ -2,20 +2,17 @@
 import Foundation
 
 @objc
-class NGEDigitalAssetCardsetType : NSObject{
+class NGEAppDataAcquireAssetType : NSObject{
     
-    var TypeList: [String]!
+    var ALID: String!
     
-    var Description: String?
+    var RequestType: String!
     
-    var Sequence: Int?
+    var FormatProfile: String!
     
-    var LanguageList: [String]?
+    var PurchaseURLList: [String]?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
     }
     
@@ -23,14 +20,9 @@ class NGEDigitalAssetCardsetType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
         self.readAttributes(reader)
         
-        var TypeListArray = [String]()
-        
-        var LanguageListArray = [String]()
+        var PurchaseURLListArray = [String]()
         
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -41,58 +33,59 @@ class NGEDigitalAssetCardsetType : NSObject{
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
                 let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
+                if("ALID" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                    let ALIDElementValue = xmlTextReaderConstValue(reader)
+                    if ALIDElementValue != nil {
                         
-                        TypeListArray.append(String.fromCString(UnsafePointer<CChar>(TypeElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Description" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DescriptionElementValue = xmlTextReaderConstValue(reader)
-                    if DescriptionElementValue != nil {
-                        
-                        self.Description = String.fromCString(UnsafePointer<CChar>(DescriptionElementValue))
+                        self.ALID = String.fromCString(UnsafePointer<CChar>(ALIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("Sequence" == _currentElementName) {
+                } else if("RequestType" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SequenceElementValue = xmlTextReaderConstValue(reader)
-                    if SequenceElementValue != nil {
+                    let RequestTypeElementValue = xmlTextReaderConstValue(reader)
+                    if RequestTypeElementValue != nil {
                         
-                        self.Sequence = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SequenceElementValue))!)!.integerValue
+                        self.RequestType = String.fromCString(UnsafePointer<CChar>(RequestTypeElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("Language" == _currentElementName) {
+                } else if("FormatProfile" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LanguageElementValue = xmlTextReaderConstValue(reader)
-                    if LanguageElementValue != nil {
+                    let FormatProfileElementValue = xmlTextReaderConstValue(reader)
+                    if FormatProfileElementValue != nil {
                         
-                        LanguageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageElementValue))!)
+                        self.FormatProfile = String.fromCString(UnsafePointer<CChar>(FormatProfileElementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
+                } else if("PurchaseURL" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let PurchaseURLElementValue = xmlTextReaderConstValue(reader)
+                    if PurchaseURLElementValue != nil {
+                        
+                        PurchaseURLListArray.append(String.fromCString(UnsafePointer<CChar>(PurchaseURLElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
                 } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetCardsetType: \(_currentElementName)")
+                    print("Ignoring unexpected in NGEAppDataAcquireAssetType: \(_currentElementName)")
                     if superclass != NSObject.self {
                         break
                     }
@@ -103,35 +96,33 @@ class NGEDigitalAssetCardsetType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
-        if(TypeListArray.count > 0) { self.TypeList = TypeListArray }
-        
-        if(LanguageListArray.count > 0) { self.LanguageList = LanguageListArray }
+        if(PurchaseURLListArray.count > 0) { self.PurchaseURLList = PurchaseURLListArray }
     }
     
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.TypeList != nil) {
+        if(self.ALID != nil) {
             
-            dict["TypeList"] = self.TypeList!
-            
-        }
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
+            dict["ALID"] = self.ALID!
             
         }
         
-        if(self.Sequence != nil) {
+        if(self.RequestType != nil) {
             
-            dict["Sequence"] = self.Sequence!
+            dict["RequestType"] = self.RequestType!
             
         }
         
-        if(self.LanguageList != nil) {
+        if(self.FormatProfile != nil) {
             
-            dict["LanguageList"] = self.LanguageList!
+            dict["FormatProfile"] = self.FormatProfile!
+            
+        }
+        
+        if(self.PurchaseURLList != nil) {
+            
+            dict["PurchaseURLList"] = self.PurchaseURLList!
             
         }
         

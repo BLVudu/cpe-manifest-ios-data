@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEExperienceType : NSObject{
     
-    var ExperienceID: String!
+    var ExperienceID: String?
     
     var version: String!
     
@@ -18,15 +18,13 @@ class NGEExperienceType : NSObject{
     
     var ExcludedRegionList: [NGERegionType]!
     
-    var ContentID: String!
+    var ContentID: String?
     
-    var BasicMetadata: NGEBasicMetadataType!
+    var Audiovisual: NGEAudiovisualType?
     
-    var AudiovisualList: [NGEAudiovisualType]?
+    var App: NGEExperienceAppType?
     
-    var AppList: [NGEExperienceAppType]?
-    
-    var GalleryList: [NGEGalleryType]?
+    var Gallery: NGEGalleryType?
     
     var PictureGroupIDList: [String]?
     
@@ -78,9 +76,6 @@ class NGEExperienceType : NSObject{
         var RegionListArray = [NGERegionType]()
         var ExcludedRegionListArray = [NGERegionType]()
         
-        var AudiovisualListArray = [NGEAudiovisualType]()
-        var AppListArray = [NGEExperienceAppType]()
-        var GalleryListArray = [NGEGalleryType]()
         var PictureGroupIDListArray = [String]()
         var TextGroupIDListArray = [String]()
         var TimedSequenceIDListArray = [String]()
@@ -142,24 +137,19 @@ class NGEExperienceType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("BasicMetadata" == _currentElementName) {
-                    
-                    self.BasicMetadata = NGEBasicMetadataType(reader: reader)
-                    handledInChild = true
-                    
                 } else if("Audiovisual" == _currentElementName) {
                     
-                    AudiovisualListArray.append(NGEAudiovisualType(reader: reader))
+                    self.Audiovisual = NGEAudiovisualType(reader: reader)
                     handledInChild = true
                     
                 } else if("App" == _currentElementName) {
                     
-                    AppListArray.append(NGEExperienceAppType(reader: reader))
+                    self.App = NGEExperienceAppType(reader: reader)
                     handledInChild = true
                     
                 } else if("Gallery" == _currentElementName) {
                     
-                    GalleryListArray.append(NGEGalleryType(reader: reader))
+                    self.Gallery = NGEGalleryType(reader: reader)
                     handledInChild = true
                     
                 } else if("PictureGroupID" == _currentElementName) {
@@ -220,9 +210,6 @@ class NGEExperienceType : NSObject{
         if(RegionListArray.count > 0) { self.RegionList = RegionListArray }
         if(ExcludedRegionListArray.count > 0) { self.ExcludedRegionList = ExcludedRegionListArray }
         
-        if(AudiovisualListArray.count > 0) { self.AudiovisualList = AudiovisualListArray }
-        if(AppListArray.count > 0) { self.AppList = AppListArray }
-        if(GalleryListArray.count > 0) { self.GalleryList = GalleryListArray }
         if(PictureGroupIDListArray.count > 0) { self.PictureGroupIDList = PictureGroupIDListArray }
         if(TextGroupIDListArray.count > 0) { self.TextGroupIDList = TextGroupIDListArray }
         if(TimedSequenceIDListArray.count > 0) { self.TimedSequenceIDList = TimedSequenceIDListArray }
@@ -276,20 +263,16 @@ class NGEExperienceType : NSObject{
             
         }
         
-        if(self.BasicMetadata != nil) {
-            dict["BasicMetadata"] = self.BasicMetadata!
+        if(self.Audiovisual != nil) {
+            dict["Audiovisual"] = self.Audiovisual!
         }
         
-        if(self.AudiovisualList != nil) {
-            dict["AudiovisualList"] = self.AudiovisualList!.map({$0.dictionary})
+        if(self.App != nil) {
+            dict["App"] = self.App!
         }
         
-        if(self.AppList != nil) {
-            dict["AppList"] = self.AppList!.map({$0.dictionary})
-        }
-        
-        if(self.GalleryList != nil) {
-            dict["GalleryList"] = self.GalleryList!.map({$0.dictionary})
+        if(self.Gallery != nil) {
+            dict["Gallery"] = self.Gallery!
         }
         
         if(self.PictureGroupIDList != nil) {

@@ -10,7 +10,7 @@ class NGEDigitalAssetImageDataType : NSObject{
     
     var Encoding: String!
     
-    var Language: String?
+    var LanguageList: [String]?
     
     var TrackReference: String?
     
@@ -19,6 +19,7 @@ class NGEDigitalAssetImageDataType : NSObject{
     var Private: NGEPrivateDataType?
     
     func readAttributes(reader: xmlTextReaderPtr) {
+        
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
@@ -32,6 +33,8 @@ class NGEDigitalAssetImageDataType : NSObject{
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
         self.readAttributes(reader)
+        
+        var LanguageListArray = [String]()
         
         var TrackIdentifierListArray = [NGEContentIdentifierType]()
         
@@ -90,8 +93,7 @@ class NGEDigitalAssetImageDataType : NSObject{
                     let LanguageElementValue = xmlTextReaderConstValue(reader)
                     if LanguageElementValue != nil {
                         
-                        self.Language = String.fromCString(UnsafePointer<CChar>(LanguageElementValue))
-                        
+                        LanguageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageElementValue))!)
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -131,6 +133,8 @@ class NGEDigitalAssetImageDataType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
+        if(LanguageListArray.count > 0) { self.LanguageList = LanguageListArray }
+        
         if(TrackIdentifierListArray.count > 0) { self.TrackIdentifierList = TrackIdentifierListArray }
         
     }
@@ -156,9 +160,9 @@ class NGEDigitalAssetImageDataType : NSObject{
             
         }
         
-        if(self.Language != nil) {
+        if(self.LanguageList != nil) {
             
-            dict["Language"] = self.Language!
+            dict["LanguageList"] = self.LanguageList!
             
         }
         

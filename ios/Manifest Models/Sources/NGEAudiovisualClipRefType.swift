@@ -8,6 +8,8 @@ class NGEAudiovisualClipRefType : NSObject{
     
     var seamless: Bool?
     
+    var audioLanguage: String?
+    
     var PresentationID: String!
     
     var EntryPointTimecode: NGETimecodeType?
@@ -32,6 +34,13 @@ class NGEAudiovisualClipRefType : NSObject{
             
             self.seamless = (String.fromCString(UnsafePointer<CChar>(seamlessAttrValue)) == "true")
             xmlFree(seamlessAttrValue)
+        }
+        let audioLanguageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "audioLanguage").UTF8String)
+        let audioLanguageAttrValue = xmlTextReaderGetAttribute(reader, audioLanguageAttrName)
+        if(audioLanguageAttrValue != nil) {
+            
+            self.audioLanguage = String.fromCString(UnsafePointer<CChar>(audioLanguageAttrValue))
+            xmlFree(audioLanguageAttrValue)
         }
     }
     
@@ -102,6 +111,12 @@ class NGEAudiovisualClipRefType : NSObject{
         if(self.seamless != nil) {
             
             dict["seamless"] = self.seamless!
+            
+        }
+        
+        if(self.audioLanguage != nil) {
+            
+            dict["audioLanguage"] = self.audioLanguage!
             
         }
         

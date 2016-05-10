@@ -24,7 +24,7 @@ class NGETimedEventType : NSObject{
     
     var AppGroupID: String!
     
-    var TextGroupID: NGETextGroupID!
+    var TextGroupIDList: [NGETextGroupID]!
     
     var URL: String!
     
@@ -39,6 +39,10 @@ class NGETimedEventType : NSObject{
     var TimePeriod: NGEEventPeriodType!
     
     var Location: NGEEventLocationType!
+    
+    var People: NGEBasicMetadataPeopleType!
+    
+    var UPC: String!
     
     var Offset: Int!
     
@@ -63,6 +67,8 @@ class NGETimedEventType : NSObject{
         self.readAttributes(reader)
         
         var SubTypeListArray = [String]()
+        
+        var TextGroupIDListArray = [NGETextGroupID]()
         
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -188,7 +194,7 @@ class NGETimedEventType : NSObject{
                     
                 } else if("TextGroupID" == _currentElementName) {
                     
-                    self.TextGroupID = NGETextGroupID(reader: reader)
+                    TextGroupIDListArray.append(NGETextGroupID(reader: reader))
                     handledInChild = true
                     
                 } else if("URL" == _currentElementName) {
@@ -250,6 +256,24 @@ class NGETimedEventType : NSObject{
                     self.Location = NGEEventLocationType(reader: reader)
                     handledInChild = true
                     
+                } else if("People" == _currentElementName) {
+                    
+                    self.People = NGEBasicMetadataPeopleType(reader: reader)
+                    handledInChild = true
+                    
+                } else if("UPC" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let UPCElementValue = xmlTextReaderConstValue(reader)
+                    if UPCElementValue != nil {
+                        
+                        self.UPC = String.fromCString(UnsafePointer<CChar>(UPCElementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
                 } else if("Offset" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
@@ -294,6 +318,8 @@ class NGETimedEventType : NSObject{
         }
         
         if(SubTypeListArray.count > 0) { self.SubTypeList = SubTypeListArray }
+        
+        if(TextGroupIDListArray.count > 0) { self.TextGroupIDList = TextGroupIDListArray }
         
     }
     
@@ -356,8 +382,8 @@ class NGETimedEventType : NSObject{
             
         }
         
-        if(self.TextGroupID != nil) {
-            dict["TextGroupID"] = self.TextGroupID!
+        if(self.TextGroupIDList != nil) {
+            dict["TextGroupIDList"] = self.TextGroupIDList!.map({$0.dictionary})
         }
         
         if(self.URL != nil) {
@@ -392,6 +418,16 @@ class NGETimedEventType : NSObject{
         
         if(self.Location != nil) {
             dict["Location"] = self.Location!
+        }
+        
+        if(self.People != nil) {
+            dict["People"] = self.People!
+        }
+        
+        if(self.UPC != nil) {
+            
+            dict["UPC"] = self.UPC!
+            
         }
         
         if(self.Offset != nil) {

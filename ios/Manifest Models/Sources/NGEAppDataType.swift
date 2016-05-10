@@ -2,26 +2,38 @@
 import Foundation
 
 @objc
-class NGEPictureGroupType : NSObject{
+class NGEAppDataType : NSObject{
     
-    var PictureGroupID: String?
+    var AppID: String!
     
-    var PictureList: [NGEPictureType]!
+    var updateNum: Int?
     
     var Type: String?
     
     var SubTypeList: [String]?
     
-    var StyleRefList: [String]?
+    var AppGroupID: String?
+    
+    var NVPairList: [NGEAppNVPairType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
-        let PictureGroupIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "PictureGroupID").UTF8String)
-        let PictureGroupIDAttrValue = xmlTextReaderGetAttribute(reader, PictureGroupIDAttrName)
-        if(PictureGroupIDAttrValue != nil) {
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        
+        let AppIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "AppID").UTF8String)
+        let AppIDAttrValue = xmlTextReaderGetAttribute(reader, AppIDAttrName)
+        if(AppIDAttrValue != nil) {
             
-            self.PictureGroupID = String.fromCString(UnsafePointer<CChar>(PictureGroupIDAttrValue))
-            xmlFree(PictureGroupIDAttrValue)
+            self.AppID = String.fromCString(UnsafePointer<CChar>(AppIDAttrValue))
+            xmlFree(AppIDAttrValue)
+        }
+        let updateNumAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateNum").UTF8String)
+        let updateNumAttrValue = xmlTextReaderGetAttribute(reader, updateNumAttrName)
+        if(updateNumAttrValue != nil) {
+            
+            self.updateNum = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(updateNumAttrValue))!)!.integerValue
+            xmlFree(updateNumAttrValue)
         }
     }
     
@@ -29,12 +41,14 @@ class NGEPictureGroupType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        
         self.readAttributes(reader)
         
-        var PictureListArray = [NGEPictureType]()
-        
         var SubTypeListArray = [String]()
-        var StyleRefListArray = [String]()
+        
+        var NVPairListArray = [NGEAppNVPairType]()
         
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -45,12 +59,7 @@ class NGEPictureGroupType : NSObject{
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
                 let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Picture" == _currentElementName) {
-                    
-                    PictureListArray.append(NGEPictureType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Type" == _currentElementName) {
+                if("Type" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
@@ -75,20 +84,26 @@ class NGEPictureGroupType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("StyleRef" == _currentElementName) {
+                } else if("AppGroupID" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let StyleRefElementValue = xmlTextReaderConstValue(reader)
-                    if StyleRefElementValue != nil {
+                    let AppGroupIDElementValue = xmlTextReaderConstValue(reader)
+                    if AppGroupIDElementValue != nil {
                         
-                        StyleRefListArray.append(String.fromCString(UnsafePointer<CChar>(StyleRefElementValue))!)
+                        self.AppGroupID = String.fromCString(UnsafePointer<CChar>(AppGroupIDElementValue))
+                        
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
+                } else if("NVPair" == _currentElementName) {
+                    
+                    NVPairListArray.append(NGEAppNVPairType(reader: reader))
+                    handledInChild = true
+                    
                 } else   if(true) {
-                    print("Ignoring unexpected in NGEPictureGroupType: \(_currentElementName)")
+                    print("Ignoring unexpected in NGEAppDataType: \(_currentElementName)")
                     if superclass != NSObject.self {
                         break
                     }
@@ -99,23 +114,24 @@ class NGEPictureGroupType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
-        if(PictureListArray.count > 0) { self.PictureList = PictureListArray }
-        
         if(SubTypeListArray.count > 0) { self.SubTypeList = SubTypeListArray }
-        if(StyleRefListArray.count > 0) { self.StyleRefList = StyleRefListArray }
+        
+        if(NVPairListArray.count > 0) { self.NVPairList = NVPairListArray }
     }
     
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.PictureGroupID != nil) {
+        if(self.AppID != nil) {
             
-            dict["PictureGroupID"] = self.PictureGroupID!
+            dict["AppID"] = self.AppID!
             
         }
         
-        if(self.PictureList != nil) {
-            dict["PictureList"] = self.PictureList!.map({$0.dictionary})
+        if(self.updateNum != nil) {
+            
+            dict["updateNum"] = self.updateNum!
+            
         }
         
         if(self.Type != nil) {
@@ -130,10 +146,14 @@ class NGEPictureGroupType : NSObject{
             
         }
         
-        if(self.StyleRefList != nil) {
+        if(self.AppGroupID != nil) {
             
-            dict["StyleRefList"] = self.StyleRefList!
+            dict["AppGroupID"] = self.AppGroupID!
             
+        }
+        
+        if(self.NVPairList != nil) {
+            dict["NVPairList"] = self.NVPairList!.map({$0.dictionary})
         }
         
         return dict

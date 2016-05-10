@@ -4,7 +4,7 @@ import Foundation
 @objc
 class NGEFileInfoType : NSObject{
     
-    var Location: String!
+    var LocationList: [NGELocationType]!
     
     var IdentifierList: [NGEContentIdentifierType]?
     
@@ -27,12 +27,12 @@ class NGEFileInfoType : NSObject{
     var Delivery: NGEFileDeliveryType?
     
     func readAttributes(reader: xmlTextReaderPtr) {
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        
         let dateOnlyFormatter = NSDateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
     }
     
@@ -40,15 +40,16 @@ class NGEFileInfoType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        
         let dateOnlyFormatter = NSDateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
         self.readAttributes(reader)
         
+        var LocationListArray = [NGELocationType]()
         var IdentifierListArray = [NGEContentIdentifierType]()
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -62,16 +63,8 @@ class NGEFileInfoType : NSObject{
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
                 if("Location" == _currentElementName) {
                     
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LocationElementValue = xmlTextReaderConstValue(reader)
-                    if LocationElementValue != nil {
-                        
-                        self.Location = String.fromCString(UnsafePointer<CChar>(LocationElementValue))
-                        
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    LocationListArray.append(NGELocationType(reader: reader))
+                    handledInChild = true
                     
                 } else if("Identifier" == _currentElementName) {
                     
@@ -183,6 +176,7 @@ class NGEFileInfoType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
+        if(LocationListArray.count > 0) { self.LocationList = LocationListArray }
         if(IdentifierListArray.count > 0) { self.IdentifierList = IdentifierListArray }
         
     }
@@ -190,10 +184,8 @@ class NGEFileInfoType : NSObject{
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.Location != nil) {
-            
-            dict["Location"] = self.Location!
-            
+        if(self.LocationList != nil) {
+            dict["LocationList"] = self.LocationList!.map({$0.dictionary})
         }
         
         if(self.IdentifierList != nil) {

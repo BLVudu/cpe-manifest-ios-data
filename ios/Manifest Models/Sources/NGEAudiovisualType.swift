@@ -14,9 +14,7 @@ class NGEAudiovisualType : NSObject{
     
     var PlayableSequence: NGEPlayableSequenceType!
     
-    var ContentID: String!
-    
-    var BasicMetadata: NGEBasicMetadataType!
+    var ContentID: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -108,11 +106,6 @@ class NGEAudiovisualType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("BasicMetadata" == _currentElementName) {
-                    
-                    self.BasicMetadata = NGEBasicMetadataType(reader: reader)
-                    handledInChild = true
-                    
                 } else   if(true) {
                     print("Ignoring unexpected in NGEAudiovisualType: \(_currentElementName)")
                     if superclass != NSObject.self {
@@ -164,10 +157,6 @@ class NGEAudiovisualType : NSObject{
             
             dict["ContentID"] = self.ContentID!
             
-        }
-        
-        if(self.BasicMetadata != nil) {
-            dict["BasicMetadata"] = self.BasicMetadata!
         }
         
         return dict

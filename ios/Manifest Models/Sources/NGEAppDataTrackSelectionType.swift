@@ -2,20 +2,17 @@
 import Foundation
 
 @objc
-class NGEDigitalAssetCardsetType : NSObject{
+class NGEAppDataTrackSelectionType : NSObject{
     
-    var TypeList: [String]!
+    var PresentationID: String!
     
-    var Description: String?
+    var SelectVideoTrack: Bool!
     
-    var Sequence: Int?
+    var SelectSubtitleTrack: Bool!
     
-    var LanguageList: [String]?
+    var SelectAudioTrack: Bool!
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
     }
     
@@ -23,14 +20,7 @@ class NGEDigitalAssetCardsetType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
         self.readAttributes(reader)
-        
-        var TypeListArray = [String]()
-        
-        var LanguageListArray = [String]()
         
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -41,58 +31,60 @@ class NGEDigitalAssetCardsetType : NSObject{
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
                 let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
+                if("PresentationID" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                    let PresentationIDElementValue = xmlTextReaderConstValue(reader)
+                    if PresentationIDElementValue != nil {
                         
-                        TypeListArray.append(String.fromCString(UnsafePointer<CChar>(TypeElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Description" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DescriptionElementValue = xmlTextReaderConstValue(reader)
-                    if DescriptionElementValue != nil {
-                        
-                        self.Description = String.fromCString(UnsafePointer<CChar>(DescriptionElementValue))
+                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("Sequence" == _currentElementName) {
+                } else if("SelectVideoTrack" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SequenceElementValue = xmlTextReaderConstValue(reader)
-                    if SequenceElementValue != nil {
+                    let SelectVideoTrackElementValue = xmlTextReaderConstValue(reader)
+                    if SelectVideoTrackElementValue != nil {
                         
-                        self.Sequence = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SequenceElementValue))!)!.integerValue
+                        self.SelectVideoTrack = String.fromCString(UnsafePointer<CChar>(SelectVideoTrackElementValue)) == "true"
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("Language" == _currentElementName) {
+                } else if("SelectSubtitleTrack" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LanguageElementValue = xmlTextReaderConstValue(reader)
-                    if LanguageElementValue != nil {
+                    let SelectSubtitleTrackElementValue = xmlTextReaderConstValue(reader)
+                    if SelectSubtitleTrackElementValue != nil {
                         
-                        LanguageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageElementValue))!)
+                        self.SelectSubtitleTrack = String.fromCString(UnsafePointer<CChar>(SelectSubtitleTrackElementValue)) == "true"
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
+                } else if("SelectAudioTrack" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let SelectAudioTrackElementValue = xmlTextReaderConstValue(reader)
+                    if SelectAudioTrackElementValue != nil {
+                        
+                        self.SelectAudioTrack = String.fromCString(UnsafePointer<CChar>(SelectAudioTrackElementValue)) == "true"
+                        
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
                 } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetCardsetType: \(_currentElementName)")
+                    print("Ignoring unexpected in NGEAppDataTrackSelectionType: \(_currentElementName)")
                     if superclass != NSObject.self {
                         break
                     }
@@ -103,35 +95,32 @@ class NGEDigitalAssetCardsetType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
-        if(TypeListArray.count > 0) { self.TypeList = TypeListArray }
-        
-        if(LanguageListArray.count > 0) { self.LanguageList = LanguageListArray }
     }
     
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.TypeList != nil) {
+        if(self.PresentationID != nil) {
             
-            dict["TypeList"] = self.TypeList!
-            
-        }
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
+            dict["PresentationID"] = self.PresentationID!
             
         }
         
-        if(self.Sequence != nil) {
+        if(self.SelectVideoTrack != nil) {
             
-            dict["Sequence"] = self.Sequence!
+            dict["SelectVideoTrack"] = self.SelectVideoTrack!
             
         }
         
-        if(self.LanguageList != nil) {
+        if(self.SelectSubtitleTrack != nil) {
             
-            dict["LanguageList"] = self.LanguageList!
+            dict["SelectSubtitleTrack"] = self.SelectSubtitleTrack!
+            
+        }
+        
+        if(self.SelectAudioTrack != nil) {
+            
+            dict["SelectAudioTrack"] = self.SelectAudioTrack!
             
         }
         

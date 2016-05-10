@@ -2,36 +2,29 @@
 import Foundation
 
 @objc
-class NGEDate : NSObject{
+class NGEEANUPC : NSObject{
     
-    var scheduled: Bool?
+    var format: String?
     
     /**
     the type's underlying value
     */
-    var value: NSDate?
+    var value: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
         
-        let scheduledAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "scheduled").UTF8String)
-        let scheduledAttrValue = xmlTextReaderGetAttribute(reader, scheduledAttrName)
-        if(scheduledAttrValue != nil) {
+        let formatAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "format").UTF8String)
+        let formatAttrValue = xmlTextReaderGetAttribute(reader, formatAttrName)
+        if(formatAttrValue != nil) {
             
-            self.scheduled = (String.fromCString(UnsafePointer<CChar>(scheduledAttrValue)) == "true")
-            xmlFree(scheduledAttrValue)
+            self.format = String.fromCString(UnsafePointer<CChar>(formatAttrValue))
+            xmlFree(formatAttrValue)
         }
     }
     
     init(reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
-        
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
         
         self.readAttributes(reader)
         
@@ -47,18 +40,11 @@ class NGEDate : NSObject{
                 if("#text" == _currentElementName){
                     let contentValue = xmlTextReaderConstValue(reader)
                     if(contentValue != nil) {
-                        let dateOnlyFormatter = NSDateFormatter()
-                        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-                        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-                        
                         let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        if value != nil {
-                            let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            self.value = dateOnlyFormatter.dateFromString(trimmed)
-                        }
+                        self.value = value
                     }
                 } else  if(true) {
-                    print("Ignoring unexpected in NGEDate: \(_currentElementName)")
+                    print("Ignoring unexpected in NGEEANUPC: \(_currentElementName)")
                     if superclass != NSObject.self {
                         break
                     }
@@ -74,9 +60,9 @@ class NGEDate : NSObject{
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.scheduled != nil) {
+        if(self.format != nil) {
             
-            dict["scheduled"] = self.scheduled!
+            dict["format"] = self.format!
             
         }
         

@@ -2,26 +2,25 @@
 import Foundation
 
 @objc
-class NGEDate : NSObject{
+class NGELocationType : NSObject{
     
-    var scheduled: Bool?
+    var priority: Int?
     
     /**
     the type's underlying value
     */
-    var value: NSDate?
+    var value: String?
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
-        let scheduledAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "scheduled").UTF8String)
-        let scheduledAttrValue = xmlTextReaderGetAttribute(reader, scheduledAttrName)
-        if(scheduledAttrValue != nil) {
+        let priorityAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "priority").UTF8String)
+        let priorityAttrValue = xmlTextReaderGetAttribute(reader, priorityAttrName)
+        if(priorityAttrValue != nil) {
             
-            self.scheduled = (String.fromCString(UnsafePointer<CChar>(scheduledAttrValue)) == "true")
-            xmlFree(scheduledAttrValue)
+            self.priority = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(priorityAttrValue))!)!.integerValue
+            xmlFree(priorityAttrValue)
         }
     }
     
@@ -29,9 +28,8 @@ class NGEDate : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
         self.readAttributes(reader)
         
@@ -47,18 +45,11 @@ class NGEDate : NSObject{
                 if("#text" == _currentElementName){
                     let contentValue = xmlTextReaderConstValue(reader)
                     if(contentValue != nil) {
-                        let dateOnlyFormatter = NSDateFormatter()
-                        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-                        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-                        
                         let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        if value != nil {
-                            let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            self.value = dateOnlyFormatter.dateFromString(trimmed)
-                        }
+                        self.value = value
                     }
                 } else  if(true) {
-                    print("Ignoring unexpected in NGEDate: \(_currentElementName)")
+                    print("Ignoring unexpected in NGELocationType: \(_currentElementName)")
                     if superclass != NSObject.self {
                         break
                     }
@@ -74,9 +65,9 @@ class NGEDate : NSObject{
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.scheduled != nil) {
+        if(self.priority != nil) {
             
-            dict["scheduled"] = self.scheduled!
+            dict["priority"] = self.priority!
             
         }
         

@@ -2,13 +2,13 @@
 import Foundation
 
 @objc
-class NGECompatibilityType : NSObject{
+class NGEAppDataGalleryType : NSObject{
     
-    var SpecVersion: String!
+    var GalleryID: String!
     
-    var SystemList: [String]?
+    var AutoNextSlideTime: String?
     
-    var Profile: String!
+    var Loop: Bool?
     
     func readAttributes(reader: xmlTextReaderPtr) {
         
@@ -20,8 +20,6 @@ class NGECompatibilityType : NSObject{
         
         self.readAttributes(reader)
         
-        var SystemListArray = [String]()
-        
         var _readerOk = xmlTextReaderRead(reader)
         var _currentNodeType = xmlTextReaderNodeType(reader)
         var _currentXmlDept = xmlTextReaderDepth(reader)
@@ -31,46 +29,47 @@ class NGECompatibilityType : NSObject{
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
                 let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("SpecVersion" == _currentElementName) {
+                if("GalleryID" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SpecVersionElementValue = xmlTextReaderConstValue(reader)
-                    if SpecVersionElementValue != nil {
+                    let GalleryIDElementValue = xmlTextReaderConstValue(reader)
+                    if GalleryIDElementValue != nil {
                         
-                        self.SpecVersion = String.fromCString(UnsafePointer<CChar>(SpecVersionElementValue))
+                        self.GalleryID = String.fromCString(UnsafePointer<CChar>(GalleryIDElementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("System" == _currentElementName) {
+                } else if("AutoNextSlideTime" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SystemElementValue = xmlTextReaderConstValue(reader)
-                    if SystemElementValue != nil {
+                    let AutoNextSlideTimeElementValue = xmlTextReaderConstValue(reader)
+                    if AutoNextSlideTimeElementValue != nil {
                         
-                        SystemListArray.append(String.fromCString(UnsafePointer<CChar>(SystemElementValue))!)
+                        self.AutoNextSlideTime = String.fromCString(UnsafePointer<CChar>(AutoNextSlideTimeElementValue))
+                        
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                } else if("Profile" == _currentElementName) {
+                } else if("Loop" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ProfileElementValue = xmlTextReaderConstValue(reader)
-                    if ProfileElementValue != nil {
+                    let LoopElementValue = xmlTextReaderConstValue(reader)
+                    if LoopElementValue != nil {
                         
-                        self.Profile = String.fromCString(UnsafePointer<CChar>(ProfileElementValue))
+                        self.Loop = String.fromCString(UnsafePointer<CChar>(LoopElementValue)) == "true"
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
                 } else   if(true) {
-                    print("Ignoring unexpected in NGECompatibilityType: \(_currentElementName)")
+                    print("Ignoring unexpected in NGEAppDataGalleryType: \(_currentElementName)")
                     if superclass != NSObject.self {
                         break
                     }
@@ -81,28 +80,26 @@ class NGECompatibilityType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
-        if(SystemListArray.count > 0) { self.SystemList = SystemListArray }
-        
     }
     
     /*var dictionary: [String: AnyObject] {
         var dict = [String: AnyObject]()
         
-        if(self.SpecVersion != nil) {
+        if(self.GalleryID != nil) {
             
-            dict["SpecVersion"] = self.SpecVersion!
-            
-        }
-        
-        if(self.SystemList != nil) {
-            
-            dict["SystemList"] = self.SystemList!
+            dict["GalleryID"] = self.GalleryID!
             
         }
         
-        if(self.Profile != nil) {
+        if(self.AutoNextSlideTime != nil) {
             
-            dict["Profile"] = self.Profile!
+            dict["AutoNextSlideTime"] = self.AutoNextSlideTime!
+            
+        }
+        
+        if(self.Loop != nil) {
+            
+            dict["Loop"] = self.Loop!
             
         }
         
