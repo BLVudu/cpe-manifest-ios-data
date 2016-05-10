@@ -41,6 +41,11 @@ class NGDMAppData {
         return _nvPairObjects[NVPairName.Text]?.Text
     }
     
+    /// Display thumbnail
+    var thumbnailImage: UIImage? {
+        return UIImage(named: "MOSDefault")
+    }
+    
     /// Map location
     private var _location: NGDMLocation?
     var location: NGDMLocation? {
