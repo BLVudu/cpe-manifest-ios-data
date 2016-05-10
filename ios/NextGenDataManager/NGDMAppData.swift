@@ -12,6 +12,7 @@ import Foundation
 class NGDMAppData {
     
     private struct NVPairName {
+        static let AppType = "type"
         static let Location = "location"
         static let Text = "text"
         static let Zoom = "zoom"
@@ -27,6 +28,11 @@ class NGDMAppData {
     /// Unique identifier
     var id: String {
         return _manifestObject.AppID
+    }
+    
+    /// App Type
+    var type: String? {
+        return _nvPairObjects[NVPairName.AppType]?.Text
     }
     
     /// Display text
