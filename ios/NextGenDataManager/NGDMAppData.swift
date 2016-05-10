@@ -16,6 +16,7 @@ class NGDMAppData {
         static let Location = "location"
         static let Text = "text"
         static let Zoom = "zoom"
+        static let VideoId = "video_id"
     }
     
     // MARK: Instance Variables
@@ -58,6 +59,16 @@ class NGDMAppData {
     /// Check if AppData is location-based
     var isLocation: Bool {
         return location != nil
+    }
+    
+    /// Presentation associated with this AppData, if it exists
+    private var _presentation: NGDMPresentation?
+    var presentation: NGDMPresentation? {
+        if let presentationId = _nvPairObjects[NVPairName.VideoId]?.PresentationID where _presentation == nil {
+            _presentation = NGDMPresentation.getById(presentationId)
+        }
+        
+        return _presentation
     }
     
     // MARK: Initialization
