@@ -24,15 +24,10 @@ enum SocialAccountType {
 // Wrapper class for `NGEBasicMetadataPeopleType` Manifest object
 class NGDMPeople: NSObject {
     
-    enum NGDMPeopleSourceType {
-        case Manifest
-        case Baseline
-    }
-    
     // MARK: Instance Variables
-    /// Name of this Location
     var id: String!
-    var sourceType = NGDMPeopleSourceType.Manifest
+    var baselineId: String?
+    
     var name: String?
     var role: String?
     var billingBlockOrder = 0
@@ -63,15 +58,16 @@ class NGDMPeople: NSObject {
         
         if let identifiers = manifestObject.IdentifierList {
             for identifier in identifiers {
-                if identifier.Namespace == kBaselineIdentifierNamespace {
+                if identifier.Namespace == Namespaces.PeopleID {
                     id = identifier.Identifier
-                    sourceType = NGDMPeopleSourceType.Baseline
+                } else if identifier.Namespace == kBaselineIdentifierNamespace {
+                    baselineId = identifier.Identifier
                 }
             }
         }
         
         if id == nil {
-            id = String(arc4random())
+            id = baselineId != nil ? baselineId : String(arc4random())
         }
         
         name = manifestObject.Name.DisplayNameList.first?.value
@@ -134,8 +130,7 @@ class Talent: NGDMPeople {
     convenience init(baselineInfo: NSDictionary) {
         self.init()
         
-        id = (baselineInfo[BaselineAPIUtil.Keys.ParticipantID] as! NSNumber).stringValue
-        sourceType = NGDMPeopleSourceType.Baseline
+        baselineId = (baselineInfo[BaselineAPIUtil.Keys.ParticipantID] as! NSNumber).stringValue
         name = baselineInfo[BaselineAPIUtil.Keys.FullName] as? String
         role = baselineInfo[BaselineAPIUtil.Keys.Credit] as? String
         if let creditGroup = baselineInfo[BaselineAPIUtil.Keys.CreditGroup] as? String {
@@ -169,16 +164,16 @@ class Talent: NGDMPeople {
         }
     }
     
-    func getFilmography(successBlock: (films: [TalentFilm]) -> Void) {
+    func getFilmography(successBlock: (films: [TalentFilm]?) -> Void) {
         if films != nil {
-            successBlock(films: films!)
-        } else if ConfigManager.sharedInstance.hasBaselineAPI {
+            successBlock(films: films)
+        } else if let id = baselineId where ConfigManager.sharedInstance.hasBaselineAPI {
             BaselineAPIUtil.sharedInstance.getTalentFilmography(id, successBlock: { (films) in
                 self.films = films
                 successBlock(films: films)
             })
         } else {
-            successBlock(films: [TalentFilm]())
+            successBlock(films: nil)
         }
     }
     

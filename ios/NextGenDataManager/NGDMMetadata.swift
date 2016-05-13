@@ -27,7 +27,7 @@ class NGDMMetadata {
     /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
     private var _localizedInfoManifestObjectMap = [String: NGEBasicMetadataInfoType]()
     private var _localizedInfo: NGEBasicMetadataInfoType? {
-        return localizedInfo(NSLocale.currentLanguage())
+        return localizedInfo(NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-"))
     }
     
     /// Full title associated with this Metadata

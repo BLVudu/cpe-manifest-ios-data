@@ -11,10 +11,6 @@ import Foundation
 // Wrapper class for `NGETimedEventType` Manifest object
 class NGDMTimedEvent: NSObject {
     
-    private struct Constants {
-        static let AppDataIDNamespace = "AppID"
-    }
-    
     // MARK: Instance Variables
     /// Reference to the root Manifest object
     private var _manifestObject: NGETimedEventType!
@@ -95,6 +91,15 @@ class NGDMTimedEvent: NSObject {
         return appData?.location
     }
     
+    /// Talent associated with this TimedEvent if it exists
+    var talent: Talent? {
+        if let talentId = _manifestObject.OtherID?.Identifier {
+            return CurrentManifest.mainExperience.talents[talentId]
+        }
+        
+        return nil
+    }
+    
     /// Check if this is a text-based TimedEvent (e.g. trivia)
     var isTextItem: Bool {
         return _manifestObject.TextGroupIDList?.first?.value != nil
@@ -122,12 +127,17 @@ class NGDMTimedEvent: NSObject {
     
     /// Check if this is an AppData-based TimedEvent (e.g. scene location)
     var isAppData: Bool {
-        return _manifestObject.OtherID?.Namespace == Constants.AppDataIDNamespace
+        return _manifestObject.OtherID?.Namespace == Namespaces.AppDataID
     }
     
     /// Check if this is a Location-based TimedEvent (e.g. scene location)
     var isLocation: Bool {
         return appData?.location != nil
+    }
+    
+    /// Check if this is a talent-based TimedEvent
+    var isTalent: Bool {
+        return _manifestObject.OtherID?.Namespace == Namespaces.PeopleID
     }
     
     // MARK: Initialization

@@ -15,6 +15,11 @@ enum NGDMError: ErrorType {
     case AppDataMissing
 }
 
+struct Namespaces {
+    static let AppDataID = "AppID"
+    static let PeopleID = "PeopleOtherID"
+}
+
 /// Manager for communicating with parsed Manifest data
 class NextGenDataManager: NSObject {
     

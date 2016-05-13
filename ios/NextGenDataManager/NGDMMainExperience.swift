@@ -15,8 +15,8 @@ class NGDMMainExperience: NGDMExperience {
     /// List of Talent associated with the feature film
     var talents = [String: Talent]()
     
-    private var _orderedActors: [Talent]?
     /// Ordered list of Talents with type Actor associated with the feature film
+    private var _orderedActors: [Talent]?
     var orderedActors: [Talent]? {
         if _orderedActors == nil {
             _orderedActors = talents.values.filter { (talent) -> Bool in
@@ -61,10 +61,14 @@ class NGDMMainExperience: NGDMExperience {
             })
         }
         
-        for talent in talents.values {
-            BaselineAPIUtil.sharedInstance.getTalentImages(talent.id, successBlock: { (talentImages) in
-                talent.images = talentImages
-            })
+        if ConfigManager.sharedInstance.hasBaselineAPI {
+            for talent in talents.values {
+                if let talentId = talent.baselineId {
+                    BaselineAPIUtil.sharedInstance.getTalentImages(talentId, successBlock: { (talentImages) in
+                        talent.images = talentImages
+                    })
+                }
+            }
         }
     }
     

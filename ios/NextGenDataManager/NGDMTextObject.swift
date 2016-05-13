@@ -67,10 +67,17 @@ class NGDMTextObject {
                     let textObject = NGDMTextObject(manifestObject: obj)
                     _objectMap[obj.TextObjectID] = textObject
                     
+                    var textStringIndex = 1
                     for textStringObj in obj.TextStringList {
-                        if let index = textStringObj.index, value = textStringObj.value {
-                            textObject.textStrings[Int(index)] = value
+                        if let value = textStringObj.value {
+                            if let index = textStringObj.index {
+                                textStringIndex = Int(index)
+                            }
+                            
+                            textObject.textStrings[textStringIndex] = value
                         }
+                        
+                        textStringIndex += 1
                     }
                 }
             }

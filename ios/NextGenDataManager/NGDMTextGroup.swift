@@ -45,7 +45,7 @@ class NGDMTextGroup {
         - Returns: Value of the child TextString at the given `index` if it exists
     */
     func textItem(index: Int) -> String? {
-        if let textObjectList = _manifestObject.TextObjectIDList, textObjectId = textObjectList.first, textObject = NGDMTextObject.getById(textObjectId) {
+        if let textObjectId = _manifestObject.TextObjectIDList?.first, textObject = NGDMTextObject.getById(textObjectId) {
             return textObject.textItem(index)
         }
         

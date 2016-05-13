@@ -49,14 +49,23 @@ class NGDMExperience: NSObject {
     }
     
     /// Child of this Experience that is a clip & share Experience
+    private var _childClipAndShareExperience: NGDMExperience?
     var childClipAndShareExperience: NGDMExperience? {
-        for experience in childExperiences {
-            if experience.isClipAndShare {
-                return experience
-            }
+        if let index = childExperiences.indexOf({ $0.isClipAndShare }) where _childClipAndShareExperience == nil {
+            _childClipAndShareExperience = childExperiences[index]
         }
         
-        return nil
+        return _childClipAndShareExperience
+    }
+    
+    /// Child of this Experience that is a talent data Experience
+    private var _childTalentDataExperience: NGDMExperience?
+    var childTalentDataExperience: NGDMExperience? {
+        if let index = childExperiences.indexOf({ $0.isTalentData }) where _childTalentDataExperience == nil {
+            _childTalentDataExperience = childExperiences[index]
+        }
+        
+        return _childTalentDataExperience
     }
     
     /// Mapping of AudioVisuals in child Experiences - PresentationID: NGDMAudioVisual
@@ -223,6 +232,11 @@ class NGDMExperience: NSObject {
     /// Check if Experience is for Clip & Share
     var isClipAndShare: Bool {
         return id.containsString("clipshare")
+    }
+    
+    /// Check if Experience is for talent data
+    var isTalentData: Bool {
+        return id.containsString("ecp_tab.4")
     }
     
     /// Check if Experience is a Gallery-based
