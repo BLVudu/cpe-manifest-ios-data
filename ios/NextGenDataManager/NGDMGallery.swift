@@ -11,6 +11,10 @@ import Foundation
 // Wrapper class for `NGEGalleryType` Manifest object
 class NGDMGallery {
     
+    // MARK: Static Variables
+    /// Static mapping of all Experiences - ExperienceID: Experience
+    private static var _objectMap = [String: NGDMGallery]()
+    
     // MARK: Instance Variables
     /// Reference to the root Manifest object
     private var _manifestObject: NGEGalleryType!
@@ -69,6 +73,29 @@ class NGDMGallery {
     */
     init(manifestObject: NGEGalleryType) {
         _manifestObject = manifestObject
+    }
+    
+    // MARK: Search Methods
+    /**
+        Add an `NGDMGallery` object to the object map
+
+        - Parameters:
+            - gallery: Gallery object to add
+    */
+    static func addObject(gallery: NGDMGallery) {
+        _objectMap[gallery.id] = gallery
+    }
+    
+    /**
+        Find an `NGDMGallery` object by unique identifier
+     
+        - Parameters:
+            - id: Unique identifier to search for
+     
+        - Returns: Object associated with identifier if it exists
+     */
+    static func getById(id: String) -> NGDMGallery? {
+        return _objectMap[id]
     }
     
 }

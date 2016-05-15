@@ -36,6 +36,10 @@ class NGDMExperience: NSObject {
                 for child in childList {
                     if let index = child.SequenceInfo?.Number, childExperience = NGDMExperience.getById(child.ExperienceID) {
                         childMap[index] = childExperience
+                        
+                        if let gallery  = childExperience.imageGallery {
+                            NGDMGallery.addObject(gallery)
+                        }
                     }
                 }
                 
@@ -128,7 +132,7 @@ class NGDMExperience: NSObject {
     
     /// Title to be used for display
     var title: String {
-        return metadata?.title ?? appData?.location?.name ?? childExperiences.first?.title ?? ""
+        return metadata?.title ?? ""
     }
     
     /// Image URL to be used for thumbnail displays
@@ -145,7 +149,7 @@ class NGDMExperience: NSObject {
             return imageURL
         }
         
-        if let imageURL = appData?.imageURL {
+        if let imageURL = appData?.locationImageURL {
             return imageURL
         }
         

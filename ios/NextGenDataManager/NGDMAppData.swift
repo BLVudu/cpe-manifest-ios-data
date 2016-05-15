@@ -17,7 +17,10 @@ class NGDMAppData {
         static let Text = "text"
         static let Zoom = "zoom"
         static let VideoId = "video_id"
+        static let GalleryId = "gallery_id"
         static let LocationThumbnail = "location_thumbnail"
+        static let VideoThumbnail = "video_thumbnail"
+        static let GalleryThumbnail = "gallery_thumbnail"
     }
     
     // MARK: Instance Variables
@@ -32,6 +35,11 @@ class NGDMAppData {
         return _manifestObject.AppID
     }
     
+    /// Title
+    var title: String? {
+        return location?.name
+    }
+    
     /// App Type
     var type: String? {
         return _nvPairObjects[NVPairName.AppType]?.Text
@@ -44,6 +52,19 @@ class NGDMAppData {
     
     /// Display thumbnail
     var imageURL: NSURL? {
+        if let pictureId = _nvPairObjects[NVPairName.VideoThumbnail]?.PictureID {
+            return NGDMImage.getById(pictureId)?.url
+        }
+        
+        if let pictureId = _nvPairObjects[NVPairName.GalleryThumbnail]?.PictureID {
+            return NGDMImage.getById(pictureId)?.url
+        }
+        
+        return nil
+    }
+    
+    /// Location thumbnail
+    var locationImageURL: NSURL? {
         if let pictureId = _nvPairObjects[NVPairName.LocationThumbnail]?.PictureID {
             return NGDMImage.getById(pictureId)?.url
         }
@@ -70,11 +91,6 @@ class NGDMAppData {
         return Float(_nvPairObjects[NVPairName.Zoom]?.Integer ?? 0)
     }
     
-    /// Check if AppData is location-based
-    var isLocation: Bool {
-        return location != nil
-    }
-    
     /// Presentation associated with this AppData, if it exists
     private var _presentation: NGDMPresentation?
     var presentation: NGDMPresentation? {
@@ -83,6 +99,19 @@ class NGDMAppData {
         }
         
         return _presentation
+    }
+    
+    var gallery: NGDMGallery? {
+        if let galleryId = _nvPairObjects[NVPairName.GalleryId]?.Gallery?.GalleryID {
+            return NGDMGallery.getById(galleryId)
+        }
+        
+        return nil
+    }
+    
+    /// Check if AppData is location-based
+    var isLocation: Bool {
+        return location != nil
     }
     
     // MARK: Initialization
