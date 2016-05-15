@@ -126,34 +126,34 @@ class NGDMExperience: NSObject {
         return _metadata
     }
     
+    /// Title to be used for display
+    var title: String {
+        return metadata?.title ?? appData?.location?.name ?? childExperiences.first?.title ?? ""
+    }
+    
     /// Image URL to be used for thumbnail displays
     var imageURL: NSURL? {
-        // Experience has an image directly associated with it
         if let imageURL = metadata?.imageURL {
             return imageURL
         }
         
-        // Experience has an AudioVisual with an image associated with it
-        if isAudioVisual {
-            return audioVisual?.imageURL
+        if let imageURL = audioVisual?.imageURL {
+            return imageURL
         }
         
-        // Experience has a Gallery with an image associated with it
-        if isGallery {
-            return imageGallery?.imageURL
+        if let imageURL = imageGallery?.imageURL {
+            return imageURL
         }
         
-        // Experience has an App with an image associated with it
-        if isApp {
-            return app?.imageURL
+        if let imageURL = appData?.imageURL {
+            return imageURL
         }
         
-        // Experience has a child Experience that should be used for the image
-        if let childExperience = childExperiences.first {
-            return childExperience.imageURL
+        if let imageURL = app?.imageURL {
+            return imageURL
         }
         
-        return nil
+        return childExperiences.first?.imageURL
     }
     
     /// AudioVisual associated with this Experience, if it exists
@@ -256,7 +256,15 @@ class NGDMExperience: NSObject {
     
     /// Check if Experience is AppData location-based
     var isLocation: Bool {
-        return appData?.location != nil || childExperiences.first?.appData?.location != nil
+        if appData?.location != nil {
+            return true
+        }
+        
+        if let firstChildExperience = childExperiences.first {
+            return firstChildExperience.isLocation
+        }
+        
+        return false
     }
     
     // MARK: Initialization

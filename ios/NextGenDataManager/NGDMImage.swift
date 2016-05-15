@@ -32,9 +32,9 @@ class NGDMImage {
                 if containerLocation.containsString("file://") {
                     let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
                     _url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+                } else {
+                    _url = NSURL(string: containerLocation)
                 }
-                
-                return NSURL(string: containerLocation)
             }
         }
         

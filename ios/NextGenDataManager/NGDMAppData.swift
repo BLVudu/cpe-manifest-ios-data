@@ -17,6 +17,7 @@ class NGDMAppData {
         static let Text = "text"
         static let Zoom = "zoom"
         static let VideoId = "video_id"
+        static let LocationThumbnail = "location_thumbnail"
     }
     
     // MARK: Instance Variables
@@ -42,8 +43,12 @@ class NGDMAppData {
     }
     
     /// Display thumbnail
-    var thumbnailImage: UIImage? {
-        return UIImage(named: "MOSDefault")
+    var imageURL: NSURL? {
+        if let pictureId = _nvPairObjects[NVPairName.LocationThumbnail]?.PictureID {
+            return NGDMImage.getById(pictureId)?.url
+        }
+        
+        return nil
     }
     
     /// Map location
