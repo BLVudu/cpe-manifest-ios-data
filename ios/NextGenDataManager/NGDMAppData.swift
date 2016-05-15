@@ -49,8 +49,12 @@ class NGDMAppData {
     /// Map location
     private var _location: NGDMLocation?
     var location: NGDMLocation? {
-        if let obj = _nvPairObjects[NVPairName.Location]?.Location where _location == nil {
-            _location = NGDMLocation(manifestObject: obj)
+        if _location == nil {
+            if let obj = _nvPairObjects[NVPairName.Location]?.Location {
+                _location = NGDMLocation(manifestObject: obj)
+            } else if let obj = _nvPairObjects[NVPairName.Location]?.LocationSet?.LocationList?.first {
+                _location = NGDMLocation(manifestObject: obj)
+            }
         }
         
         return _location
