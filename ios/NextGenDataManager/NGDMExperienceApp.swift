@@ -31,7 +31,12 @@ class NGDMExperienceApp {
     
     /// Title associated with this ExperienceApp
     var title: String? {
-        return metadata?.title
+        return metadata?.title ?? name
+    }
+    
+    /// Name associated with this ExperienceApp
+    var name: String? {
+        return _manifestObject.AppNameList?.first?.value
     }
     
     /// Image URL to be used for display

@@ -255,7 +255,7 @@ class NGDMExperience: NSObject {
     
     /// Check if Experience is a shopping-based (e.g. with TheTake)
     var isShopping: Bool {
-        return app?.id == kTheTakeIdentifierNamespace
+        return app?.name == kTheTakeIdentifierNamespace
     }
     
     /// Check if Experience is AppData location-based
