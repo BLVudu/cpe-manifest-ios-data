@@ -24,90 +24,24 @@ class NGDMAppData {
     }
     
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEAppDataType!
-    
-    /// Mapping of all child NVPairs - Name: NGEAppNVPairType
-    private var _nvPairObjects = [String: NGEAppNVPairType]()
-    
     /// Unique identifier
-    var id: String {
-        return _manifestObject.AppID
-    }
+    var id: String!
     
-    /// Title
+    /// Metadata
     var title: String? {
-        return location?.name
+        return audioVisual?.metadata?.title ?? location?.name
     }
     
-    /// App Type
-    var type: String? {
-        return _nvPairObjects[NVPairName.AppType]?.Text
-    }
+    var displayText: String?
+    var imageURL: NSURL?
+    var locationImageURL: NSURL?
     
-    /// Display text
-    var displayText: String? {
-        return _nvPairObjects[NVPairName.Text]?.Text
-    }
-    
-    /// Display thumbnail
-    var imageURL: NSURL? {
-        if let pictureId = _nvPairObjects[NVPairName.VideoThumbnail]?.PictureID {
-            return NGDMImage.getById(pictureId)?.url
-        }
-        
-        if let pictureId = _nvPairObjects[NVPairName.GalleryThumbnail]?.PictureID {
-            return NGDMImage.getById(pictureId)?.url
-        }
-        
-        return nil
-    }
-    
-    /// Location thumbnail
-    var locationImageURL: NSURL? {
-        if let pictureId = _nvPairObjects[NVPairName.LocationThumbnail]?.PictureID {
-            return NGDMImage.getById(pictureId)?.url
-        }
-        
-        return nil
-    }
-    
-    /// Map location
-    private var _location: NGDMLocation?
-    var location: NGDMLocation? {
-        if _location == nil {
-            if let obj = _nvPairObjects[NVPairName.Location]?.Location {
-                _location = NGDMLocation(manifestObject: obj)
-            } else if let obj = _nvPairObjects[NVPairName.Location]?.LocationSet?.LocationList?.first {
-                _location = NGDMLocation(manifestObject: obj)
-            }
-        }
-        
-        return _location
-    }
-    
-    /// Map zoom level
-    var zoomLevel: Float {
-        return Float(_nvPairObjects[NVPairName.Zoom]?.Integer ?? 0)
-    }
-    
-    /// Presentation associated with this AppData, if it exists
-    private var _presentation: NGDMPresentation?
-    var presentation: NGDMPresentation? {
-        if let presentationId = _nvPairObjects[NVPairName.VideoId]?.PresentationID where _presentation == nil {
-            _presentation = NGDMPresentation.getById(presentationId)
-        }
-        
-        return _presentation
-    }
-    
-    var gallery: NGDMGallery? {
-        if let galleryId = _nvPairObjects[NVPairName.GalleryId]?.Gallery?.GalleryID {
-            return NGDMGallery.getById(galleryId)
-        }
-        
-        return nil
-    }
+    /// Media
+    var presentation: NGDMPresentation?
+    var audioVisual: NGDMAudioVisual?
+    var gallery: NGDMGallery?
+    var location: NGDMLocation?
+    var zoomLevel: Float = 0
     
     /// Check if AppData is location-based
     var isLocation: Bool {
@@ -122,10 +56,57 @@ class NGDMAppData {
             - manifestObject: Raw Manifest data object
      */
     init(manifestObject: NGEAppDataType) {
-        _manifestObject = manifestObject
+        id = manifestObject.AppID
         
-        for obj in _manifestObject.NVPairList {
-            _nvPairObjects[obj.Name] = obj
+        for obj in manifestObject.NVPairList {
+            switch obj.Name {
+            case NVPairName.Text:
+                displayText = obj.Text
+                break
+                
+            case NVPairName.Location:
+                if let obj = obj.Location {
+                    location = NGDMLocation(manifestObject: obj)
+                } else if let obj = obj.LocationSet?.LocationList?.first {
+                    location = NGDMLocation(manifestObject: obj)
+                }
+                
+                break
+                
+            case NVPairName.Zoom:
+                zoomLevel = Float(obj.Integer ?? 0)
+                break
+                
+            case NVPairName.VideoId:
+                if let id = obj.PresentationID {
+                    presentation = NGDMPresentation.getById(id)
+                    audioVisual = NGDMAudioVisual.getById(id)
+                }
+                
+                break
+                
+            case NVPairName.GalleryId:
+                if let id = obj.Gallery?.GalleryID {
+                    gallery = NGDMGallery.getById(id)
+                }
+                
+                break
+                
+            case NVPairName.VideoThumbnail, NVPairName.GalleryThumbnail:
+                if let id = obj.PictureID {
+                    imageURL = NGDMImage.getById(id)?.url
+                }
+                
+                break
+                
+            case NVPairName.LocationThumbnail:
+                if let id = obj.PictureID {
+                    locationImageURL = NGDMImage.getById(id)?.url
+                }
+                
+            default:
+                break
+            }
         }
     }
     

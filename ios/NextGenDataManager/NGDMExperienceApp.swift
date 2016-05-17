@@ -55,4 +55,17 @@ class NGDMExperienceApp {
         _manifestObject = manifestObject
     }
     
+    // MARK: Search Methods
+    /**
+        Find an `NGDMExperienceApp` object by unique identifier
+     
+        - Parameters:
+            - id: Unique identifier to search for
+     
+            - Returns: Object associated with identifier if it exists
+     */
+    static func getById(id: String) -> NGDMExperienceApp? {
+        return NextGenDataManager.sharedInstance.experienceApps[id]
+    }
+    
 }

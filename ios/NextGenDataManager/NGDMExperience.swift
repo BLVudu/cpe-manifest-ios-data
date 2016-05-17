@@ -11,10 +11,6 @@ import Foundation
 // Wrapper class for `NGEExperienceType` Manifest object
 class NGDMExperience: NSObject {
     
-    // MARK: Static Variables
-    /// Static mapping of all Experiences - ExperienceID: Experience
-    private static var _objectMap = [String: NGDMExperience]()
-    
     // MARK: Instance Variables
     /// Reference to the root Manifest object
     private var _manifestObject: NGEExperienceType!
@@ -36,10 +32,6 @@ class NGDMExperience: NSObject {
                 for child in childList {
                     if let index = child.SequenceInfo?.Number, childExperience = NGDMExperience.getById(child.ExperienceID) {
                         childMap[index] = childExperience
-                        
-                        if let gallery  = childExperience.imageGallery {
-                            NGDMGallery.addObject(gallery)
-                        }
                     }
                 }
                 
@@ -72,54 +64,6 @@ class NGDMExperience: NSObject {
         return _childTalentDataExperience
     }
     
-    /// Mapping of AudioVisuals in child Experiences - PresentationID: NGDMAudioVisual
-    private var _childAudioVisuals: [String: NGDMAudioVisual]?
-    var childAudioVisuals: [String: NGDMAudioVisual]? {
-        if _childAudioVisuals == nil {
-            _childAudioVisuals = [String: NGDMAudioVisual]()
-            
-            for experience in childExperiences {
-                if let audioVisual = experience.audioVisual, presentation = audioVisual.presentation {
-                    _childAudioVisuals![presentation.id] = audioVisual
-                }
-            }
-        }
-        
-        return _childAudioVisuals
-    }
-    
-    /// Mapping of Galleries in child Experiences - GalleryID: NGDMGallery
-    private var _childGalleries: [String: NGDMGallery]?
-    var childGalleries: [String: NGDMGallery]? {
-        if _childGalleries == nil {
-            _childGalleries = [String: NGDMGallery]()
-            
-            for experience in childExperiences {
-                if let gallery = experience.imageGallery {
-                    _childGalleries![gallery.id] = gallery
-                }
-            }
-        }
-        
-        return _childGalleries
-    }
-    
-    /// Mapping of Apps in child Experiences - AppGroupID: NGDMExperienceApp
-    private var _childApps: [String: NGDMExperienceApp]?
-    var childApps: [String: NGDMExperienceApp]? {
-        if _childApps == nil {
-            _childApps = [String: NGDMExperienceApp]()
-            
-            for experience in childExperiences {
-                if let app = experience.app {
-                    _childApps![app.id] = app
-                }
-            }
-        }
-        
-        return _childApps
-    }
-    
     /// Metadata associated with this Experience
     private var _metadata: NGDMMetadata?
     var metadata: NGDMMetadata? {
@@ -145,7 +89,7 @@ class NGDMExperience: NSObject {
             return imageURL
         }
         
-        if let imageURL = imageGallery?.imageURL {
+        if let imageURL = gallery?.imageURL {
             return imageURL
         }
         
@@ -190,13 +134,13 @@ class NGDMExperience: NSObject {
     }
     
     /// Gallery associated with this Experience, if it exists
-    private var _imageGallery: NGDMGallery?
-    var imageGallery: NGDMGallery? {
-        if let obj = _manifestObject.Gallery where _imageGallery == nil {
-            _imageGallery = NGDMGallery(manifestObject: obj)
+    private var _gallery: NGDMGallery?
+    var gallery: NGDMGallery? {
+        if _gallery == nil, let obj = _manifestObject.Gallery {
+            _gallery = NGDMGallery(manifestObject: obj)
         }
         
-        return _imageGallery
+        return _gallery
     }
     
     /// App associated with this Experience, if it exists
@@ -309,16 +253,7 @@ class NGDMExperience: NSObject {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMExperience? {
-        // Populate the `_objectMap` for easy hash table lookup for future requests
-        if _objectMap.count == 0 {
-            for obj in NextGenDataManager.sharedInstance.manifest.Experiences.ExperienceList {
-                if let experienceID = obj.ExperienceID {
-                    _objectMap[experienceID] = NGDMExperience(manifestObject: obj)
-                }
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.experiences[id]
     }
     
 }

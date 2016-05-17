@@ -11,31 +11,12 @@ import Foundation
 // Wrapper class for `NGEInventoryInteractiveType` Manifest object
 class NGDMInteractive {
     
-    // MARK: Static Variables
-    /// Static mapping of all Interactives - InteractiveTrackID: Interactive
-    private static var _objectMap = [String: NGDMInteractive]()
-    
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEInventoryInteractiveType!
-    
     /// Unique identifier
-    var id: String {
-        if let interactiveTrackID = _manifestObject.InteractiveTrackID {
-            return interactiveTrackID
-        }
-        
-        return NSUUID().UUIDString
-    }
+    var id: String
     
     /// URL associated with this Interactive
-    var url: NSURL? {
-        if let containerLocation = _manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
-            return NSURL(string: containerLocation)
-        }
-        
-        return nil
-    }
+    var url: NSURL?
     
     // MARK: Initialization
     /**
@@ -45,7 +26,11 @@ class NGDMInteractive {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEInventoryInteractiveType) {
-        _manifestObject = manifestObject
+        id = manifestObject.InteractiveTrackID ?? NSUUID().UUIDString
+        
+        if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
+            url = NSURL(string: containerLocation)
+        }
     }
     
     // MARK: Search Methods
@@ -58,15 +43,7 @@ class NGDMInteractive {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMInteractive? {
-        if _objectMap.count == 0 {
-            if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.InteractiveList {
-                for obj in objList {
-                    _objectMap[obj.InteractiveTrackID!] = NGDMInteractive(manifestObject: obj)
-                }
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.interactives[id]
     }
     
 }

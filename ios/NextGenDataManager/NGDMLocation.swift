@@ -10,36 +10,13 @@
 class NGDMLocation {
     
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEEventLocationType!
+    /// Metadata
+    var name: String?
+    var address: String?
     
-    /// Name of this Location
-    var name: String? {
-        return _manifestObject.Name
-    }
-    
-    /// Address of this Location
-    var address: String? {
-        return _manifestObject.Address
-    }
-    
-    /// Latitude value for this Location's coordinates
-    var latitude: Double {
-        if let coordinates = _manifestObject.EarthCoordinate {
-            return coordinates.Latitude
-        }
-        
-        return 0
-    }
-    
-    /// Longitude value for this Location's coordinates
-    var longitude: Double {
-        if let coordinates = _manifestObject.EarthCoordinate {
-            return coordinates.Longitude
-        }
-        
-        return 0
-    }
+    /// Coordinates
+    var latitude: Double = 0
+    var longitude: Double = 0
     
     // MARK: Initialization
     /**
@@ -49,7 +26,10 @@ class NGDMLocation {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEEventLocationType) {
-        _manifestObject = manifestObject
+        name = manifestObject.Name
+        address = manifestObject.Address
+        latitude = manifestObject.EarthCoordinate?.Latitude ?? 0
+        longitude = manifestObject.EarthCoordinate?.Longitude ?? 0
     }
     
 }

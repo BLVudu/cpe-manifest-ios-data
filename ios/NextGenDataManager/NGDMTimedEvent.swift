@@ -86,6 +86,33 @@ class NGDMTimedEvent: NSObject {
         return nil
     }
     
+    /// Gallery associated with this TimedEvent if it exists
+    var gallery: NGDMGallery? {
+        if let id = _manifestObject.GalleryID {
+            return NGDMGallery.getById(id)
+        }
+        
+        return nil
+    }
+    
+    /// AudioVisual associated with this TimedEvent if it exists
+    var audioVisual: NGDMAudioVisual? {
+        if let id = _manifestObject.PresentationID {
+            return NGDMAudioVisual.getById(id)
+        }
+        
+        return nil
+    }
+    
+    /// ExperienceApp associated with this TimedEvent if it exists
+    var experienceApp: NGDMExperienceApp? {
+        if let id = _manifestObject.AppGroupID {
+            return NGDMExperienceApp.getById(id)
+        }
+        
+        return nil
+    }
+    
     /// Location associated with this TimedEvent if it exists
     var location: NGDMLocation? {
         return appData?.location
@@ -185,54 +212,6 @@ class NGDMTimedEvent: NSObject {
     }
     
     /**
-        Find the AudioVisual associated with this TimedEvent for the given Experience
-     
-        - Parameters:
-            - experience: The Experience in which to search for an AudioVisual associated with this TimedEvent
-     
-        - Returns: AudioVisual associated with this TimedEvent if it exists
-     */
-    func getAudioVisual(experience: NGDMExperience) -> NGDMAudioVisual? {
-        if let presentationId = _manifestObject.PresentationID {
-            return experience.childAudioVisuals?[presentationId]
-        }
-        
-        return nil
-    }
-    
-    /**
-        Find the Gallery associated with this TimedEvent for the given Experience
-     
-        - Parameters:
-            - experience: The Experience in which to search for a Gallery associated with this TimedEvent
-     
-        - Returns: Gallery associated with this TimedEvent if it exists
-     */
-    func getGallery(experience: NGDMExperience) -> NGDMGallery? {
-        if let galleryId = _manifestObject.GalleryID {
-            return experience.childGalleries?[galleryId]
-        }
-        
-        return nil
-    }
-    
-    /**
-        Find the ExperienceApp associated with this TimedEvent for the given Experience
-     
-        - Parameters:
-            - experience: The Experience in which to search for an ExperienceApp associated with this TimedEvent
-     
-        - Returns: ExperienceApp associated with this TimedEvent if it exists
-     */
-    func getExperienceApp(experience: NGDMExperience) -> NGDMExperienceApp? {
-        if let appGroupId = _manifestObject.AppGroupID {
-            return experience.childApps?[appGroupId]
-        }
-        
-        return nil
-    }
-    
-    /**
         Get the value of the description text or summary for this TimedEvent
 
         - Parameters:
@@ -241,23 +220,7 @@ class NGDMTimedEvent: NSObject {
         - Returns: The value of the TimedEvent's description text if it exists
     */
     func getDescriptionText(experience: NGDMExperience) -> String? {
-        if isGallery {
-            return getGallery(experience)?.title
-        }
-        
-        if isAudioVisual {
-            return getAudioVisual(experience)?.metadata?.title
-        }
-        
-        if isTextItem {
-            return text
-        }
-        
-        if isLocation {
-            return location?.name
-        }
-        
-        return nil
+        return gallery?.title ?? audioVisual?.metadata?.title ?? text ?? location?.name
     }
     
     /**
@@ -269,16 +232,8 @@ class NGDMTimedEvent: NSObject {
         - Returns: The image URL associated with this TimedEvent
      */
     func getImageURL(experience: NGDMExperience) -> NSURL? {
-        if isGallery {
-            return getGallery(experience)?.imageURL
-        }
-        
-        if isAudioVisual {
-            return getAudioVisual(experience)?.imageURL
-        }
-        
-        if isAppGroup {
-            return getExperienceApp(experience)?.imageURL
+        if let imageURL = gallery?.imageURL ?? audioVisual?.imageURL ?? experienceApp?.imageURL {
+            return imageURL
         }
         
         // FIXME: Making assumption that PictureID is in the Initialization property

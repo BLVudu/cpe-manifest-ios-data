@@ -15,6 +15,11 @@ class NGDMAudioVisual {
     /// Reference to the root Manifest object
     private var _manifestObject: NGEAudiovisualType!
     
+    /// Unique identifier
+    var id: String {
+        return _manifestObject.PresentationID
+    }
+    
     /// Metadata associated with this AudioVisual
     var metadata: NGDMMetadata? {
         if let contentId = contentId {
@@ -53,6 +58,19 @@ class NGDMAudioVisual {
     */
     init(manifestObject: NGEAudiovisualType) {
         _manifestObject = manifestObject
+    }
+    
+    // MARK: Search Methods
+    /**
+        Find an `NGDMAudioVisual` object by unique identifier
+     
+        - Parameters:
+            - id: Unique identifier to search for
+     
+        - Returns: Object associated with identifier if it exists
+     */
+    static func getById(id: String) -> NGDMAudioVisual? {
+        return NextGenDataManager.sharedInstance.audioVisuals[id]
     }
     
 }

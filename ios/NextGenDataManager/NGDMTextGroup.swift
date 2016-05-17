@@ -11,18 +11,12 @@ import Foundation
 // Wrapper class for `NGETextGroupType` Manifest object
 class NGDMTextGroup {
     
-    // MARK: Static Variables
-    /// Static mapping of all TextGroups - TextGroupID: TextGroup
-    private static var _objectMap = [String: NGDMTextGroup]()
-    
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGETextGroupType!
-    
     /// Unique identifier
-    var id: String {
-        return _manifestObject.TextGroupID
-    }
+    var id: String
+    
+    /// TextObject associated with this TextGroup
+    var textObject: NGDMTextObject?
     
     // MARK: Initialization
     /**
@@ -32,7 +26,11 @@ class NGDMTextGroup {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGETextGroupType) {
-        _manifestObject = manifestObject
+        id = manifestObject.TextGroupID
+        
+        if let id = manifestObject.TextObjectIDList?.first {
+            textObject = NGDMTextObject.getById(id)
+        }
     }
     
     // MARK: Helper Methods
@@ -45,11 +43,7 @@ class NGDMTextGroup {
         - Returns: Value of the child TextString at the given `index` if it exists
     */
     func textItem(index: Int) -> String? {
-        if let textObjectId = _manifestObject.TextObjectIDList?.first, textObject = NGDMTextObject.getById(textObjectId) {
-            return textObject.textItem(index)
-        }
-        
-        return nil
+        return textObject?.textItem(index)
     }
     
     // MARK: Search Methods
@@ -62,15 +56,7 @@ class NGDMTextGroup {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMTextGroup? {
-        if _objectMap.count == 0 {
-            if let objList = NextGenDataManager.sharedInstance.manifest.TextGroups?.TextGroupList {
-                for obj in objList {
-                    _objectMap[obj.TextGroupID] = NGDMTextGroup(manifestObject: obj)
-                }
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.textGroups[id]
     }
     
 }

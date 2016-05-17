@@ -11,36 +11,15 @@ import Foundation
 // Wrapper class for `NGEAppGroupType` Manifest object
 class NGDMAppGroup {
     
-    // MARK: Static Variables
-    /// Static mapping of all AppGroups - AppGroupID: AppGroup
-    private static var _objectMap = [String: NGDMAppGroup]()
-    
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEAppGroupType!
-    
     /// Unique identifier
-    var id: String {
-        return _manifestObject.AppGroupID
-    }
+    var id: String
     
     /// URL associated with this AppGroup
-    var url: NSURL? {
-        if let interactiveTrackReference = _manifestObject.InteractiveTrackReferenceList.first, interactive = NGDMInteractive.getById(interactiveTrackReference.InteractiveTrackID) {
-            return interactive.url
-        }
-        
-        return nil
-    }
+    var url: NSURL?
     
     /// Check if this is an HTML5 app
-    var isHTML5: Bool {
-        if let interactiveTrackReference = _manifestObject.InteractiveTrackReferenceList.first, compatibility = interactiveTrackReference.CompatibilityList.first {
-            return compatibility == "HTML5"
-        }
-        
-        return false
-    }
+    var isHTML5 = false
     
     // MARK: Initialization
     /**
@@ -50,7 +29,17 @@ class NGDMAppGroup {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEAppGroupType) {
-        _manifestObject = manifestObject
+        id = manifestObject.AppGroupID
+        
+        if let interactiveTrackReference = manifestObject.InteractiveTrackReferenceList?.first {
+            if let id = interactiveTrackReference.InteractiveTrackID {
+                url = NGDMInteractive.getById(id)?.url
+            }
+            
+            if let compatibility = interactiveTrackReference.CompatibilityList?.first {
+                isHTML5 = compatibility == "HTML5"
+            }
+        }
     }
     
     // MARK: Search Methods
@@ -63,15 +52,7 @@ class NGDMAppGroup {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMAppGroup? {
-        if _objectMap.count == 0 {
-            if let objList = NextGenDataManager.sharedInstance.manifest.AppGroups?.AppGroupList {
-                for obj in objList {
-                    _objectMap[obj.AppGroupID] = NGDMAppGroup(manifestObject: obj)
-                }
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.appGroups[id]
     }
     
 }

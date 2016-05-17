@@ -11,30 +11,12 @@ import Foundation
 // Wrapper class for `NGEPresentationType` Manifest object
 class NGDMPresentation {
     
-    // MARK: Static Variables
-    /// Static mapping of all Presentations - PresentationID: Presentation
-    private static var _objectMap = [String: NGDMPresentation]()
-    
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEPresentationType!
-    
     /// Unique identifier
-    var id: String {
-        return _manifestObject.PresentationID
-    }
+    var id: String
     
     /// Video associated with this Presentation
-    var video: NGDMVideo? {
-        if let trackMetadata = _manifestObject.TrackMetadataList.first,
-                videoTrackReference = trackMetadata.VideoTrackReferenceList?.first,
-                videoTrackId = videoTrackReference.VideoTrackIDList?.first,
-                video = NGDMVideo.getById(videoTrackId) {
-            return video
-        }
-        
-        return nil
-    }
+    var video: NGDMVideo?
     
     /// Video URL to be used for display
     var videoURL: NSURL? {
@@ -49,7 +31,11 @@ class NGDMPresentation {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEPresentationType) {
-        _manifestObject = manifestObject
+        id = manifestObject.PresentationID
+        
+        if let id = manifestObject.TrackMetadataList.first?.VideoTrackReferenceList?.first?.VideoTrackIDList?.first {
+            video = NGDMVideo.getById(id)
+        }
     }
     
     // MARK: Search Methods
@@ -62,13 +48,7 @@ class NGDMPresentation {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMPresentation? {
-        if _objectMap.count == 0 {
-            for obj in NextGenDataManager.sharedInstance.manifest.Presentations.PresentationList {
-                _objectMap[obj.PresentationID] = NGDMPresentation(manifestObject: obj)
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.presentations[id]
     }
     
 }
