@@ -46,11 +46,8 @@ class NGDMMainExperience: NGDMExperience {
         Loads talent based on a series of fallbacks, starting with the Baseline API
     */
     func loadTalent() {
-        if let people = audioVisual?.metadata?.PeopleList {
-            for person in people {
-                let talent = Talent(manifestObject: person)
-                talents[talent.id] = talent
-            }
+        if let talents = audioVisual?.metadata?.talents {
+            self.talents = talents
         } else if ConfigManager.sharedInstance.hasBaselineAPI {
             BaselineAPIUtil.sharedInstance.prefetchCredits({ (talents) in
                 self.talents = talents
@@ -77,7 +74,7 @@ class NGDMMainExperience: NGDMExperience {
     */
     func getOutOfMovieExperience() throws -> NGDMExperience {
         // IP1: Assumes the out-of-movie Experience is the first item in the main Experience's ExperienceList
-        guard let experience = childExperiences.first else {
+        guard let experience = childExperiences?.first else {
             throw NGDMError.OutOfMovieExperienceMissing
         }
         
@@ -93,7 +90,7 @@ class NGDMMainExperience: NGDMExperience {
      */
     func getInMovieExperience() throws -> NGDMExperience {
         // IP1: Assumes the in-movie Experience is the second (and last) item in the main Experience's ExperienceList
-        guard let experience = childExperiences.last else {
+        guard let experience = childExperiences?.last else {
             throw NGDMError.InMovieExperienceMissing
         }
         

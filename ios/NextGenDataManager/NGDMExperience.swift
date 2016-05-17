@@ -8,47 +8,48 @@
 
 import Foundation
 
+enum ExperienceType {
+    case AudioVisual
+    case ClipAndShare
+    case TalentData
+    case Gallery
+    case App
+    case Shopping
+    case Location
+}
+
+func ==(lhs: NGDMExperience, rhs: NGDMExperience) -> Bool {
+    return lhs.id == rhs.id
+}
+
 // Wrapper class for `NGEExperienceType` Manifest object
-class NGDMExperience: NSObject {
+class NGDMExperience: Equatable {
     
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEExperienceType!
-    
     /// Appearance object for background images, buttons, etc
     var appearance: NGDMAppearance?
     
     /// Unique identifier
-    var id: String {
-        return _manifestObject.ExperienceID!
-    }
+    var id: String
     
     /// All children of this Experience
-    private var _children = [NGDMExperience]()
-    var childExperiences: [NGDMExperience] {
-        if _children.count == 0 {
-            if let childList = _manifestObject.ExperienceChildList {
-                var childMap = [Int: NGDMExperience]()
-                for child in childList {
-                    if let index = child.SequenceInfo?.Number, childExperience = NGDMExperience.getById(child.ExperienceID) {
-                        childMap[index] = childExperience
-                    }
-                }
-                
-                // Sort the children by SequenceInfo.Number
-                let sortedChildren = childMap.sort { $0.0 < $1.0 }
-                _children = sortedChildren.map { return $0.1 }
-            }
+    private var _childExperiences: [NGDMExperience]?
+    private var _childExperienceIds: [String]?
+    var childExperiences: [NGDMExperience]? {
+        if _childExperiences == nil, let childExperienceIds = _childExperienceIds {
+            _childExperiences = childExperienceIds.flatMap({ NGDMExperience.getById($0) })
         }
         
-        return _children
+        _childExperienceIds = nil
+        
+        return _childExperiences
     }
     
     /// Child of this Experience that is a clip & share Experience
     private var _childClipAndShareExperience: NGDMExperience?
     var childClipAndShareExperience: NGDMExperience? {
-        if let index = childExperiences.indexOf({ $0.isClipAndShare }) where _childClipAndShareExperience == nil {
-            _childClipAndShareExperience = childExperiences[index]
+        if _childClipAndShareExperience == nil, let index = childExperiences?.indexOf({ $0.isType(.ClipAndShare) }) {
+            _childClipAndShareExperience = childExperiences?[index]
         }
         
         return _childClipAndShareExperience
@@ -57,22 +58,15 @@ class NGDMExperience: NSObject {
     /// Child of this Experience that is a talent data Experience
     private var _childTalentDataExperience: NGDMExperience?
     var childTalentDataExperience: NGDMExperience? {
-        if let index = childExperiences.indexOf({ $0.isTalentData }) where _childTalentDataExperience == nil {
-            _childTalentDataExperience = childExperiences[index]
+        if _childTalentDataExperience == nil, let index = childExperiences?.indexOf({ $0.isType(.TalentData) }) {
+            _childTalentDataExperience = childExperiences?[index]
         }
         
         return _childTalentDataExperience
     }
     
     /// Metadata associated with this Experience
-    private var _metadata: NGDMMetadata?
-    var metadata: NGDMMetadata? {
-        if let contentId = _manifestObject.ContentID where _metadata == nil {
-            _metadata = NGDMMetadata.getById(contentId)
-        }
-        
-        return _metadata
-    }
+    var metadata: NGDMMetadata?
     
     /// Title to be used for display
     var title: String {
@@ -101,18 +95,11 @@ class NGDMExperience: NSObject {
             return imageURL
         }
         
-        return childExperiences.first?.imageURL
+        return childExperiences?.first?.imageURL
     }
     
     /// AudioVisual associated with this Experience, if it exists
-    private var _audioVisual: NGDMAudioVisual?
-    var audioVisual: NGDMAudioVisual? {
-        if let obj = _manifestObject.Audiovisual where _audioVisual == nil {
-            _audioVisual = NGDMAudioVisual(manifestObject: obj)
-        }
-        
-        return _audioVisual
-    }
+    var audioVisual: NGDMAudioVisual?
     
     /// Presentation associated with this Experience's AudioVisual, if it exists
     var presentation: NGDMPresentation? {
@@ -134,85 +121,29 @@ class NGDMExperience: NSObject {
     }
     
     /// Gallery associated with this Experience, if it exists
-    private var _gallery: NGDMGallery?
-    var gallery: NGDMGallery? {
-        if _gallery == nil, let obj = _manifestObject.Gallery {
-            _gallery = NGDMGallery(manifestObject: obj)
-        }
-        
-        return _gallery
-    }
+    var gallery: NGDMGallery?
     
     /// App associated with this Experience, if it exists
-    private var _app: NGDMExperienceApp?
-    var app: NGDMExperienceApp? {
-        if let obj = _manifestObject.App where _app == nil {
-            _app = NGDMExperienceApp(manifestObject: obj)
-        }
-        
-        return _app
-    }
+    var app: NGDMExperienceApp?
     
     /// AppData associated with this Experience, if it exists
-    private var _appData: NGDMAppData?
+    private var _appDataId: String?
     var appData: NGDMAppData? {
-        if let app = app where _appData == nil {
-            _appData = CurrentManifest.allAppData?[app.id]
-        }
-        
-        return _appData
-    }
-    
-    /// TimedEventSequence associated with this Experience, if it exists
-    var timedEventSequence: NGDMTimedEventSequence? {
-        if let objList = _manifestObject.TimedSequenceIDList, objId = objList.first {
-            return NGDMTimedEventSequence.getById(objId)
+        if let id = _appDataId {
+            return CurrentManifest.allAppData?[id]
         }
         
         return nil
     }
     
-    /// Check if Experience is AudioVisual-based
-    var isAudioVisual: Bool {
-        return _manifestObject.Audiovisual != nil && !isClipAndShare
-    }
-    
-    /// Check if Experience is for Clip & Share
-    var isClipAndShare: Bool {
-        return id.containsString("clipshare")
-    }
-    
-    /// Check if Experience is for talent data
-    var isTalentData: Bool {
-        return id.containsString("ecp_tab.4")
-    }
-    
-    /// Check if Experience is a Gallery-based
-    var isGallery: Bool {
-        return _manifestObject.Gallery != nil
-    }
-    
-    /// Check if Experience is a App-based
-    var isApp: Bool {
-        return _manifestObject.App != nil
-    }
-    
-    /// Check if Experience is a shopping-based (e.g. with TheTake)
-    var isShopping: Bool {
-        return app?.name == kTheTakeIdentifierNamespace
-    }
-    
-    /// Check if Experience is AppData location-based
-    var isLocation: Bool {
-        if appData?.location != nil {
-            return true
+    /// TimedEventSequence associated with this Experience, if it exists
+    private var _timedEventSequenceId: String?
+    var timedEventSequence: NGDMTimedEventSequence? {
+        if let id = _timedEventSequenceId {
+            return NGDMTimedEventSequence.getById(id)
         }
         
-        if let firstChildExperience = childExperiences.first {
-            return firstChildExperience.isLocation
-        }
-        
-        return false
+        return nil
     }
     
     // MARK: Initialization
@@ -223,24 +154,90 @@ class NGDMExperience: NSObject {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEExperienceType) {
-        _manifestObject = manifestObject
+        id = manifestObject.ExperienceID ?? NSUUID().UUIDString
+        
+        if let id = manifestObject.ContentID {
+            metadata = NGDMMetadata.getById(id)
+        }
+        
+        if let id = manifestObject.TimedSequenceIDList?.first {
+            _timedEventSequenceId = id
+        }
+        
+        if let obj = manifestObject.Audiovisual {
+            let audioVisual = NGDMAudioVisual(manifestObject: obj)
+            self.audioVisual = audioVisual
+            NextGenDataManager.sharedInstance.audioVisuals[audioVisual.id] = audioVisual
+        }
+        
+        if let obj = manifestObject.Gallery {
+            let gallery = NGDMGallery(manifestObject: obj)
+            self.gallery = gallery
+            NextGenDataManager.sharedInstance.galleries[gallery.id] = gallery
+        }
+        
+        if let obj = manifestObject.App {
+            let experienceApp = NGDMExperienceApp(manifestObject: obj)
+            app = experienceApp
+            _appDataId = experienceApp.id
+            NextGenDataManager.sharedInstance.experienceApps[experienceApp.id] = experienceApp
+        }
+        
+        if let objList = manifestObject.ExperienceChildList where objList.count > 0 {
+            var childMap = [Int: String]()
+            for obj in objList {
+                if let index = obj.SequenceInfo?.Number, id = obj.ExperienceID {
+                    childMap[index] = id
+                }
+            }
+            
+            // Sort the children by SequenceInfo.Number
+            let sortedChildren = childMap.sort { $0.0 < $1.0 }
+            _childExperienceIds = sortedChildren.map({ return $0.1 })
+        }
     }
     
     // MARK: Helper Methods
     /**
-        Overrides default equality check to compare unique identifiers
+        Check if Experience is of the specified type
      
         - Parameters:
-            - object: Another object of the same type
+            - type: Type of Experience
      
-        - Returns: `true` if both objects have the same unique identifier
-    */
-    override func isEqual(object: AnyObject?) -> Bool {
-        if let otherExperience = object as? NGDMExperience {
-            return otherExperience.id == id
-        }
+            - Returns: `true` if the Experience is of the specified type
+     */
+    // FIXME: Hardcoded Experience ID strings are being used to identify Experience types
+    func isType(type: ExperienceType) -> Bool {
+        switch type {
+        case .AudioVisual:
+            return audioVisual != nil && !isType(.ClipAndShare)
+            
+        case .ClipAndShare:
+            return id.containsString("clipshare")
+            
+        case .TalentData:
+            return id.containsString("ecp_tab.4")
         
-        return false
+        case .Gallery:
+            return gallery != nil
+            
+        case .App:
+            return app != nil
+            
+        case .Shopping:
+            return app?.name == kTheTakeIdentifierNamespace
+            
+        case .Location:
+            if appData?.location != nil {
+                return true
+            }
+            
+            if let firstChildExperience = childExperiences?.first {
+                return firstChildExperience.isType(.Location)
+            }
+            
+            return false
+        }
     }
     
     // MARK: Search Methods

@@ -50,7 +50,7 @@ class NGDMAppData {
     
     // MARK: Initialization
     /**
-        Initializes a new ExperienceApp
+        Initializes a new AppData
      
         - Parameters:
             - manifestObject: Raw Manifest data object

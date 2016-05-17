@@ -28,18 +28,17 @@ class NextGenDataManager: NSObject {
     static let sharedInstance = NextGenDataManager()
     
     // MARK: Instance variables
-    /// Reference to the root Manifest object
-    var manifest: NGEMediaManifestType!
-    
     /// The Manifest's main Experience associated with the feature film
-    private var _mainExperience: NGDMMainExperience?
+    var mainExperience: NGDMMainExperience?
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
     var videos = [String: NGDMVideo]() // VideoTrackID: Video
+    var metadatas = [String: NGDMMetadata]() // ContentID: Metadata
     var interactives = [String: NGDMInteractive]() // InteractiveTrackID: Interactive
     var pictures = [String: NGDMPicture]() // PictureID: Picture
     var pictureGroups = [String: NGDMPictureGroup]() // PictureGroupID: PictureGroup
+    var textObjects = [String: NGDMTextObject]() // TextObjectID: TextObject
     var textGroups = [String: NGDMTextGroup]() // TextGroupID: TextGroup
     var appGroups = [String: NGDMAppGroup]() // AppGroupID: AppGroup
     var presentations = [String: NGDMPresentation]() // PresentationID: Presentation
@@ -58,8 +57,8 @@ class NextGenDataManager: NSObject {
      
         - Returns: The resulting `NGEMediaManifestType` object
     */
-    func loadManifestXMLFile(filePath: String) -> NGEMediaManifestType {
-        manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)
+    func loadManifestXMLFile(filePath: String) throws {
+        let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)!
         
         // Pre-load experience inventory
         if let objList = manifest.Inventory.ImageList {
@@ -83,6 +82,13 @@ class NextGenDataManager: NSObject {
             }
         }
         
+        if let objList = manifest.Inventory.MetadataList {
+            for obj in objList {
+                let metadata = NGDMMetadata(manifestObject: obj)
+                metadatas[metadata.id] = metadata
+            }
+        }
+        
         if let objList = manifest.PictureGroups?.PictureGroupList {
             for obj in objList {
                 var groupPictures = [NGDMPicture]()
@@ -95,6 +101,26 @@ class NextGenDataManager: NSObject {
                 let pictureGroup = NGDMPictureGroup(manifestObject: obj)
                 pictureGroup.pictures = groupPictures
                 pictureGroups[pictureGroup.id] = pictureGroup
+            }
+        }
+        
+        if let objList = manifest.Inventory.TextObjectList {
+            for obj in objList {
+                let textObject = NGDMTextObject(manifestObject: obj)
+                textObjects[textObject.id] = textObject
+                
+                var textStringIndex = 1
+                for textStringObj in obj.TextStringList {
+                    if let value = textStringObj.value {
+                        if let index = textStringObj.index {
+                            textStringIndex = Int(index)
+                        }
+                        
+                        textObject.textStrings[textStringIndex] = value
+                    }
+                    
+                    textStringIndex += 1
+                }
             }
         }
         
@@ -117,20 +143,19 @@ class NextGenDataManager: NSObject {
             presentations[presentation.id] = presentation
         }
         
+        // IP1: Assumes the main experience is the first item in the ExperienceList
+        guard manifest.Experiences.ExperienceList.count > 0 else {
+            throw NGDMError.MainExperienceMissing
+        }
+        
         for obj in manifest.Experiences.ExperienceList {
-            let experience = NGDMExperience(manifestObject: obj)
-            experiences[experience.id] = experience
-            
-            if let audioVisual = experience.audioVisual {
-                audioVisuals[audioVisual.id] = audioVisual
-            }
-            
-            if let gallery = experience.gallery {
-                galleries[gallery.id] = gallery
-            }
-            
-            if let app = experience.app {
-                experienceApps[app.id] = app
+            if let experienceId = obj.ExperienceID where experiences[experienceId] == nil {
+                if mainExperience == nil {
+                    mainExperience = NGDMMainExperience(manifestObject: obj)
+                } else {
+                    let experience = NGDMExperience(manifestObject: obj)
+                    experiences[experience.id] = experience
+                }
             }
         }
         
@@ -140,18 +165,6 @@ class NextGenDataManager: NSObject {
                 timedEventSequences[timedEventSequence.id] = timedEventSequence
             }
         }
-        
-        manifest.Inventory.ImageList = nil
-        manifest.Inventory.VideoList = nil
-        manifest.Inventory.InteractiveList = nil
-        manifest.PictureGroups = nil
-        manifest.TextGroups = nil
-        manifest.AppGroups = nil
-        manifest.Presentations = nil
-        //manifest.Experiences = nil
-        manifest.TimedEventSequences = nil
-        
-        return manifest
     }
     
     /**
@@ -163,38 +176,17 @@ class NextGenDataManager: NSObject {
         - Returns: The full AppData object mapping
     */
     func loadAppDataXMLFile(filePath: String) throws -> [String: NGDMAppData] {
-        guard let manifestObjectList = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath)?.ManifestAppDataList else {
+        guard let objList = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath)?.ManifestAppDataList else {
             throw NGDMError.AppDataMissing
         }
         
         var allAppData = [String: NGDMAppData]()
-        for obj in manifestObjectList {
+        for obj in objList {
             let appData = NGDMAppData(manifestObject: obj)
             allAppData[appData.id] = appData
         }
         
         return allAppData
-    }
-    
-    /**
-        Get the main Experience (feature film) associated with this Manifest file
-     
-        - Throws: `NGDMError.MainExperienceMissing` if no main Experience is found
- 
-        - Returns: The main Experience (feature film) associated with this Manifest
-    */
-    func getMainExperience() throws -> NGDMMainExperience {
-        if let experience = _mainExperience {
-            return experience
-        }
-        
-        // IP1: Assumes the main experience is the first item in the ExperienceList
-        guard let manifestObject = manifest.Experiences.ExperienceList.first else {
-            throw NGDMError.MainExperienceMissing
-        }
-        
-        _mainExperience = NGDMMainExperience(manifestObject: manifestObject)
-        return _mainExperience!
     }
     
 }

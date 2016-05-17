@@ -8,6 +8,39 @@
 
 import Foundation
 
+// Wrapper class for `NGEBasicMetadataInfoType` Manifest object
+class NGDMLocalizedInfo {
+    
+    /// Metadata
+    var language: String
+    var title: String
+    var description: String?
+    var imageURL: NSURL?
+    
+    // MARK: Initialization
+    /**
+        Initializes a new LocalizedInfo
+     
+        - Parameters:
+            - manifestObject: Raw Manifest data object
+     */
+    init(manifestObject: NGEBasicMetadataInfoType) {
+        language = manifestObject.language
+        title = manifestObject.TitleDisplayUnlimited ?? manifestObject.TitleDisplay60 ?? manifestObject.TitleDisplay19 ?? manifestObject.TitleSort
+        description = manifestObject.Summary4000?.value ?? manifestObject.Summary400?.value ?? manifestObject.Summary190.value
+        
+        if let url = manifestObject.ArtReferenceList?.reverse().first?.value {
+            if url.containsString("file://") {
+                let tempURL = NSURL(fileURLWithPath: url.stringByReplacingOccurrencesOfString("file://", withString: ""))
+                imageURL = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+            } else {
+                imageURL = NSURL(string: url)
+            }
+        }
+    }
+    
+}
+
 // Wrapper class for `NGEInventoryMetadataType` Manifest object
 class NGDMMetadata {
     
@@ -16,63 +49,35 @@ class NGDMMetadata {
     private static var objectMap = [String: NGDMMetadata]()
     
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEInventoryMetadataType!
-    
     /// Unique identifier
-    var id: String {
-        return _manifestObject.ContentID
-    }
+    var id: String
     
     /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
-    private var _localizedInfoManifestObjectMap = [String: NGEBasicMetadataInfoType]()
-    private var _localizedInfo: NGEBasicMetadataInfoType? {
-        return localizedInfo(NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-"))
+    private var _localizedInfoMap = [String: NGDMLocalizedInfo]()
+    private var _localizedInfo: NGDMLocalizedInfo? {
+        return _localizedInfoMap[NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-")]
     }
+    
+    /// Mapping of all content identifiers for this Metadata - Namespace: Identifier
+    private var _contentIdentifiers: [String: String]?
     
     /// Full title associated with this Metadata
     var title: String? {
-        return _localizedInfo?.TitleDisplayUnlimited
+        return _localizedInfo?.title
     }
     
     /// Full description or summary associated with this Metadata
     var description: String? {
-        if let str = _localizedInfo?.Summary4000?.value {
-            return str
-        }
-        
-        if let str = _localizedInfo?.Summary400?.value {
-            return str
-        }
-        
-        if let str = _localizedInfo?.Summary190?.value {
-            return str
-        }
-        
-        return nil
+        return _localizedInfo?.description
     }
     
     /// Image URL to be used for display
-    private var _imageURL: NSURL?
     var imageURL: NSURL? {
-        if _imageURL == nil {
-            if let artReferenceList = _localizedInfo?.ArtReferenceList, artReference = artReferenceList.reverse().first, url = artReference.value {
-                if url.containsString("file://") {
-                    let tempURL = NSURL(fileURLWithPath: url.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                    _imageURL = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
-                } else {
-                    _imageURL = NSURL(string: url)
-                }
-            }
-        }
-        
-        return _imageURL
+        return _localizedInfo?.imageURL
     }
     
-    /// Direct access to Manifest PeopleList
-    var PeopleList: [NGEBasicMetadataPeopleType]? {
-        return _manifestObject.BasicMetadata?.PeopleList
-    }
+    /// Mapping of all Talents for this Metadata - PeopleOtherID: Talent
+    var talents: [String: Talent]?
     
     // MARK: Initialization
     /**
@@ -82,34 +87,34 @@ class NGDMMetadata {
             - manifestObject: Raw Manifest data object
      */
     init(manifestObject: NGEInventoryMetadataType) {
-        _manifestObject = manifestObject
-    }
-    
-    // MARK: Helper Methods
-    /**
-        Get localized info associated with this Metadata by language
-
-        - Parameters:
-            - language: Desired language to search for
-
-        - Returns: LocalizedInfo for the desired language if it exists
-    */
-    func localizedInfo(language: String) -> NGEBasicMetadataInfoType? {
-        if _localizedInfoManifestObjectMap.count == 0 {
-            if let localizedInfoList = _manifestObject.BasicMetadata?.LocalizedInfoList {
-                for localizedInfo in localizedInfoList {
-                    _localizedInfoManifestObjectMap[localizedInfo.language] = localizedInfo
-                }
+        id = manifestObject.ContentID
+        
+        if let objList = manifestObject.BasicMetadata?.LocalizedInfoList {
+            for obj in objList {
+                let localizedInfo = NGDMLocalizedInfo(manifestObject: obj)
+                _localizedInfoMap[localizedInfo.language] = localizedInfo
             }
         }
         
-        if let localizedInfo = _localizedInfoManifestObjectMap[language] {
-            return localizedInfo
+        if let objList = manifestObject.BasicMetadata?.AltIdentifierList {
+            _contentIdentifiers = [String: String]()
+            
+            for obj in objList {
+                _contentIdentifiers![obj.Namespace] = obj.Identifier
+            }
         }
         
-        return _localizedInfoManifestObjectMap["en"]
+        if let objList = manifestObject.BasicMetadata?.PeopleList {
+            talents = [String: Talent]()
+            
+            for obj in objList {
+                let talent = Talent(manifestObject: obj)
+                talents![talent.id] = talent
+            }
+        }
     }
     
+    // MARK: Helper Methods
     /**
         Find any custom identifier associated with this Experience
      
@@ -119,15 +124,7 @@ class NGDMMetadata {
         - Returns: The value of the custom identifier if it exists
      */
     func customIdentifier(namespace: String) -> String? {
-        if let altIdentifierList = _manifestObject.BasicMetadata?.AltIdentifierList {
-            for altIdentifier in altIdentifierList {
-                if altIdentifier.Namespace == namespace {
-                    return altIdentifier.Identifier
-                }
-            }
-        }
-        
-        return nil
+        return _contentIdentifiers?[namespace]
     }
     
     // MARK: Search Methods
@@ -140,15 +137,7 @@ class NGDMMetadata {
         - Returns: Object associated with identifier if it exists
      */
     static func getById(id: String) -> NGDMMetadata? {
-        if objectMap.count == 0 {
-            if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.MetadataList {
-                for obj in objList {
-                    objectMap[obj.ContentID] = NGDMMetadata(manifestObject: obj)
-                }
-            }
-        }
-        
-        return objectMap[id]
+        return NextGenDataManager.sharedInstance.metadatas[id]
     }
     
 }

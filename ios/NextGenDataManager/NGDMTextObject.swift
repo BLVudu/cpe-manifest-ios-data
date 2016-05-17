@@ -11,21 +11,12 @@ import Foundation
 // Wrapper class for `NGEInventoryTextObjectType` Manifest object
 class NGDMTextObject {
     
-    // MARK: Static Variables
-    /// Static mapping of all TextObjects - TextObjectID: TextObject
-    private static var _objectMap = [String: NGDMTextObject]()
-    
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEInventoryTextObjectType!
-    
     /// Child TextStrings associated with this TextObject - Index: TextString value
     var textStrings = [Int: String]()
     
     /// Unique identifier
-    var id: String {
-        return _manifestObject.TextObjectID
-    }
+    var id: String
     
     // MARK: Initialization
     /**
@@ -35,7 +26,7 @@ class NGDMTextObject {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEInventoryTextObjectType) {
-        _manifestObject = manifestObject
+        id = manifestObject.TextObjectID
     }
 
     // MARK: Helper Methods
@@ -61,29 +52,7 @@ class NGDMTextObject {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMTextObject? {
-        if _objectMap.count == 0 {
-            if let objList = NextGenDataManager.sharedInstance.manifest.Inventory.TextObjectList {
-                for obj in objList {
-                    let textObject = NGDMTextObject(manifestObject: obj)
-                    _objectMap[obj.TextObjectID] = textObject
-                    
-                    var textStringIndex = 1
-                    for textStringObj in obj.TextStringList {
-                        if let value = textStringObj.value {
-                            if let index = textStringObj.index {
-                                textStringIndex = Int(index)
-                            }
-                            
-                            textObject.textStrings[textStringIndex] = value
-                        }
-                        
-                        textStringIndex += 1
-                    }
-                }
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.textObjects[id]
     }
     
 }
