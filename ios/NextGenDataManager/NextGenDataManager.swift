@@ -47,7 +47,7 @@ class NextGenDataManager: NSObject {
     var galleries = [String: NGDMGallery]() // GalleryID: Gallery
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
-    
+    var timedEventSequences = [String: NGDMTimedEventSequence]() // TimedEventSequenceID: TimedEventSequence
     
     // MARK: Helper Methods
     /**
@@ -134,6 +134,13 @@ class NextGenDataManager: NSObject {
             }
         }
         
+        if let objList = manifest.TimedEventSequences?.TimedEventSequenceList {
+            for obj in objList {
+                let timedEventSequence = NGDMTimedEventSequence(manifestObject: obj)
+                timedEventSequences[timedEventSequence.id] = timedEventSequence
+            }
+        }
+        
         manifest.Inventory.ImageList = nil
         manifest.Inventory.VideoList = nil
         manifest.Inventory.InteractiveList = nil
@@ -142,6 +149,7 @@ class NextGenDataManager: NSObject {
         manifest.AppGroups = nil
         manifest.Presentations = nil
         //manifest.Experiences = nil
+        manifest.TimedEventSequences = nil
         
         return manifest
     }

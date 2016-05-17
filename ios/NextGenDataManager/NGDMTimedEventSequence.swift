@@ -11,34 +11,13 @@ import Foundation
 // Wrapper class for `NGETimedEventSequenceType` Manifest object
 class NGDMTimedEventSequence {
     
-    // MARK: Static Variables
-    /// Static mapping of all TimedEventSequences - TimedSequenceID: TimedEventSequence
-    private static var _objectMap = [String: NGDMTimedEventSequence]()
-    
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGETimedEventSequenceType!
-    
     /// Timed events associated with this TimedEventSequence - StartTime: TimedEvent
-    private var _timedEvents = [Double: NGDMTimedEvent]()
     private var _sortedTimedEventStartTimes: [Double]?
-    var timedEvents: [Double: NGDMTimedEvent] {
-        if _timedEvents.count == 0 {
-            for eventObj in _manifestObject.TimedEventList {
-                let timedEvent = NGDMTimedEvent(manifestObject: eventObj)
-                _timedEvents[timedEvent.startTime] = timedEvent
-            }
-            
-            _sortedTimedEventStartTimes = _timedEvents.keys.sort()
-        }
-        
-        return _timedEvents
-    }
+    var timedEvents = [Double: NGDMTimedEvent]()
     
     /// Unique identifier
-    var id: String {
-        return _manifestObject.TimedSequenceID
-    }
+    var id: String
     
     // MARK: Initialization
     /**
@@ -48,7 +27,14 @@ class NGDMTimedEventSequence {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGETimedEventSequenceType) {
-        _manifestObject = manifestObject
+        id = manifestObject.TimedSequenceID
+        
+        for obj in manifestObject.TimedEventList {
+            let timedEvent = NGDMTimedEvent(manifestObject: obj)
+            timedEvents[timedEvent.startTime] = timedEvent
+        }
+        
+        _sortedTimedEventStartTimes = timedEvents.keys.sort()
     }
     
     // MARK: Helper Methods
@@ -102,16 +88,7 @@ class NGDMTimedEventSequence {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMTimedEventSequence? {
-        if _objectMap.count == 0 {
-            if let objList = NextGenDataManager.sharedInstance.manifest.TimedEventSequences?.TimedEventSequenceList {
-                for obj in objList {
-                    let timedEventSequence = NGDMTimedEventSequence(manifestObject: obj)
-                    _objectMap[obj.TimedSequenceID] = timedEventSequence
-                }
-            }
-        }
-        
-        return _objectMap[id]
+        return NextGenDataManager.sharedInstance.timedEventSequences[id]
     }
     
 }

@@ -8,163 +8,71 @@
 
 import Foundation
 
+enum TimedEventType {
+    case AudioVisual
+    case Gallery
+    case AppGroup
+    case TextItem
+    case AppData
+    case Location
+    case Talent
+    case Product
+}
+
+func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
+    return lhs.id == rhs.id
+}
+
 // Wrapper class for `NGETimedEventType` Manifest object
-class NGDMTimedEvent: NSObject {
+class NGDMTimedEvent: Equatable {
     
     // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGETimedEventType!
-    
     /// Unique identifier
-    private var _id: String!
-    var id: String {
-        if _id == nil {
-            if isAudioVisual {
-                _id = _manifestObject.PresentationID
-            } else if isGallery {
-                _id = _manifestObject.GalleryID
-            } else if isAppGroup {
-                _id = _manifestObject.AppGroupID
-            } else if isTextItem {
-                _id = "\(_manifestObject.TextGroupIDList.first?.value)\(_manifestObject.TextGroupIDList.first?.index)"
-            } else if isAppData {
-                _id = appData!.id
-            } else {
-                _id = NSUUID().UUIDString
-            }
-        }
-        
-        return _id
-    }
+    var id: String = ""
     
-    /// The TimedEvent's start time
-    var startTime: Double {
-        if let str = _manifestObject.StartTimecode.value {
-            return Double(str)!
-        }
-        
-        return -1
-    }
-    
-    /// The TimedEvent's end time
-    var endTime: Double {
-        if let str = _manifestObject.EndTimecode.value {
-            return Double(str)!
-        }
-        
-        return -1
-    }
+    /// Timecodes
+    var startTime: Double = -1
+    var endTime: Double = -1
     
     /// Text value associated with this TimedEvent if it exists
     var text: String? {
-        if let textGroupId = _manifestObject.TextGroupIDList?.first, textGroupIndex = textGroupId.index, textGroup = NGDMTextGroup.getById(textGroupId.value!) {
-            return textGroup.textItem(textGroupIndex)
-        }
-        
-        if let location = location {
-            return location.name
-        }
-        
-        return nil
+        return textItem ?? appData?.location?.name
     }
     
-    /// AppGroup associated with this TimedEvent if it exists
-    var appGroup: NGDMAppGroup? {
-        if isAppGroup {
-            return NGDMAppGroup.getById(_manifestObject.AppGroupID)
-        }
-        
-        return nil
+    var descriptionText: String? {
+        return gallery?.title ?? audioVisual?.metadata?.title ?? text ?? appData?.location?.name
     }
     
-    /// AppData associated with this TimedEvent if it exists
-    var appData: NGDMAppData? {
-        if isAppData {
-            return CurrentManifest.allAppData?[_manifestObject.OtherID!.Identifier]
-        }
-        
-        return nil
+    /// Image to be used for display
+    private var _imageURL: NSURL?
+    var imageURL: NSURL? {
+        return _imageURL ?? gallery?.imageURL ?? audioVisual?.imageURL ?? experienceApp?.imageURL
     }
     
-    /// Gallery associated with this TimedEvent if it exists
-    var gallery: NGDMGallery? {
-        if let id = _manifestObject.GalleryID {
-            return NGDMGallery.getById(id)
-        }
-        
-        return nil
-    }
+    /// TimedEvent objects
+    var textItem: String?
+    var appGroup: NGDMAppGroup?
+    var gallery: NGDMGallery?
+    var audioVisual: NGDMAudioVisual?
+    var experienceApp: NGDMExperienceApp?
+    var productNamespace: String?
     
-    /// AudioVisual associated with this TimedEvent if it exists
-    var audioVisual: NGDMAudioVisual? {
-        if let id = _manifestObject.PresentationID {
-            return NGDMAudioVisual.getById(id)
-        }
-        
-        return nil
-    }
-    
-    /// ExperienceApp associated with this TimedEvent if it exists
-    var experienceApp: NGDMExperienceApp? {
-        if let id = _manifestObject.AppGroupID {
-            return NGDMExperienceApp.getById(id)
-        }
-        
-        return nil
-    }
-    
-    /// Location associated with this TimedEvent if it exists
-    var location: NGDMLocation? {
-        return appData?.location
-    }
-    
-    /// Talent associated with this TimedEvent if it exists
+    private var _talentId: String?
     var talent: Talent? {
-        if let talentId = _manifestObject.OtherID?.Identifier {
-            return CurrentManifest.mainExperience.talents[talentId]
+        if let id = _talentId {
+            return CurrentManifest.mainExperience.talents[id]
         }
         
         return nil
     }
     
-    /// Check if this is a text-based TimedEvent (e.g. trivia)
-    var isTextItem: Bool {
-        return _manifestObject.TextGroupIDList?.first?.value != nil
-    }
-    
-    /// Check if this is an AudioVisual-based TimedEvent (e.g. deleted scene)
-    var isAudioVisual: Bool {
-        return _manifestObject.PresentationID != nil
-    }
-    
-    /// Check if this is a Gallery-based TimedEvent (e.g. image gallery)
-    var isGallery: Bool {
-        return _manifestObject.GalleryID != nil
-    }
-    
-    /// Check if this is an AppGroup-based TimedEvent (e.g. external HTML5 app)
-    var isAppGroup: Bool {
-        return _manifestObject.AppGroupID != nil
-    }
-    
-    /// Check if this is a Product-based TimedEvent (e.g. shop this scene with TheTake)
-    var isProduct: Bool {
-        return _manifestObject.ProductID != nil
-    }
-    
-    /// Check if this is an AppData-based TimedEvent (e.g. scene location)
-    var isAppData: Bool {
-        return _manifestObject.OtherID?.Namespace == Namespaces.AppDataID
-    }
-    
-    /// Check if this is a Location-based TimedEvent (e.g. scene location)
-    var isLocation: Bool {
-        return appData?.location != nil
-    }
-    
-    /// Check if this is a talent-based TimedEvent
-    var isTalent: Bool {
-        return _manifestObject.OtherID?.Namespace == Namespaces.PeopleID
+    private var _appDataId: String?
+    var appData: NGDMAppData? {
+        if let id = _appDataId {
+            return CurrentManifest.allAppData?[id]
+        }
+        
+        return nil
     }
     
     // MARK: Initialization
@@ -175,85 +83,85 @@ class NGDMTimedEvent: NSObject {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGETimedEventType) {
-        _manifestObject = manifestObject
+        // Timecodes
+        if let str = manifestObject.StartTimecode.value {
+            startTime = Double(str)!
+        }
+        
+        if let str = manifestObject.EndTimecode.value {
+            endTime = Double(str)!
+        }
+        
+        // FIXME: Making assumption that PictureID is in the Initialization property
+        if let id = manifestObject.Initialization {
+            _imageURL = NGDMPicture.getById(id)?.imageURL
+        }
+        
+        // TimedEvent objects
+        if let textGroupId = manifestObject.TextGroupIDList?.first, textGroupIndex = textGroupId.index, textGroup = NGDMTextGroup.getById(textGroupId.value!) {
+            textItem = textGroup.textItem(textGroupIndex)
+        }
+        
+        if let id = manifestObject.AppGroupID {
+            appGroup = NGDMAppGroup.getById(id)
+        }
+        
+        if let id = manifestObject.GalleryID {
+            gallery = NGDMGallery.getById(id)
+        }
+        
+        if let id = manifestObject.PresentationID {
+            audioVisual = NGDMAudioVisual.getById(id)
+        }
+        
+        if let id = manifestObject.AppGroupID {
+            experienceApp = NGDMExperienceApp.getById(id)
+        }
+        
+        productNamespace = manifestObject.ProductID?.Namespace
+        _talentId = manifestObject.OtherID?.Identifier
+        if let otherId = manifestObject.OtherID where otherId.Namespace == Namespaces.AppDataID {
+            _appDataId = otherId.Identifier
+        }
+        
+        id = audioVisual?.id ?? gallery?.id ?? appGroup?.id ?? appData?.id ?? NSUUID().UUIDString
     }
     
     // MARK: Helper Methods
     /**
-        Overrides default equality check to compare unique identifiers
-    
+        Check if TimedEvent is of the specified type
+ 
         - Parameters:
-            - object: Another object of the same type
-    
-        - Returns: `true` if both objects have the same unique identifier
+            - type: Type of TimedEvent
+ 
+        - Returns: `true` if the TimedEvent is of the specified type
     */
-    override func isEqual(object: AnyObject?) -> Bool {
-        if let otherTimedEvent = object as? NGDMTimedEvent {
-            return id == otherTimedEvent.id
-        }
-        
-        return false
-    }
-    
-    /**
-        Check if this is a Product-based TimedEvent within the given namespace
-     
-        - Parameters:
-            - namespace: The namespace in which to search for a product
-     
-        - Returns: `true` if this is a Product-based TimedEvent within the given `namespace`
-     */
-    func isProduct(namespace: String) -> Bool {
-        if let productId = _manifestObject.ProductID {
-            return productId.Namespace == namespace
-        }
-        
-        return false
-    }
-    
-    /**
-        Get the value of the description text or summary for this TimedEvent
+    func isType(type: TimedEventType) -> Bool {
+        switch type {
+        case .AudioVisual:
+            return audioVisual != nil
+            
+        case .Gallery:
+            return gallery != nil
+            
+        case .TextItem:
+            return textItem != nil
+            
+        case .AppGroup:
+            return appGroup != nil
+            
+        case .AppData:
+            return appData != nil
+            
+        case .Location:
+            return appData?.location != nil
+            
+        case .Talent:
+            return talent != nil
 
-        - Parameters:
-            - experience: The parent Experience to be used for the description value if this TimedEvent is not text-based
-
-        - Returns: The value of the TimedEvent's description text if it exists
-    */
-    func getDescriptionText(experience: NGDMExperience) -> String? {
-        return gallery?.title ?? audioVisual?.metadata?.title ?? text ?? location?.name
-    }
-    
-    /**
-        Get the image URL associated with this TimedEvent
-     
-        - Parameters:
-            - experience: The parent Experience to be used for the image URL lookup
-     
-        - Returns: The image URL associated with this TimedEvent
-     */
-    func getImageURL(experience: NGDMExperience) -> NSURL? {
-        if let imageURL = gallery?.imageURL ?? audioVisual?.imageURL ?? experienceApp?.imageURL {
-            return imageURL
+        case .Product:
+            return productNamespace == kTheTakeIdentifierNamespace
         }
-        
-        // FIXME: Making assumption that PictureID is in the Initialization property
-        if let pictureId = _manifestObject.Initialization, picture = NGDMPicture.getById(pictureId) where isTextItem {
-            return picture.imageURL
-        }
-        
-        return nil
-    }
-    
-    /**
-        Check if this TimedEvent has an image associated with it
-     
-        - Parameters:
-            - experience: The parent Experience to be used for the image lookup
-
-        - Returns: `true` if this TimedEvent has an image associated with it
-    */
-    func hasImage(experience: NGDMExperience) -> Bool {
-        return getImageURL(experience) != nil
     }
     
 }

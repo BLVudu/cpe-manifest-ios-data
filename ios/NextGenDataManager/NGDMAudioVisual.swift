@@ -10,34 +10,11 @@ import Foundation
 
 // Wrapper class for `NGEAudiovisualType` Manifest object
 class NGDMAudioVisual {
-    
-    // MARK: Instance Variables
-    /// Reference to the root Manifest object
-    private var _manifestObject: NGEAudiovisualType!
-    
     /// Unique identifier
-    var id: String {
-        return _manifestObject.PresentationID
-    }
+    var id: String
     
     /// Metadata associated with this AudioVisual
-    var metadata: NGDMMetadata? {
-        if let contentId = contentId {
-            return NGDMMetadata.getById(contentId)
-        }
-        
-        return nil
-    }
-    
-    /// Presentation associated with this AudioVisual
-    var presentation: NGDMPresentation? {
-        return NGDMPresentation.getById(_manifestObject.PresentationID)
-    }
-    
-    /// Metadata ContentID associated with this AudioVisual
-    var contentId: String? {
-        return _manifestObject.ContentID
-    }
+    var metadata: NGDMMetadata?
     
     /// Image URL to be used for display
     var imageURL: NSURL? {
@@ -49,6 +26,9 @@ class NGDMAudioVisual {
         return presentation?.videoURL
     }
     
+    /// Presentation associated with this AudioVisual
+    var presentation: NGDMPresentation?
+    
     // MARK: Initialization
     /**
         Initializes a new AudioVisual
@@ -57,7 +37,12 @@ class NGDMAudioVisual {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEAudiovisualType) {
-        _manifestObject = manifestObject
+        id = manifestObject.PresentationID
+        presentation = NGDMPresentation.getById(id)
+        
+        if let id = manifestObject.ContentID {
+            metadata = NGDMMetadata.getById(id)
+        }
     }
     
     // MARK: Search Methods
