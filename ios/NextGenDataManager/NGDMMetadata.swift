@@ -55,7 +55,17 @@ class NGDMMetadata {
     /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
     private var _localizedInfoMap = [String: NGDMLocalizedInfo]()
     private var _localizedInfo: NGDMLocalizedInfo? {
-        return _localizedInfoMap[NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-")]
+        var normalizedDeviceLanguage = NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-")
+        if let localizedInfo = _localizedInfoMap[normalizedDeviceLanguage] {
+            return localizedInfo
+        }
+        
+        normalizedDeviceLanguage = normalizedDeviceLanguage[normalizedDeviceLanguage.startIndex..<normalizedDeviceLanguage.startIndex.advancedBy(2)]
+        if let localizedInfo = _localizedInfoMap[normalizedDeviceLanguage] {
+            return localizedInfo
+        }
+        
+        return nil
     }
     
     /// Mapping of all content identifiers for this Metadata - Namespace: Identifier

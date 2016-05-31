@@ -17,32 +17,47 @@ enum NGDMAppearanceType {
 //Wrapper class for app appreance: animated background, buttons, background image, etc
 class NGDMAppearance {
     
+    private struct NGDMAppearanceTitle {
+        static let ManOfSteel = "md:experiencedid:eidr-x:C80F-C561-EE65-C5E4-C039-U:feature"
+    }
+    
     private var type = NGDMAppearanceType.Main
     
-    var backgroundImage: UIImage? {
+    var backgroundImageURL: NSURL? {
         get {
-            switch type {
-            case .InMovie:
-                return UIImage(named: "MOSIMEBackground")
+            if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
+                if type == .InMovie {
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_IME_bg.jpg")
+                }
                 
-            case .OutOfMovie:
-                return UIImage(named: "MOSExtrasBackground")
-                
-            default:
-                return UIImage(named: "MOSBackground")
+                if type == .OutOfMovie {
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_bg.jpg")
+                }
+            } else if type == .Main {
+                return CurrentManifest.outOfMovieExperience.metadata?.imageURL
             }
+            
+            return nil
         }
     }
     
     var backgroundVideoURL: NSURL? {
         get {
-            return NSURL(fileURLWithPath:NSBundle.mainBundle().pathForResource("mos-nextgen-background", ofType: "mp4")!)
+            if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
+                return NSURL(fileURLWithPath:NSBundle.mainBundle().pathForResource("mos-nextgen-background", ofType: "mp4")!)
+            }
+            
+            return nil
         }
     }
     
     var backgroundVideoFadeTime: Double {
         get {
-            return 8.5
+            if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
+                return 8.5
+            }
+            
+            return 0
         }
     }
     
@@ -52,18 +67,22 @@ class NGDMAppearance {
         }
     }
     
-    var titleImage: UIImage? {
+    var titleImageURL: NSURL? {
         get {
-            switch type {
-            case .Main:
-                return UIImage(named: "MOSLogo")
-                
-            case .OutOfMovie:
-                return UIImage(named: "MOSExtrasTitle")
-                
-            default:
-                return nil
+            if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
+                switch type {
+                case .Main:
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_title_treatment.png")
+                    
+                case .OutOfMovie:
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_title.png")
+                    
+                default:
+                    return nil
+                }
             }
+            
+            return nil
         }
     }
     
@@ -87,18 +106,22 @@ class NGDMAppearance {
         }
     }
     
-    var buttonImage: UIImage? {
+    var buttonImageURL: NSURL? {
         get {
-            switch type {
-            case .InMovie:
-                return UIImage(named: "MOSPlay")
-                
-            case .OutOfMovie:
-                return UIImage(named: "MOSExtras")
-                
-            default:
-                return nil
+            if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
+                switch type {
+                case .InMovie:
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/buttons/MOS_Play_button.png")
+                    
+                case .OutOfMovie:
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/buttons/MOS_Extras_button.png")
+                    
+                default:
+                    return nil
+                }
             }
+            
+            return nil
         }
     }
     
