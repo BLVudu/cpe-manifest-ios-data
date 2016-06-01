@@ -64,9 +64,9 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
                     
                 } else   if(true) {
                     print("Ignoring unexpected in NGEInventoryInteractiveType: \(_currentElementName)")
-                    if superclass != NSObject.self {
+                    /*if superclass != NSObject.self {
                         break
-                    }
+                    }*/
                 }
             }
             _readerOk = handledInChild ? xmlTextReaderReadState(reader) : xmlTextReaderRead(reader)
