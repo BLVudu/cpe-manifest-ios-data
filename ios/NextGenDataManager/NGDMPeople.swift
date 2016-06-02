@@ -224,15 +224,19 @@ public struct TalentSocialAccount {
     
     public init(baselineInfo: NSDictionary) {
         handle = baselineInfo[BaselineAPIUtil.Keys.Handle] as! String
-        let urlString = baselineInfo[BaselineAPIUtil.Keys.URL] as! String
-        url = NSURL(string: urlString)!
+        var urlString = baselineInfo[BaselineAPIUtil.Keys.URL] as! String
         if urlString.containsString("twitter") {
             type = SocialAccountType.Twitter
         } else if urlString.containsString("facebook") {
             type = SocialAccountType.Facebook
+            if urlString.containsString("/pages"), let pageId = urlString.componentsSeparatedByString("/").last {
+                urlString = "fb://page?id=" + pageId
+            }
         } else if urlString.containsString("instagram") {
             type = SocialAccountType.Instagram
         }
+        
+        url = NSURL(string: urlString)!
     }
     
 }
