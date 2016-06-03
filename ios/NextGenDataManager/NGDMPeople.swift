@@ -33,17 +33,26 @@ class NGDMPeople: NSObject {
     var billingBlockOrder = 0
     var type = TalentType.Unknown
     var biography: String?
-    var images = [TalentImage]()
+    var images: [TalentImage]?
     var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
     var gallery = [String]()
     
     var thumbnailImageURL: NSURL? {
-        return images.first?.thumbnailImageURL
+        return images?.first?.thumbnailImageURL
     }
     
     var fullImageURL: NSURL? {
-        return images.first?.imageURL
+        return images?.first?.imageURL
+    }
+    
+    var additionalImages: [TalentImage]? {
+        if var images = images {
+            images.removeAtIndex(0)
+            return images
+        }
+        
+        return nil
     }
     
     // MARK: Initialization
