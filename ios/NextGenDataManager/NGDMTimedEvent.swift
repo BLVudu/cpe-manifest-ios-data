@@ -160,7 +160,7 @@ class NGDMTimedEvent: Equatable {
             return talent != nil
 
         case .Product:
-            return productNamespace == kTheTakeIdentifierNamespace
+            return productNamespace == Namespaces.TheTake
         }
     }
     

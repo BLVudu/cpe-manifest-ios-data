@@ -225,7 +225,7 @@ class NGDMExperience: Equatable {
             return app != nil
             
         case .Shopping:
-            return app?.name == kTheTakeIdentifierNamespace
+            return app?.name == Namespaces.TheTake
             
         case .Location:
             if appData?.location != nil {

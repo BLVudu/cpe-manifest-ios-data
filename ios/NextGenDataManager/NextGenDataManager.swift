@@ -18,6 +18,14 @@ enum NGDMError: ErrorType {
 struct Namespaces {
     static let AppDataID = "AppID"
     static let PeopleID = "PeopleOtherID"
+    static let TheTake = "thetake.com"
+}
+
+struct CurrentManifest {
+    static var mainExperience: NGDMMainExperience!
+    static var inMovieExperience: NGDMExperience!
+    static var outOfMovieExperience: NGDMExperience!
+    static var allAppData: [String: NGDMAppData]?
 }
 
 /// Manager for communicating with parsed Manifest data
