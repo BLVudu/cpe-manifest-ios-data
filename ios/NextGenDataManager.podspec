@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   #s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'OTHER_LDFLAGS' => '-lxml2' }
   
   s.source          = { :git => 'https://bitbucket.org/wbdigital/nextgen-data.git', :tag => s.version.to_s }
-  s.source_files    = 'Manifest Models/Sources", "NextGenDataManager/*'
+  s.source_files    = 'Manifest Models/Sources', 'NextGenDataManager/*'
   s.exclude_files   = 'Manifest Models/Sources/libxml-bridging-header.h'
   
   s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/NextGenDataManager/module' }
