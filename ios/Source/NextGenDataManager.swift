@@ -7,7 +7,12 @@
 //
 
 import Foundation
-import libxml
+
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+  import libxmlSimu
+#else
+  import libxml
+#endif
 
 enum NGDMError: ErrorType {
     case MainExperienceMissing

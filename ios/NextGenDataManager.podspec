@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   
   s.preserve_path   = 'ios/Source/libxml/module.modulemap'
   s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2',
-                        'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/NextGenDataManager/Source/libxml'
+                        'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/NextGenDataManager/ios/Source/libxml'
                       }
 
 end
