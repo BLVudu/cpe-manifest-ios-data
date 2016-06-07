@@ -19,9 +19,9 @@ Pod::Spec.new do |s|
   s.libraries       = 'xml2'
   
   s.source          = { :git => 'https://bitbucket.org/wbdigital/nextgen-data.git', :tag => s.version.to_s }
-  s.source_files    = 'Source/Base/*.swift', 'Source/*.swift'
+  s.source_files    = 'ios/Source/Base/*.swift', 'ios/Source/*.swift'
   
-  s.preserve_path   = 'Source/libxml/module.modulemap'
+  s.preserve_path   = 'ios/Source/libxml/module.modulemap'
   s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2',
                         'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/NextGenDataManager/Source/libxml'
                       }
