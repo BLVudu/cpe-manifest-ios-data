@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import libxml
 
 enum NGDMError: ErrorType {
     case MainExperienceMissing

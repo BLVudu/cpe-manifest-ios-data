@@ -1,4 +1,0 @@
-module NGDMlibxml {
-  header "/usr/include/libxml2/libxml/tree.h"
-  export *
-}

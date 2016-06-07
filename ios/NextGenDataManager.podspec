@@ -17,13 +17,13 @@ Pod::Spec.new do |s|
 
   s.platform        = :ios, '8.0'
   s.libraries       = 'xml2'
-  #s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'OTHER_LDFLAGS' => '-lxml2' }
   
   s.source          = { :git => 'https://bitbucket.org/wbdigital/nextgen-data.git', :tag => s.version.to_s }
-  s.source_files    = 'Manifest Models/Sources', 'NextGenDataManager/*'
-  s.exclude_files   = 'Manifest Models/Sources/libxml-bridging-header.h'
+  s.source_files    = 'Source/Base/*.swift', 'Source/*.swift'
   
-  s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/NextGenDataManager/module' }
-  s.preserve_paths  = 'module/module.modulemap'
+  s.preserve_path   = 'Source/libxml/module.modulemap'
+  s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2',
+                        'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/NextGenDataManager/Source/libxml'
+                      }
 
 end
