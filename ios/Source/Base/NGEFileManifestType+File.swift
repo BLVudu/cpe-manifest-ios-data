@@ -1,5 +1,10 @@
-
 import Foundation
+
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+import libxmlSimu
+#else
+import libxml
+#endif
 
 extension NGEFileManifestType {
     class func NGEFileManifestTypeFromURL(url:NSURL) -> NGEFileManifestType? {

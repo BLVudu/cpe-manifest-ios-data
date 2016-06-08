@@ -1,5 +1,10 @@
-
 import Foundation
+
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+import libxmlSimu
+#else
+import libxml
+#endif
 
 extension NGEPresentationManifestType {
     class func NGEPresentationManifestTypeFromURL(url:NSURL) -> NGEPresentationManifestType? {
