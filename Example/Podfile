@@ -1,0 +1,12 @@
+platform :ios, '8.0'
+
+project 'NextGenDataManagerExample'
+workspace 'NextGenDataManagerExampleWorkspace'
+
+target 'NextGenDataManagerExample' do
+    
+    use_frameworks!
+
+    pod 'NextGenDataManager', :path => '../'
+
+end
