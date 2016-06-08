@@ -69,7 +69,7 @@ class NGDMPeople: NSObject {
             for identifier in identifiers {
                 if identifier.Namespace == Namespaces.PeopleID {
                     id = identifier.Identifier
-                } else if identifier.Namespace == kBaselineIdentifierNamespace {
+                } else if identifier.Namespace == Namespaces.Baseline {
                     baselineId = identifier.Identifier
                 }
             }

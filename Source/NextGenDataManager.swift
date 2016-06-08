@@ -19,6 +19,7 @@ struct Namespaces {
     static let AppDataID = "AppID"
     static let PeopleID = "PeopleOtherID"
     static let TheTake = "thetake.com"
+    static let Baseline = "baselineapi.com"
 }
 
 struct CurrentManifest {

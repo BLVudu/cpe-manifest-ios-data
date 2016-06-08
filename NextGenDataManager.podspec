@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name            = 'NextGenDataManager'
-  s.version         = '0.0.2'
+  s.version         = '0.0.3'
   s.summary         = 'Manifest.XML parser and full one-to-one mapping of the Manifest and Common Metadata specs to Swift objects'
   s.license         = 'Apache License, Version 2.0'
   s.homepage        = 'https://bitbucket.org/wbdigital/nextgen-data'
@@ -19,11 +19,11 @@ Pod::Spec.new do |s|
   s.libraries       = 'xml2'
   
   s.source          = { :git => 'https://bitbucket.org/wbdigital/nextgen-data.git', :tag => s.version.to_s }
-  s.source_files    = 'Source/Base/*.swift', 'Source/*.swift'
+  s.source_files    = 'Source/**/*.swift', 'Source/*.swift'
   
   s.preserve_path   = 'Source/libxml/module.modulemap'
   s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2',
-                        'SWIFT_INCLUDE_PATHS' => '$(SRCROOT)/NextGenDataManager/Source/libxml'
+                        'SWIFT_INCLUDE_PATHS' => '$(PODS_ROOT)/Source/libxml ../Source/libxml ../../Source/libxml'
                       }
 
 end
