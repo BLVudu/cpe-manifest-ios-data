@@ -52,7 +52,7 @@ class NGDMTextObject {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMTextObject? {
-        return NextGenDataManager.sharedInstance.textObjects[id]
+        return NGDMManifest.sharedInstance.textObjects[id]
     }
     
 }

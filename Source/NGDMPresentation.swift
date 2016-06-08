@@ -48,7 +48,7 @@ class NGDMPresentation {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMPresentation? {
-        return NextGenDataManager.sharedInstance.presentations[id]
+        return NGDMManifest.sharedInstance.presentations[id]
     }
     
 }

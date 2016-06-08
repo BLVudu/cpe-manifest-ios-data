@@ -39,7 +39,7 @@ class NGDMPictureGroup {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMPictureGroup? {
-        return NextGenDataManager.sharedInstance.pictureGroups[id]
+        return NGDMManifest.sharedInstance.pictureGroups[id]
     }
     
 }

@@ -56,7 +56,7 @@ class NGDMTextGroup {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMTextGroup? {
-        return NextGenDataManager.sharedInstance.textGroups[id]
+        return NGDMManifest.sharedInstance.textGroups[id]
     }
     
 }

@@ -43,7 +43,7 @@ class NGDMInteractive {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMInteractive? {
-        return NextGenDataManager.sharedInstance.interactives[id]
+        return NGDMManifest.sharedInstance.interactives[id]
     }
     
 }

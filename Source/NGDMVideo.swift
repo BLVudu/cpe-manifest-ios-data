@@ -52,7 +52,7 @@ class NGDMVideo {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMVideo? {
-        return NextGenDataManager.sharedInstance.videos[id]
+        return NGDMManifest.sharedInstance.videos[id]
     }
     
 }

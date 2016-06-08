@@ -55,7 +55,7 @@ class NGDMAudioVisual {
         - Returns: Object associated with identifier if it exists
      */
     static func getById(id: String) -> NGDMAudioVisual? {
-        return NextGenDataManager.sharedInstance.audioVisuals[id]
+        return NGDMManifest.sharedInstance.audioVisuals[id]
     }
     
 }

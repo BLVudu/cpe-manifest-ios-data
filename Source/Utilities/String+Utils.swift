@@ -10,6 +10,11 @@ import Foundation
 
 extension String {
     
+    func stringByAddingPercentEncodingForURLQueryValue() -> String? {
+        let allowedCharacters = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~")
+        return self.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters)
+    }
+    
     func iso8601TimeInSeconds() -> NSTimeInterval {
         if self.characters.count > 2 && self[0] == "P" && self[1] == "T" {
             var currentNumberString = ""

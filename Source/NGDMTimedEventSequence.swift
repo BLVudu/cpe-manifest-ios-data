@@ -88,7 +88,7 @@ class NGDMTimedEventSequence {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMTimedEventSequence? {
-        return NextGenDataManager.sharedInstance.timedEventSequences[id]
+        return NGDMManifest.sharedInstance.timedEventSequences[id]
     }
     
 }

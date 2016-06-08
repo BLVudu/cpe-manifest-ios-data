@@ -48,16 +48,16 @@ class NGDMMainExperience: NGDMExperience {
     func loadTalent() {
         if let talents = audioVisual?.metadata?.talents {
             self.talents = talents
-        } else if ConfigManager.sharedInstance.hasBaselineAPI {
-            BaselineAPIUtil.sharedInstance.prefetchCredits({ (talents) in
+        } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
+            talentAPIUtil.prefetchCredits({ (talents) in
                 self.talents = talents
             })
         }
         
-        if ConfigManager.sharedInstance.hasBaselineAPI {
+        if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
             for talent in talents.values {
-                if let talentId = talent.baselineId {
-                    BaselineAPIUtil.sharedInstance.getTalentImages(talentId, successBlock: { (talentImages) in
+                if let talentId = talent.apiID {
+                    talentAPIUtil.getTalentImages(talentId, successBlock: { (talentImages) in
                         talent.images = talentImages
                     })
                 }

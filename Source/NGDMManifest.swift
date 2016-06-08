@@ -1,5 +1,5 @@
 //
-//  NextGenDataManager.swift
+//  NGDMManifest.swift
 //  NextGenDataManagerExample
 //
 //  Created by Alec Ananian on 2/8/16.
@@ -29,12 +29,30 @@ struct CurrentManifest {
     static var allAppData: [String: NGDMAppData]?
 }
 
+protocol NGDMDelegate {
+    func usesTalentAPI() -> Bool
+    func talentAPINamespace() -> String?
+    func talentAPIUtil() -> TalentAPIUtil?
+}
+
 /// Manager for communicating with parsed Manifest data
-class NextGenDataManager: NSObject {
+class NGDMManifest: NSObject {
     
     // MARK: Singleton Methods
     /// Static shared instance for singleton
-    static let sharedInstance = NextGenDataManager()
+    static let sharedInstance = NGDMManifest()
+    
+    static func appUsesTalentAPI() -> Bool {
+        return sharedInstance.delegate != nil && sharedInstance.delegate!.usesTalentAPI()
+    }
+    
+    static func talentAPIUtilUsesNamespace(namespace: String) -> Bool {
+        return sharedInstance.delegate?.talentAPINamespace() == namespace
+    }
+    
+    static func talentAPIUtil() -> TalentAPIUtil? {
+        return sharedInstance.delegate?.talentAPIUtil()
+    }
     
     // MARK: Instance variables
     /// The Manifest's main Experience associated with the feature film
@@ -56,6 +74,9 @@ class NextGenDataManager: NSObject {
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
     var timedEventSequences = [String: NGDMTimedEventSequence]() // TimedEventSequenceID: TimedEventSequence
+    
+    // Provides hooks to the implementer app
+    var delegate: NGDMDelegate?
     
     // MARK: Helper Methods
     /**

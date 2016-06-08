@@ -167,20 +167,20 @@ class NGDMExperience: Equatable {
         if let obj = manifestObject.Audiovisual {
             let audioVisual = NGDMAudioVisual(manifestObject: obj)
             self.audioVisual = audioVisual
-            NextGenDataManager.sharedInstance.audioVisuals[audioVisual.id] = audioVisual
+            NGDMManifest.sharedInstance.audioVisuals[audioVisual.id] = audioVisual
         }
         
         if let obj = manifestObject.Gallery {
             let gallery = NGDMGallery(manifestObject: obj)
             self.gallery = gallery
-            NextGenDataManager.sharedInstance.galleries[gallery.id] = gallery
+            NGDMManifest.sharedInstance.galleries[gallery.id] = gallery
         }
         
         if let obj = manifestObject.App {
             let experienceApp = NGDMExperienceApp(manifestObject: obj)
             app = experienceApp
             _appDataId = experienceApp.id
-            NextGenDataManager.sharedInstance.experienceApps[experienceApp.id] = experienceApp
+            NGDMManifest.sharedInstance.experienceApps[experienceApp.id] = experienceApp
         }
         
         if let objList = manifestObject.ExperienceChildList where objList.count > 0 {
@@ -250,7 +250,7 @@ class NGDMExperience: Equatable {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMExperience? {
-        return NextGenDataManager.sharedInstance.experiences[id]
+        return NGDMManifest.sharedInstance.experiences[id]
     }
     
 }

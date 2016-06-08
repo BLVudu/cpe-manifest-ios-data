@@ -147,7 +147,7 @@ class NGDMMetadata {
         - Returns: Object associated with identifier if it exists
      */
     static func getById(id: String) -> NGDMMetadata? {
-        return NextGenDataManager.sharedInstance.metadatas[id]
+        return NGDMManifest.sharedInstance.metadatas[id]
     }
     
 }

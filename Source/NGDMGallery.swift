@@ -63,7 +63,7 @@ class NGDMGallery {
         - Returns: Object associated with identifier if it exists
      */
     static func getById(id: String) -> NGDMGallery? {
-        return NextGenDataManager.sharedInstance.galleries[id]
+        return NGDMManifest.sharedInstance.galleries[id]
     }
     
 }

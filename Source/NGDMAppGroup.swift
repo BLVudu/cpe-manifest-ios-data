@@ -52,7 +52,7 @@ class NGDMAppGroup {
         - Returns: Object associated with identifier if it exists
     */
     static func getById(id: String) -> NGDMAppGroup? {
-        return NextGenDataManager.sharedInstance.appGroups[id]
+        return NGDMManifest.sharedInstance.appGroups[id]
     }
     
 }
