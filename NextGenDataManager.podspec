@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.platform        = :ios, '8.0'
   s.libraries       = 'xml2'
   
-  s.source          = { :git => 'https://bitbucket.org/wbdigital/nextgen-data.git', :tag => s.version.to_s }
+  s.source          = { :git => 'git@bitbucket.org:wbdigital/nextgen-data.git', :tag => s.version.to_s }
   s.source_files    = 'Source/**/*.swift', 'Source/*.swift'
   
   s.preserve_path   = 'Source/libxml/module.modulemap'
