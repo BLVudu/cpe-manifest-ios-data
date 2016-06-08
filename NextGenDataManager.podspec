@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.name            = 'NextGenDataManager'
   s.version         = '0.0.4'
   s.summary         = 'Manifest.XML parser and full one-to-one mapping of the Manifest and Common Metadata specs to Swift objects'
-  s.license         = 'Apache License, Version 2.0'
+  s.license         = { :type => 'Apache License, Version 2.0', :file => 'LICENSE' }
   s.homepage        = 'https://bitbucket.org/wbdigital/nextgen-data'
   s.author          = { 'Alec Ananian' => 'alec.ananian@warnerbros.com' }
 
