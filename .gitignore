@@ -1,2 +1,15 @@
-Example/Pods
+# Global
+.DS_Store
+.swp
+
+# Xcode
+*.xccheckout
+xcuserdata
+xcuserdatad
+
+# CocoaPods
+Pods
+
+# Ruby Version Manager
 .ruby-*
+
