@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    fourflusher (0.3.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  fourflusher (= 0.3.0)
+
+BUNDLED WITH
+   1.12.5
