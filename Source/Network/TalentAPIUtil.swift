@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol TalentAPIUtil {
+public protocol TalentAPIUtil {
     func prefetchCredits(successBlock: (talents: [String: Talent]) -> Void)
     func getTalentBio(talentID: String, successBlock: (biography: String) -> Void)
     func getTalentImages(talentID: String, successBlock: (talentImages: [TalentImage]?) -> Void)

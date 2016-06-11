@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGEGalleryType` Manifest object
-class NGDMGallery {
+public class NGDMGallery {
     
     // MARK: Instance Variables
     /// Unique identifier
@@ -22,14 +22,14 @@ class NGDMGallery {
         return _galleryName ?? _metadata?.title
     }
     
-    var description: String? {
+    public var description: String? {
         return _metadata?.description ?? _metadata?.title
     }
     
     var imageURL: NSURL?
     
     /// Pictures associated with this Gallery
-    var pictures: [NGDMPicture]?
+    public var pictures: [NGDMPicture]?
     
     // MARK: Initialization
     /**

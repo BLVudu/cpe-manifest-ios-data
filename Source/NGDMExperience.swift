@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ExperienceType {
+public enum ExperienceType {
     case AudioVisual
     case ClipAndShare
     case TalentData
@@ -27,7 +27,7 @@ public class NGDMExperience: Equatable {
     
     // MARK: Instance Variables
     /// Appearance object for background images, buttons, etc
-    var appearance: NGDMAppearance?
+    public var appearance: NGDMAppearance?
     
     /// Unique identifier
     public var id: String
@@ -35,7 +35,7 @@ public class NGDMExperience: Equatable {
     /// All children of this Experience
     private var _childExperiences: [NGDMExperience]?
     private var _childExperienceIds: [String]?
-    var childExperiences: [NGDMExperience]? {
+    public var childExperiences: [NGDMExperience]? {
         if _childExperiences == nil, let childExperienceIds = _childExperienceIds {
             _childExperiences = childExperienceIds.flatMap({ NGDMExperience.getById($0) })
         }
@@ -47,7 +47,7 @@ public class NGDMExperience: Equatable {
     
     /// Child of this Experience that is a clip & share Experience
     private var _childClipAndShareExperience: NGDMExperience?
-    var childClipAndShareExperience: NGDMExperience? {
+    public var childClipAndShareExperience: NGDMExperience? {
         if _childClipAndShareExperience == nil, let index = childExperiences?.indexOf({ $0.isType(.ClipAndShare) }) {
             _childClipAndShareExperience = childExperiences?[index]
         }
@@ -57,7 +57,7 @@ public class NGDMExperience: Equatable {
     
     /// Child of this Experience that is a talent data Experience
     private var _childTalentDataExperience: NGDMExperience?
-    var childTalentDataExperience: NGDMExperience? {
+    public var childTalentDataExperience: NGDMExperience? {
         if _childTalentDataExperience == nil, let index = childExperiences?.indexOf({ $0.isType(.TalentData) }) {
             _childTalentDataExperience = childExperiences?[index]
         }
@@ -66,15 +66,15 @@ public class NGDMExperience: Equatable {
     }
     
     /// Metadata associated with this Experience
-    var metadata: NGDMMetadata?
+    public var metadata: NGDMMetadata?
     
     /// Title to be used for display
-    var title: String {
+    public var title: String {
         return metadata?.title ?? ""
     }
     
     /// Image URL to be used for thumbnail displays
-    var imageURL: NSURL? {
+    public var imageURL: NSURL? {
         if let imageURL = metadata?.imageURL {
             return imageURL
         }
@@ -99,7 +99,7 @@ public class NGDMExperience: Equatable {
     }
     
     /// AudioVisual associated with this Experience, if it exists
-    var audioVisual: NGDMAudioVisual?
+    public var audioVisual: NGDMAudioVisual?
     
     /// Presentation associated with this Experience's AudioVisual, if it exists
     var presentation: NGDMPresentation? {
@@ -107,12 +107,12 @@ public class NGDMExperience: Equatable {
     }
     
     /// Video URL to be used for video display, if it exists
-    var videoURL: NSURL? {
+    public var videoURL: NSURL? {
         return presentation?.videoURL
     }
     
     /// Video runtime length in seconds
-    var videoRuntime: NSTimeInterval {
+    public var videoRuntime: NSTimeInterval {
         if let runtime = presentation?.video?.runtimeInSeconds {
             return runtime
         }
@@ -121,14 +121,14 @@ public class NGDMExperience: Equatable {
     }
     
     /// Gallery associated with this Experience, if it exists
-    var gallery: NGDMGallery?
+    public var gallery: NGDMGallery?
     
     /// App associated with this Experience, if it exists
     var app: NGDMExperienceApp?
     
     /// AppData associated with this Experience, if it exists
     private var _appDataId: String?
-    var appData: NGDMAppData? {
+    public var appData: NGDMAppData? {
         if let id = _appDataId {
             return CurrentManifest.allAppData?[id]
         }
@@ -138,7 +138,7 @@ public class NGDMExperience: Equatable {
     
     /// TimedEventSequence associated with this Experience, if it exists
     private var _timedEventSequenceId: String?
-    var timedEventSequence: NGDMTimedEventSequence? {
+    public var timedEventSequence: NGDMTimedEventSequence? {
         if let id = _timedEventSequenceId {
             return NGDMTimedEventSequence.getById(id)
         }
@@ -207,7 +207,7 @@ public class NGDMExperience: Equatable {
             - Returns: `true` if the Experience is of the specified type
      */
     // FIXME: Hardcoded Experience ID strings are being used to identify Experience types
-    func isType(type: ExperienceType) -> Bool {
+    public func isType(type: ExperienceType) -> Bool {
         switch type {
         case .AudioVisual:
             return audioVisual != nil && !isType(.ClipAndShare)
@@ -249,7 +249,7 @@ public class NGDMExperience: Equatable {
 
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMExperience? {
+    public static func getById(id: String) -> NGDMExperience? {
         return NGDMManifest.sharedInstance.experiences[id]
     }
     

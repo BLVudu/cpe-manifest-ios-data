@@ -9,14 +9,14 @@
 import Foundation
 import UIKit
 
-enum NGDMAppearanceType {
+public enum NGDMAppearanceType {
     case Main
     case InMovie
     case OutOfMovie
 }
 
 //Wrapper class for app appreance: animated background, buttons, background image, etc
-class NGDMAppearance {
+public class NGDMAppearance {
     
     private struct NGDMAppearanceTitle {
         static let ManOfSteel = "md:experiencedid:eidr-x:C80F-C561-EE65-C5E4-C039-U:feature"
@@ -27,7 +27,7 @@ class NGDMAppearance {
     
     private var type = NGDMAppearanceType.Main
     
-    var backgroundImageURL: NSURL? {
+    public var backgroundImageURL: NSURL? {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 if type == .InMovie {
@@ -48,7 +48,7 @@ class NGDMAppearance {
         }
     }
     
-    var backgroundVideoURL: NSURL? {
+    public var backgroundVideoURL: NSURL? {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 return NSURL(fileURLWithPath:NSBundle.mainBundle().pathForResource("mos-nextgen-background", ofType: "mp4")!)
@@ -58,7 +58,7 @@ class NGDMAppearance {
         }
     }
     
-    var backgroundVideoFadeTime: Double {
+    public var backgroundVideoFadeTime: Double {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 return 8.5
@@ -68,13 +68,13 @@ class NGDMAppearance {
         }
     }
     
-    var backgroundVideoLoopTime: Double {
+    public var backgroundVideoLoopTime: Double {
         get {
             return 14
         }
     }
     
-    var titleImageURL: NSURL? {
+    public var titleImageURL: NSURL? {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 if type == .Main {
@@ -95,7 +95,7 @@ class NGDMAppearance {
         }
     }
     
-    var titleImageCenterOffset: CGPoint? {
+    public var titleImageCenterOffset: CGPoint? {
         get {
             if type == .Main {
                 if CurrentManifest.mainExperience.id != NGDMAppearanceTitle.ManOfSteel {
@@ -107,7 +107,7 @@ class NGDMAppearance {
         }
     }
     
-    var titleImageSizeOffset: CGSize? {
+    public var titleImageSizeOffset: CGSize? {
         get {
             if type == .Main {
                 if CurrentManifest.mainExperience.id != NGDMAppearanceTitle.ManOfSteel {
@@ -119,7 +119,7 @@ class NGDMAppearance {
         }
     }
     
-    var buttonImageURL: NSURL? {
+    public var buttonImageURL: NSURL? {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 if type == .InMovie {
@@ -135,7 +135,7 @@ class NGDMAppearance {
         }
     }
     
-    var buttonCenterOffset: CGPoint? {
+    public var buttonCenterOffset: CGPoint? {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 if type == .InMovie {
@@ -159,7 +159,7 @@ class NGDMAppearance {
         }
     }
     
-    var buttonSizeOffset: CGSize? {
+    public var buttonSizeOffset: CGSize? {
         get {
             if CurrentManifest.mainExperience.id == NGDMAppearanceTitle.ManOfSteel {
                 if type == .InMovie {
@@ -183,7 +183,7 @@ class NGDMAppearance {
         }
     }
     
-    required init(type: NGDMAppearanceType) {
+    required public init(type: NGDMAppearanceType) {
         self.type = type
     }
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TimedEventType {
+public enum TimedEventType {
     case AudioVisual
     case Gallery
     case AppGroup
@@ -19,46 +19,46 @@ enum TimedEventType {
     case Product
 }
 
-func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
+public func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
     return lhs.id == rhs.id
 }
 
 // Wrapper class for `NGETimedEventType` Manifest object
-class NGDMTimedEvent: Equatable {
+public class NGDMTimedEvent: Equatable {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String = ""
     
     /// Timecodes
-    var startTime: Double = -1
-    var endTime: Double = -1
+    public var startTime: Double = -1
+    public var endTime: Double = -1
     
     /// Text value associated with this TimedEvent if it exists
     var text: String? {
         return textItem ?? appData?.location?.name
     }
     
-    var descriptionText: String? {
+    public var descriptionText: String? {
         return gallery?.title ?? audioVisual?.metadata?.title ?? text ?? appData?.location?.name
     }
     
     /// Image to be used for display
     private var _imageURL: NSURL?
-    var imageURL: NSURL? {
+    public var imageURL: NSURL? {
         return _imageURL ?? gallery?.imageURL ?? audioVisual?.imageURL ?? experienceApp?.imageURL
     }
     
     /// TimedEvent objects
     var textItem: String?
-    var appGroup: NGDMAppGroup?
-    var gallery: NGDMGallery?
-    var audioVisual: NGDMAudioVisual?
-    var experienceApp: NGDMExperienceApp?
+    public var appGroup: NGDMAppGroup?
+    public var gallery: NGDMGallery?
+    public var audioVisual: NGDMAudioVisual?
+    public var experienceApp: NGDMExperienceApp?
     var productNamespace: String?
     
     private var _talentId: String?
-    var talent: Talent? {
+    public var talent: Talent? {
         if let id = _talentId {
             return CurrentManifest.mainExperience.talents[id]
         }
@@ -67,7 +67,7 @@ class NGDMTimedEvent: Equatable {
     }
     
     private var _appDataId: String?
-    var appData: NGDMAppData? {
+    public var appData: NGDMAppData? {
         if let id = _appDataId {
             return CurrentManifest.allAppData?[id]
         }
@@ -136,7 +136,7 @@ class NGDMTimedEvent: Equatable {
  
         - Returns: `true` if the TimedEvent is of the specified type
     */
-    func isType(type: TimedEventType) -> Bool {
+    public func isType(type: TimedEventType) -> Bool {
         switch type {
         case .AudioVisual:
             return audioVisual != nil

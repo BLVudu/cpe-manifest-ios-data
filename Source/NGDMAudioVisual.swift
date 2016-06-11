@@ -9,12 +9,12 @@
 import Foundation
 
 // Wrapper class for `NGEAudiovisualType` Manifest object
-class NGDMAudioVisual {
+public class NGDMAudioVisual {
     /// Unique identifier
     var id: String
     
     /// Metadata associated with this AudioVisual
-    var metadata: NGDMMetadata?
+    public var metadata: NGDMMetadata?
     
     /// Image URL to be used for display
     var imageURL: NSURL? {
@@ -22,7 +22,7 @@ class NGDMAudioVisual {
     }
     
     /// Video URL to be used for display
-    var videoURL: NSURL? {
+    public var videoURL: NSURL? {
         return presentation?.videoURL
     }
     

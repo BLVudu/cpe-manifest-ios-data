@@ -9,14 +9,14 @@
 import Foundation
 
 // Wrapper class for `NGEAppGroupType` Manifest object
-class NGDMAppGroup {
+public class NGDMAppGroup {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// URL associated with this AppGroup
-    var url: NSURL?
+    public var url: NSURL?
     
     /// Check if this is an HTML5 app
     var isHTML5 = false
