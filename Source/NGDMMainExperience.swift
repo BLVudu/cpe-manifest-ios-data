@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGEExperienceType` Manifest object associated with the main Experience
-class NGDMMainExperience: NGDMExperience {
+public class NGDMMainExperience: NGDMExperience {
     
     // MARK: Instance Variables
     /// List of Talent associated with the feature film

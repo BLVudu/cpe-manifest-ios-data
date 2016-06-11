@@ -18,19 +18,19 @@ enum ExperienceType {
     case Location
 }
 
-func ==(lhs: NGDMExperience, rhs: NGDMExperience) -> Bool {
+public func ==(lhs: NGDMExperience, rhs: NGDMExperience) -> Bool {
     return lhs.id == rhs.id
 }
 
 // Wrapper class for `NGEExperienceType` Manifest object
-class NGDMExperience: Equatable {
+public class NGDMExperience: Equatable {
     
     // MARK: Instance Variables
     /// Appearance object for background images, buttons, etc
     var appearance: NGDMAppearance?
     
     /// Unique identifier
-    var id: String
+    public var id: String
     
     /// All children of this Experience
     private var _childExperiences: [NGDMExperience]?

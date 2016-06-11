@@ -13,7 +13,6 @@
 		70A411971C6026EC003A65D2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70A411951C6026EC003A65D2 /* Main.storyboard */; };
 		70A411991C6026EC003A65D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70A411981C6026EC003A65D2 /* Assets.xcassets */; };
 		70A4119C1C6026EC003A65D2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70A4119A1C6026EC003A65D2 /* LaunchScreen.storyboard */; };
-		70C9E9D51C62D768004DF35B /* mos_hls_manifest_v3.xml in Resources */ = {isa = PBXBuildFile; fileRef = 70C9E9D41C62D768004DF35B /* mos_hls_manifest_v3.xml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,7 +24,6 @@
 		70A411981C6026EC003A65D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70A4119B1C6026EC003A65D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70A4119D1C6026EC003A65D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		70C9E9D41C62D768004DF35B /* mos_hls_manifest_v3.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = mos_hls_manifest_v3.xml; sourceTree = "<group>"; };
 		E825BA1926FE70E1B1181AE1 /* Pods-NextGenDataManagerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NextGenDataManagerExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-NextGenDataManagerExample/Pods-NextGenDataManagerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EAD70087CA625747C6940404 /* Pods_NextGenDataManagerExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NextGenDataManagerExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -45,7 +43,6 @@
 		7071C2511C6BAB89006F4275 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				70C9E9D41C62D768004DF35B /* mos_hls_manifest_v3.xml */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -106,12 +103,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70A411A01C6026EC003A65D2 /* Build configuration list for PBXNativeTarget "NextGenDataManagerExample" */;
 			buildPhases = (
+				AA2CB0D097479F6D62C95245 /* [CP] Check Pods Manifest.lock */,
 				6C310B091AFF36C4143F4F4A /* [CP] Check Pods Manifest.lock */,
 				70A4118A1C6026EC003A65D2 /* Sources */,
 				70A4118B1C6026EC003A65D2 /* Frameworks */,
 				70A4118C1C6026EC003A65D2 /* Resources */,
 				A5D5A2404C41C2D0315FF51E /* [CP] Embed Pods Frameworks */,
 				2683C3AECD9376B5D25DB452 /* [CP] Copy Pods Resources */,
+				3BF4891B2332B9B3B35F535E /* 📦 Embed Pods Frameworks */,
+				1DD53EBE4036C156CF736444 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -161,7 +161,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				70A4119C1C6026EC003A65D2 /* LaunchScreen.storyboard in Resources */,
-				70C9E9D51C62D768004DF35B /* mos_hls_manifest_v3.xml in Resources */,
 				70A411991C6026EC003A65D2 /* Assets.xcassets in Resources */,
 				70A411971C6026EC003A65D2 /* Main.storyboard in Resources */,
 			);
@@ -170,6 +169,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1DD53EBE4036C156CF736444 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NextGenDataManagerExample/Pods-NextGenDataManagerExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2683C3AECD9376B5D25DB452 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -183,6 +197,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NextGenDataManagerExample/Pods-NextGenDataManagerExample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3BF4891B2332B9B3B35F535E /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NextGenDataManagerExample/Pods-NextGenDataManagerExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6C310B091AFF36C4143F4F4A /* [CP] Check Pods Manifest.lock */ = {
@@ -213,6 +242,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NextGenDataManagerExample/Pods-NextGenDataManagerExample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA2CB0D097479F6D62C95245 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
