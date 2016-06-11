@@ -7,16 +7,16 @@
 //
 
 // Wrapper class for `NGEEventLocationType` Manifest object
-class NGDMLocation {
+public class NGDMLocation {
     
     // MARK: Instance Variables
     /// Metadata
-    var name: String?
-    var address: String?
+    public var name: String?
+    public var address: String?
     
     /// Coordinates
-    var latitude: Double = 0
-    var longitude: Double = 0
+    public var latitude: Double = 0
+    public var longitude: Double = 0
     
     // MARK: Initialization
     /**

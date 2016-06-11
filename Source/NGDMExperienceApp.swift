@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGEExperienceAppType` Manifest object
-class NGDMExperienceApp {
+public class NGDMExperienceApp {
     
     // MARK: Instance Variables
     /// Reference to the root Manifest object
@@ -30,7 +30,7 @@ class NGDMExperienceApp {
     }
     
     /// Title associated with this ExperienceApp
-    var title: String? {
+    public var title: String? {
         return metadata?.title ?? name
     }
     

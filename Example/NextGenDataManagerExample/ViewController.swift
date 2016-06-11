@@ -14,10 +14,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if NextGenDataManager.sharedInstance.loadXMLFile(NSBundle.mainBundle().pathForResource("mos_hls_manifest_v3", ofType: "xml")!) {
-            for experience in NextGenDataManager.sharedInstance.allExtras() {
-                print(experience.thumbnailImagePath())
-            }
+        do {
+            try NGDMManifest.sharedInstance.loadManifestXMLFile(NSBundle.mainBundle().pathForResource("mos_hls_manifest_r60-v0.4", ofType: "xml")!)
+            print("Main Experience ID: \(NGDMManifest.sharedInstance.mainExperience?.id)")
+        } catch {
+            print("Error loading manifest file")
         }
     }
     

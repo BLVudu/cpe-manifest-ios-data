@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGEExperienceAppType` Manifest object
-class NGDMAppData {
+public class NGDMAppData {
     
     private struct NVPairName {
         static let AppType = "type"
@@ -28,20 +28,20 @@ class NGDMAppData {
     var id: String!
     
     /// Metadata
-    var title: String? {
+    public var title: String? {
         return audioVisual?.metadata?.title ?? location?.name
     }
     
-    var displayText: String?
-    var imageURL: NSURL?
+    public var displayText: String?
+    public var imageURL: NSURL?
     var locationImageURL: NSURL?
     
     /// Media
-    var presentation: NGDMPresentation?
-    var audioVisual: NGDMAudioVisual?
-    var gallery: NGDMGallery?
-    var location: NGDMLocation?
-    var zoomLevel: Float = 0
+    public var presentation: NGDMPresentation?
+    public var audioVisual: NGDMAudioVisual?
+    public var gallery: NGDMGallery?
+    public var location: NGDMLocation?
+    public var zoomLevel: Float = 0
     
     /// Check if AppData is location-based
     var isLocation: Bool {

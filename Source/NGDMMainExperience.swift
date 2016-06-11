@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGEExperienceType` Manifest object associated with the main Experience
-class NGDMMainExperience: NGDMExperience {
+public class NGDMMainExperience: NGDMExperience {
     
     // MARK: Instance Variables
     /// List of Talent associated with the feature film
@@ -17,7 +17,7 @@ class NGDMMainExperience: NGDMExperience {
     
     /// Ordered list of Talents with type Actor associated with the feature film
     private var _orderedActors: [Talent]?
-    var orderedActors: [Talent]? {
+    public var orderedActors: [Talent]? {
         if _orderedActors == nil {
             _orderedActors = talents.values.filter { (talent) -> Bool in
                 talent.type == TalentType.Actor
@@ -45,7 +45,7 @@ class NGDMMainExperience: NGDMExperience {
     /**
         Loads talent based on a series of fallbacks, starting with the Baseline API
     */
-    func loadTalent() {
+    public func loadTalent() {
         if let talents = audioVisual?.metadata?.talents {
             self.talents = talents
         } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
@@ -72,7 +72,7 @@ class NGDMMainExperience: NGDMExperience {
  
         - Returns: The out-of-movie Experience according to the IP1 spec guidelines
     */
-    func getOutOfMovieExperience() throws -> NGDMExperience {
+    public func getOutOfMovieExperience() throws -> NGDMExperience {
         // IP1: Assumes the out-of-movie Experience is the first item in the main Experience's ExperienceList
         guard let experience = childExperiences?.first else {
             throw NGDMError.OutOfMovieExperienceMissing
@@ -88,7 +88,7 @@ class NGDMMainExperience: NGDMExperience {
      
         - Returns: The in-movie Experience according to the IP1 spec guidelines
      */
-    func getInMovieExperience() throws -> NGDMExperience {
+    public func getInMovieExperience() throws -> NGDMExperience {
         // IP1: Assumes the in-movie Experience is the second (and last) item in the main Experience's ExperienceList
         guard let experience = childExperiences?.last else {
             throw NGDMError.InMovieExperienceMissing

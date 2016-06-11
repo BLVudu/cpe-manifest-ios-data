@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGETimedEventSequenceType` Manifest object
-class NGDMTimedEventSequence {
+public class NGDMTimedEventSequence {
     
     // MARK: Instance Variables
     /// Timed events associated with this TimedEventSequence - StartTime: TimedEvent
@@ -46,7 +46,7 @@ class NGDMTimedEventSequence {
 
         - Returns: A TimedEvent that occurs at the given `time` if it exists
     */
-    func timedEvent(time: Double) -> NGDMTimedEvent? {
+    public func timedEvent(time: Double) -> NGDMTimedEvent? {
         if timedEvents.count > 0 {
             if let startTimes = _sortedTimedEventStartTimes {
                 var lowerIndex = 0;

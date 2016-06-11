@@ -8,25 +8,25 @@
 
 import Foundation
 
-enum NGDMError: ErrorType {
+public enum NGDMError: ErrorType {
     case MainExperienceMissing
     case InMovieExperienceMissing
     case OutOfMovieExperienceMissing
     case AppDataMissing
 }
 
-struct Namespaces {
+public struct Namespaces {
     static let AppDataID = "AppID"
     static let PeopleID = "PeopleOtherID"
     static let TheTake = "thetake.com"
     static let Baseline = "baselineapi.com"
 }
 
-struct CurrentManifest {
-    static var mainExperience: NGDMMainExperience!
-    static var inMovieExperience: NGDMExperience!
-    static var outOfMovieExperience: NGDMExperience!
-    static var allAppData: [String: NGDMAppData]?
+public struct CurrentManifest {
+    public static var mainExperience: NGDMMainExperience!
+    public static var inMovieExperience: NGDMExperience!
+    public static var outOfMovieExperience: NGDMExperience!
+    public static var allAppData: [String: NGDMAppData]?
 }
 
 protocol NGDMDelegate {
@@ -36,11 +36,11 @@ protocol NGDMDelegate {
 }
 
 /// Manager for communicating with parsed Manifest data
-class NGDMManifest: NSObject {
+public class NGDMManifest: NSObject {
     
     // MARK: Singleton Methods
     /// Static shared instance for singleton
-    static let sharedInstance = NGDMManifest()
+    public static let sharedInstance = NGDMManifest()
     
     static func appUsesTalentAPI() -> Bool {
         return sharedInstance.delegate != nil && sharedInstance.delegate!.usesTalentAPI()
@@ -56,7 +56,7 @@ class NGDMManifest: NSObject {
     
     // MARK: Instance variables
     /// The Manifest's main Experience associated with the feature film
-    var mainExperience: NGDMMainExperience?
+    public var mainExperience: NGDMMainExperience?
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
@@ -87,7 +87,7 @@ class NGDMManifest: NSObject {
      
         - Returns: The resulting `NGEMediaManifestType` object
     */
-    func loadManifestXMLFile(filePath: String) throws {
+    public func loadManifestXMLFile(filePath: String) throws {
         let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)!
         
         // Pre-load experience inventory
@@ -205,7 +205,7 @@ class NGDMManifest: NSObject {
  
         - Returns: The full AppData object mapping
     */
-    func loadAppDataXMLFile(filePath: String) throws -> [String: NGDMAppData] {
+    public func loadAppDataXMLFile(filePath: String) throws -> [String: NGDMAppData] {
         guard let objList = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath)?.ManifestAppDataList else {
             throw NGDMError.AppDataMissing
         }

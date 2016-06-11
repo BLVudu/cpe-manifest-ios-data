@@ -6,15 +6,15 @@
 //  Copyright © 2016 Warner Bros. Entertainment, Inc. All rights reserved.
 //
 
-enum TalentType {
-    case Unknown
-    case Actor
-    case Director
-    case Producer
-    case Writer
+public enum TalentType: String {
+    case Unknown = "Unknown"
+    case Actor = "Actor"
+    case Director = "Directory"
+    case Producer = "Producer"
+    case Writer = "Writer"
 }
 
-enum SocialAccountType {
+public enum SocialAccountType {
     case Unknown
     case Facebook
     case Twitter
@@ -22,31 +22,31 @@ enum SocialAccountType {
 }
 
 // Wrapper class for `NGEBasicMetadataPeopleType` Manifest object
-class NGDMPeople: NSObject {
+public class NGDMPeople: NSObject {
     
     // MARK: Instance Variables
     var id: String!
     var apiID: String?
     
-    var name: String?
-    var role: String?
+    public var name: String?
+    public var role: String?
     var billingBlockOrder = 0
     var type = TalentType.Unknown
     var biography: String?
-    var images: [TalentImage]?
-    var films: [TalentFilm]?
+    public var images: [TalentImage]?
+    public var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
     var gallery = [String]()
     
-    var thumbnailImageURL: NSURL? {
+    public var thumbnailImageURL: NSURL? {
         return images?.first?.thumbnailImageURL
     }
     
-    var fullImageURL: NSURL? {
+    public var fullImageURL: NSURL? {
         return images?.first?.imageURL
     }
     
-    var additionalImages: [TalentImage]? {
+    public var additionalImages: [TalentImage]? {
         if var images = images {
             images.removeAtIndex(0)
             return images
@@ -86,48 +86,18 @@ class NGDMPeople: NSObject {
                 billingBlockOrder = job.BillingBlockOrder!
             }
             
-            if job.JobFunction != nil {
-                type = talentTypeFromString(job.JobFunction.value)
+            if let jobFunction = job.JobFunction?.value, type = TalentType(rawValue: jobFunction) {
+                self.type = type
+            } else {
+                type = .Unknown
             }
         }
-    }
-    
-    // MARK: Helper Methods
-    /**
-        Converts a string to a corresponding `TalentType` enum value
- 
-        - Parameters:
-            - typeString: The string to convert
- 
-        - Returns: The converted `TalentType` enum value
-    */
-    private func talentTypeFromString(typeString: String?) -> TalentType! {
-        if let type = typeString {
-            switch type {
-            case "Actor":
-                return TalentType.Actor
-                
-            case "Director":
-                return TalentType.Director
-                
-            case "Producer":
-                return TalentType.Producer
-                
-            case "Writer":
-                return TalentType.Writer
-                
-            default:
-                break
-            }
-        }
-        
-        return TalentType.Unknown
     }
     
 }
 
 // Alias for `NGDMPeople`
-class Talent: NGDMPeople {
+public class Talent: NGDMPeople {
     
     // MARK: Initialization
     /**
@@ -136,7 +106,7 @@ class Talent: NGDMPeople {
         - Parameters:
             - baselineInfo: Response from the Baseline API
      */
-    convenience init(apiID: String, name: String?, role: String?, type: TalentType) {
+    public convenience init(apiID: String, name: String?, role: String?, type: TalentType) {
         self.init()
         
         self.apiID = apiID
@@ -156,7 +126,7 @@ class Talent: NGDMPeople {
         }
     }*/
     
-    func getBiography(successBlock: (biography: String?) -> Void) {
+    public func getBiography(successBlock: (biography: String?) -> Void) {
         if biography != nil {
             successBlock(biography: biography)
         } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
@@ -169,7 +139,7 @@ class Talent: NGDMPeople {
         }
     }
     
-    func getSocialAccounts(successBlock: (socialAccounts: [TalentSocialAccount]?) -> Void) {
+    public func getSocialAccounts(successBlock: (socialAccounts: [TalentSocialAccount]?) -> Void) {
         if socialAccounts != nil {
             successBlock(socialAccounts: socialAccounts)
         } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
@@ -182,7 +152,7 @@ class Talent: NGDMPeople {
         }
     }
     
-    func getFilmography(successBlock: (films: [TalentFilm]?) -> Void) {
+    public func getFilmography(successBlock: (films: [TalentFilm]?) -> Void) {
         if films != nil {
             successBlock(films: films)
         } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
@@ -199,8 +169,12 @@ class Talent: NGDMPeople {
 
 public struct TalentImage {
     
-    var thumbnailImageURL: NSURL?
-    var imageURL: NSURL?
+    public var thumbnailImageURL: NSURL?
+    public var imageURL: NSURL?
+    
+    public init() {
+        
+    }
     
 }
 
@@ -214,11 +188,6 @@ public struct TalentFilm {
         self.id = id
         self.title = title
     }
-    
-    /*public init(baselineInfo: NSDictionary) {
-        id = (baselineInfo[BaselineAPIUtil.Keys.ProjectID] as! NSNumber).stringValue
-        title = baselineInfo[BaselineAPIUtil.Keys.ProjectName] as! String
-    }*/
     
     mutating public func getImageURL(successBlock: (imageURL: NSURL?) -> Void) -> NSURLSessionDataTask?  {
         if imageURL != nil {
@@ -241,9 +210,9 @@ public struct TalentFilm {
 
 public struct TalentSocialAccount {
     
-    var type = SocialAccountType.Unknown
+    public var type = SocialAccountType.Unknown
     var handle: String!
-    var url: NSURL!
+    public var url: NSURL!
     
     public init(handle: String, urlString: String) {
         self.handle = handle
@@ -262,10 +231,5 @@ public struct TalentSocialAccount {
         
         url = NSURL(string: urlString)!
     }
-    
-    /*public init(baselineInfo: NSDictionary) {
-        handle = baselineInfo[BaselineAPIUtil.Keys.Handle] as! String
-        var urlString = baselineInfo[BaselineAPIUtil.Keys.URL] as! String
-    }*/
     
 }

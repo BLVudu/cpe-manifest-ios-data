@@ -42,7 +42,7 @@ class NGDMLocalizedInfo {
 }
 
 // Wrapper class for `NGEInventoryMetadataType` Manifest object
-class NGDMMetadata {
+public class NGDMMetadata {
     
     // MARK: Static Variables
     /// Static mapping of all Metadatas - ContentID: Metadata
@@ -72,12 +72,12 @@ class NGDMMetadata {
     private var _contentIdentifiers: [String: String]?
     
     /// Full title associated with this Metadata
-    var title: String? {
+    public var title: String? {
         return _localizedInfo?.title
     }
     
     /// Full description or summary associated with this Metadata
-    var description: String? {
+    public var description: String? {
         return _localizedInfo?.description
     }
     

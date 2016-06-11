@@ -9,14 +9,14 @@
 import Foundation
 
 // Wrapper class for `NGEPictureType` Manifest object
-class NGDMPicture {
+public class NGDMPicture {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// Image URL to be used for full display
-    var imageURL: NSURL?
+    public var imageURL: NSURL?
     
     /// Image URL to be used for thumbnail display
     var thumbnailImageURL: NSURL?

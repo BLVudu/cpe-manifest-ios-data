@@ -9,7 +9,7 @@
 import Foundation
 
 // Wrapper class for `NGEPresentationType` Manifest object
-class NGDMPresentation {
+public class NGDMPresentation {
     
     // MARK: Instance Variables
     /// Unique identifier
@@ -19,7 +19,7 @@ class NGDMPresentation {
     var video: NGDMVideo?
     
     /// Video URL to be used for display
-    var videoURL: NSURL? {
+    public var videoURL: NSURL? {
         return video?.url
     }
     

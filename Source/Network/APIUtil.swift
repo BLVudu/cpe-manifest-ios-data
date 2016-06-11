@@ -8,31 +8,31 @@
 
 import Foundation
 
-typealias APIUtilSuccessBlock = (result: NSDictionary) -> Void
-typealias APIUtilErrorBlock = (error: NSError?) -> Void
+public typealias APIUtilSuccessBlock = (result: NSDictionary) -> Void
+public typealias APIUtilErrorBlock = (error: NSError?) -> Void
 
-class APIUtil: NSObject, NSURLSessionDataDelegate {
+public class APIUtil: NSObject, NSURLSessionDataDelegate {
     
     var apiDomain: String!
     
-    init(apiDomain: String) {
+    public init(apiDomain: String) {
         super.init()
         self.apiDomain = apiDomain
     }
     
-    func requestWithURLPath(urlPath: String) -> NSMutableURLRequest {
+    public func requestWithURLPath(urlPath: String) -> NSMutableURLRequest {
         return NSMutableURLRequest(URL: NSURL(string: apiDomain + urlPath)!)
     }
     
-    func getJSONWithPath(urlPath: String, parameters: [String: String], successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
+    public func getJSONWithPath(urlPath: String, parameters: [String: String], successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
         return getJSONWithPath(urlPath + "?" + parameters.stringFromHTTPParameters(), successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func getJSONWithPath(urlPath: String, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
+    public func getJSONWithPath(urlPath: String, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
         return getJSONWithRequest(requestWithURLPath(urlPath), successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func getJSONWithRequest(request: NSURLRequest, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
+    public func getJSONWithRequest(request: NSURLRequest, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
         let sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
         sessionConfiguration.requestCachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
         sessionConfiguration.URLCache = NSURLCache(memoryCapacity: 0, diskCapacity: 1024 * 1024 * 64, diskPath: "com.wb.nextgen_api_cache") // 64Mb
