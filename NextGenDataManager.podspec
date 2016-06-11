@@ -22,6 +22,6 @@ Pod::Spec.new do |s|
   s.source_files    = 'Source/**/*.swift', 'Source/*.swift'
   
   s.preserve_path   = 'Source/libxml/module.modulemap'
-  s.xcconfig        = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'SWIFT_INCLUDE_PATHS' => '~/Documents/Source/nextgen-data/Source/libxml' }
+  s.pod_target_xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2', 'SWIFT_INCLUDE_PATHS' => '~/Documents/Source/nextgen-data/Source/libxml' }
 
 end
