@@ -1,5 +1,5 @@
 PODS:
-  - NextGenDataManager (0.0.2)
+  - NextGenDataManager (0.0.4)
 
 DEPENDENCIES:
   - NextGenDataManager (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  NextGenDataManager: 5d12a8f803b61f99fd90b48cef50855afb464729
+  NextGenDataManager: 1d1acc018d641037ed0d766e226a83d872943089
 
 PODFILE CHECKSUM: f0cc31e3f0b1222f24d2e43e185f0000c65887a8
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1
