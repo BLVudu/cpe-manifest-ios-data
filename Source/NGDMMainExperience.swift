@@ -38,7 +38,7 @@ public class NGDMMainExperience: NGDMExperience {
 
         - Returns: The value of the custom identifier if it exists
     */
-    func customIdentifier(namespace: String) -> String? {
+    public func customIdentifier(namespace: String) -> String? {
         return audioVisual?.metadata?.customIdentifier(namespace)
     }
     
