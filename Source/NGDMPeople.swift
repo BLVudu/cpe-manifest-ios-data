@@ -26,7 +26,7 @@ public class NGDMPeople: NSObject {
     
     // MARK: Instance Variables
     var id: String!
-    var apiID: String?
+    var apiId: String?
     
     public var name: String?
     public var role: String?
@@ -69,14 +69,14 @@ public class NGDMPeople: NSObject {
             for identifier in identifiers {
                 if identifier.Namespace == Namespaces.PeopleID {
                     id = identifier.Identifier
-                } else if NGDMManifest.talentAPIUtilUsesNamespace(identifier.Namespace) {
-                    apiID = identifier.Identifier
+                } else if NGDMConfiguration.talentAPIUtil != nil && NGDMConfiguration.talentAPIUtil!.apiNamespace == identifier.Namespace {
+                    apiId = identifier.Identifier
                 }
             }
         }
         
         if id == nil {
-            id = apiID != nil ? apiID : String(arc4random())
+            id = apiId != nil ? apiId : String(arc4random())
         }
         
         name = manifestObject.Name.DisplayNameList.first?.value
@@ -106,30 +106,19 @@ public class Talent: NGDMPeople {
         - Parameters:
             - baselineInfo: Response from the Baseline API
      */
-    public convenience init(apiID: String, name: String?, role: String?, type: TalentType) {
+    public convenience init(apiId: String, name: String?, role: String?, type: TalentType) {
         self.init()
         
-        self.apiID = apiID
+        self.apiId = apiId
         self.name = name
         self.role = role
         self.type = type
     }
     
-    /*convenience init(baselineInfo: NSDictionary) {
-        self.init()
-        
-        baselineId = (baselineInfo[BaselineAPIUtil.Keys.ParticipantID] as! NSNumber).stringValue
-        name = baselineInfo[BaselineAPIUtil.Keys.FullName] as? String
-        role = baselineInfo[BaselineAPIUtil.Keys.Credit] as? String
-        if let creditGroup = baselineInfo[BaselineAPIUtil.Keys.CreditGroup] as? String {
-            type = talentTypeFromString(creditGroup)
-        }
-    }*/
-    
     public func getBiography(successBlock: (biography: String?) -> Void) {
         if biography != nil {
             successBlock(biography: biography)
-        } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
+        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
             talentAPIUtil.getTalentBio(id, successBlock: { (biography) in
                 self.biography = biography
                 successBlock(biography: self.biography)
@@ -142,7 +131,7 @@ public class Talent: NGDMPeople {
     public func getSocialAccounts(successBlock: (socialAccounts: [TalentSocialAccount]?) -> Void) {
         if socialAccounts != nil {
             successBlock(socialAccounts: socialAccounts)
-        } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
+        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
             talentAPIUtil.getTalentSocialAccounts(id, successBlock: { (socialAccounts) in
                 self.socialAccounts = socialAccounts
                 successBlock(socialAccounts: socialAccounts)
@@ -155,7 +144,7 @@ public class Talent: NGDMPeople {
     public func getFilmography(successBlock: (films: [TalentFilm]?) -> Void) {
         if films != nil {
             successBlock(films: films)
-        } else if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
+        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
             talentAPIUtil.getTalentFilmography(id, successBlock: { (films) in
                 self.films = films
                 successBlock(films: films)
@@ -195,7 +184,7 @@ public struct TalentFilm {
             return nil
         }
         
-        if let talentAPIUtil = NGDMManifest.talentAPIUtil() {
+        if let talentAPIUtil = NGDMConfiguration.talentAPIUtil {
             return talentAPIUtil.getFilmImageURL(id, successBlock: { (imageURL) in
                 self.imageURL = imageURL
                 successBlock(imageURL: imageURL)
