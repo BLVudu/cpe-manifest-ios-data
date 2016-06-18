@@ -1,9 +1,5 @@
 //
 //  NGDMLocation.swift
-//  NextGen
-//
-//  Created by Alec Ananian on 3/15/16.
-//  Copyright © 2016 Warner Bros. Entertainment, Inc. All rights reserved.
 //
 
 // Wrapper class for `NGEEventLocationType` Manifest object

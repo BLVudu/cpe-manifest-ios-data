@@ -1,9 +1,5 @@
 //
 //  NGDMAppearance.swift
-//  NextGen
-//
-//  Created by Sedinam Gadzekpo on 4/28/16.
-//  Copyright © 2016 Warner Bros. Entertainment, Inc. All rights reserved.
 //
 
 import Foundation

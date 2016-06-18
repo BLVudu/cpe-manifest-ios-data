@@ -1,9 +1,5 @@
 //
 //  NGDMConfiguration.swift
-//  NextGenDataManager
-//
-//  Created by Alec Ananian on 6/13/16.
-//
 //
 
 import Foundation
