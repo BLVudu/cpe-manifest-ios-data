@@ -5,13 +5,13 @@
 import Foundation
 
 public enum ExperienceType {
-    case AudioVisual
-    case ClipAndShare
-    case TalentData
-    case Gallery
     case App
-    case Shopping
+    case AudioVisual
+    case ClipShare
+    case Gallery
     case Location
+    case Shopping
+    case TalentData
 }
 
 public func ==(lhs: NGDMExperience, rhs: NGDMExperience) -> Bool {
@@ -42,16 +42,6 @@ public class NGDMExperience: Equatable {
         _childExperienceIds = nil
         
         return _childExperiences
-    }
-    
-    /// Child of this Experience that is a clip & share Experience
-    private var _childClipAndShareExperience: NGDMExperience?
-    public var childClipAndShareExperience: NGDMExperience? {
-        if _childClipAndShareExperience == nil, let index = childExperiences?.indexOf({ $0.isType(.ClipAndShare) }) {
-            _childClipAndShareExperience = childExperiences?[index]
-        }
-        
-        return _childClipAndShareExperience
     }
     
     /// Child of this Experience that is a talent data Experience
@@ -194,23 +184,17 @@ public class NGDMExperience: Equatable {
     // FIXME: Hardcoded Experience ID strings are being used to identify Experience types
     public func isType(type: ExperienceType) -> Bool {
         switch type {
-        case .AudioVisual:
-            return audioVisual != nil && !isType(.ClipAndShare)
-            
-        case .ClipAndShare:
-            return id.containsString("clipshare")
-            
-        case .TalentData:
-            return id.containsString("ecp_tab.4")
-        
-        case .Gallery:
-            return gallery != nil
-            
         case .App:
             return app != nil
             
-        case .Shopping:
-            return app?.name == Namespaces.TheTake
+        case .AudioVisual:
+            return audioVisual != nil && !isType(.ClipShare)
+            
+        case .ClipShare:
+            return id.containsString("clipshare")
+            
+        case .Gallery:
+            return gallery != nil
             
         case .Location:
             if appData?.location != nil {
@@ -222,6 +206,12 @@ public class NGDMExperience: Equatable {
             }
             
             return false
+            
+        case .Shopping:
+            return app?.name == Namespaces.TheTake
+            
+        case .TalentData:
+            return id.containsString("ecp_tab.4")
         }
     }
     

@@ -6,14 +6,15 @@ import Foundation
 
 public enum TimedEventType {
     case Any
-    case AudioVisual
-    case Gallery
-    case AppGroup
-    case TextItem
     case AppData
+    case AppGroup
+    case AudioVisual
+    case ClipShare
+    case Gallery
     case Location
-    case Talent
     case Product
+    case Talent
+    case TextItem
 }
 
 public func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
@@ -136,29 +137,32 @@ public class NGDMTimedEvent: Equatable {
     */
     public func isType(type: TimedEventType) -> Bool {
         switch type {
-        case .AudioVisual:
-            return audioVisual != nil
-            
-        case .Gallery:
-            return gallery != nil
-            
-        case .TextItem:
-            return textItem != nil
+        case .AppData:
+            return appData != nil
             
         case .AppGroup:
             return appGroup != nil
             
-        case .AppData:
-            return appData != nil
+        case .AudioVisual:
+            return audioVisual != nil && !isType(.ClipShare)
+            
+        case .ClipShare:
+            return experience != nil && experience!.isType(.ClipShare)
+            
+        case .Gallery:
+            return gallery != nil
             
         case .Location:
             return appData?.location != nil
             
-        case .Talent:
-            return talent != nil
-
         case .Product:
             return productNamespace == Namespaces.TheTake
+            
+        case .Talent:
+            return talent != nil
+            
+        case .TextItem:
+            return textItem != nil
             
         case .Any:
             return true
