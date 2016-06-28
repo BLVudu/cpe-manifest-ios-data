@@ -177,7 +177,9 @@ public class NGDMTimedEvent: Equatable {
             }
         }
         
-        return timedEvents
+        return timedEvents.sort({ (timedEvent1, timedEvent2) -> Bool in
+            return (timedEvent1.experience?.sequenceNumber ?? 0) < (timedEvent2.experience?.sequenceNumber ?? 0)
+        })
     }
     
 }

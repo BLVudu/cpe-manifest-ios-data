@@ -164,6 +164,16 @@ public class NGDMManifest: NSObject {
             }
         }
         
+        for obj in manifest.Experiences.ExperienceList {
+            if let childObjList = obj.ExperienceChildList {
+                for childObj in childObjList {
+                    if let experience = experiences[childObj.ExperienceID], sequenceNumber = childObj.SequenceInfo?.Number {
+                        experience.sequenceNumber = sequenceNumber
+                    }
+                }
+            }
+        }
+        
         if let objList = manifest.TimedEventSequences?.TimedEventSequenceList {
             for obj in objList {
                 var timedEventExperience: NGDMExperience?

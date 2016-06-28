@@ -28,6 +28,9 @@ public class NGDMExperience: Equatable {
     /// Unique identifier
     public var id: String
     
+    /// Order within parent experience
+    public var sequenceNumber = 0
+    
     /// All children of this Experience
     private var _childExperiences: [NGDMExperience]?
     private var _childExperienceIds: [String]?
