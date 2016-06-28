@@ -51,7 +51,7 @@ public class NGDMManifest: NSObject {
     var galleries = [String: NGDMGallery]() // GalleryID: Gallery
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
-    var timedEventSequences = [String: NGDMTimedEventSequence]() // TimedEventSequenceID: TimedEventSequence
+    var timedEvents = [NGDMTimedEvent]()
     
     // MARK: Helper Methods
     /**
@@ -166,9 +166,27 @@ public class NGDMManifest: NSObject {
         
         if let objList = manifest.TimedEventSequences?.TimedEventSequenceList {
             for obj in objList {
-                let timedEventSequence = NGDMTimedEventSequence(manifestObject: obj)
-                timedEventSequences[timedEventSequence.id] = timedEventSequence
+                var timedEventExperience: NGDMExperience?
+                for experienceObj in manifest.Experiences.ExperienceList {
+                    if let experienceID = experienceObj.ExperienceID, timedEventSequenceID = experienceObj.TimedSequenceIDList?.first where timedEventSequenceID == obj.TimedSequenceID {
+                        timedEventExperience = experiences[experienceID]
+                    }
+                }
+                
+                for childObj in obj.TimedEventList {
+                    let timedEvent = NGDMTimedEvent(manifestObject: childObj)
+                    timedEvent.experience = timedEventExperience
+                    timedEvents.append(timedEvent)
+                }
             }
+            
+            timedEvents = timedEvents.sort({ (timedEvent1, timedEvent2) -> Bool in
+                if timedEvent1.startTime == timedEvent2.startTime {
+                    return timedEvent1.endTime < timedEvent2.endTime
+                }
+                
+                return timedEvent1.startTime < timedEvent2.startTime
+            })
         }
     }
     

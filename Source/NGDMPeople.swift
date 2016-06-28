@@ -26,7 +26,7 @@ public class NGDMPeople: NSObject {
     
     public var name: String?
     public var role: String?
-    var billingBlockOrder = 0
+    public var billingBlockOrder = 0
     var type = TalentType.Unknown
     var biography: String?
     public var images: [TalentImage]?

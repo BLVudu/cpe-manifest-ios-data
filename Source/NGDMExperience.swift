@@ -132,16 +132,6 @@ public class NGDMExperience: Equatable {
         return nil
     }
     
-    /// TimedEventSequence associated with this Experience, if it exists
-    private var _timedEventSequenceId: String?
-    public var timedEventSequence: NGDMTimedEventSequence? {
-        if let id = _timedEventSequenceId {
-            return NGDMTimedEventSequence.getById(id)
-        }
-        
-        return nil
-    }
-    
     // MARK: Initialization
     /**
         Initializes a new Experience
@@ -154,10 +144,6 @@ public class NGDMExperience: Equatable {
         
         if let id = manifestObject.ContentID {
             metadata = NGDMMetadata.getById(id)
-        }
-        
-        if let id = manifestObject.TimedSequenceIDList?.first {
-            _timedEventSequenceId = id
         }
         
         if let obj = manifestObject.Audiovisual {

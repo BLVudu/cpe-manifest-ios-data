@@ -5,6 +5,7 @@
 import Foundation
 
 public enum TimedEventType {
+    case Any
     case AudioVisual
     case Gallery
     case AppGroup
@@ -47,6 +48,7 @@ public class NGDMTimedEvent: Equatable {
     
     /// TimedEvent objects
     var textItem: String?
+    public var experience: NGDMExperience?
     public var appGroup: NGDMAppGroup?
     public var gallery: NGDMGallery?
     public var audioVisual: NGDMAudioVisual?
@@ -157,7 +159,25 @@ public class NGDMTimedEvent: Equatable {
 
         case .Product:
             return productNamespace == Namespaces.TheTake
+            
+        case .Any:
+            return true
         }
+    }
+    
+    public static func findByTimecode(timecode: Double, type: TimedEventType) -> [NGDMTimedEvent] {
+        var timedEvents = [NGDMTimedEvent]()
+        for timedEvent in NGDMManifest.sharedInstance.timedEvents {
+            if timedEvent.startTime <= timecode {
+                if timedEvent.isType(type) && timedEvent.endTime >= timecode {
+                    timedEvents.append(timedEvent)
+                }
+            } else {
+                break
+            }
+        }
+        
+        return timedEvents
     }
     
 }
