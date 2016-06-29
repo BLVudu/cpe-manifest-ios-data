@@ -4,8 +4,17 @@
 
 import Foundation
 
+public enum GallerySubType: String {
+    case Gallery = "Gallery"
+    case Turntable = "Turntable"
+}
+
 // Wrapper class for `NGEGalleryType` Manifest object
 public class NGDMGallery {
+    
+    private struct Constants {
+        static let SubTypeTurntable = "Turntable"
+    }
     
     // MARK: Instance Variables
     /// Unique identifier
@@ -18,14 +27,19 @@ public class NGDMGallery {
         return _galleryName ?? _metadata?.title
     }
     
+    /// Description to be used for display
     public var description: String? {
         return _metadata?.description ?? _metadata?.title
     }
     
+    /// Thumbnail image URL to be used for display
     var imageURL: NSURL?
     
     /// Pictures associated with this Gallery
     public var pictures: [NGDMPicture]?
+    
+    /// Whether or not this Gallery should be displayed as a turntable
+    private var subType = GallerySubType.Gallery
     
     // MARK: Initialization
     /**
@@ -47,6 +61,22 @@ public class NGDMGallery {
         
         _galleryName = manifestObject.GalleryNameList?.first?.value
         imageURL = _metadata?.imageURL ?? pictures?.first?.thumbnailImageURL
+        if let subTypeString = manifestObject.SubTypeList?.first, subType = GallerySubType(rawValue: subTypeString) {
+            self.subType = subType
+        }
+    }
+    
+    // MARK: Helper Methods
+    /**
+        Check if Gallery is of the specified sub-type
+     
+        - Parameters:
+            - type: Sub-type of TimedEvent
+     
+        - Returns: `true` if the Gallery is of the specified sub-type
+     */
+    public func isSubType(subType: GallerySubType) -> Bool {
+        return (self.subType == subType)
     }
     
     // MARK: Search Methods
