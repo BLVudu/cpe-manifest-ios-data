@@ -9,12 +9,16 @@ public class NGDMMainExperience: NGDMExperience {
     
     // MARK: Instance Variables
     /// List of Talent associated with the feature film
-    var talents = [String: Talent]()
+    var talents: [String: Talent]? {
+        didSet {
+            _orderedActors = nil
+        }
+    }
     
     /// Ordered list of Talents with type Actor associated with the feature film
     private var _orderedActors: [Talent]?
     public var orderedActors: [Talent]? {
-        if _orderedActors == nil {
+        if _orderedActors == nil, let talents = talents {
             _orderedActors = talents.values.filter { (talent) -> Bool in
                 talent.type == TalentType.Actor
             }.sort({ (talent1, talent2) -> Bool in
@@ -50,7 +54,7 @@ public class NGDMMainExperience: NGDMExperience {
             })
         }
         
-        if let talentAPIUtil = NGDMConfiguration.talentAPIUtil {
+        if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, talents = talents {
             for talent in talents.values {
                 if let talentId = talent.apiId {
                     talentAPIUtil.getTalentImages(talentId, successBlock: { (talentImages) in

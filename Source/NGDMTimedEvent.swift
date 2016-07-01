@@ -59,7 +59,7 @@ public class NGDMTimedEvent: Equatable {
     private var _talentId: String?
     public var talent: Talent? {
         if let id = _talentId {
-            return CurrentManifest.mainExperience.talents[id]
+            return CurrentManifest.mainExperience.talents?[id]
         }
         
         return nil

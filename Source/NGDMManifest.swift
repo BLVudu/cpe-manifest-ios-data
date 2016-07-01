@@ -63,6 +63,7 @@ public class NGDMManifest: NSObject {
         - Returns: The resulting `NGEMediaManifestType` object
     */
     public func loadManifestXMLFile(filePath: String) throws {
+        mainExperience = nil
         let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)!
         
         // Pre-load experience inventory
