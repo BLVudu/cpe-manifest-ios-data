@@ -36,6 +36,16 @@ public class NGDMAppearance {
                 }
             }
             
+            if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
+                if type == .InMovie {
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_IME_bg.jpg")
+                }
+                
+                if type == .OutOfMovie {
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/backgrounds/BVS_EXTRAS_BG.jpg")
+                }
+            }
+            
             // FIXME: This appears to be the way Comcast defines background images
             if type == .Main {
                 return NGDMManifest.sharedInstance.outOfMovieExperience?.metadata?.imageURL
@@ -48,7 +58,7 @@ public class NGDMAppearance {
     public var backgroundVideoURL: NSURL? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                return NSURL(fileURLWithPath:NSBundle.mainBundle().pathForResource("mos-nextgen-background", ofType: "mp4")!)
+                return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_INTRO_BG.mp4")
             }
             
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
