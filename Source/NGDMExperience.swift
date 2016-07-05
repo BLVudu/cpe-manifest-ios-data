@@ -1,21 +1,17 @@
 //
 //  NGDMExperience.swift
-//  NextGen
-//
-//  Created by Alec Ananian on 3/8/16.
-//  Copyright © 2016 Warner Bros. Entertainment, Inc. All rights reserved.
 //
 
 import Foundation
 
 public enum ExperienceType {
-    case AudioVisual
-    case ClipAndShare
-    case TalentData
-    case Gallery
     case App
-    case Shopping
+    case AudioVisual
+    case ClipShare
+    case Gallery
     case Location
+    case Shopping
+    case TalentData
 }
 
 public func ==(lhs: NGDMExperience, rhs: NGDMExperience) -> Bool {
@@ -32,6 +28,9 @@ public class NGDMExperience: Equatable {
     /// Unique identifier
     public var id: String
     
+    /// Order within parent experience
+    public var sequenceNumber = 0
+    
     /// All children of this Experience
     private var _childExperiences: [NGDMExperience]?
     private var _childExperienceIds: [String]?
@@ -43,16 +42,6 @@ public class NGDMExperience: Equatable {
         _childExperienceIds = nil
         
         return _childExperiences
-    }
-    
-    /// Child of this Experience that is a clip & share Experience
-    private var _childClipAndShareExperience: NGDMExperience?
-    public var childClipAndShareExperience: NGDMExperience? {
-        if _childClipAndShareExperience == nil, let index = childExperiences?.indexOf({ $0.isType(.ClipAndShare) }) {
-            _childClipAndShareExperience = childExperiences?[index]
-        }
-        
-        return _childClipAndShareExperience
     }
     
     /// Child of this Experience that is a talent data Experience
@@ -130,17 +119,7 @@ public class NGDMExperience: Equatable {
     private var _appDataId: String?
     public var appData: NGDMAppData? {
         if let id = _appDataId {
-            return CurrentManifest.allAppData?[id]
-        }
-        
-        return nil
-    }
-    
-    /// TimedEventSequence associated with this Experience, if it exists
-    private var _timedEventSequenceId: String?
-    public var timedEventSequence: NGDMTimedEventSequence? {
-        if let id = _timedEventSequenceId {
-            return NGDMTimedEventSequence.getById(id)
+            return NGDMManifest.sharedInstance.appData?[id]
         }
         
         return nil
@@ -158,10 +137,6 @@ public class NGDMExperience: Equatable {
         
         if let id = manifestObject.ContentID {
             metadata = NGDMMetadata.getById(id)
-        }
-        
-        if let id = manifestObject.TimedSequenceIDList?.first {
-            _timedEventSequenceId = id
         }
         
         if let obj = manifestObject.Audiovisual {
@@ -209,23 +184,17 @@ public class NGDMExperience: Equatable {
     // FIXME: Hardcoded Experience ID strings are being used to identify Experience types
     public func isType(type: ExperienceType) -> Bool {
         switch type {
-        case .AudioVisual:
-            return audioVisual != nil && !isType(.ClipAndShare)
-            
-        case .ClipAndShare:
-            return id.containsString("clipshare")
-            
-        case .TalentData:
-            return id.containsString("ecp_tab.4")
-        
-        case .Gallery:
-            return gallery != nil
-            
         case .App:
             return app != nil
             
-        case .Shopping:
-            return app?.name == Namespaces.TheTake
+        case .AudioVisual:
+            return audioVisual != nil && !isType(.ClipShare)
+            
+        case .ClipShare:
+            return id.containsString("clipshare")
+            
+        case .Gallery:
+            return gallery != nil
             
         case .Location:
             if appData?.location != nil {
@@ -237,6 +206,12 @@ public class NGDMExperience: Equatable {
             }
             
             return false
+            
+        case .Shopping:
+            return app?.name == Namespaces.TheTake
+            
+        case .TalentData:
+            return id.containsString("ecp_tab.4")
         }
     }
     

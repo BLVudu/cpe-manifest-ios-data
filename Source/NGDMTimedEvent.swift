@@ -1,22 +1,20 @@
 //
 //  NGDMTimedEvent.swift
-//  NextGen
-//
-//  Created by Alec Ananian on 3/8/16.
-//  Copyright © 2016 Warner Bros. Entertainment, Inc. All rights reserved.
 //
 
 import Foundation
 
 public enum TimedEventType {
-    case AudioVisual
-    case Gallery
-    case AppGroup
-    case TextItem
+    case Any
     case AppData
+    case AppGroup
+    case AudioVisual
+    case ClipShare
+    case Gallery
     case Location
-    case Talent
     case Product
+    case Talent
+    case TextItem
 }
 
 public func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
@@ -51,6 +49,7 @@ public class NGDMTimedEvent: Equatable {
     
     /// TimedEvent objects
     var textItem: String?
+    public var experience: NGDMExperience?
     public var appGroup: NGDMAppGroup?
     public var gallery: NGDMGallery?
     public var audioVisual: NGDMAudioVisual?
@@ -60,7 +59,7 @@ public class NGDMTimedEvent: Equatable {
     private var _talentId: String?
     public var talent: Talent? {
         if let id = _talentId {
-            return CurrentManifest.mainExperience.talents[id]
+            return NGDMManifest.sharedInstance.mainExperience?.talents?[id]
         }
         
         return nil
@@ -69,7 +68,7 @@ public class NGDMTimedEvent: Equatable {
     private var _appDataId: String?
     public var appData: NGDMAppData? {
         if let id = _appDataId {
-            return CurrentManifest.allAppData?[id]
+            return NGDMManifest.sharedInstance.appData?[id]
         }
         
         return nil
@@ -138,30 +137,53 @@ public class NGDMTimedEvent: Equatable {
     */
     public func isType(type: TimedEventType) -> Bool {
         switch type {
-        case .AudioVisual:
-            return audioVisual != nil
-            
-        case .Gallery:
-            return gallery != nil
-            
-        case .TextItem:
-            return textItem != nil
+        case .AppData:
+            return appData != nil
             
         case .AppGroup:
             return appGroup != nil
             
-        case .AppData:
-            return appData != nil
+        case .AudioVisual:
+            return audioVisual != nil && !isType(.ClipShare)
+            
+        case .ClipShare:
+            return experience != nil && experience!.isType(.ClipShare)
+            
+        case .Gallery:
+            return gallery != nil
             
         case .Location:
             return appData?.location != nil
             
-        case .Talent:
-            return talent != nil
-
         case .Product:
             return productNamespace == Namespaces.TheTake
+            
+        case .Talent:
+            return talent != nil
+            
+        case .TextItem:
+            return textItem != nil
+            
+        case .Any:
+            return true
         }
+    }
+    
+    public static func findByTimecode(timecode: Double, type: TimedEventType) -> [NGDMTimedEvent] {
+        var timedEvents = [NGDMTimedEvent]()
+        for timedEvent in NGDMManifest.sharedInstance.timedEvents {
+            if timedEvent.startTime <= timecode {
+                if timedEvent.isType(type) && timedEvent.endTime >= timecode {
+                    timedEvents.append(timedEvent)
+                }
+            } else {
+                break
+            }
+        }
+        
+        return timedEvents.sort({ (timedEvent1, timedEvent2) -> Bool in
+            return (timedEvent1.experience?.sequenceNumber ?? 0) < (timedEvent2.experience?.sequenceNumber ?? 0)
+        })
     }
     
 }

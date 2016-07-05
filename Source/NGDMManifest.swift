@@ -1,9 +1,5 @@
 //
 //  NGDMManifest.swift
-//  NextGenDataManagerExample
-//
-//  Created by Alec Ananian on 2/8/16.
-//  Copyright © 2016 Warner Bros. All rights reserved.
 //
 
 import Foundation
@@ -18,21 +14,8 @@ public enum NGDMError: ErrorType {
 public struct Namespaces {
     static let AppDataID = "AppID"
     static let PeopleID = "PeopleOtherID"
-    static let TheTake = "thetake.com"
-    static let Baseline = "baselineapi.com"
-}
-
-public struct CurrentManifest {
-    public static var mainExperience: NGDMMainExperience!
-    public static var inMovieExperience: NGDMExperience!
-    public static var outOfMovieExperience: NGDMExperience!
-    public static var allAppData: [String: NGDMAppData]?
-}
-
-protocol NGDMDelegate {
-    func usesTalentAPI() -> Bool
-    func talentAPINamespace() -> String?
-    func talentAPIUtil() -> TalentAPIUtil?
+    public static let TheTake = "thetake.com"
+    public static let Baseline = "baselineapi.com"
 }
 
 /// Manager for communicating with parsed Manifest data
@@ -42,21 +25,11 @@ public class NGDMManifest: NSObject {
     /// Static shared instance for singleton
     public static let sharedInstance = NGDMManifest()
     
-    static func appUsesTalentAPI() -> Bool {
-        return sharedInstance.delegate != nil && sharedInstance.delegate!.usesTalentAPI()
-    }
-    
-    static func talentAPIUtilUsesNamespace(namespace: String) -> Bool {
-        return sharedInstance.delegate?.talentAPINamespace() == namespace
-    }
-    
-    static func talentAPIUtil() -> TalentAPIUtil? {
-        return sharedInstance.delegate?.talentAPIUtil()
-    }
-    
     // MARK: Instance variables
-    /// The Manifest's main Experience associated with the feature film
+    /// The Manifest's main Experiences associated with the feature film, in-movie and out-of-movie experiences
     public var mainExperience: NGDMMainExperience?
+    public var outOfMovieExperience: NGDMExperience?
+    public var inMovieExperience: NGDMExperience?
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
@@ -73,10 +46,10 @@ public class NGDMManifest: NSObject {
     var galleries = [String: NGDMGallery]() // GalleryID: Gallery
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
-    var timedEventSequences = [String: NGDMTimedEventSequence]() // TimedEventSequenceID: TimedEventSequence
+    var timedEvents = [NGDMTimedEvent]()
     
-    // Provides hooks to the implementer app
-    var delegate: NGDMDelegate?
+    /// AppData mappings
+    public var appData: [String: NGDMAppData]?
     
     // MARK: Helper Methods
     /**
@@ -85,9 +58,18 @@ public class NGDMManifest: NSObject {
         - Parameters:
             - filePath: The path to the Manifest.XML file for the desired title
      
+        - Throws:
+            - `NGDMError.MainExperienceMissing` if no main experience is found
+            - `NGDMError.InMovieExperienceMissing` if no child experience is found
+            - `NGDMError.OutOfMovieExperienceMissing` if no child experience is found
+     
         - Returns: The resulting `NGEMediaManifestType` object
     */
     public func loadManifestXMLFile(filePath: String) throws {
+        mainExperience = nil
+        outOfMovieExperience = nil
+        inMovieExperience = nil
+        
         let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)!
         
         // Pre-load experience inventory
@@ -189,12 +171,54 @@ public class NGDMManifest: NSObject {
             }
         }
         
-        if let objList = manifest.TimedEventSequences?.TimedEventSequenceList {
-            for obj in objList {
-                let timedEventSequence = NGDMTimedEventSequence(manifestObject: obj)
-                timedEventSequences[timedEventSequence.id] = timedEventSequence
+        for obj in manifest.Experiences.ExperienceList {
+            if let childObjList = obj.ExperienceChildList {
+                for childObj in childObjList {
+                    if let experience = experiences[childObj.ExperienceID], sequenceNumber = childObj.SequenceInfo?.Number {
+                        experience.sequenceNumber = sequenceNumber
+                    }
+                }
             }
         }
+        
+        if let objList = manifest.TimedEventSequences?.TimedEventSequenceList {
+            for obj in objList {
+                var timedEventExperience: NGDMExperience?
+                for experienceObj in manifest.Experiences.ExperienceList {
+                    if let experienceID = experienceObj.ExperienceID, timedEventSequenceID = experienceObj.TimedSequenceIDList?.first where timedEventSequenceID == obj.TimedSequenceID {
+                        timedEventExperience = experiences[experienceID]
+                    }
+                }
+                
+                for childObj in obj.TimedEventList {
+                    let timedEvent = NGDMTimedEvent(manifestObject: childObj)
+                    timedEvent.experience = timedEventExperience
+                    timedEvents.append(timedEvent)
+                }
+            }
+            
+            timedEvents = timedEvents.sort({ (timedEvent1, timedEvent2) -> Bool in
+                if timedEvent1.startTime == timedEvent2.startTime {
+                    return timedEvent1.endTime < timedEvent2.endTime
+                }
+                
+                return timedEvent1.startTime < timedEvent2.startTime
+            })
+        }
+        
+        // IP1: Assumes the out-of-movie Experience is the first item in the main Experience's ExperienceList
+        guard let outOfMovieExperience = mainExperience?.childExperiences?.first else {
+            throw NGDMError.OutOfMovieExperienceMissing
+        }
+        
+        self.outOfMovieExperience = outOfMovieExperience
+        
+        // IP1: Assumes the in-movie Experience is the second (and last) item in the main Experience's ExperienceList
+        guard let inMovieExperience = mainExperience?.childExperiences?.last else {
+            throw NGDMError.InMovieExperienceMissing
+        }
+        
+        self.inMovieExperience = inMovieExperience
     }
     
     /**
