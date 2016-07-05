@@ -24,13 +24,14 @@ public class NGDMAppData {
     var id: String!
     
     /// Metadata
-    public var title: String? {
-        return audioVisual?.metadata?.title ?? location?.name
+    public var title: String?
+    public var subtitle: String? {
+        return location?.name
     }
     
     public var displayText: String?
-    public var imageURL: NSURL?
-    var locationImageURL: NSURL?
+    public var locationImageURL: NSURL?
+    public var videoThumbnailImageURL: NSURL?
     
     /// Media
     public var presentation: NGDMPresentation?
@@ -56,6 +57,10 @@ public class NGDMAppData {
         
         for obj in manifestObject.NVPairList {
             switch obj.Name {
+            case NVPairName.AppType:
+                title = obj.Text
+                break
+                
             case NVPairName.Text:
                 displayText = obj.Text
                 break
@@ -90,7 +95,7 @@ public class NGDMAppData {
                 
             case NVPairName.VideoThumbnail, NVPairName.GalleryThumbnail:
                 if let id = obj.PictureID {
-                    imageURL = NGDMImage.getById(id)?.url
+                    videoThumbnailImageURL = NGDMImage.getById(id)?.url
                 }
                 
                 break

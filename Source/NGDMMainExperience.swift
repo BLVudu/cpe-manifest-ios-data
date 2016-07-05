@@ -65,36 +65,4 @@ public class NGDMMainExperience: NGDMExperience {
         }
     }
     
-    /**
-        Get the out-of-movie Experience associated with this main Experience
- 
-        - Throws: `NGDMError.OutOfMovieExperienceMissing` if no child experience is found
- 
-        - Returns: The out-of-movie Experience according to the IP1 spec guidelines
-    */
-    public func getOutOfMovieExperience() throws -> NGDMExperience {
-        // IP1: Assumes the out-of-movie Experience is the first item in the main Experience's ExperienceList
-        guard let experience = childExperiences?.first else {
-            throw NGDMError.OutOfMovieExperienceMissing
-        }
-        
-        return experience
-    }
-    
-    /**
-        Get the in-movie Experience associated with this main Experience
-     
-        - Throws: `NGDMError.InMovieExperienceMissing` if no child experience is found
-     
-        - Returns: The in-movie Experience according to the IP1 spec guidelines
-     */
-    public func getInMovieExperience() throws -> NGDMExperience {
-        // IP1: Assumes the in-movie Experience is the second (and last) item in the main Experience's ExperienceList
-        guard let experience = childExperiences?.last else {
-            throw NGDMError.InMovieExperienceMissing
-        }
-        
-        return experience
-    }
-    
 }

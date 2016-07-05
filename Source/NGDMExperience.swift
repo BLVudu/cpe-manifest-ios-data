@@ -119,7 +119,7 @@ public class NGDMExperience: Equatable {
     private var _appDataId: String?
     public var appData: NGDMAppData? {
         if let id = _appDataId {
-            return CurrentManifest.allAppData?[id]
+            return NGDMManifest.sharedInstance.appData?[id]
         }
         
         return nil

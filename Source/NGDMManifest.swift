@@ -18,13 +18,6 @@ public struct Namespaces {
     public static let Baseline = "baselineapi.com"
 }
 
-public struct CurrentManifest {
-    public static var mainExperience: NGDMMainExperience!
-    public static var inMovieExperience: NGDMExperience!
-    public static var outOfMovieExperience: NGDMExperience!
-    public static var allAppData: [String: NGDMAppData]?
-}
-
 /// Manager for communicating with parsed Manifest data
 public class NGDMManifest: NSObject {
     
@@ -33,8 +26,10 @@ public class NGDMManifest: NSObject {
     public static let sharedInstance = NGDMManifest()
     
     // MARK: Instance variables
-    /// The Manifest's main Experience associated with the feature film
+    /// The Manifest's main Experiences associated with the feature film, in-movie and out-of-movie experiences
     public var mainExperience: NGDMMainExperience?
+    public var outOfMovieExperience: NGDMExperience?
+    public var inMovieExperience: NGDMExperience?
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
@@ -53,6 +48,9 @@ public class NGDMManifest: NSObject {
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
     var timedEvents = [NGDMTimedEvent]()
     
+    /// AppData mappings
+    public var appData: [String: NGDMAppData]?
+    
     // MARK: Helper Methods
     /**
         Initializes the `NGEMediaManifestType` object
@@ -60,10 +58,18 @@ public class NGDMManifest: NSObject {
         - Parameters:
             - filePath: The path to the Manifest.XML file for the desired title
      
+        - Throws:
+            - `NGDMError.MainExperienceMissing` if no main experience is found
+            - `NGDMError.InMovieExperienceMissing` if no child experience is found
+            - `NGDMError.OutOfMovieExperienceMissing` if no child experience is found
+     
         - Returns: The resulting `NGEMediaManifestType` object
     */
     public func loadManifestXMLFile(filePath: String) throws {
         mainExperience = nil
+        outOfMovieExperience = nil
+        inMovieExperience = nil
+        
         let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)!
         
         // Pre-load experience inventory
@@ -199,6 +205,20 @@ public class NGDMManifest: NSObject {
                 return timedEvent1.startTime < timedEvent2.startTime
             })
         }
+        
+        // IP1: Assumes the out-of-movie Experience is the first item in the main Experience's ExperienceList
+        guard let outOfMovieExperience = mainExperience?.childExperiences?.first else {
+            throw NGDMError.OutOfMovieExperienceMissing
+        }
+        
+        self.outOfMovieExperience = outOfMovieExperience
+        
+        // IP1: Assumes the in-movie Experience is the second (and last) item in the main Experience's ExperienceList
+        guard let inMovieExperience = mainExperience?.childExperiences?.last else {
+            throw NGDMError.InMovieExperienceMissing
+        }
+        
+        self.inMovieExperience = inMovieExperience
     }
     
     /**
