@@ -57,7 +57,7 @@ public class NGDMTimedEvent: Equatable {
     var productNamespace: String?
     
     private var _talentId: String?
-    public var talent: Talent? {
+    public var talent: NGDMTalent? {
         if let id = _talentId {
             return NGDMManifest.sharedInstance.mainExperience?.talents?[id]
         }

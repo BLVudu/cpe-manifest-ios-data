@@ -83,7 +83,7 @@ public class NGDMMetadata {
     }
     
     /// Mapping of all Talents for this Metadata - PeopleOtherID: Talent
-    var talents: [String: Talent]?
+    var talents: [String: NGDMTalent]?
     
     // MARK: Initialization
     /**
@@ -111,10 +111,10 @@ public class NGDMMetadata {
         }
         
         if let objList = manifestObject.BasicMetadata?.PeopleList {
-            talents = [String: Talent]()
+            talents = [String: NGDMTalent]()
             
             for obj in objList {
-                let talent = Talent(manifestObject: obj)
+                let talent = NGDMTalent(manifestObject: obj)
                 talents![talent.id] = talent
             }
         }
