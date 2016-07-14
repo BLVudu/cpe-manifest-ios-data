@@ -19,7 +19,7 @@ public struct Namespaces {
 }
 
 /// Manager for communicating with parsed Manifest data
-public class NGDMManifest: NSObject {
+public class NGDMManifest {
     
     // MARK: Singleton Methods
     /// Static shared instance for singleton
