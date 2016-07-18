@@ -28,9 +28,19 @@ public class NGDMTimedEvent: Equatable {
     /// Unique identifier
     var id: String = ""
     
+    /// Position in full TimedEvent list
+    public var sortedIndex: Int {
+        if let index = NGDMManifest.sharedInstance.timedEvents.indexOf(self) {
+            return Int(index)
+        }
+        
+        return -1
+    }
+    
     /// Timecodes
     public var startTime: Double = -1
     public var endTime: Double = -1
+    
     
     /// Text value associated with this TimedEvent if it exists
     var text: String? {
@@ -57,7 +67,7 @@ public class NGDMTimedEvent: Equatable {
     var productNamespace: String?
     
     private var _talentId: String?
-    public var talent: Talent? {
+    public var talent: NGDMTalent? {
         if let id = _talentId {
             return NGDMManifest.sharedInstance.mainExperience?.talents?[id]
         }
@@ -167,6 +177,51 @@ public class NGDMTimedEvent: Equatable {
         case .Any:
             return true
         }
+    }
+    
+    /**
+        Returns the previous TimedEvent in the full sequence with the specified type
+ 
+        - Parameters:
+            - type: Type of TimedEvent
+ 
+        - Returns: Previous TimedEvent, if it exists
+    */
+    public func previousTimedEventOfType(type: TimedEventType) -> NGDMTimedEvent? {
+        let currentIndex = sortedIndex
+        if currentIndex > 0 {
+            for i in (0...currentIndex - 1).reverse() {
+                let timedEvent = NGDMManifest.sharedInstance.timedEvents[i]
+                if timedEvent.isType(type) {
+                    return timedEvent
+                }
+            }
+        }
+        
+        return nil
+    }
+    
+    /**
+        Returns the next TimedEvent in the full sequence with the specified type
+     
+        - Parameters:
+            - type: Type of TimedEvent
+     
+        - Returns: Next TimedEvent, if it exists
+     */
+    public func nextTimedEventOfType(type: TimedEventType) -> NGDMTimedEvent? {
+        let currentIndex = sortedIndex
+        let lastIndex = NGDMManifest.sharedInstance.timedEvents.count - 1
+        if currentIndex < lastIndex {
+            for i in ((currentIndex + 1)...lastIndex) {
+                let timedEvent = NGDMManifest.sharedInstance.timedEvents[i]
+                if timedEvent.isType(type) {
+                    return timedEvent
+                }
+            }
+        }
+        
+        return nil
     }
     
     public static func findByTimecode(timecode: Double, type: TimedEventType) -> [NGDMTimedEvent] {

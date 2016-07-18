@@ -93,7 +93,7 @@ public class NGDMPeople: NSObject {
 }
 
 // Alias for `NGDMPeople`
-public class Talent: NGDMPeople {
+public class NGDMTalent: NGDMPeople {
     
     // MARK: Initialization
     /**

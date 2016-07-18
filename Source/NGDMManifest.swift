@@ -19,11 +19,11 @@ public struct Namespaces {
 }
 
 /// Manager for communicating with parsed Manifest data
-public class NGDMManifest: NSObject {
+public class NGDMManifest {
     
     // MARK: Singleton Methods
     /// Static shared instance for singleton
-    public static let sharedInstance = NGDMManifest()
+    public static var sharedInstance: NGDMManifest!
     
     // MARK: Instance variables
     /// The Manifest's main Experiences associated with the feature film, in-movie and out-of-movie experiences
@@ -241,6 +241,20 @@ public class NGDMManifest: NSObject {
         }
         
         return allAppData
+    }
+    
+    /**
+        Creates a new static instance of a Manifest
+    */
+    public static func createInstance() {
+        sharedInstance = NGDMManifest()
+    }
+    
+    /**
+        Destroys the current Manifest instance
+    */
+    public static func destroyInstance() {
+        sharedInstance = nil
     }
     
 }

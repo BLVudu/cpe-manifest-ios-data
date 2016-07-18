@@ -9,15 +9,15 @@ public class NGDMMainExperience: NGDMExperience {
     
     // MARK: Instance Variables
     /// List of Talent associated with the feature film
-    var talents: [String: Talent]? {
+    var talents: [String: NGDMTalent]? {
         didSet {
             _orderedActors = nil
         }
     }
     
     /// Ordered list of Talents with type Actor associated with the feature film
-    private var _orderedActors: [Talent]?
-    public var orderedActors: [Talent]? {
+    private var _orderedActors: [NGDMTalent]?
+    public var orderedActors: [NGDMTalent]? {
         if _orderedActors == nil, let talents = talents {
             _orderedActors = talents.values.filter { (talent) -> Bool in
                 talent.type == TalentType.Actor
