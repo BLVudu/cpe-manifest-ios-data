@@ -37,7 +37,7 @@ public class NGDMManifest {
     var metadatas = [String: NGDMMetadata]() // ContentID: Metadata
     var interactives = [String: NGDMInteractive]() // InteractiveTrackID: Interactive
     var pictures = [String: NGDMPicture]() // PictureID: Picture
-    var pictureGroups = [String: NGDMPictureGroup]() // PictureGroupID: PictureGroup
+    var pictureGroups = [String: [NGDMPicture]]() // PictureGroupID: Pictures
     var textObjects = [String: NGDMTextObject]() // TextObjectID: TextObject
     var textGroups = [String: NGDMTextGroup]() // TextGroupID: TextGroup
     var appGroups = [String: NGDMAppGroup]() // AppGroupID: AppGroup
@@ -110,9 +110,9 @@ public class NGDMManifest {
                     groupPictures.append(picture)
                 }
                 
-                let pictureGroup = NGDMPictureGroup(manifestObject: obj)
-                pictureGroup.pictures = groupPictures
-                pictureGroups[pictureGroup.id] = pictureGroup
+                if let id = obj.PictureGroupID {
+                    pictureGroups[id] = groupPictures
+                }
             }
         }
         
