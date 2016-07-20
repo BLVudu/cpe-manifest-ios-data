@@ -18,9 +18,13 @@ public class NGDMPicture {
     var thumbnailImageURL: NSURL?
     
     /// Caption associated with this image
-    var captions: [String: String]? // Language: Caption
+    private var captions: [String: String]? // Language: Caption
     public var caption: String? {
-        return captions?["en"]
+        if let caption = captions?[NSLocale.deviceLanguage()] {
+            return caption
+        }
+        
+        return captions?[NSLocale.deviceLanguageBackup()]
     }
     
     // MARK: Initialization
@@ -44,7 +48,7 @@ public class NGDMPicture {
         captions = [String: String]()
         if let objList = manifestObject.CaptionList {
             for obj in objList {
-                let language = obj.language ?? "en"
+                let language = obj.language ?? NSLocale.deviceLanguage()
                 if let value = obj.value {
                     captions![language] = value
                 }

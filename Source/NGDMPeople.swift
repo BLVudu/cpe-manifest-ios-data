@@ -32,7 +32,6 @@ public class NGDMPeople: NSObject {
     public var images: [TalentImage]?
     public var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
-    var gallery = [String]()
     
     public var thumbnailImageURL: NSURL? {
         return images?.first?.thumbnailImageURL
