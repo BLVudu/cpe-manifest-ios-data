@@ -207,7 +207,7 @@ public struct TalentSocialAccount {
             type = SocialAccountType.Twitter
         } else if urlString.containsString("facebook") {
             type = SocialAccountType.Facebook
-            if urlString.containsString("/pages"), let pageId = urlString.componentsSeparatedByString("/").last {
+            if urlString.containsString("/pages"), let pageId = urlString.componentsSeparatedByString("/").last where UIApplication.sharedApplication().canOpenURL(NSURL(string: "fb://")!) {
                 urlString = "fb://page?id=" + pageId
             }
         } else if urlString.containsString("instagram") {
