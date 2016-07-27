@@ -47,6 +47,7 @@ public class NGDMManifest {
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
     var timedEvents = [NGDMTimedEvent]()
+    var imageCache = [String: UIImage]()
     
     /// AppData mappings
     public var appData: [String: NGDMAppData]?
@@ -234,10 +235,24 @@ public class NGDMManifest {
             throw NGDMError.AppDataMissing
         }
         
+        var imageIds = [String]()
         var allAppData = [String: NGDMAppData]()
         for obj in objList {
             let appData = NGDMAppData(manifestObject: obj)
             allAppData[appData.id] = appData
+            
+            // Pre-load icons as UIImages
+            if let id = appData.location?.icon?.id where !imageIds.contains(id) {
+                imageIds.append(id)
+            }
+        }
+        
+        for imageId in imageIds {
+            if let url = NGDMImage.getById(imageId)?.url {
+                UIImageRemoteLoader.loadImage(url, completion: { (image) in
+                    NGDMManifest.sharedInstance.imageCache[imageId] = image
+                })
+            }
         }
         
         return allAppData
