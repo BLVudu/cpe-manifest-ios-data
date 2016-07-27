@@ -11,7 +11,7 @@ public struct UIImageRemoteLoader {
         let urlCache = NSURLCache(memoryCapacity: 0, diskCapacity: 1024 * 1024 * 512, diskPath: "com.wb.nextgen_image_cache") // 512Mb
         if let cachedResponse = urlCache.cachedResponseForRequest(request) where cachedResponse.data.length > 0 {
             if let completion = completion {
-                completion(image: UIImage(data: cachedResponse.data))
+                completion(image: UIImage(data: cachedResponse.data, scale: UIScreen.mainScreen().scale))
             }
             
             return nil

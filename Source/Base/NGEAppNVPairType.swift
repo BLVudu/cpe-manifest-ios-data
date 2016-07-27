@@ -43,6 +43,8 @@ class NGEAppNVPairType : NSObject{
     
     var TimedEvent: NGETimedEventType!
     
+    var ExperienceID: String!
+    
     var PlayableSequenceID: String!
     
     var PresentationID: String!
@@ -80,19 +82,21 @@ class NGEAppNVPairType : NSObject{
     var KML: NGEAppDataKMLType!
     
     func readAttributes(reader: xmlTextReaderPtr) {
-        let timeOnlyFormatter = NSDateFormatter()
-        timeOnlyFormatter.dateFormat = "HH:mm:ss"
-        timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
         let decFormatter = NSNumberFormatter()
         decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         decFormatter.decimalSeparator = "."
+        
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        
         let dateOnlyFormatter = NSDateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        
+        let timeOnlyFormatter = NSDateFormatter()
+        timeOnlyFormatter.dateFormat = "HH:mm:ss"
+        timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
         
         let NameAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "Name").UTF8String)
         let NameAttrValue = xmlTextReaderGetAttribute(reader, NameAttrName)
@@ -107,19 +111,20 @@ class NGEAppNVPairType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let timeOnlyFormatter = NSDateFormatter()
-        timeOnlyFormatter.dateFormat = "HH:mm:ss"
-        timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        let decFormatter = NSNumberFormatter()
+        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        decFormatter.decimalSeparator = "."
         
         let numFormatter = NSNumberFormatter()
         numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        decFormatter.decimalSeparator = "."
         let dateOnlyFormatter = NSDateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        
+        let timeOnlyFormatter = NSDateFormatter()
+        timeOnlyFormatter.dateFormat = "HH:mm:ss"
+        timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
         
         self.readAttributes(reader)
         
@@ -293,6 +298,19 @@ class NGEAppNVPairType : NSObject{
                     
                     self.TimedEvent = NGETimedEventType(reader: reader)
                     handledInChild = true
+                    
+                } else if("ExperienceID" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let ExperienceIDElementValue = xmlTextReaderConstValue(reader)
+                    if ExperienceIDElementValue != nil {
+                        
+                        self.ExperienceID = String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
                     
                 } else if("PlayableSequenceID" == _currentElementName) {
                     
@@ -547,6 +565,12 @@ class NGEAppNVPairType : NSObject{
         
         if(self.TimedEvent != nil) {
             dict["TimedEvent"] = self.TimedEvent!
+        }
+        
+        if(self.ExperienceID != nil) {
+            
+            dict["ExperienceID"] = self.ExperienceID!
+            
         }
         
         if(self.PlayableSequenceID != nil) {

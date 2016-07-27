@@ -13,6 +13,8 @@ class NGEManifestAppDataSetType : NSObject{
     
     var updateNum: Int?
     
+    var ManifestIDList: [String]?
+    
     var ManifestAppDataList: [NGEAppDataType]!
     
     func readAttributes(reader: xmlTextReaderPtr) {
@@ -45,6 +47,7 @@ class NGEManifestAppDataSetType : NSObject{
         
         self.readAttributes(reader)
         
+        var ManifestIDListArray = [String]()
         var ManifestAppDataListArray = [NGEAppDataType]()
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -56,7 +59,19 @@ class NGEManifestAppDataSetType : NSObject{
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
                 let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ManifestAppData" == _currentElementName) {
+                if("ManifestID" == _currentElementName) {
+                    
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    let ManifestIDElementValue = xmlTextReaderConstValue(reader)
+                    if ManifestIDElementValue != nil {
+                        
+                        ManifestIDListArray.append(String.fromCString(UnsafePointer<CChar>(ManifestIDElementValue))!)
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    
+                } else if("ManifestAppData" == _currentElementName) {
                     
                     ManifestAppDataListArray.append(NGEAppDataType(reader: reader))
                     handledInChild = true
@@ -73,6 +88,7 @@ class NGEManifestAppDataSetType : NSObject{
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
         
+        if(ManifestIDListArray.count > 0) { self.ManifestIDList = ManifestIDListArray }
         if(ManifestAppDataListArray.count > 0) { self.ManifestAppDataList = ManifestAppDataListArray }
     }
     
@@ -88,6 +104,12 @@ class NGEManifestAppDataSetType : NSObject{
         if(self.updateNum != nil) {
             
             dict["updateNum"] = self.updateNum!
+            
+        }
+        
+        if(self.ManifestIDList != nil) {
+            
+            dict["ManifestIDList"] = self.ManifestIDList!
             
         }
         

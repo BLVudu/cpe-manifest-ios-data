@@ -59,7 +59,12 @@ public class NGDMExperience: Equatable {
     
     /// Title to be used for display
     public var title: String {
-        return metadata?.title ?? ""
+        return metadata?.title ?? appData?.title ?? ""
+    }
+    
+    /// Description to be used for display
+    public var description: String {
+        return metadata?.description ?? appData?.description ?? ""
     }
     
     /// Image URL to be used for thumbnail displays
@@ -76,7 +81,7 @@ public class NGDMExperience: Equatable {
             return imageURL
         }
         
-        if let imageURL = appData?.locationImageURL {
+        if let imageURL = appData?.thumbnailImageURL {
             return imageURL
         }
         
@@ -123,6 +128,10 @@ public class NGDMExperience: Equatable {
         }
         
         return nil
+    }
+    
+    public var appDataMediaCount: Int {
+        return appData?.mediaCount ?? 0
     }
     
     // MARK: Initialization
@@ -179,7 +188,7 @@ public class NGDMExperience: Equatable {
         - Parameters:
             - type: Type of Experience
      
-            - Returns: `true` if the Experience is of the specified type
+        - Returns: `true` if the Experience is of the specified type
      */
     // FIXME: Hardcoded Experience ID strings are being used to identify Experience types
     public func isType(type: ExperienceType) -> Bool {
@@ -213,6 +222,18 @@ public class NGDMExperience: Equatable {
         case .TalentData:
             return id.containsString("ecp_tab.4")
         }
+    }
+    
+    /**
+        Finds the Experience media associated with the AppData at the specified index
+ 
+        - Parameters:
+            - index: Media index to search
+ 
+        - Returns: Associated Experience if it exists
+    */
+    public func appDataMediaAtIndex(index: Int) -> NGDMExperience? {
+        return appData?.mediaAtIndex(index)
     }
     
     // MARK: Search Methods
