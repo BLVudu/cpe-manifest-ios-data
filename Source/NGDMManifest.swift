@@ -30,6 +30,9 @@ public class NGDMManifest {
     public var mainExperience: NGDMMainExperience?
     public var outOfMovieExperience: NGDMExperience?
     public var inMovieExperience: NGDMExperience?
+    public var hasActors: Bool {
+        return mainExperience != nil && mainExperience!.hasActors
+    }
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image

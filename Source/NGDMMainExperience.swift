@@ -24,6 +24,10 @@ public class NGDMMainExperience: NGDMExperience {
         return nil
     }
     
+    public var hasActors: Bool {
+        return orderedActors?.count ?? 0 > 0
+    }
+    
     // MARK: Helper Methods
     /**
         Find the value of any custom identifier associated with this Experience
