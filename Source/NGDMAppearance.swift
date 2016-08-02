@@ -32,7 +32,7 @@ public class NGDMAppearance {
                 }
                 
                 if type == .OutOfMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_bg.jpg")
+                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_bg_notitle.jpg")
                 }
             }
             
