@@ -6,6 +6,8 @@ Clone a copy of the repository:
 
     git clone git@github.com:warnerbros/cpe-manifest-ios-data.git
 
+Update `NextGenDataManager.podspec` to point `SWIFT_INCLUDE_PATHS` to your `libxml` folder.
+
 Install dependencies:
 
     cd cpe-manifest-ios-data
