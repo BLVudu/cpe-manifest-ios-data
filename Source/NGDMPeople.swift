@@ -165,7 +165,7 @@ public struct TalentImage {
 public struct TalentFilm {
     
     var id: String!
-    var title: String!
+    public var title: String!
     var imageURL: NSURL?
     
     public init(id: String, title: String) {
