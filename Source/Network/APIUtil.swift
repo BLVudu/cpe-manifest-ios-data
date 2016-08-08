@@ -10,14 +10,21 @@ public typealias APIUtilErrorBlock = (error: NSError?) -> Void
 public class APIUtil: NSObject, NSURLSessionDataDelegate {
     
     var apiDomain: String!
+    public var customHeaders = [String: String]()
     
     public init(apiDomain: String) {
         super.init()
+        
         self.apiDomain = apiDomain
     }
     
     public func requestWithURLPath(urlPath: String) -> NSMutableURLRequest {
-        return NSMutableURLRequest(URL: NSURL(string: apiDomain + urlPath)!)
+        let request = NSMutableURLRequest(URL: NSURL(string: apiDomain + urlPath)!)
+        for (field, value) in customHeaders {
+            request.addValue(value, forHTTPHeaderField: field)
+        }
+        
+        return request
     }
     
     public func getJSONWithPath(urlPath: String, parameters: [String: String], successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {

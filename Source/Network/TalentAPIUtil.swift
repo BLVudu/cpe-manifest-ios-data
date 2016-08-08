@@ -7,7 +7,6 @@ import Foundation
 public protocol TalentAPIUtil {
     static var APIDomain: String { get }
     var apiNamespace: String { get }
-    var apiKey: String! { get set }
     var apiId: String? { get set }
     
     func prefetchCredits(successBlock: (talents: [String: NGDMTalent]?) -> Void)
