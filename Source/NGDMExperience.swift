@@ -118,7 +118,7 @@ public class NGDMExperience: Equatable {
     public var gallery: NGDMGallery?
     
     /// App associated with this Experience, if it exists
-    var app: NGDMExperienceApp?
+    public var app: NGDMExperienceApp?
     
     /// AppData associated with this Experience, if it exists
     private var _appDataId: String?
