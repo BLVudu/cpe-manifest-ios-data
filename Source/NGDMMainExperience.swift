@@ -45,23 +45,28 @@ public class NGDMMainExperience: NGDMExperience {
         Loads talent based on a series of fallbacks, starting with the Baseline API
     */
     public func loadTalent() {
+        let loadTalentImages = {
+            if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, talents = self.talents {
+                for talent in talents.values {
+                    if talent.images == nil, let talentId = talent.apiId {
+                        talentAPIUtil.getTalentImages(talentId, successBlock: { (talentImages) in
+                            talent.images = talentImages
+                        })
+                    }
+                }
+            }
+        }
+        
         if let talents = audioVisual?.metadata?.talents {
             self.talents = talents
         } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil {
             talentAPIUtil.prefetchCredits({ (talents) in
                 self.talents = talents
+                loadTalentImages()
             })
         }
         
-        if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, talents = talents {
-            for talent in talents.values {
-                if let talentId = talent.apiId {
-                    talentAPIUtil.getTalentImages(talentId, successBlock: { (talentImages) in
-                        talent.images = talentImages
-                    })
-                }
-            }
-        }
+        loadTalentImages()
     }
     
 }

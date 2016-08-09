@@ -101,12 +101,13 @@ public class NGDMTalent: NGDMPeople {
         - Parameters:
             - baselineInfo: Response from the Baseline API
      */
-    public convenience init(apiId: String, name: String?, role: String?, type: TalentType) {
+    public convenience init(apiId: String, name: String?, role: String?, billingBlockOrder: Int, type: TalentType) {
         self.init()
         
         self.apiId = apiId
         self.name = name
         self.role = role
+        self.billingBlockOrder = billingBlockOrder
         self.type = type
     }
     
