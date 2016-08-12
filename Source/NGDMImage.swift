@@ -5,14 +5,17 @@
 import Foundation
 
 // Wrapper class for `NGEInventoryImageType` Manifest object
-class NGDMImage {
+public class NGDMImage {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// URL associated with this Image
-    var url: NSURL?
+    public var url: NSURL?
+    
+    /// Size of the Image as specified in Manifest file
+    public var size = CGSizeZero
     
     // MARK: Initialization
     /**
@@ -32,6 +35,8 @@ class NGDMImage {
                 url = NSURL(string: containerLocation)
             }
         }
+        
+        size = CGSizeMake(CGFloat(manifestObject.Width), CGFloat(manifestObject.Height))
     }
     
     // MARK: Search Methods

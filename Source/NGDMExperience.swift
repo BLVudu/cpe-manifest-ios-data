@@ -23,6 +23,8 @@ public class NGDMExperience: Equatable {
     
     // MARK: Instance Variables
     /// Appearance object for background images, buttons, etc
+    var nodeStyles: [NGDMNodeStyle]?
+    
     public var appearance: NGDMAppearance?
     
     /// Unique identifier
@@ -234,6 +236,35 @@ public class NGDMExperience: Equatable {
     */
     public func appDataMediaAtIndex(index: Int) -> NGDMExperience? {
         return appData?.mediaAtIndex(index)
+    }
+    
+    /**
+        Finds the NodeStyle matching the current orientation and device
+ 
+        - Parameters:
+            - interfaceOrientation: Current device orientation
+ 
+        - Returns: Current NodeStyle if it exists
+    */
+    public func getNodeStyle(interfaceOrientation: UIInterfaceOrientation) -> NGDMNodeStyle? {
+        let isTablet = (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+        let isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation)
+        
+        if let nodeStyles = nodeStyles {
+            for nodeStyle in nodeStyles {
+                if (isTablet && nodeStyle.supportsTablet) || (!isTablet && nodeStyle.supportsPhone) {
+                    if isLandscape && nodeStyle.supportsLandscape {
+                        return nodeStyle
+                    }
+                    
+                    if !isLandscape && nodeStyle.supportsPortrait {
+                        return nodeStyle
+                    }
+                }
+            }
+        }
+        
+        return nil
     }
     
     // MARK: Search Methods

@@ -9,6 +9,7 @@ public enum NGDMError: ErrorType {
     case InMovieExperienceMissing
     case OutOfMovieExperienceMissing
     case AppDataMissing
+    case StyleMissing
 }
 
 public struct Namespaces {
@@ -51,6 +52,8 @@ public class NGDMManifest {
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
     var timedEvents = [NGDMTimedEvent]()
     var imageCache = [String: UIImage]()
+    var nodeStyles = [String: NGDMNodeStyle]()
+    var themes = [String: NGDMTheme]()
     
     /// AppData mappings
     public var appData: [String: NGDMAppData]?
@@ -168,6 +171,7 @@ public class NGDMManifest {
             if let experienceId = obj.ExperienceID where experiences[experienceId] == nil {
                 if mainExperience == nil {
                     mainExperience = NGDMMainExperience(manifestObject: obj)
+                    experiences[mainExperience!.id] = mainExperience
                 } else {
                     let experience = NGDMExperience(manifestObject: obj)
                     experiences[experience.id] = experience
@@ -259,6 +263,53 @@ public class NGDMManifest {
         }
         
         return allAppData
+    }
+    
+    public func loadCPEStyleXMLFile(filePath: String) throws {
+        guard let rootObj = NGECPEStyleSetType.NGECPEStyleSetTypeFromFile(filePath) else {
+            throw NGDMError.StyleMissing
+        }
+        
+        var themes = [String: NGDMTheme]()
+        
+        for obj in rootObj.ThemeList {
+            let theme = NGDMTheme(manifestObject: obj)
+            themes[theme.id] = theme
+        }
+        
+        for obj in rootObj.NodeStyleList {
+            let nodeStyle = NGDMNodeStyle(manifestObject: obj)
+            nodeStyle.theme = themes[obj.ThemeID]!
+            nodeStyles[nodeStyle.id] = nodeStyle
+        }
+        
+        for obj in rootObj.ExperienceStyleMapList {
+            for nodeStyleRefObj in obj.NodeStyleRefList {
+                if var nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID] {
+                    nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (nodeStyleRefObj.Orientation == .Landscape)
+                    nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (nodeStyleRefObj.Orientation == .Portrait)
+                    
+                    if let deviceTargetObjList = nodeStyleRefObj.DeviceTargetList {
+                        for deviceTargetObj in deviceTargetObjList {
+                            if deviceTargetObj.Class == DeviceTargetClass.Mobile.rawValue, let subClass = deviceTargetObj.SubClassList?.first {
+                                nodeStyle.supportsTablet = nodeStyle.supportsTablet || (subClass == DeviceTargetSubClass.Tablet.rawValue)
+                                nodeStyle.supportsPhone = nodeStyle.supportsPhone || (subClass == DeviceTargetSubClass.Phone.rawValue)
+                            }
+                        }
+                    }
+                    
+                    for id in obj.ExperienceIDList {
+                        if let experience = experiences[id] {
+                            if experience.nodeStyles == nil {
+                                experience.nodeStyles = [NGDMNodeStyle]()
+                            }
+                            
+                            experience.nodeStyles!.append(nodeStyle)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /**
