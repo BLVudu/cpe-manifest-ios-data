@@ -32,7 +32,6 @@ public class NGDMPeople: NSObject {
     public var images: [TalentImage]?
     public var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
-    var gallery = [String]()
     
     public var thumbnailImageURL: NSURL? {
         return images?.first?.thumbnailImageURL
@@ -102,12 +101,13 @@ public class NGDMTalent: NGDMPeople {
         - Parameters:
             - baselineInfo: Response from the Baseline API
      */
-    public convenience init(apiId: String, name: String?, role: String?, type: TalentType) {
+    public convenience init(apiId: String, name: String?, role: String?, billingBlockOrder: Int, type: TalentType) {
         self.init()
         
         self.apiId = apiId
         self.name = name
         self.role = role
+        self.billingBlockOrder = billingBlockOrder
         self.type = type
     }
     
@@ -166,7 +166,7 @@ public struct TalentImage {
 public struct TalentFilm {
     
     var id: String!
-    var title: String!
+    public var title: String!
     var imageURL: NSURL?
     
     public init(id: String, title: String) {
@@ -207,7 +207,7 @@ public struct TalentSocialAccount {
             type = SocialAccountType.Twitter
         } else if urlString.containsString("facebook") {
             type = SocialAccountType.Facebook
-            if urlString.containsString("/pages"), let pageId = urlString.componentsSeparatedByString("/").last {
+            if urlString.containsString("/pages"), let pageId = urlString.componentsSeparatedByString("/").last where UIApplication.sharedApplication().canOpenURL(NSURL(string: "fb://")!) {
                 urlString = "fb://page?id=" + pageId
             }
         } else if urlString.containsString("instagram") {

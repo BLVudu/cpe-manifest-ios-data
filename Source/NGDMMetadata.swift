@@ -49,19 +49,10 @@ public class NGDMMetadata {
     var id: String
     
     /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
+    private var _defaultLocalizedInfo: NGDMLocalizedInfo?
     private var _localizedInfoMap = [String: NGDMLocalizedInfo]()
     private var _localizedInfo: NGDMLocalizedInfo? {
-        var normalizedDeviceLanguage = NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-")
-        if let localizedInfo = _localizedInfoMap[normalizedDeviceLanguage] {
-            return localizedInfo
-        }
-        
-        normalizedDeviceLanguage = normalizedDeviceLanguage[normalizedDeviceLanguage.startIndex..<normalizedDeviceLanguage.startIndex.advancedBy(2)]
-        if let localizedInfo = _localizedInfoMap[normalizedDeviceLanguage] {
-            return localizedInfo
-        }
-        
-        return nil
+        return _localizedInfoMap[NSLocale.deviceLanguage()] ?? _localizedInfoMap[NSLocale.deviceLanguageBackup()] ?? _defaultLocalizedInfo ?? _localizedInfoMap["en-US"] ?? _localizedInfoMap["en"]
     }
     
     /// Mapping of all content identifiers for this Metadata - Namespace: Identifier
@@ -99,6 +90,10 @@ public class NGDMMetadata {
             for obj in objList {
                 let localizedInfo = NGDMLocalizedInfo(manifestObject: obj)
                 _localizedInfoMap[localizedInfo.language] = localizedInfo
+                
+                if obj.isDefault != nil && obj.isDefault! {
+                    _defaultLocalizedInfo = localizedInfo
+                }
             }
         }
         

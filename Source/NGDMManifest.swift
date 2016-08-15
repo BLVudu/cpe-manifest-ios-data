@@ -30,6 +30,9 @@ public class NGDMManifest {
     public var mainExperience: NGDMMainExperience?
     public var outOfMovieExperience: NGDMExperience?
     public var inMovieExperience: NGDMExperience?
+    public var hasActors: Bool {
+        return mainExperience != nil && mainExperience!.hasActors
+    }
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
@@ -37,7 +40,7 @@ public class NGDMManifest {
     var metadatas = [String: NGDMMetadata]() // ContentID: Metadata
     var interactives = [String: NGDMInteractive]() // InteractiveTrackID: Interactive
     var pictures = [String: NGDMPicture]() // PictureID: Picture
-    var pictureGroups = [String: NGDMPictureGroup]() // PictureGroupID: PictureGroup
+    var pictureGroups = [String: [NGDMPicture]]() // PictureGroupID: Pictures
     var textObjects = [String: NGDMTextObject]() // TextObjectID: TextObject
     var textGroups = [String: NGDMTextGroup]() // TextGroupID: TextGroup
     var appGroups = [String: NGDMAppGroup]() // AppGroupID: AppGroup
@@ -47,6 +50,7 @@ public class NGDMManifest {
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
     var timedEvents = [NGDMTimedEvent]()
+    var imageCache = [String: UIImage]()
     
     /// AppData mappings
     public var appData: [String: NGDMAppData]?
@@ -110,9 +114,9 @@ public class NGDMManifest {
                     groupPictures.append(picture)
                 }
                 
-                let pictureGroup = NGDMPictureGroup(manifestObject: obj)
-                pictureGroup.pictures = groupPictures
-                pictureGroups[pictureGroup.id] = pictureGroup
+                if let id = obj.PictureGroupID {
+                    pictureGroups[id] = groupPictures
+                }
             }
         }
         
@@ -234,10 +238,24 @@ public class NGDMManifest {
             throw NGDMError.AppDataMissing
         }
         
+        var imageIds = [String]()
         var allAppData = [String: NGDMAppData]()
         for obj in objList {
             let appData = NGDMAppData(manifestObject: obj)
             allAppData[appData.id] = appData
+            
+            // Pre-load icons as UIImages
+            if let id = appData.location?.icon?.id where !imageIds.contains(id) {
+                imageIds.append(id)
+            }
+        }
+        
+        for imageId in imageIds {
+            if let url = NGDMImage.getById(imageId)?.url {
+                UIImageRemoteLoader.loadImage(url, completion: { (image) in
+                    NGDMManifest.sharedInstance.imageCache[imageId] = image
+                })
+            }
         }
         
         return allAppData

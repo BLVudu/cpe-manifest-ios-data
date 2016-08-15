@@ -43,12 +43,8 @@ public class NGDMTimedEvent: Equatable {
     
     
     /// Text value associated with this TimedEvent if it exists
-    var text: String? {
-        return textItem ?? appData?.location?.name
-    }
-    
     public var descriptionText: String? {
-        return gallery?.title ?? audioVisual?.metadata?.title ?? text ?? appData?.location?.name
+        return gallery?.title ?? audioVisual?.metadata?.title ?? textItem ?? appData?.title
     }
     
     /// Image to be used for display

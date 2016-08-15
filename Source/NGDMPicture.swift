@@ -17,9 +17,19 @@ public class NGDMPicture {
     /// Image URL to be used for thumbnail display
     var thumbnailImageURL: NSURL?
     
+    /// Caption associated with this image
+    private var captions: [String: String]? // Language: Caption
+    public var caption: String? {
+        if let caption = captions?[NSLocale.deviceLanguage()] {
+            return caption
+        }
+        
+        return captions?[NSLocale.deviceLanguageBackup()]
+    }
+    
     // MARK: Initialization
     /**
-        Initializes a new Picture
+        Initializes a new Picture based on Manifest object
     
         - Parameters:
             - manifestObject: Raw Manifest data object
@@ -34,6 +44,27 @@ public class NGDMPicture {
         if let id = manifestObject.ThumbnailImageID {
             thumbnailImageURL = NGDMImage.getById(id)?.url
         }
+        
+        captions = [String: String]()
+        if let objList = manifestObject.CaptionList {
+            for obj in objList {
+                let language = obj.language ?? NSLocale.deviceLanguage()
+                if let value = obj.value {
+                    captions![language] = value
+                }
+            }
+        }
+    }
+    
+    /**
+        Initializes a new Picture based on image URL
+     
+        - Parameters:
+            - imageURL: Image URL to be used for full display
+     */
+    public init(imageURL: NSURL) {
+        id = NSUUID().UUIDString
+        self.imageURL = imageURL
     }
     
     // MARK: Search Methods

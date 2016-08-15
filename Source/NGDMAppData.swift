@@ -4,11 +4,6 @@
 
 import Foundation
 
-public enum NGDMAppDataImageType {
-    case Location
-    case MediaThumbnail
-}
-
 // Wrapper class for `NGEExperienceAppType` Manifest object
 public class NGDMAppData {
     
@@ -22,6 +17,7 @@ public class NGDMAppData {
         static let LocationThumbnail = "location_thumbnail"
         static let VideoThumbnail = "video_thumbnail"
         static let GalleryThumbnail = "gallery_thumbnail"
+        static let ExperienceId = "experience_id"
     }
     
     // MARK: Instance Variables
@@ -29,38 +25,29 @@ public class NGDMAppData {
     var id: String!
     
     /// Metadata
-    public var title: String?
-    public var subtitle: String? {
-        return location?.name
+    public var title: String? {
+        return experience?.title
     }
     
-    public var displayText: String?
+    public var thumbnailImageURL: NSURL? {
+        return experience?.imageURL
+    }
     
-    var locationImageURL: NSURL?
-    var videoThumbnailImageURL: NSURL?
+    public var description: String? {
+        return experience?.description
+    }
     
     /// Media
-    public var presentation: NGDMPresentation?
-    public var audioVisual: NGDMAudioVisual?
-    public var gallery: NGDMGallery?
+    var experience: NGDMExperience?
     public var location: NGDMLocation?
     public var zoomLevel: Float = 0
-    
-    public var videoURL: NSURL? {
-        return presentation?.videoURL
+    public var mediaCount: Int {
+        return experience?.childExperiences?.count ?? 0
     }
     
     /// Check if AppData is location-based
     var isLocation: Bool {
         return location != nil
-    }
-    
-    public var hasVideo: Bool {
-        return videoURL != nil
-    }
-    
-    public var hasGallery: Bool {
-        return gallery != nil
     }
     
     // MARK: Initialization
@@ -75,14 +62,6 @@ public class NGDMAppData {
         
         for obj in manifestObject.NVPairList {
             switch obj.Name {
-            case NVPairName.AppType:
-                title = obj.Text
-                break
-                
-            case NVPairName.Text:
-                displayText = obj.Text
-                break
-                
             case NVPairName.Location:
                 if let obj = obj.Location {
                     location = NGDMLocation(manifestObject: obj)
@@ -96,32 +75,12 @@ public class NGDMAppData {
                 zoomLevel = Float(obj.Integer ?? 0)
                 break
                 
-            case NVPairName.VideoId:
-                if let id = obj.PresentationID {
-                    presentation = NGDMPresentation.getById(id)
-                    audioVisual = NGDMAudioVisual.getById(id)
+            case NVPairName.ExperienceId:
+                if let id = obj.ExperienceID {
+                    experience = NGDMExperience.getById(id)
                 }
                 
                 break
-                
-            case NVPairName.GalleryId:
-                if let id = obj.Gallery?.GalleryID {
-                    gallery = NGDMGallery.getById(id)
-                }
-                
-                break
-                
-            case NVPairName.VideoThumbnail, NVPairName.GalleryThumbnail:
-                if let id = obj.PictureID {
-                    videoThumbnailImageURL = NGDMImage.getById(id)?.url
-                }
-                
-                break
-                
-            case NVPairName.LocationThumbnail:
-                if let id = obj.PictureID {
-                    locationImageURL = NGDMImage.getById(id)?.url
-                }
                 
             default:
                 break
@@ -129,26 +88,21 @@ public class NGDMAppData {
         }
     }
     
-    // MARK: Helpers
-    public func getImageURL(imageType: NGDMAppDataImageType) -> NSURL? {
-        switch imageType {
-        case .Location:
-            return locationImageURL ?? videoThumbnailImageURL
-            
-        case .MediaThumbnail:
-            if hasVideo {
-                return videoThumbnailImageURL
-            }
-            
-            if hasGallery {
-                return gallery!.imageURL
-            }
-            
-            return locationImageURL
-            
-        default:
-            return nil
+    // MARK: Helper Methods
+    /**
+        Finds the Experience media associated with the AppData at the specified index
+     
+        - Parameters:
+            - index: Media index to search
+     
+        - Returns: Associated Experience if it exists
+     */
+    public func mediaAtIndex(index: Int) -> NGDMExperience? {
+        if let experiences = experience?.childExperiences where index < mediaCount {
+            return experiences[index]
         }
+        
+        return nil
     }
     
 }
