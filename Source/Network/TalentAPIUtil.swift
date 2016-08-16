@@ -10,9 +10,6 @@ public protocol TalentAPIUtil {
     var apiId: String? { get set }
     
     func prefetchCredits(successBlock: (talents: [String: NGDMTalent]?) -> Void)
-    func getTalentBio(talentID: String, successBlock: (biography: String?) -> Void)
-    func getTalentImages(talentID: String, successBlock: (talentImages: [TalentImage]?) -> Void)
-    func getTalentSocialAccounts(talentId: String, successBlock: (socialAccounts: [TalentSocialAccount]?) -> Void)
-    func getTalentFilmography(talentId: String, successBlock: (films: [TalentFilm]) -> Void)
-    func getFilmImageURL(filmID: String, successBlock: (imageURL: NSURL?) -> Void) -> NSURLSessionDataTask
+    func getTalentImages(talentId: String, successBlock: (talentImages: [TalentImage]?) -> Void)
+    func getTalentDetails(talentId: String, successBlock: (biography: String?, socialAccounts: [TalentSocialAccount]?, films: [TalentFilm]) -> Void)
 }
