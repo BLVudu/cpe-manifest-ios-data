@@ -15,6 +15,8 @@ class NGEBackgroundVideoType : NSObject{
     
     var PlayableSequenceID: String!
     
+    var LoopTimecode: NGETimecodeType?
+    
     func readAttributes(reader: xmlTextReaderPtr) {
         
     }
@@ -30,7 +32,7 @@ class NGEBackgroundVideoType : NSObject{
         var _currentXmlDept = xmlTextReaderDepth(reader)
         
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
-            
+            var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
                 let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
                 let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
@@ -73,6 +75,11 @@ class NGEBackgroundVideoType : NSObject{
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
                     
+                } else if("LoopTimecode" == _currentElementName) {
+                    
+                    self.LoopTimecode = NGETimecodeType(reader: reader)
+                    handledInChild = true
+                    
                 } else   if(true) {
                     print("Ignoring unexpected in NGEBackgroundVideoType: \(_currentElementName)")
                     if superclass != NSObject.self {
@@ -80,7 +87,7 @@ class NGEBackgroundVideoType : NSObject{
                     }
                 }
             }
-            _readerOk = xmlTextReaderRead(reader)
+            _readerOk = handledInChild ? xmlTextReaderReadState(reader) : xmlTextReaderRead(reader)
             _currentNodeType = xmlTextReaderNodeType(reader)
             _currentXmlDept = xmlTextReaderDepth(reader)
         }
@@ -106,6 +113,10 @@ class NGEBackgroundVideoType : NSObject{
             
             dict["PlayableSequenceID"] = self.PlayableSequenceID!
             
+        }
+        
+        if(self.LoopTimecode != nil) {
+            dict["LoopTimecode"] = self.LoopTimecode!
         }
         
         return dict
