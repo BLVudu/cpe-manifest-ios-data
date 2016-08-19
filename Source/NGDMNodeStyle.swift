@@ -28,9 +28,13 @@ public class NGDMNodeStyle {
     /// General theme (includes buttons)
     var theme: NGDMTheme!
     
+    /// Background image
+    public var backgroundImageURL: NSURL?
+    
     /// Background video
     var backgroundPresentation: NGDMPresentation?
     public var backgroundVideoLoops = false
+    public var backgroundVideoLoopTimecode = 0.0
     public var backgroundVideoURL: NSURL? {
         return backgroundPresentation?.videoURL
     }
@@ -52,8 +56,18 @@ public class NGDMNodeStyle {
         if let backgroundObj = manifestObject.Background {
             backgroundVideoLoops = backgroundObj.looping != nil && backgroundObj.looping!
             
-            if let id = backgroundObj.Video?.PresentationID {
-                backgroundPresentation = NGDMPresentation.getById(id)
+            if let backgroundVideoObj = backgroundObj.Video {
+                if let id = backgroundVideoObj.PresentationID {
+                    backgroundPresentation = NGDMPresentation.getById(id)
+                }
+                
+                if let timecodeString = backgroundVideoObj.LoopTimecode?.value {
+                    backgroundVideoLoopTimecode = Double(timecodeString) ?? 0.0
+                }
+            }
+            
+            if let backgroundImagePictureGroupId = backgroundObj.Image?.PictureGroupID {
+                backgroundImageURL = NGDMManifest.sharedInstance.pictureGroups[backgroundImagePictureGroupId]?.first?.imageURL
             }
             
             if let overlayObjList = backgroundObj.OverlayAreaList {
