@@ -28,6 +28,9 @@ public class NGDMNodeStyle {
     /// General theme (includes buttons)
     var theme: NGDMTheme!
     
+    /// Background color
+    public var backgroundColor = UIColor.blackColor()
+    
     /// Background image
     public var backgroundImageURL: NSURL?
     
@@ -55,6 +58,10 @@ public class NGDMNodeStyle {
         
         if let backgroundObj = manifestObject.Background {
             backgroundVideoLoops = backgroundObj.looping != nil && backgroundObj.looping!
+            
+            if let colorString = backgroundObj.Color {
+                backgroundColor = UIColor(hexString: colorString)
+            }
             
             if let backgroundVideoObj = backgroundObj.Video {
                 if let id = backgroundVideoObj.PresentationID {
