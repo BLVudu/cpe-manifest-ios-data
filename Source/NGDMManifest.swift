@@ -5,11 +5,12 @@
 import Foundation
 
 public enum NGDMError: ErrorType {
+    case ManifestMissing
+    case AppDataMissing
+    case CPEStyleMissing
     case MainExperienceMissing
     case InMovieExperienceMissing
     case OutOfMovieExperienceMissing
-    case AppDataMissing
-    case StyleMissing
 }
 
 public struct Namespaces {
@@ -238,13 +239,11 @@ public class NGDMManifest {
         - Returns: The full AppData object mapping
     */
     public func loadAppDataXMLFile(filePath: String) throws -> [String: NGDMAppData] {
-        guard let objList = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath)?.ManifestAppDataList else {
-            throw NGDMError.AppDataMissing
-        }
+        guard let appData = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath) else { throw NGDMError.AppDataMissing }
         
         var imageIds = [String]()
         var allAppData = [String: NGDMAppData]()
-        for obj in objList {
+        for obj in appData.ManifestAppDataList {
             let appData = NGDMAppData(manifestObject: obj)
             allAppData[appData.id] = appData
             
@@ -266,9 +265,7 @@ public class NGDMManifest {
     }
     
     public func loadCPEStyleXMLFile(filePath: String) throws {
-        guard let rootObj = NGECPEStyleSetType.NGECPEStyleSetTypeFromFile(filePath) else {
-            throw NGDMError.StyleMissing
-        }
+        guard let rootObj = NGECPEStyleSetType.NGECPEStyleSetTypeFromFile(filePath) else { throw NGDMError.CPEStyleMissing }
         
         var themes = [String: NGDMTheme]()
         
