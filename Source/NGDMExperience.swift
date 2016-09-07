@@ -75,6 +75,11 @@ public class NGDMExperience: Equatable {
             return imageURL
         }
         
+        // Break recursion if this is one of the main experiences
+        if NGDMManifest.sharedInstance.mainExperience == self || NGDMManifest.sharedInstance.outOfMovieExperience == self || NGDMManifest.sharedInstance.inMovieExperience == self {
+            return nil
+        }
+        
         if let imageURL = audioVisual?.imageURL {
             return imageURL
         }
