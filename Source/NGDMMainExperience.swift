@@ -28,6 +28,10 @@ public class NGDMMainExperience: NGDMExperience {
         return orderedActors?.count ?? 0 > 0
     }
     
+    public var interstitialVideoURL: NSURL? {
+        return audioVisual?.presentations?.first?.videoURL
+    }
+    
     // MARK: Helper Methods
     /**
         Find the value of any custom identifier associated with this Experience

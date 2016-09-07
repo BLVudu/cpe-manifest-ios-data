@@ -99,7 +99,7 @@ public class NGDMExperience: Equatable {
     
     /// Presentation associated with this Experience's AudioVisual, if it exists
     var presentation: NGDMPresentation? {
-        return audioVisual?.presentation
+        return audioVisual?.presentations?.last
     }
     
     /// Video URL to be used for video display, if it exists

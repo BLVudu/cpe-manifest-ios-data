@@ -47,6 +47,7 @@ public class NGDMManifest {
     var textGroups = [String: NGDMTextGroup]() // TextGroupID: TextGroup
     var appGroups = [String: NGDMAppGroup]() // AppGroupID: AppGroup
     var presentations = [String: NGDMPresentation]() // PresentationID: Presentation
+    var playableSequences = [String: NGDMPlayableSequence]() // PlayableSequenceID: PlayableSequence
     var audioVisuals = [String: NGDMAudioVisual]() // PresentationID: AudioVisual
     var galleries = [String: NGDMGallery]() // GalleryID: Gallery
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
@@ -161,6 +162,13 @@ public class NGDMManifest {
         for obj in manifest.Presentations.PresentationList {
             let presentation = NGDMPresentation(manifestObject: obj)
             presentations[presentation.id] = presentation
+        }
+        
+        if let objList = manifest.PlayableSequences?.PlayableSequenceList {
+            for obj in objList {
+                let playableSequence = NGDMPlayableSequence(manifestObject: obj)
+                playableSequences[playableSequence.id] = playableSequence
+            }
         }
         
         // IP1: Assumes the main experience is the first item in the ExperienceList

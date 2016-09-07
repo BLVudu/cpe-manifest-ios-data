@@ -28,14 +28,10 @@ public class APIUtil: NSObject, NSURLSessionDataDelegate {
     }
     
     public func getJSONWithPath(urlPath: String, parameters: [String: String], successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
-        return getJSONWithPath(urlPath + "?" + parameters.stringFromHTTPParameters(), successBlock: successBlock, errorBlock: errorBlock)
+        return getJSONWithRequest(requestWithURLPath(urlPath + "?" + parameters.stringFromHTTPParameters()), successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    public func getJSONWithPath(urlPath: String, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
-        return getJSONWithRequest(requestWithURLPath(urlPath), successBlock: successBlock, errorBlock: errorBlock)
-    }
-    
-    public func getJSONWithRequest(request: NSURLRequest, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
+    private func getJSONWithRequest(request: NSURLRequest, successBlock: APIUtilSuccessBlock?, errorBlock: APIUtilErrorBlock?) -> NSURLSessionDataTask {
         let sessionConfiguration = NSURLSessionConfiguration.defaultSessionConfiguration()
         sessionConfiguration.requestCachePolicy = NSURLRequestCachePolicy.ReturnCacheDataElseLoad
         sessionConfiguration.URLCache = NSURLCache(memoryCapacity: 0, diskCapacity: 1024 * 1024 * 64, diskPath: "com.wb.nextgen_api_cache") // 64Mb

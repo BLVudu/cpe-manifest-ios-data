@@ -44,13 +44,18 @@ public class NGDMTimedEvent: Equatable {
     
     /// Text value associated with this TimedEvent if it exists
     public var descriptionText: String? {
-        return gallery?.title ?? audioVisual?.metadata?.title ?? textItem ?? appData?.title
+        return gallery?.title ?? audioVisual?.descriptionText ?? textItem ?? appData?.title
     }
     
     /// Image to be used for display
     private var _imageURL: NSURL?
     public var imageURL: NSURL? {
         return _imageURL ?? gallery?.imageURL ?? audioVisual?.imageURL ?? experienceApp?.imageURL
+    }
+    
+    /// Video associated with this TimedEvent's AudioVisual/Presentation
+    public var videoURL: NSURL? {
+        return audioVisual?.presentations?.last?.videoURL
     }
     
     /// TimedEvent objects
