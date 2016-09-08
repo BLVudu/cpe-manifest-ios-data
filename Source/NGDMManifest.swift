@@ -290,7 +290,7 @@ public class NGDMManifest {
         
         for obj in rootObj.ExperienceStyleMapList {
             for nodeStyleRefObj in obj.NodeStyleRefList {
-                if var nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID] {
+                if let nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID] {
                     nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (nodeStyleRefObj.Orientation == .Landscape)
                     nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (nodeStyleRefObj.Orientation == .Portrait)
                     
