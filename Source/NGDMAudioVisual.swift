@@ -17,13 +17,25 @@ public class NGDMAudioVisual {
         return metadata?.imageURL
     }
     
-    /// Video URL to be used for display
-    public var videoURL: NSURL? {
-        return presentation?.videoURL
+    /// Description to be used for display
+    public var descriptionText: String? {
+        return metadata?.description ?? metadata?.title
     }
     
-    /// Presentation associated with this AudioVisual
-    var presentation: NGDMPresentation?
+    /// Presentations associated with this AudioVisual
+    private var playableSequence: NGDMPlayableSequence?
+    private var presentation: NGDMPresentation?
+    var presentations: [NGDMPresentation]? {
+        if let playableSequence = playableSequence {
+            return playableSequence.presentations
+        }
+
+        if let presentation = presentation {
+            return [presentation]
+        }
+
+        return nil
+    }
     
     // MARK: Initialization
     /**
@@ -33,11 +45,16 @@ public class NGDMAudioVisual {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEAudiovisualType) {
-        id = manifestObject.PresentationID
-        presentation = NGDMPresentation.getById(id)
+        id = manifestObject.PresentationID ?? manifestObject.PlayableSequenceID ?? manifestObject.ContentID ?? NSUUID().UUIDString
         
         if let id = manifestObject.ContentID {
             metadata = NGDMMetadata.getById(id)
+        }
+        
+        if let id = manifestObject.PlayableSequenceID {
+            playableSequence = NGDMPlayableSequence.getById(id)
+        } else if let id = manifestObject.PresentationID {
+            presentation = NGDMPresentation.getById(id)
         }
     }
     

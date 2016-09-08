@@ -23,6 +23,8 @@ public class NGDMExperience: Equatable {
     
     // MARK: Instance Variables
     /// Appearance object for background images, buttons, etc
+    var nodeStyles: [NGDMNodeStyle]?
+    
     public var appearance: NGDMAppearance?
     
     /// Unique identifier
@@ -73,6 +75,11 @@ public class NGDMExperience: Equatable {
             return imageURL
         }
         
+        // Break recursion if this is one of the main experiences
+        if NGDMManifest.sharedInstance.mainExperience == self || NGDMManifest.sharedInstance.outOfMovieExperience == self || NGDMManifest.sharedInstance.inMovieExperience == self {
+            return nil
+        }
+        
         if let imageURL = audioVisual?.imageURL {
             return imageURL
         }
@@ -97,7 +104,7 @@ public class NGDMExperience: Equatable {
     
     /// Presentation associated with this Experience's AudioVisual, if it exists
     var presentation: NGDMPresentation? {
-        return audioVisual?.presentation
+        return audioVisual?.presentations?.last
     }
     
     /// Video URL to be used for video display, if it exists
@@ -234,6 +241,35 @@ public class NGDMExperience: Equatable {
     */
     public func appDataMediaAtIndex(index: Int) -> NGDMExperience? {
         return appData?.mediaAtIndex(index)
+    }
+    
+    /**
+        Finds the NodeStyle matching the current orientation and device
+ 
+        - Parameters:
+            - interfaceOrientation: Current device orientation
+ 
+        - Returns: Current NodeStyle if it exists
+    */
+    public func getNodeStyle(interfaceOrientation: UIInterfaceOrientation) -> NGDMNodeStyle? {
+        let isTablet = (UIDevice.currentDevice().userInterfaceIdiom == .Pad)
+        let isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation)
+        
+        if let nodeStyles = nodeStyles {
+            for nodeStyle in nodeStyles {
+                if (isTablet && nodeStyle.supportsTablet) || (!isTablet && nodeStyle.supportsPhone) {
+                    if isLandscape && nodeStyle.supportsLandscape {
+                        return nodeStyle
+                    }
+                    
+                    if !isLandscape && nodeStyle.supportsPortrait {
+                        return nodeStyle
+                    }
+                }
+            }
+        }
+        
+        return nil
     }
     
     // MARK: Search Methods

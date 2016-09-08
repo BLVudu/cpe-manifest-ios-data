@@ -5,10 +5,12 @@
 import Foundation
 
 public enum NGDMError: ErrorType {
+    case ManifestMissing
+    case AppDataMissing
+    case CPEStyleMissing
     case MainExperienceMissing
     case InMovieExperienceMissing
     case OutOfMovieExperienceMissing
-    case AppDataMissing
 }
 
 public struct Namespaces {
@@ -45,12 +47,15 @@ public class NGDMManifest {
     var textGroups = [String: NGDMTextGroup]() // TextGroupID: TextGroup
     var appGroups = [String: NGDMAppGroup]() // AppGroupID: AppGroup
     var presentations = [String: NGDMPresentation]() // PresentationID: Presentation
+    var playableSequences = [String: NGDMPlayableSequence]() // PlayableSequenceID: PlayableSequence
     var audioVisuals = [String: NGDMAudioVisual]() // PresentationID: AudioVisual
     var galleries = [String: NGDMGallery]() // GalleryID: Gallery
     var experienceApps = [String: NGDMExperienceApp]() // AppID: ExperienceApp
     var experiences = [String: NGDMExperience]() // ExperienceID: Experience
     var timedEvents = [NGDMTimedEvent]()
     var imageCache = [String: UIImage]()
+    var nodeStyles = [String: NGDMNodeStyle]()
+    var themes = [String: NGDMTheme]()
     
     /// AppData mappings
     public var appData: [String: NGDMAppData]?
@@ -159,6 +164,13 @@ public class NGDMManifest {
             presentations[presentation.id] = presentation
         }
         
+        if let objList = manifest.PlayableSequences?.PlayableSequenceList {
+            for obj in objList {
+                let playableSequence = NGDMPlayableSequence(manifestObject: obj)
+                playableSequences[playableSequence.id] = playableSequence
+            }
+        }
+        
         // IP1: Assumes the main experience is the first item in the ExperienceList
         guard manifest.Experiences.ExperienceList.count > 0 else {
             throw NGDMError.MainExperienceMissing
@@ -168,6 +180,7 @@ public class NGDMManifest {
             if let experienceId = obj.ExperienceID where experiences[experienceId] == nil {
                 if mainExperience == nil {
                     mainExperience = NGDMMainExperience(manifestObject: obj)
+                    experiences[mainExperience!.id] = mainExperience
                 } else {
                     let experience = NGDMExperience(manifestObject: obj)
                     experiences[experience.id] = experience
@@ -234,13 +247,11 @@ public class NGDMManifest {
         - Returns: The full AppData object mapping
     */
     public func loadAppDataXMLFile(filePath: String) throws -> [String: NGDMAppData] {
-        guard let objList = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath)?.ManifestAppDataList else {
-            throw NGDMError.AppDataMissing
-        }
+        guard let appData = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath) else { throw NGDMError.AppDataMissing }
         
         var imageIds = [String]()
         var allAppData = [String: NGDMAppData]()
-        for obj in objList {
+        for obj in appData.ManifestAppDataList {
             let appData = NGDMAppData(manifestObject: obj)
             allAppData[appData.id] = appData
             
@@ -259,6 +270,51 @@ public class NGDMManifest {
         }
         
         return allAppData
+    }
+    
+    public func loadCPEStyleXMLFile(filePath: String) throws {
+        guard let rootObj = NGECPEStyleSetType.NGECPEStyleSetTypeFromFile(filePath) else { throw NGDMError.CPEStyleMissing }
+        
+        var themes = [String: NGDMTheme]()
+        
+        for obj in rootObj.ThemeList {
+            let theme = NGDMTheme(manifestObject: obj)
+            themes[theme.id] = theme
+        }
+        
+        for obj in rootObj.NodeStyleList {
+            let nodeStyle = NGDMNodeStyle(manifestObject: obj)
+            nodeStyle.theme = themes[obj.ThemeID]!
+            nodeStyles[nodeStyle.id] = nodeStyle
+        }
+        
+        for obj in rootObj.ExperienceStyleMapList {
+            for nodeStyleRefObj in obj.NodeStyleRefList {
+                if let nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID] {
+                    nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (nodeStyleRefObj.Orientation == .Landscape)
+                    nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (nodeStyleRefObj.Orientation == .Portrait)
+                    
+                    if let deviceTargetObjList = nodeStyleRefObj.DeviceTargetList {
+                        for deviceTargetObj in deviceTargetObjList {
+                            if deviceTargetObj.Class == DeviceTargetClass.Mobile.rawValue, let subClass = deviceTargetObj.SubClassList?.first {
+                                nodeStyle.supportsTablet = nodeStyle.supportsTablet || (subClass == DeviceTargetSubClass.Tablet.rawValue)
+                                nodeStyle.supportsPhone = nodeStyle.supportsPhone || (subClass == DeviceTargetSubClass.Phone.rawValue)
+                            }
+                        }
+                    }
+                    
+                    for id in obj.ExperienceIDList {
+                        if let experience = experiences[id] {
+                            if experience.nodeStyles == nil {
+                                experience.nodeStyles = [NGDMNodeStyle]()
+                            }
+                            
+                            experience.nodeStyles!.append(nodeStyle)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     /**

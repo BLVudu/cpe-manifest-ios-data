@@ -22,7 +22,7 @@ public class NGDMPeople: NSObject {
     
     // MARK: Instance Variables
     var id: String!
-    var apiId: String?
+    public var apiId: String?
     
     public var name: String?
     public var role: String?
@@ -32,6 +32,7 @@ public class NGDMPeople: NSObject {
     public var images: [TalentImage]?
     public var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
+    public var detailsLoaded = false
     
     public var thumbnailImageURL: NSURL? {
         return images?.first?.thumbnailImageURL
@@ -111,42 +112,19 @@ public class NGDMTalent: NGDMPeople {
         self.type = type
     }
     
-    public func getBiography(successBlock: (biography: String?) -> Void) {
-        if biography != nil {
-            successBlock(biography: biography)
+    public func getTalentDetails(successBlock: (biography: String?, socialAccounts: [TalentSocialAccount]?, films: [TalentFilm]?) -> Void) {
+        if detailsLoaded {
+            successBlock(biography: biography, socialAccounts: socialAccounts, films: films)
         } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
-            talentAPIUtil.getTalentBio(id, successBlock: { (biography) in
-                self.biography = biography
-                successBlock(biography: self.biography)
+            talentAPIUtil.getTalentDetails(id, successBlock: { [weak self] (biography, socialAccounts, films) in
+                if let strongSelf = self {
+                    strongSelf.biography = biography
+                    strongSelf.socialAccounts = socialAccounts
+                    strongSelf.films = films
+                    strongSelf.detailsLoaded = true
+                }
+                successBlock(biography: biography, socialAccounts: socialAccounts, films: films)
             })
-        } else {
-            successBlock(biography: nil)
-        }
-    }
-    
-    public func getSocialAccounts(successBlock: (socialAccounts: [TalentSocialAccount]?) -> Void) {
-        if socialAccounts != nil {
-            successBlock(socialAccounts: socialAccounts)
-        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
-            talentAPIUtil.getTalentSocialAccounts(id, successBlock: { (socialAccounts) in
-                self.socialAccounts = socialAccounts
-                successBlock(socialAccounts: socialAccounts)
-            })
-        } else {
-            successBlock(socialAccounts: nil)
-        }
-    }
-    
-    public func getFilmography(successBlock: (films: [TalentFilm]?) -> Void) {
-        if films != nil {
-            successBlock(films: films)
-        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
-            talentAPIUtil.getTalentFilmography(id, successBlock: { (films) in
-                self.films = films
-                successBlock(films: films)
-            })
-        } else {
-            successBlock(films: nil)
         }
     }
     
@@ -167,28 +145,12 @@ public struct TalentFilm {
     
     var id: String!
     public var title: String!
-    var imageURL: NSURL?
+    public var imageURL: NSURL?
     
-    public init(id: String, title: String) {
+    public init(id: String, title: String, imageURL: NSURL?) {
         self.id = id
         self.title = title
-    }
-    
-    mutating public func getImageURL(successBlock: (imageURL: NSURL?) -> Void) -> NSURLSessionDataTask?  {
-        if imageURL != nil {
-            successBlock(imageURL: imageURL!)
-            return nil
-        }
-        
-        if let talentAPIUtil = NGDMConfiguration.talentAPIUtil {
-            return talentAPIUtil.getFilmImageURL(id, successBlock: { (imageURL) in
-                self.imageURL = imageURL
-                successBlock(imageURL: imageURL)
-            })
-        }
-        
-        successBlock(imageURL: nil)
-        return nil
+        self.imageURL = imageURL
     }
     
 }
