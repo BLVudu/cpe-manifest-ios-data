@@ -13,6 +13,18 @@ public enum DeviceTargetSubClass: String {
     case Phone = "Phone"
 }
 
+public enum BackgroundScaleMethod: String {
+    case BestFit = "BestFit"
+    case Full = "Full"
+    case Tiled = "Tiled"
+}
+
+public enum BackgroundPositionMethod: String {
+    case UpperLeft = "upperleft"
+    case UpperRight = "upperright"
+    case Centered = "centered"
+}
+
 public class NGDMNodeStyle {
     
     // MARK: Instance Variables
@@ -28,8 +40,10 @@ public class NGDMNodeStyle {
     /// General theme (includes buttons)
     var theme: NGDMTheme!
     
-    /// Background color
+    /// Background properties
     public var backgroundColor = UIColor.blackColor()
+    public var backgroundScaleMethod = BackgroundScaleMethod.BestFit
+    public var backgroundPositionMethod = BackgroundPositionMethod.Centered
     
     /// Background image
     public var backgroundImageURL: NSURL?
@@ -61,6 +75,16 @@ public class NGDMNodeStyle {
             
             if let colorString = backgroundObj.Color {
                 backgroundColor = UIColor(hexString: colorString)
+            }
+            
+            if let backgroundAdaptationObj = backgroundObj.Adaptation {
+                if let rawString = backgroundAdaptationObj.ScaleMethod, scaleMethod = BackgroundScaleMethod(rawValue: rawString) {
+                    backgroundScaleMethod = scaleMethod
+                }
+                
+                if let rawString = backgroundAdaptationObj.PositioningMethod, positionMethod = BackgroundPositionMethod(rawValue: rawString) {
+                    backgroundPositionMethod = positionMethod
+                }
             }
             
             if let backgroundVideoObj = backgroundObj.Video {
