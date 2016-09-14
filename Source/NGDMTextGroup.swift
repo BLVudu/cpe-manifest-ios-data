@@ -38,7 +38,7 @@ class NGDMTextGroup {
     
         - Returns: Value of the child TextString at the given `index` if it exists
     */
-    func textItem(index: Int) -> String? {
+    func textItem(_ index: Int) -> String? {
         return textObject?.textItem(index)
     }
     
@@ -51,7 +51,7 @@ class NGDMTextGroup {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMTextGroup? {
+    static func getById(_ id: String) -> NGDMTextGroup? {
         return NGDMManifest.sharedInstance.textGroups[id]
     }
     

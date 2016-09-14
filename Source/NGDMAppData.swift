@@ -5,9 +5,9 @@
 import Foundation
 
 // Wrapper class for `NGEExperienceAppType` Manifest object
-public class NGDMAppData {
+open class NGDMAppData {
     
-    private struct NVPairName {
+    fileprivate struct NVPairName {
         static let AppType = "type"
         static let Location = "location"
         static let Text = "text"
@@ -25,23 +25,23 @@ public class NGDMAppData {
     var id: String!
     
     /// Metadata
-    public var title: String? {
+    open var title: String? {
         return experience?.title
     }
     
-    public var thumbnailImageURL: NSURL? {
-        return experience?.imageURL
+    open var thumbnailImageURL: URL? {
+        return experience?.imageURL as URL?
     }
     
-    public var description: String? {
+    open var description: String? {
         return experience?.description
     }
     
     /// Media
     var experience: NGDMExperience?
-    public var location: NGDMLocation?
-    public var zoomLevel: Float = 0
-    public var mediaCount: Int {
+    open var location: NGDMLocation?
+    open var zoomLevel: Float = 0
+    open var mediaCount: Int {
         return experience?.childExperiences?.count ?? 0
     }
     
@@ -97,8 +97,8 @@ public class NGDMAppData {
      
         - Returns: Associated Experience if it exists
      */
-    public func mediaAtIndex(index: Int) -> NGDMExperience? {
-        if let experiences = experience?.childExperiences where index < mediaCount {
+    open func mediaAtIndex(_ index: Int) -> NGDMExperience? {
+        if let experiences = experience?.childExperiences , index < mediaCount {
             return experiences[index]
         }
         

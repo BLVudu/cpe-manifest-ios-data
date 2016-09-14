@@ -8,15 +8,16 @@ import libxml
 
 extension NGEMediaManifestType {
     class func NGEMediaManifestTypeFromURL(url:NSURL) -> NGEMediaManifestType? {
-        let s = (url.absoluteString as NSString).UTF8String
-        let reader = xmlReaderForFile( s, nil, 0/*options*/)
-        
-        if(reader != nil) {
-            let ret = xmlTextReaderRead(reader)
-            if(ret == 1/*XML_READER_TYPE_ELEMENT*/) {
-                return NGEMediaManifestType(reader: reader)
+        if let s = (url.absoluteString as? NSString)?.utf8String {
+            let reader = xmlReaderForFile( s, nil, 0/*options*/)
+            
+            if let reader = reader {
+                let ret = xmlTextReaderRead(reader)
+                if(ret == 1/*XML_READER_TYPE_ELEMENT*/) {
+                    return NGEMediaManifestType(reader)
+                }
+                xmlFreeTextReader(reader)
             }
-            xmlFreeTextReader(reader)
         }
         
         return nil
@@ -24,20 +25,21 @@ extension NGEMediaManifestType {
     
     class func NGEMediaManifestTypeFromFile(path:String) -> NGEMediaManifestType? {
         let url = NSURL(fileURLWithPath:path)
-        return self.NGEMediaManifestTypeFromURL(url)
+        return self.NGEMediaManifestTypeFromURL(url: url)
     }
     
     class func NGEMediaManifestTypeFromData(data:NSData) -> NGEMediaManifestType? {
-        let bytes = UnsafePointer<Int8>(data.bytes)
-        let length = Int32(data.length)
-        let reader = xmlReaderForMemory(bytes, length, nil, nil, 0/*options*/)
-        
-        if(reader != nil) {
-            let ret = xmlTextReaderRead(reader)
-            if(ret > 0) {
-                return NGEMediaManifestType(reader: reader)
+        if let bytes = data.bytes as? UnsafePointer<Int8> {
+            let length = Int32(data.length)
+            let reader = xmlReaderForMemory(bytes, length, nil, nil, 0/*options*/)
+            
+            if let reader = reader {
+                let ret = xmlTextReaderRead(reader)
+                if(ret > 0) {
+                    return NGEMediaManifestType(reader)
+                }
+                xmlFreeTextReader(reader)
             }
-            xmlFreeTextReader(reader)
         }
         
         return nil

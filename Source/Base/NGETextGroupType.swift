@@ -9,31 +9,27 @@ import libxml
 @objc
 class NGETextGroupType : NSObject{
     
-    var TextGroupID: String!
+    var `TextGroupID`: String!
     
-    var language: String?
+    var `language`: String?
     
-    var TextObjectIDList: [String]!
+    var `TextObjectIDList`: [String]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let TextGroupIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "TextGroupID").UTF8String)
-        let TextGroupIDAttrValue = xmlTextReaderGetAttribute(reader, TextGroupIDAttrName)
-        if(TextGroupIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "TextGroupID") {
             
-            self.TextGroupID = String.fromCString(UnsafePointer<CChar>(TextGroupIDAttrValue))
-            xmlFree(TextGroupIDAttrValue)
+            self.TextGroupID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let languageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "language").UTF8String)
-        let languageAttrValue = xmlTextReaderGetAttribute(reader, languageAttrName)
-        if(languageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "language") {
             
-            self.language = String.fromCString(UnsafePointer<CChar>(languageAttrValue))
-            xmlFree(languageAttrValue)
+            self.language = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -48,24 +44,24 @@ class NGETextGroupType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("TextObjectID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TextObjectIDElementValue = xmlTextReaderConstValue(reader)
-                    if TextObjectIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("TextObjectID" == _currentElementName) {
                         
-                        TextObjectIDListArray.append(String.fromCString(UnsafePointer<CChar>(TextObjectIDElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGETextGroupType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            TextObjectIDListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGETextGroupType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

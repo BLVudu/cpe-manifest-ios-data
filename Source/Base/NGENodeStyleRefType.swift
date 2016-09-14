@@ -9,34 +9,31 @@ import libxml
 @objc
 class NGENodeStyleRefType : NSObject{
     
-    var NodeStyleID: String!
+    var `NodeStyleID`: String!
     
-    var Orientation: NGEOrientationEnum?
+    var `Orientation`: NGEOrientationEnum?
     
-    var WidthPixelsMax: Int?
+    var `WidthPixelsMax`: Int?
     
-    var DeviceTargetList: [NGECompatibilityDeviceType]?
+    var `DeviceTargetList`: [NGECompatibilityDeviceType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let NodeStyleIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "NodeStyleID").UTF8String)
-        let NodeStyleIDAttrValue = xmlTextReaderGetAttribute(reader, NodeStyleIDAttrName)
-        if(NodeStyleIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "NodeStyleID") {
             
-            self.NodeStyleID = String.fromCString(UnsafePointer<CChar>(NodeStyleIDAttrValue))
-            xmlFree(NodeStyleIDAttrValue)
+            self.NodeStyleID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -49,43 +46,42 @@ class NGENodeStyleRefType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Orientation" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let OrientationElementValue = xmlTextReaderConstValue(reader)
-                    if OrientationElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Orientation" == _currentElementName) {
                         
-                        self.Orientation = NGEOrientationEnum.fromString(String.fromCString(UnsafePointer<CChar>(OrientationElementValue)))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Orientation = NGEOrientationEnum.fromString(enumString: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("WidthPixelsMax" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WidthPixelsMaxElementValue = xmlTextReaderConstValue(reader)
-                    if WidthPixelsMaxElementValue != nil {
+                    } else if("WidthPixelsMax" == _currentElementName) {
                         
-                        self.WidthPixelsMax = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(WidthPixelsMaxElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WidthPixelsMax = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("DeviceTarget" == _currentElementName) {
-                    
-                    DeviceTargetListArray.append(NGECompatibilityDeviceType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGENodeStyleRefType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("DeviceTarget" == _currentElementName) {
+                        
+                        DeviceTargetListArray.append(NGECompatibilityDeviceType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGENodeStyleRefType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,15 +9,15 @@ import libxml
 @objc
 class NGECompatibilityDeviceType : NSObject{
     
-    var Class: String!
+    var `Class`: String!
     
-    var SubClassList: [String]?
+    var `SubClassList`: [String]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -32,37 +32,36 @@ class NGECompatibilityDeviceType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Class" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ClassElementValue = xmlTextReaderConstValue(reader)
-                    if ClassElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Class" == _currentElementName) {
                         
-                        self.Class = String.fromCString(UnsafePointer<CChar>(ClassElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Class = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SubClass" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SubClassElementValue = xmlTextReaderConstValue(reader)
-                    if SubClassElementValue != nil {
+                    } else if("SubClass" == _currentElementName) {
                         
-                        SubClassListArray.append(String.fromCString(UnsafePointer<CChar>(SubClassElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECompatibilityDeviceType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            SubClassListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECompatibilityDeviceType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

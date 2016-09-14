@@ -9,19 +9,19 @@ import libxml
 @objc
 class NGEBasicMetadataPeopleType : NSObject{
     
-    var JobList: [NGEBasicMetadataJobType]!
+    var `JobList`: [NGEBasicMetadataJobType]!
     
-    var Name: NGEPersonNameType!
+    var `Name`: NGEPersonNameType!
     
-    var IdentifierList: [NGEPersonIdentifierType]?
+    var `IdentifierList`: [NGEPersonIdentifierType]?
     
-    var Gender: NGEGenderEnum?
+    var `Gender`: NGEGenderEnum?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -38,40 +38,40 @@ class NGEBasicMetadataPeopleType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Job" == _currentElementName) {
-                    
-                    JobListArray.append(NGEBasicMetadataJobType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Name" == _currentElementName) {
-                    
-                    self.Name = NGEPersonNameType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Identifier" == _currentElementName) {
-                    
-                    IdentifierListArray.append(NGEPersonIdentifierType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Gender" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let GenderElementValue = xmlTextReaderConstValue(reader)
-                    if GenderElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Job" == _currentElementName) {
                         
-                        self.Gender = NGEGenderEnum.fromString(String.fromCString(UnsafePointer<CChar>(GenderElementValue)))
+                        JobListArray.append(NGEBasicMetadataJobType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEBasicMetadataPeopleType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Name" == _currentElementName) {
+                        
+                        self.Name = NGEPersonNameType(reader)
+                        handledInChild = true
+                        
+                    } else if("Identifier" == _currentElementName) {
+                        
+                        IdentifierListArray.append(NGEPersonIdentifierType(reader))
+                        handledInChild = true
+                        
+                    } else if("Gender" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Gender = NGEGenderEnum.fromString(enumString: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEBasicMetadataPeopleType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

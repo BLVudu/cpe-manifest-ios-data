@@ -9,50 +9,43 @@ import libxml
 @objc
 class NGEImageClipRefType : NSObject{
     
-    var sequence: Int?
+    var `sequence`: Int?
     
-    var seamless: Bool?
+    var `seamless`: Bool?
     
-    var audioLanguage: String?
+    var `audioLanguage`: String?
     
-    var ImageID: String!
+    var `ImageID`: String!
     
-    var Duration: String!
+    var `Duration`: String!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let sequenceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "sequence").UTF8String)
-        let sequenceAttrValue = xmlTextReaderGetAttribute(reader, sequenceAttrName)
-        if(sequenceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "sequence") {
             
-            self.sequence = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(sequenceAttrValue))!)!.integerValue
-            xmlFree(sequenceAttrValue)
+            self.sequence = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
-        let seamlessAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "seamless").UTF8String)
-        let seamlessAttrValue = xmlTextReaderGetAttribute(reader, seamlessAttrName)
-        if(seamlessAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "seamless") {
             
-            self.seamless = (String.fromCString(UnsafePointer<CChar>(seamlessAttrValue)) == "true")
-            xmlFree(seamlessAttrValue)
+            self.seamless = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
-        let audioLanguageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "audioLanguage").UTF8String)
-        let audioLanguageAttrValue = xmlTextReaderGetAttribute(reader, audioLanguageAttrName)
-        if(audioLanguageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "audioLanguage") {
             
-            self.audioLanguage = String.fromCString(UnsafePointer<CChar>(audioLanguageAttrValue))
-            xmlFree(audioLanguageAttrValue)
+            self.audioLanguage = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -63,38 +56,37 @@ class NGEImageClipRefType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ImageID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ImageIDElementValue = xmlTextReaderConstValue(reader)
-                    if ImageIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ImageID" == _currentElementName) {
                         
-                        self.ImageID = String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ImageID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Duration" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DurationElementValue = xmlTextReaderConstValue(reader)
-                    if DurationElementValue != nil {
+                    } else if("Duration" == _currentElementName) {
                         
-                        self.Duration = String.fromCString(UnsafePointer<CChar>(DurationElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Duration = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEImageClipRefType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEImageClipRefType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

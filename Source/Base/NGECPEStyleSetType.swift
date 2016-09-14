@@ -9,52 +9,46 @@ import libxml
 @objc
 class NGECPEStyleSetType : NSObject{
     
-    var CPEStyleSetID: String?
+    var `CPEStyleSetID`: String?
     
-    var updateNum: Int?
+    var `updateNum`: Int?
     
-    var specVersion: String?
+    var `specVersion`: String?
     
-    var ExperienceStyleMapList: [NGEExperienceMenuMapType]!
+    var `ExperienceStyleMapList`: [NGEExperienceMenuMapType]!
     
-    var NodeStyleList: [NGENodeStyleType]!
+    var `NodeStyleList`: [NGENodeStyleType]!
     
-    var ThemeList: [NGEThemeType]!
+    var `ThemeList`: [NGEThemeType]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let CPEStyleSetIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "CPEStyleSetID").UTF8String)
-        let CPEStyleSetIDAttrValue = xmlTextReaderGetAttribute(reader, CPEStyleSetIDAttrName)
-        if(CPEStyleSetIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "CPEStyleSetID") {
             
-            self.CPEStyleSetID = String.fromCString(UnsafePointer<CChar>(CPEStyleSetIDAttrValue))
-            xmlFree(CPEStyleSetIDAttrValue)
+            self.CPEStyleSetID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let updateNumAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateNum").UTF8String)
-        let updateNumAttrValue = xmlTextReaderGetAttribute(reader, updateNumAttrName)
-        if(updateNumAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "updateNum") {
             
-            self.updateNum = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(updateNumAttrValue))!)!.integerValue
-            xmlFree(updateNumAttrValue)
+            self.updateNum = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
-        let specVersionAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "specVersion").UTF8String)
-        let specVersionAttrValue = xmlTextReaderGetAttribute(reader, specVersionAttrName)
-        if(specVersionAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "specVersion") {
             
-            self.specVersion = String.fromCString(UnsafePointer<CChar>(specVersionAttrValue))
-            xmlFree(specVersionAttrValue)
+            self.specVersion = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -69,27 +63,28 @@ class NGECPEStyleSetType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ExperienceStyleMap" == _currentElementName) {
-                    
-                    ExperienceStyleMapListArray.append(NGEExperienceMenuMapType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("NodeStyle" == _currentElementName) {
-                    
-                    NodeStyleListArray.append(NGENodeStyleType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Theme" == _currentElementName) {
-                    
-                    ThemeListArray.append(NGEThemeType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECPEStyleSetType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ExperienceStyleMap" == _currentElementName) {
+                        
+                        ExperienceStyleMapListArray.append(NGEExperienceMenuMapType(reader))
+                        handledInChild = true
+                        
+                    } else if("NodeStyle" == _currentElementName) {
+                        
+                        NodeStyleListArray.append(NGENodeStyleType(reader))
+                        handledInChild = true
+                        
+                    } else if("Theme" == _currentElementName) {
+                        
+                        ThemeListArray.append(NGEThemeType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECPEStyleSetType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

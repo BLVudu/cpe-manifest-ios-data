@@ -6,15 +6,15 @@ import Foundation
 import UIKit
 
 public enum NGDMAppearanceType {
-    case Main
-    case InMovie
-    case OutOfMovie
+    case main
+    case inMovie
+    case outOfMovie
 }
 
 //Wrapper class for app appreance: animated background, buttons, background image, etc
-public class NGDMAppearance {
+open class NGDMAppearance {
     
-    private struct NGDMAppearanceTitle {
+    fileprivate struct NGDMAppearanceTitle {
         static let ManOfSteel = "md:experiencedid:eidr-x:C80F-C561-EE65-C5E4-C039-U:feature"
         static let BvS = "md:experiencedid:eidr-x:B257-8696-871C-A12B-B8C1-S:feature"
         static let Minions = "md:experiencedid:eidr-x:F1F8-3CDA-0844-0D78-E520-Q:main.1"
@@ -22,54 +22,54 @@ public class NGDMAppearance {
         static let SistersUnrated = "md:experiencedid:eidr-x:D2E8-4520-9446-BFAD-B106-4:main.1"
     }
     
-    private var type = NGDMAppearanceType.Main
+    fileprivate var type = NGDMAppearanceType.main
     
-    public var backgroundImageURL: NSURL? {
+    open var backgroundImageURL: URL? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                if type == .InMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_IME_bg.jpg")
+                if type == .inMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_IME_bg.jpg")
                 }
                 
-                if type == .OutOfMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_bg_notitle.jpg")
+                if type == .outOfMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_bg_notitle.jpg")
                 }
             }
             
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
-                if type == .InMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_IME_bg.jpg")
+                if type == .inMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_IME_bg.jpg")
                 }
                 
-                if type == .OutOfMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/backgrounds/BVS_EXTRAS_BG.jpg")
+                if type == .outOfMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/backgrounds/BVS_EXTRAS_BG.jpg")
                 }
             }
             
             // FIXME: This appears to be the way Comcast defines background images
-            if type == .Main {
-                return NGDMManifest.sharedInstance.outOfMovieExperience?.metadata?.imageURL
+            if type == .main {
+                return NGDMManifest.sharedInstance.outOfMovieExperience?.metadata?.imageURL as URL?
             }
             
             return nil
         }
     }
     
-    public var backgroundVideoURL: NSURL? {
+    open var backgroundVideoURL: URL? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_INTRO_BG.mp4")
+                return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_INTRO_BG.mp4")
             }
             
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
-                return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/backgrounds/BVS_INTRO_BG.mp4")
+                return URL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/backgrounds/BVS_INTRO_BG.mp4")
             }
             
             return nil
         }
     }
     
-    public var backgroundVideoFadeTime: Double {
+    open var backgroundVideoFadeTime: Double {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
                 return 8.5
@@ -83,21 +83,21 @@ public class NGDMAppearance {
         }
     }
     
-    public var backgroundVideoLoopTime: Double {
+    open var backgroundVideoLoopTime: Double {
         get {
             return 14
         }
     }
     
-    public var titleImageURL: NSURL? {
+    open var titleImageURL: URL? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                if type == .Main {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_title_treatment.png")
+                if type == .main {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_title_treatment.png")
                 }
                 
-                if type == .OutOfMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_title.png")
+                if type == .outOfMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/backgrounds/MOS_Extras_title.png")
                 }
             }
             
@@ -106,19 +106,19 @@ public class NGDMAppearance {
             }
             
             // FIXME: This appears to be the way Comcast defines title treatment
-            if type == .Main {
-                return NGDMManifest.sharedInstance.inMovieExperience?.metadata?.imageURL
+            if type == .main {
+                return NGDMManifest.sharedInstance.inMovieExperience?.metadata?.imageURL as URL?
             }
             
             return nil
         }
     }
     
-    public var titleImageCenterOffset: CGPoint? {
+    open var titleImageCenterOffset: CGPoint? {
         get {
-            if type == .Main {
+            if type == .main {
                 if NGDMManifest.sharedInstance.mainExperience?.id != NGDMAppearanceTitle.ManOfSteel {
-                    return CGPointMake(0.5, 0.08)
+                    return CGPoint(x: 0.5, y: 0.08)
                 }
             }
             
@@ -126,11 +126,11 @@ public class NGDMAppearance {
         }
     }
     
-    public var titleImageSizeOffset: CGSize? {
+    open var titleImageSizeOffset: CGSize? {
         get {
-            if type == .Main {
+            if type == .main {
                 if NGDMManifest.sharedInstance.mainExperience?.id != NGDMAppearanceTitle.ManOfSteel {
-                    return CGSizeMake(0.36, 0.16)
+                    return CGSize(width: 0.36, height: 0.16)
                 }
             }
             
@@ -138,25 +138,25 @@ public class NGDMAppearance {
         }
     }
     
-    public var buttonImageURL: NSURL? {
+    open var buttonImageURL: URL? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                if type == .InMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/buttons/MOS_Play_button.png")
+                if type == .inMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/buttons/MOS_Play_button.png")
                 }
                 
-                if type == .OutOfMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/buttons/MOS_Extras_button.png")
+                if type == .outOfMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/staging/Manifest/MOS/artwork/buttons/MOS_Extras_button.png")
                 }
             }
             
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
-                if type == .InMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/buttons/BVS_BTN_PLAYMOVIE.png")
+                if type == .inMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/buttons/BVS_BTN_PLAYMOVIE.png")
                 }
                 
-                if type == .OutOfMovie {
-                    return NSURL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/buttons/BVS_BTN_EXTRAS.png")
+                if type == .outOfMovie {
+                    return URL(string: "http://wb-extras.warnerbros.com/extrasplus/prod/Manifest/BatmanvSuperman/artwork/buttons/BVS_BTN_EXTRAS.png")
                 }
             }
             
@@ -164,68 +164,68 @@ public class NGDMAppearance {
         }
     }
     
-    public var buttonCenterOffset: CGPoint? {
+    open var buttonCenterOffset: CGPoint? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                if type == .InMovie {
-                    return CGPointMake(0.29, 0.46)
+                if type == .inMovie {
+                    return CGPoint(x: 0.29, y: 0.46)
                 }
                 
-                if type == .OutOfMovie {
-                    return CGPointMake(0.29, 0.56)
+                if type == .outOfMovie {
+                    return CGPoint(x: 0.29, y: 0.56)
                 }
             }
             
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
-                if type == .InMovie {
-                    return CGPointMake(260 / 1024, 515 / 768)
+                if type == .inMovie {
+                    return CGPoint(x: 260 / 1024, y: 515 / 768)
                 }
                 
-                if type == .OutOfMovie {
-                    return CGPointMake(260 / 1024, 570 / 768)
+                if type == .outOfMovie {
+                    return CGPoint(x: 260 / 1024, y: 570 / 768)
                 }
             }
             
-            if type == .InMovie {
-                return CGPointMake(0.5, 0.2)
+            if type == .inMovie {
+                return CGPoint(x: 0.5, y: 0.2)
             }
             
-            if type == .OutOfMovie {
-                return CGPointMake(0.5, 0.28)
+            if type == .outOfMovie {
+                return CGPoint(x: 0.5, y: 0.28)
             }
             
             return nil
         }
     }
     
-    public var buttonSizeOffset: CGSize? {
+    open var buttonSizeOffset: CGSize? {
         get {
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.ManOfSteel {
-                if type == .InMovie {
-                    return CGSizeMake(0.36, 0.13)
+                if type == .inMovie {
+                    return CGSize(width: 0.36, height: 0.13)
                 }
                 
-                if type == .OutOfMovie {
-                    return CGSizeMake(0.2, 0.1)
+                if type == .outOfMovie {
+                    return CGSize(width: 0.2, height: 0.1)
                 }
             }
             
             if NGDMManifest.sharedInstance.mainExperience?.id == NGDMAppearanceTitle.BvS {
-                if type == .InMovie {
-                    return CGSizeMake(274 / 1024, 58 / 768)
+                if type == .inMovie {
+                    return CGSize(width: 274 / 1024, height: 58 / 768)
                 }
                 
-                if type == .OutOfMovie {
-                    return CGSizeMake(174 / 1024, 48 / 768)
+                if type == .outOfMovie {
+                    return CGSize(width: 174 / 1024, height: 48 / 768)
                 }
             }
             
-            if type == .InMovie {
-                return CGSizeMake(0.36, 0.08)
+            if type == .inMovie {
+                return CGSize(width: 0.36, height: 0.08)
             }
             
-            if type == .OutOfMovie {
-                return CGSizeMake(0.2, 0.06)
+            if type == .outOfMovie {
+                return CGSize(width: 0.2, height: 0.06)
             }
             
             return nil

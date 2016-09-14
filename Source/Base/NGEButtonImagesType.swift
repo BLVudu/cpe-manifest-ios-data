@@ -9,17 +9,17 @@ import libxml
 @objc
 class NGEButtonImagesType : NSObject{
     
-    var BaseImage: String!
+    var `BaseImage`: String!
     
-    var HighlightImage: String!
+    var `HighlightImage`: String!
     
-    var DefocusImage: String!
+    var `DefocusImage`: String!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -32,51 +32,49 @@ class NGEButtonImagesType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("BaseImage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let BaseImageElementValue = xmlTextReaderConstValue(reader)
-                    if BaseImageElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("BaseImage" == _currentElementName) {
                         
-                        self.BaseImage = String.fromCString(UnsafePointer<CChar>(BaseImageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.BaseImage = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("HighlightImage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let HighlightImageElementValue = xmlTextReaderConstValue(reader)
-                    if HighlightImageElementValue != nil {
+                    } else if("HighlightImage" == _currentElementName) {
                         
-                        self.HighlightImage = String.fromCString(UnsafePointer<CChar>(HighlightImageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.HighlightImage = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("DefocusImage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DefocusImageElementValue = xmlTextReaderConstValue(reader)
-                    if DefocusImageElementValue != nil {
+                    } else if("DefocusImage" == _currentElementName) {
                         
-                        self.DefocusImage = String.fromCString(UnsafePointer<CChar>(DefocusImageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.DefocusImage = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEButtonImagesType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEButtonImagesType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

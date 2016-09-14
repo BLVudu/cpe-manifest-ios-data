@@ -5,26 +5,26 @@
 import Foundation
 
 // Wrapper class for `NGEPictureType` Manifest object
-public class NGDMPicture {
+open class NGDMPicture {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// Image URL to be used for full display
-    public var imageURL: NSURL?
+    open var imageURL: URL?
     
     /// Image URL to be used for thumbnail display
-    var thumbnailImageURL: NSURL?
+    var thumbnailImageURL: URL?
     
     /// Caption associated with this image
-    private var captions: [String: String]? // Language: Caption
-    public var caption: String? {
-        if let caption = captions?[NSLocale.deviceLanguage()] {
+    fileprivate var captions: [String: String]? // Language: Caption
+    open var caption: String? {
+        if let caption = captions?[Locale.deviceLanguage()] {
             return caption
         }
         
-        return captions?[NSLocale.deviceLanguageBackup()]
+        return captions?[Locale.deviceLanguageBackup()]
     }
     
     // MARK: Initialization
@@ -48,7 +48,7 @@ public class NGDMPicture {
         captions = [String: String]()
         if let objList = manifestObject.CaptionList {
             for obj in objList {
-                let language = obj.language ?? NSLocale.deviceLanguage()
+                let language = obj.language ?? Locale.deviceLanguage()
                 if let value = obj.value {
                     captions![language] = value
                 }
@@ -62,8 +62,8 @@ public class NGDMPicture {
         - Parameters:
             - imageURL: Image URL to be used for full display
      */
-    public init(imageURL: NSURL) {
-        id = NSUUID().UUIDString
+    public init(imageURL: URL) {
+        id = UUID().uuidString
         self.imageURL = imageURL
     }
     
@@ -76,7 +76,7 @@ public class NGDMPicture {
      
         - Returns: Object associated with identifier if it exists
      */
-    static func getById(id: String) -> NGDMPicture? {
+    static func getById(_ id: String) -> NGDMPicture? {
         return NGDMManifest.sharedInstance.pictures[id]
     }
     

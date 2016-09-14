@@ -9,13 +9,13 @@ import libxml
 @objc
 class NGEPictureGroupListType : NSObject{
     
-    var PictureGroupList: [NGEPictureGroupType]!
+    var `PictureGroupList`: [NGEPictureGroupType]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -30,17 +30,18 @@ class NGEPictureGroupListType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("PictureGroup" == _currentElementName) {
-                    
-                    PictureGroupListArray.append(NGEPictureGroupType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEPictureGroupListType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("PictureGroup" == _currentElementName) {
+                        
+                        PictureGroupListArray.append(NGEPictureGroupType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEPictureGroupListType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

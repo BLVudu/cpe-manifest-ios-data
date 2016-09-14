@@ -5,16 +5,16 @@
 import Foundation
 
 public enum TimedEventType {
-    case Any
-    case AppData
-    case AppGroup
-    case AudioVisual
-    case ClipShare
-    case Gallery
-    case Location
-    case Product
-    case Talent
-    case TextItem
+    case any
+    case appData
+    case appGroup
+    case audioVisual
+    case clipShare
+    case gallery
+    case location
+    case product
+    case talent
+    case textItem
 }
 
 public func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
@@ -22,15 +22,15 @@ public func ==(lhs: NGDMTimedEvent, rhs: NGDMTimedEvent) -> Bool {
 }
 
 // Wrapper class for `NGETimedEventType` Manifest object
-public class NGDMTimedEvent: Equatable {
+open class NGDMTimedEvent: Equatable {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String = ""
     
     /// Position in full TimedEvent list
-    public var sortedIndex: Int {
-        if let index = NGDMManifest.sharedInstance.timedEvents.indexOf(self) {
+    open var sortedIndex: Int {
+        if let index = NGDMManifest.sharedInstance.timedEvents.index(of: self) {
             return Int(index)
         }
         
@@ -38,37 +38,37 @@ public class NGDMTimedEvent: Equatable {
     }
     
     /// Timecodes
-    public var startTime: Double = -1
-    public var endTime: Double = -1
+    open var startTime: Double = -1
+    open var endTime: Double = -1
     
     
     /// Text value associated with this TimedEvent if it exists
-    public var descriptionText: String? {
+    open var descriptionText: String? {
         return gallery?.title ?? audioVisual?.descriptionText ?? textItem ?? appData?.title
     }
     
     /// Image to be used for display
-    private var _imageURL: NSURL?
-    public var imageURL: NSURL? {
+    fileprivate var _imageURL: URL?
+    open var imageURL: URL? {
         return _imageURL ?? gallery?.imageURL ?? audioVisual?.imageURL ?? experienceApp?.imageURL
     }
     
     /// Video associated with this TimedEvent's AudioVisual/Presentation
-    public var videoURL: NSURL? {
+    open var videoURL: URL? {
         return audioVisual?.presentations?.last?.videoURL
     }
     
     /// TimedEvent objects
     var textItem: String?
-    public var experience: NGDMExperience?
-    public var appGroup: NGDMAppGroup?
-    public var gallery: NGDMGallery?
-    public var audioVisual: NGDMAudioVisual?
-    public var experienceApp: NGDMExperienceApp?
+    open var experience: NGDMExperience?
+    open var appGroup: NGDMAppGroup?
+    open var gallery: NGDMGallery?
+    open var audioVisual: NGDMAudioVisual?
+    open var experienceApp: NGDMExperienceApp?
     var productNamespace: String?
     
-    private var _talentId: String?
-    public var talent: NGDMTalent? {
+    fileprivate var _talentId: String?
+    open var talent: NGDMTalent? {
         if let id = _talentId {
             return NGDMManifest.sharedInstance.mainExperience?.talents?[id]
         }
@@ -76,8 +76,8 @@ public class NGDMTimedEvent: Equatable {
         return nil
     }
     
-    private var _appDataId: String?
-    public var appData: NGDMAppData? {
+    fileprivate var _appDataId: String?
+    open var appData: NGDMAppData? {
         if let id = _appDataId {
             return NGDMManifest.sharedInstance.appData?[id]
         }
@@ -108,7 +108,7 @@ public class NGDMTimedEvent: Equatable {
         }
         
         // TimedEvent objects
-        if let textGroupId = manifestObject.TextGroupIDList?.first, textGroupIndex = textGroupId.index, textGroup = NGDMTextGroup.getById(textGroupId.value!) {
+        if let textGroupId = manifestObject.TextGroupIDList?.first, let textGroupIndex = textGroupId.index, let textGroup = NGDMTextGroup.getById(textGroupId.value!) {
             textItem = textGroup.textItem(textGroupIndex)
         }
         
@@ -130,11 +130,11 @@ public class NGDMTimedEvent: Equatable {
         
         productNamespace = manifestObject.ProductID?.Namespace
         _talentId = manifestObject.OtherID?.Identifier
-        if let otherId = manifestObject.OtherID where otherId.Namespace == Namespaces.AppDataID {
+        if let otherId = manifestObject.OtherID, otherId.Namespace == Namespaces.AppDataID {
             _appDataId = otherId.Identifier
         }
         
-        id = audioVisual?.id ?? gallery?.id ?? appGroup?.id ?? appData?.id ?? NSUUID().UUIDString
+        id = audioVisual?.id ?? gallery?.id ?? appGroup?.id ?? appData?.id ?? UUID().uuidString
     }
     
     // MARK: Helper Methods
@@ -146,36 +146,36 @@ public class NGDMTimedEvent: Equatable {
  
         - Returns: `true` if the TimedEvent is of the specified type
     */
-    public func isType(type: TimedEventType) -> Bool {
+    open func isType(_ type: TimedEventType) -> Bool {
         switch type {
-        case .AppData:
+        case .appData:
             return appData != nil
             
-        case .AppGroup:
+        case .appGroup:
             return appGroup != nil
             
-        case .AudioVisual:
-            return audioVisual != nil && !isType(.ClipShare)
+        case .audioVisual:
+            return audioVisual != nil && !isType(.clipShare)
             
-        case .ClipShare:
-            return experience != nil && experience!.isType(.ClipShare)
+        case .clipShare:
+            return experience != nil && experience!.isType(.clipShare)
             
-        case .Gallery:
+        case .gallery:
             return gallery != nil
             
-        case .Location:
+        case .location:
             return appData?.location != nil
             
-        case .Product:
+        case .product:
             return productNamespace == Namespaces.TheTake
             
-        case .Talent:
+        case .talent:
             return talent != nil
             
-        case .TextItem:
+        case .textItem:
             return textItem != nil
             
-        case .Any:
+        case .any:
             return true
         }
     }
@@ -188,10 +188,10 @@ public class NGDMTimedEvent: Equatable {
  
         - Returns: Previous TimedEvent, if it exists
     */
-    public func previousTimedEventOfType(type: TimedEventType) -> NGDMTimedEvent? {
+    open func previousTimedEventOfType(_ type: TimedEventType) -> NGDMTimedEvent? {
         let currentIndex = sortedIndex
         if currentIndex > 0 {
-            for i in (0...currentIndex - 1).reverse() {
+            for i in (0...currentIndex - 1).reversed() {
                 let timedEvent = NGDMManifest.sharedInstance.timedEvents[i]
                 if timedEvent.isType(type) {
                     return timedEvent
@@ -210,7 +210,7 @@ public class NGDMTimedEvent: Equatable {
      
         - Returns: Next TimedEvent, if it exists
      */
-    public func nextTimedEventOfType(type: TimedEventType) -> NGDMTimedEvent? {
+    open func nextTimedEventOfType(_ type: TimedEventType) -> NGDMTimedEvent? {
         let currentIndex = sortedIndex
         let lastIndex = NGDMManifest.sharedInstance.timedEvents.count - 1
         if currentIndex < lastIndex {
@@ -225,7 +225,7 @@ public class NGDMTimedEvent: Equatable {
         return nil
     }
     
-    public static func findByTimecode(timecode: Double, type: TimedEventType) -> [NGDMTimedEvent] {
+    open static func findByTimecode(_ timecode: Double, type: TimedEventType) -> [NGDMTimedEvent] {
         var timedEvents = [NGDMTimedEvent]()
         for timedEvent in NGDMManifest.sharedInstance.timedEvents {
             if timedEvent.startTime <= timecode {
@@ -237,7 +237,7 @@ public class NGDMTimedEvent: Equatable {
             }
         }
         
-        return timedEvents.sort({ (timedEvent1, timedEvent2) -> Bool in
+        return timedEvents.sorted(by: { (timedEvent1, timedEvent2) -> Bool in
             return (timedEvent1.experience?.sequenceNumber ?? 0) < (timedEvent2.experience?.sequenceNumber ?? 0)
         })
     }

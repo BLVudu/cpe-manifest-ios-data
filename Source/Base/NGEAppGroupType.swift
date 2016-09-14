@@ -9,22 +9,20 @@ import libxml
 @objc
 class NGEAppGroupType : NSObject{
     
-    var AppGroupID: String!
+    var `AppGroupID`: String!
     
-    var InteractiveTrackReferenceList: [NGEInteractiveTrackReferenceType]!
+    var `InteractiveTrackReferenceList`: [NGEInteractiveTrackReferenceType]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let AppGroupIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "AppGroupID").UTF8String)
-        let AppGroupIDAttrValue = xmlTextReaderGetAttribute(reader, AppGroupIDAttrName)
-        if(AppGroupIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "AppGroupID") {
             
-            self.AppGroupID = String.fromCString(UnsafePointer<CChar>(AppGroupIDAttrValue))
-            xmlFree(AppGroupIDAttrValue)
+            self.AppGroupID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -39,17 +37,18 @@ class NGEAppGroupType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("InteractiveTrackReference" == _currentElementName) {
-                    
-                    InteractiveTrackReferenceListArray.append(NGEInteractiveTrackReferenceType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAppGroupType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("InteractiveTrackReference" == _currentElementName) {
+                        
+                        InteractiveTrackReferenceListArray.append(NGEInteractiveTrackReferenceType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAppGroupType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

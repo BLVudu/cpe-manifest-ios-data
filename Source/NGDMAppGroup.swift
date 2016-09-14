@@ -5,14 +5,14 @@
 import Foundation
 
 // Wrapper class for `NGEAppGroupType` Manifest object
-public class NGDMAppGroup {
+open class NGDMAppGroup {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// URL associated with this AppGroup
-    public var url: NSURL?
+    open var url: URL?
     
     /// Check if this is an HTML5 app
     var isHTML5 = false
@@ -32,8 +32,8 @@ public class NGDMAppGroup {
                 url = NGDMInteractive.getById(id)?.url
             }
             
-            if let compatibility = interactiveTrackReference.CompatibilityList?.first {
-                isHTML5 = compatibility == "HTML5"
+            if let runtimeEnvironment = interactiveTrackReference.CompatibilityList?.first?.RuntimeEnvironment {
+                isHTML5 = (runtimeEnvironment == "HTML5")
             }
         }
     }
@@ -47,7 +47,7 @@ public class NGDMAppGroup {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMAppGroup? {
+    static func getById(_ id: String) -> NGDMAppGroup? {
         return NGDMManifest.sharedInstance.appGroups[id]
     }
     

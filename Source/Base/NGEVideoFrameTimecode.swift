@@ -9,23 +9,21 @@ import libxml
 @objc
 class NGEVideoFrameTimecode : NGETimecodeType {
     
-    var VideoTrackID: String!
+    var `VideoTrackID`: String!
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let VideoTrackIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "VideoTrackID").UTF8String)
-        let VideoTrackIDAttrValue = xmlTextReaderGetAttribute(reader, VideoTrackIDAttrName)
-        if(VideoTrackIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "VideoTrackID") {
             
-            self.VideoTrackID = String.fromCString(UnsafePointer<CChar>(VideoTrackIDAttrValue))
-            xmlFree(VideoTrackIDAttrValue)
+            self.VideoTrackID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -34,12 +32,13 @@ class NGEVideoFrameTimecode : NGETimecodeType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if(true) {
-                    print("Ignoring unexpected in NGEVideoFrameTimecode: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if(true) {
+                        print("Ignoring unexpected in NGEVideoFrameTimecode: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

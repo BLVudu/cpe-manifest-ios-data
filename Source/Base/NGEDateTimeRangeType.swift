@@ -9,19 +9,19 @@ import libxml
 @objc
 class NGEDateTimeRangeType : NSObject{
     
-    var Start: NSDate!
+    var `Start`: Date!
     
-    var End: NSDate!
+    var `End`: Date!
     
-    func readAttributes(reader: xmlTextReaderPtr) {let dateFormatter = NSDateFormatter()
+    func readAttributes(_ reader: xmlTextReaderPtr) {let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     
 }
 
-init(reader: xmlTextReaderPtr) {
+init(_ reader: xmlTextReaderPtr) {
     let _complexTypeXmlDept = xmlTextReaderDepth(reader)
     super.init()
-    let dateFormatter = NSDateFormatter()
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
     self.readAttributes(reader)
     
@@ -32,38 +32,37 @@ init(reader: xmlTextReaderPtr) {
     while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
         
         if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-            let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-            let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-            if("Start" == _currentElementName) {
-                
-                _readerOk = xmlTextReaderRead(reader)
-                _currentNodeType = xmlTextReaderNodeType(reader)
-                let StartElementValue = xmlTextReaderConstValue(reader)
-                if StartElementValue != nil {
+            if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                let _currentElementName = String(cString: _currentElementNameXmlChar)
+                if("Start" == _currentElementName) {
                     
-                    self.Start = dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(StartElementValue))!)
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    if let elementValue = xmlTextReaderConstValue(reader) {
+                        
+                        self.Start = dateFormatter.date(from: String(cString: elementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                }
-                _readerOk = xmlTextReaderRead(reader)
-                _currentNodeType = xmlTextReaderNodeType(reader)
-                
-            } else if("End" == _currentElementName) {
-                
-                _readerOk = xmlTextReaderRead(reader)
-                _currentNodeType = xmlTextReaderNodeType(reader)
-                let EndElementValue = xmlTextReaderConstValue(reader)
-                if EndElementValue != nil {
+                } else if("End" == _currentElementName) {
                     
-                    self.End = dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(EndElementValue))!)
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
+                    if let elementValue = xmlTextReaderConstValue(reader) {
+                        
+                        self.End = dateFormatter.date(from: String(cString: elementValue))
+                        
+                    }
+                    _readerOk = xmlTextReaderRead(reader)
+                    _currentNodeType = xmlTextReaderNodeType(reader)
                     
-                }
-                _readerOk = xmlTextReaderRead(reader)
-                _currentNodeType = xmlTextReaderNodeType(reader)
-                
-            } else   if(true) {
-                print("Ignoring unexpected in NGEDateTimeRangeType: \(_currentElementName)")
-                if superclass != NSObject.self {
-                    break
+                } else   if(true) {
+                    print("Ignoring unexpected in NGEDateTimeRangeType: \(_currentElementName)")
+                    if superclass != NSObject.self {
+                        break
+                    }
                 }
             }
         }

@@ -9,15 +9,15 @@ import libxml
 @objc
 class NGEALIDExperienceMapType : NSObject{
     
-    var ALIDList: [String]!
+    var `ALIDList`: [String]!
     
-    var ExperienceIDList: [NGEExperienceID]!
+    var `ExperienceIDList`: [NGEExperienceID]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -33,29 +33,29 @@ class NGEALIDExperienceMapType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ALID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ALIDElementValue = xmlTextReaderConstValue(reader)
-                    if ALIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ALID" == _currentElementName) {
                         
-                        ALIDListArray.append(String.fromCString(UnsafePointer<CChar>(ALIDElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ExperienceID" == _currentElementName) {
-                    
-                    ExperienceIDListArray.append(NGEExperienceID(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEALIDExperienceMapType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            ALIDListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("ExperienceID" == _currentElementName) {
+                        
+                        ExperienceIDListArray.append(NGEExperienceID(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEALIDExperienceMapType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,17 +9,17 @@ import libxml
 @objc
 class NGEAppDataSpecialBehaviorType : NSObject{
     
-    var ChoseAudioTrackRef: String!
+    var `ChoseAudioTrackRef`: String!
     
-    var ChoseVideoTrackRef: String!
+    var `ChoseVideoTrackRef`: String!
     
-    var ChoseSubTrackRef: String!
+    var `ChoseSubTrackRef`: String!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -32,51 +32,49 @@ class NGEAppDataSpecialBehaviorType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ChoseAudioTrackRef" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ChoseAudioTrackRefElementValue = xmlTextReaderConstValue(reader)
-                    if ChoseAudioTrackRefElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ChoseAudioTrackRef" == _currentElementName) {
                         
-                        self.ChoseAudioTrackRef = String.fromCString(UnsafePointer<CChar>(ChoseAudioTrackRefElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ChoseAudioTrackRef = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ChoseVideoTrackRef" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ChoseVideoTrackRefElementValue = xmlTextReaderConstValue(reader)
-                    if ChoseVideoTrackRefElementValue != nil {
+                    } else if("ChoseVideoTrackRef" == _currentElementName) {
                         
-                        self.ChoseVideoTrackRef = String.fromCString(UnsafePointer<CChar>(ChoseVideoTrackRefElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ChoseVideoTrackRef = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ChoseSubTrackRef" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ChoseSubTrackRefElementValue = xmlTextReaderConstValue(reader)
-                    if ChoseSubTrackRefElementValue != nil {
+                    } else if("ChoseSubTrackRef" == _currentElementName) {
                         
-                        self.ChoseSubTrackRef = String.fromCString(UnsafePointer<CChar>(ChoseSubTrackRefElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ChoseSubTrackRef = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAppDataSpecialBehaviorType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAppDataSpecialBehaviorType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

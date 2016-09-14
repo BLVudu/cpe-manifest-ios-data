@@ -9,17 +9,17 @@ import libxml
 @objc
 class NGEContentRatingType : NSObject{
     
-    var NotRated: NGENotRated!
+    var `NotRated`: NGENotRated!
     
-    var RatingList: [NGEContentRatingDetailType]!
+    var `RatingList`: [NGEContentRatingDetailType]!
     
-    var AdultContent: Bool?
+    var `AdultContent`: Bool?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -34,35 +34,35 @@ class NGEContentRatingType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("NotRated" == _currentElementName) {
-                    
-                    self.NotRated = NGENotRated(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Rating" == _currentElementName) {
-                    
-                    RatingListArray.append(NGEContentRatingDetailType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("AdultContent" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AdultContentElementValue = xmlTextReaderConstValue(reader)
-                    if AdultContentElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("NotRated" == _currentElementName) {
                         
-                        self.AdultContent = String.fromCString(UnsafePointer<CChar>(AdultContentElementValue)) == "true"
+                        self.NotRated = NGENotRated(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEContentRatingType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Rating" == _currentElementName) {
+                        
+                        RatingListArray.append(NGEContentRatingDetailType(reader))
+                        handledInChild = true
+                        
+                    } else if("AdultContent" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.AdultContent = String(cString: elementValue) == "true"
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEContentRatingType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

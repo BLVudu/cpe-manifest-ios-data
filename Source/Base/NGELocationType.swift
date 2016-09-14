@@ -9,32 +9,31 @@ import libxml
 @objc
 class NGELocationType : NSObject{
     
-    var priority: Int?
+    var `priority`: Int?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let priorityAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "priority").UTF8String)
-        let priorityAttrValue = xmlTextReaderGetAttribute(reader, priorityAttrName)
-        if(priorityAttrValue != nil) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        if let attrValue = xmlTextReaderGetAttribute(reader, "priority") {
             
-            self.priority = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(priorityAttrValue))!)!.integerValue
-            xmlFree(priorityAttrValue)
+            self.priority = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -45,18 +44,18 @@ class NGELocationType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGELocationType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGELocationType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

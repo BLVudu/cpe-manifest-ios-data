@@ -9,17 +9,17 @@ import libxml
 @objc
 class NGEDigitalAssetColorEncodingType : NSObject{
     
-    var Primaries: String!
+    var `Primaries`: String!
     
-    var TransferFunction: String!
+    var `TransferFunction`: String!
     
-    var ColorDifferencing: String!
+    var `ColorDifferencing`: String!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -32,51 +32,49 @@ class NGEDigitalAssetColorEncodingType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Primaries" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PrimariesElementValue = xmlTextReaderConstValue(reader)
-                    if PrimariesElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Primaries" == _currentElementName) {
                         
-                        self.Primaries = String.fromCString(UnsafePointer<CChar>(PrimariesElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Primaries = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TransferFunction" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TransferFunctionElementValue = xmlTextReaderConstValue(reader)
-                    if TransferFunctionElementValue != nil {
+                    } else if("TransferFunction" == _currentElementName) {
                         
-                        self.TransferFunction = String.fromCString(UnsafePointer<CChar>(TransferFunctionElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.TransferFunction = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ColorDifferencing" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ColorDifferencingElementValue = xmlTextReaderConstValue(reader)
-                    if ColorDifferencingElementValue != nil {
+                    } else if("ColorDifferencing" == _currentElementName) {
                         
-                        self.ColorDifferencing = String.fromCString(UnsafePointer<CChar>(ColorDifferencingElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ColorDifferencing = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetColorEncodingType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetColorEncodingType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

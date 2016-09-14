@@ -9,35 +9,31 @@ import libxml
 @objc
 class NGEOrgNameType : NSObject{
     
-    var organizationID: String?
+    var `organizationID`: String?
     
-    var idType: String?
+    var `idType`: String?
     
-    var DisplayName: String!
+    var `DisplayName`: String!
     
-    var SortName: String?
+    var `SortName`: String?
     
-    var AlternateNameList: [String]?
+    var `AlternateNameList`: [String]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let organizationIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "organizationID").UTF8String)
-        let organizationIDAttrValue = xmlTextReaderGetAttribute(reader, organizationIDAttrName)
-        if(organizationIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "organizationID") {
             
-            self.organizationID = String.fromCString(UnsafePointer<CChar>(organizationIDAttrValue))
-            xmlFree(organizationIDAttrValue)
+            self.organizationID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let idTypeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "idType").UTF8String)
-        let idTypeAttrValue = xmlTextReaderGetAttribute(reader, idTypeAttrName)
-        if(idTypeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "idType") {
             
-            self.idType = String.fromCString(UnsafePointer<CChar>(idTypeAttrValue))
-            xmlFree(idTypeAttrValue)
+            self.idType = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -52,50 +48,48 @@ class NGEOrgNameType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("DisplayName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DisplayNameElementValue = xmlTextReaderConstValue(reader)
-                    if DisplayNameElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("DisplayName" == _currentElementName) {
                         
-                        self.DisplayName = String.fromCString(UnsafePointer<CChar>(DisplayNameElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.DisplayName = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SortName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SortNameElementValue = xmlTextReaderConstValue(reader)
-                    if SortNameElementValue != nil {
+                    } else if("SortName" == _currentElementName) {
                         
-                        self.SortName = String.fromCString(UnsafePointer<CChar>(SortNameElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SortName = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AlternateName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AlternateNameElementValue = xmlTextReaderConstValue(reader)
-                    if AlternateNameElementValue != nil {
+                    } else if("AlternateName" == _currentElementName) {
                         
-                        AlternateNameListArray.append(String.fromCString(UnsafePointer<CChar>(AlternateNameElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEOrgNameType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            AlternateNameListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEOrgNameType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

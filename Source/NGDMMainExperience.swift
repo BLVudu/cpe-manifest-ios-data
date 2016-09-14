@@ -5,18 +5,18 @@
 import Foundation
 
 // Wrapper class for `NGEExperienceType` Manifest object associated with the main Experience
-public class NGDMMainExperience: NGDMExperience {
+open class NGDMMainExperience: NGDMExperience {
     
     // MARK: Instance Variables
     /// List of Talent associated with the feature film
     var talents: [String: NGDMTalent]?
     
     /// Ordered list of Talents with type Actor associated with the feature film
-    public var orderedActors: [NGDMTalent]? {
+    open var orderedActors: [NGDMTalent]? {
         if let talents = talents {
             return talents.values.filter { (talent) -> Bool in
                 talent.type == TalentType.Actor
-            }.sort({ (talent1, talent2) -> Bool in
+            }.sorted(by: { (talent1, talent2) -> Bool in
                 return talent1.billingBlockOrder < talent2.billingBlockOrder
             })
         }
@@ -24,12 +24,12 @@ public class NGDMMainExperience: NGDMExperience {
         return nil
     }
     
-    public var hasActors: Bool {
+    open var hasActors: Bool {
         return orderedActors?.count ?? 0 > 0
     }
     
-    public var interstitialVideoURL: NSURL? {
-        return audioVisual?.presentations?.first?.videoURL
+    open var interstitialVideoURL: URL? {
+        return audioVisual?.presentations?.first?.videoURL as URL?
     }
     
     // MARK: Helper Methods
@@ -41,16 +41,16 @@ public class NGDMMainExperience: NGDMExperience {
 
         - Returns: The value of the custom identifier if it exists
     */
-    public func customIdentifier(namespace: String) -> String? {
+    open func customIdentifier(_ namespace: String) -> String? {
         return audioVisual?.metadata?.customIdentifier(namespace)
     }
     
     /**
         Loads talent based on a series of fallbacks, starting with the Baseline API
     */
-    public func loadTalent() {
+    open func loadTalent() {
         let loadTalentImages = {
-            if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, talents = self.talents {
+            if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, let talents = self.talents {
                 for talent in talents.values {
                     if talent.images == nil, let talentId = talent.apiId {
                         talentAPIUtil.getTalentImages(talentId, successBlock: { (talentImages) in

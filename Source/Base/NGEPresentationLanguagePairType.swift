@@ -9,17 +9,17 @@ import libxml
 @objc
 class NGEPresentationLanguagePairType : NSObject{
     
-    var SystemLanguage: String!
+    var `SystemLanguage`: String!
     
-    var AudioLanguage: String!
+    var `AudioLanguage`: String!
     
-    var SubtitleLanguage: String!
+    var `SubtitleLanguage`: String!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -32,51 +32,49 @@ class NGEPresentationLanguagePairType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("SystemLanguage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SystemLanguageElementValue = xmlTextReaderConstValue(reader)
-                    if SystemLanguageElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("SystemLanguage" == _currentElementName) {
                         
-                        self.SystemLanguage = String.fromCString(UnsafePointer<CChar>(SystemLanguageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SystemLanguage = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AudioLanguage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AudioLanguageElementValue = xmlTextReaderConstValue(reader)
-                    if AudioLanguageElementValue != nil {
+                    } else if("AudioLanguage" == _currentElementName) {
                         
-                        self.AudioLanguage = String.fromCString(UnsafePointer<CChar>(AudioLanguageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.AudioLanguage = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SubtitleLanguage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SubtitleLanguageElementValue = xmlTextReaderConstValue(reader)
-                    if SubtitleLanguageElementValue != nil {
+                    } else if("SubtitleLanguage" == _currentElementName) {
                         
-                        self.SubtitleLanguage = String.fromCString(UnsafePointer<CChar>(SubtitleLanguageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SubtitleLanguage = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEPresentationLanguagePairType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEPresentationLanguagePairType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

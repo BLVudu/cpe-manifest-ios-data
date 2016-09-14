@@ -9,25 +9,23 @@ import libxml
 @objc
 class NGENotRated : NSObject{
     
-    var condition: String?
+    var `condition`: String?
     
     /**
     the type's underlying value
     */
     var value: Bool?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let conditionAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "condition").UTF8String)
-        let conditionAttrValue = xmlTextReaderGetAttribute(reader, conditionAttrName)
-        if(conditionAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "condition") {
             
-            self.condition = String.fromCString(UnsafePointer<CChar>(conditionAttrValue))
-            xmlFree(conditionAttrValue)
+            self.condition = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -40,18 +38,18 @@ class NGENotRated : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = (value == "true")
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGENotRated: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = (value == "true")
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGENotRated: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

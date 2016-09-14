@@ -11,10 +11,10 @@ class NGDMVideo {
     var id: String
     
     /// URL associated with this Video
-    var url: NSURL?
+    var url: URL?
     
     /// Video length in seconds
-    var runtimeInSeconds: NSTimeInterval = 0
+    var runtimeInSeconds: TimeInterval = 0
     
     // MARK: Initialization
     /**
@@ -27,11 +27,11 @@ class NGDMVideo {
         id = manifestObject.VideoTrackID
         
         if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
-            if containerLocation.containsString("file://") {
-                let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+            if containerLocation.contains("file://") {
+                let tempURL = URL(fileURLWithPath: containerLocation.replacingOccurrences(of: "file://", with: ""))
+                url = Bundle.main.url(forResource: tempURL.deletingPathExtension().path, withExtension: tempURL.pathExtension)
             } else {
-                url = NSURL(string: containerLocation)
+                url = URL(string: containerLocation)
             }
         }
         
@@ -47,7 +47,7 @@ class NGDMVideo {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMVideo? {
+    static func getById(_ id: String) -> NGDMVideo? {
         return NGDMManifest.sharedInstance.videos[id]
     }
     

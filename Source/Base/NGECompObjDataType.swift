@@ -9,25 +9,23 @@ import libxml
 @objc
 class NGECompObjDataType : NGECompObjType {
     
-    var CompObjID: String?
+    var `CompObjID`: String?
     
-    var DisplayNameList: [NGEDisplayName]?
+    var `DisplayNameList`: [NGEDisplayName]?
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let CompObjIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "CompObjID").UTF8String)
-        let CompObjIDAttrValue = xmlTextReaderGetAttribute(reader, CompObjIDAttrName)
-        if(CompObjIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "CompObjID") {
             
-            self.CompObjID = String.fromCString(UnsafePointer<CChar>(CompObjIDAttrValue))
-            xmlFree(CompObjIDAttrValue)
+            self.CompObjID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
         var DisplayNameListArray = [NGEDisplayName]()
         
@@ -38,17 +36,18 @@ class NGECompObjDataType : NGECompObjType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("DisplayName" == _currentElementName) {
-                    
-                    DisplayNameListArray.append(NGEDisplayName(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECompObjDataType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("DisplayName" == _currentElementName) {
+                        
+                        DisplayNameListArray.append(NGEDisplayName(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECompObjDataType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

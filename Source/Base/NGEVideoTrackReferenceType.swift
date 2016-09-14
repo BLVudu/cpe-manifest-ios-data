@@ -9,33 +9,32 @@ import libxml
 @objc
 class NGEVideoTrackReferenceType : NSObject{
     
-    var priority: Int?
+    var `priority`: Int?
     
-    var VideoTrackIDList: [String]!
+    var `VideoTrackIDList`: [String]!
     
-    var AdaptationSetID: NGEAdaptationSetID?
+    var `AdaptationSetID`: NGEAdaptationSetID?
     
-    var TrackProfileList: [NGEMediaProfileType]?
+    var `TrackProfileList`: [NGEMediaProfileType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let priorityAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "priority").UTF8String)
-        let priorityAttrValue = xmlTextReaderGetAttribute(reader, priorityAttrName)
-        if(priorityAttrValue != nil) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        if let attrValue = xmlTextReaderGetAttribute(reader, "priority") {
             
-            self.priority = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(priorityAttrValue))!)!.integerValue
-            xmlFree(priorityAttrValue)
+            self.priority = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -50,34 +49,34 @@ class NGEVideoTrackReferenceType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("VideoTrackID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let VideoTrackIDElementValue = xmlTextReaderConstValue(reader)
-                    if VideoTrackIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("VideoTrackID" == _currentElementName) {
                         
-                        VideoTrackIDListArray.append(String.fromCString(UnsafePointer<CChar>(VideoTrackIDElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AdaptationSetID" == _currentElementName) {
-                    
-                    self.AdaptationSetID = NGEAdaptationSetID(reader: reader)
-                    handledInChild = true
-                    
-                } else if("TrackProfile" == _currentElementName) {
-                    
-                    TrackProfileListArray.append(NGEMediaProfileType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEVideoTrackReferenceType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            VideoTrackIDListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("AdaptationSetID" == _currentElementName) {
+                        
+                        self.AdaptationSetID = NGEAdaptationSetID(reader)
+                        handledInChild = true
+                        
+                    } else if("TrackProfile" == _currentElementName) {
+                        
+                        TrackProfileListArray.append(NGEMediaProfileType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEVideoTrackReferenceType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

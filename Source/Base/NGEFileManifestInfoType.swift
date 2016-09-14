@@ -9,40 +9,40 @@ import libxml
 @objc
 class NGEFileManifestInfoType : NSObject{
     
-    var PackageID: String!
+    var `PackageID`: String!
     
-    var PackageDateTime: NSDate!
+    var `PackageDateTime`: Date!
     
-    var Publisher: NGEOrgNameType!
+    var `Publisher`: NGEOrgNameType!
     
-    var AvailsEntryIDList: [String]?
+    var `AvailsEntryIDList`: [String]?
     
-    var TotalFilesInPackage: Int!
+    var `TotalFilesInPackage`: Int!
     
-    var FileInfoList: [NGEFileInfoType]!
+    var `FileInfoList`: [NGEFileInfoType]!
     
-    var ExceptionFlag: Bool?
+    var `ExceptionFlag`: Bool?
     
-    var Comments: String?
+    var `Comments`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let dateFormatter = NSDateFormatter()
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -57,99 +57,94 @@ class NGEFileManifestInfoType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("PackageID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PackageIDElementValue = xmlTextReaderConstValue(reader)
-                    if PackageIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("PackageID" == _currentElementName) {
                         
-                        self.PackageID = String.fromCString(UnsafePointer<CChar>(PackageIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PackageID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PackageDateTime" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PackageDateTimeElementValue = xmlTextReaderConstValue(reader)
-                    if PackageDateTimeElementValue != nil {
+                    } else if("PackageDateTime" == _currentElementName) {
                         
-                        self.PackageDateTime = dateFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(PackageDateTimeElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PackageDateTime = dateFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Publisher" == _currentElementName) {
-                    
-                    self.Publisher = NGEOrgNameType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AvailsEntryID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AvailsEntryIDElementValue = xmlTextReaderConstValue(reader)
-                    if AvailsEntryIDElementValue != nil {
+                    } else if("Publisher" == _currentElementName) {
                         
-                        AvailsEntryIDListArray.append(String.fromCString(UnsafePointer<CChar>(AvailsEntryIDElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TotalFilesInPackage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TotalFilesInPackageElementValue = xmlTextReaderConstValue(reader)
-                    if TotalFilesInPackageElementValue != nil {
+                        self.Publisher = NGEOrgNameType(reader)
+                        handledInChild = true
                         
-                        self.TotalFilesInPackage = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(TotalFilesInPackageElementValue))!)!.integerValue
+                    } else if("AvailsEntryID" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("FileInfo" == _currentElementName) {
-                    
-                    FileInfoListArray.append(NGEFileInfoType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("ExceptionFlag" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ExceptionFlagElementValue = xmlTextReaderConstValue(reader)
-                    if ExceptionFlagElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            AvailsEntryIDListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.ExceptionFlag = String.fromCString(UnsafePointer<CChar>(ExceptionFlagElementValue)) == "true"
+                    } else if("TotalFilesInPackage" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Comments" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let CommentsElementValue = xmlTextReaderConstValue(reader)
-                    if CommentsElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.TotalFilesInPackage = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.Comments = String.fromCString(UnsafePointer<CChar>(CommentsElementValue))
+                    } else if("FileInfo" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEFileManifestInfoType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        FileInfoListArray.append(NGEFileInfoType(reader))
+                        handledInChild = true
+                        
+                    } else if("ExceptionFlag" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ExceptionFlag = String(cString: elementValue) == "true"
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Comments" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Comments = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEFileManifestInfoType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

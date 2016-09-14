@@ -11,40 +11,40 @@ public enum TalentType: String {
 }
 
 public enum SocialAccountType {
-    case Unknown
-    case Facebook
-    case Twitter
-    case Instagram
+    case unknown
+    case facebook
+    case twitter
+    case instagram
 }
 
 // Wrapper class for `NGEBasicMetadataPeopleType` Manifest object
-public class NGDMPeople: NSObject {
+open class NGDMPeople: NSObject {
     
     // MARK: Instance Variables
     var id: String!
-    public var apiId: String?
+    open var apiId: String?
     
-    public var name: String?
-    public var role: String?
-    public var billingBlockOrder = 0
+    open var name: String?
+    open var role: String?
+    open var billingBlockOrder = 0
     var type = TalentType.Unknown
     var biography: String?
-    public var images: [TalentImage]?
-    public var films: [TalentFilm]?
+    open var images: [TalentImage]?
+    open var films: [TalentFilm]?
     var socialAccounts: [TalentSocialAccount]?
-    public var detailsLoaded = false
+    open var detailsLoaded = false
     
-    public var thumbnailImageURL: NSURL? {
+    open var thumbnailImageURL: URL? {
         return images?.first?.thumbnailImageURL
     }
     
-    public var fullImageURL: NSURL? {
+    open var fullImageURL: URL? {
         return images?.first?.imageURL
     }
     
-    public var additionalImages: [TalentImage]? {
+    open var additionalImages: [TalentImage]? {
         if var images = images {
-            images.removeAtIndex(0)
+            images.remove(at: 0)
             return images
         }
         
@@ -82,7 +82,7 @@ public class NGDMPeople: NSObject {
                 billingBlockOrder = job.BillingBlockOrder!
             }
             
-            if let jobFunction = job.JobFunction?.value, type = TalentType(rawValue: jobFunction) {
+            if let jobFunction = job.JobFunction?.value, let type = TalentType(rawValue: jobFunction) {
                 self.type = type
             } else {
                 type = .Unknown
@@ -93,7 +93,7 @@ public class NGDMPeople: NSObject {
 }
 
 // Alias for `NGDMPeople`
-public class NGDMTalent: NGDMPeople {
+open class NGDMTalent: NGDMPeople {
     
     // MARK: Initialization
     /**
@@ -112,10 +112,10 @@ public class NGDMTalent: NGDMPeople {
         self.type = type
     }
     
-    public func getTalentDetails(successBlock: (biography: String?, socialAccounts: [TalentSocialAccount]?, films: [TalentFilm]?) -> Void) {
+    open func getTalentDetails(_ successBlock: @escaping (_ biography: String?, _ socialAccounts: [TalentSocialAccount]?, _ films: [TalentFilm]?) -> Void) {
         if detailsLoaded {
-            successBlock(biography: biography, socialAccounts: socialAccounts, films: films)
-        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, id = apiId {
+            successBlock(biography, socialAccounts, films)
+        } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, let id = apiId {
             talentAPIUtil.getTalentDetails(id, successBlock: { [weak self] (biography, socialAccounts, films) in
                 if let strongSelf = self {
                     strongSelf.biography = biography
@@ -123,7 +123,8 @@ public class NGDMTalent: NGDMPeople {
                     strongSelf.films = films
                     strongSelf.detailsLoaded = true
                 }
-                successBlock(biography: biography, socialAccounts: socialAccounts, films: films)
+                
+                successBlock(biography, socialAccounts, films)
             })
         }
     }
@@ -132,8 +133,8 @@ public class NGDMTalent: NGDMPeople {
 
 public struct TalentImage {
     
-    public var thumbnailImageURL: NSURL?
-    public var imageURL: NSURL?
+    public var thumbnailImageURL: URL?
+    public var imageURL: URL?
     
     public init() {
         
@@ -145,9 +146,9 @@ public struct TalentFilm {
     
     var id: String!
     public var title: String!
-    public var imageURL: NSURL?
+    public var imageURL: URL?
     
-    public init(id: String, title: String, imageURL: NSURL?) {
+    public init(id: String, title: String, imageURL: URL?) {
         self.id = id
         self.title = title
         self.imageURL = imageURL
@@ -157,26 +158,26 @@ public struct TalentFilm {
 
 public struct TalentSocialAccount {
     
-    public var type = SocialAccountType.Unknown
+    public var type = SocialAccountType.unknown
     var handle: String!
-    public var url: NSURL!
+    public var url: URL!
     
     public init(handle: String, urlString: String) {
         self.handle = handle
         
         var urlString = urlString
-        if urlString.containsString("twitter") {
-            type = SocialAccountType.Twitter
-        } else if urlString.containsString("facebook") {
-            type = SocialAccountType.Facebook
-            if urlString.containsString("/pages"), let pageId = urlString.componentsSeparatedByString("/").last where UIApplication.sharedApplication().canOpenURL(NSURL(string: "fb://")!) {
+        if urlString.contains("twitter") {
+            type = SocialAccountType.twitter
+        } else if urlString.contains("facebook") {
+            type = SocialAccountType.facebook
+            if urlString.contains("/pages"), let pageId = urlString.components(separatedBy: "/").last , UIApplication.shared.canOpenURL(URL(string: "fb://")!) {
                 urlString = "fb://page?id=" + pageId
             }
-        } else if urlString.containsString("instagram") {
-            type = SocialAccountType.Instagram
+        } else if urlString.contains("instagram") {
+            type = SocialAccountType.instagram
         }
         
-        url = NSURL(string: urlString)!
+        url = URL(string: urlString)!
     }
     
 }

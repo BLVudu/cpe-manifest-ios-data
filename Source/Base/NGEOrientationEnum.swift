@@ -15,10 +15,10 @@ enum NGEOrientationEnum : Int {
     
     static func fromString(enumString:String?) -> NGEOrientationEnum {
         if var enumString = enumString {
-            if(NSNumberFormatter().numberFromString(enumString) != nil) {
+            if(NumberFormatter().number(from: enumString) != nil) {
                 enumString = "Value\(enumString)"
             }
-            if let i = namesArray.indexOf(enumString) {
+            if let i = namesArray.index(of: enumString) {
                 if let enumType = NGEOrientationEnum(rawValue:i-1) {
                     return enumType
                 }

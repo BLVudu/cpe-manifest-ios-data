@@ -7,16 +7,16 @@ import Foundation
 extension String {
     
     func stringByAddingPercentEncodingForURLQueryValue() -> String? {
-        let allowedCharacters = NSCharacterSet(charactersInString: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~")
-        return self.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacters)
+        let allowedCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~")
+        return self.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
     }
     
-    func iso8601TimeInSeconds() -> NSTimeInterval {
+    func iso8601TimeInSeconds() -> TimeInterval {
         if self.characters.count > 2 && self[0] == "P" && self[1] == "T" {
             var currentNumberString = ""
             var hours = 0, minutes = 0, seconds = 0
             
-            let timeString = self[2...self.characters.count - 1]
+            let timeString = self.substring(from: self.index(self.startIndex, offsetBy: 2))
             for i in 0 ..< timeString.characters.count {
                 if timeString[i] == "H" {
                     hours = Int(currentNumberString)!
@@ -32,14 +32,14 @@ extension String {
                 }
             }
             
-            return NSTimeInterval((hours * 3600) + (minutes * 60) + seconds)
+            return TimeInterval((hours * 3600) + (minutes * 60) + seconds)
         }
         
         return 0
     }
     
     subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+        return self[self.characters.index(self.startIndex, offsetBy: i)]
     }
     
     subscript (i: Int) -> String {
@@ -47,8 +47,8 @@ extension String {
     }
     
     subscript (r: Range<Int>) -> String {
-        let start = startIndex.advancedBy(r.startIndex)
-        let end = start.advancedBy(r.endIndex - r.startIndex)
+        let start = characters.index(startIndex, offsetBy: r.lowerBound)
+        let end = index(start, offsetBy: r.upperBound - r.lowerBound)
         return self[start ..< end]
     }
     

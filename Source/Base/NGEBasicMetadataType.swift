@@ -9,79 +9,78 @@ import libxml
 @objc
 class NGEBasicMetadataType : NSObject{
     
-    var ContentID: String!
+    var `ContentID`: String!
     
-    var UpdateNum: Int?
+    var `UpdateNum`: Int?
     
-    var LocalizedInfoList: [NGEBasicMetadataInfoType]!
+    var `LocalizedInfoList`: [NGEBasicMetadataInfoType]!
     
-    var RunLength: String?
+    var `RunLength`: String?
     
-    var ReleaseYear: Int!
+    var `ReleaseYear`: Int!
     
-    var ReleaseDate: NSDate?
+    var `ReleaseDate`: Date?
     
-    var ReleaseHistoryList: [NGEReleaseHistoryType]?
+    var `ReleaseHistoryList`: [NGEReleaseHistoryType]?
     
-    var WorkType: String!
+    var `WorkType`: String!
     
-    var WorkTypeDetail: String?
+    var `WorkTypeDetail`: String?
     
-    var PictureColorType: NGEColorTypeTypeEnum?
+    var `PictureColorType`: NGEColorTypeTypeEnum?
     
-    var PictureFormat: String?
+    var `PictureFormat`: String?
     
-    var ThreeD: Bool?
+    var `ThreeD`: Bool?
     
-    var AspectRatio: String?
+    var `AspectRatio`: String?
     
-    var AltIdentifierList: [NGEContentIdentifierType]?
+    var `AltIdentifierList`: [NGEContentIdentifierType]?
     
-    var RatingSet: NGEContentRatingType?
+    var `RatingSet`: NGEContentRatingType?
     
-    var PeopleList: [NGEBasicMetadataPeopleType]?
+    var `PeopleList`: [NGEBasicMetadataPeopleType]?
     
-    var CountryOfOrigin: NGERegionType?
+    var `CountryOfOrigin`: NGERegionType?
     
-    var PrimarySpokenLanguageList: [String]?
+    var `PrimarySpokenLanguageList`: [String]?
     
-    var OriginalLanguageList: [String]?
+    var `OriginalLanguageList`: [String]?
     
-    var VersionLanguageList: [String]?
+    var `VersionLanguageList`: [String]?
     
-    var AssociatedOrgList: [NGEAssociatedOrgType]?
+    var `AssociatedOrgList`: [NGEAssociatedOrgType]?
     
-    var SequenceInfo: NGEContentSequenceInfoType?
+    var `SequenceInfo`: NGEContentSequenceInfoType?
     
-    var ParentList: [NGEBasicMetadataParentType]?
+    var `ParentList`: [NGEBasicMetadataParentType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let dateOnlyFormatter = NSDateFormatter()
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
-        let ContentIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ContentID").UTF8String)
-        let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
-        if(ContentIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ContentID") {
             
-            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
-            xmlFree(ContentIDAttrValue)
+            self.ContentID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let dateOnlyFormatter = NSDateFormatter()
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
         self.readAttributes(reader)
         
@@ -107,223 +106,211 @@ class NGEBasicMetadataType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("UpdateNum" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let UpdateNumElementValue = xmlTextReaderConstValue(reader)
-                    if UpdateNumElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("UpdateNum" == _currentElementName) {
                         
-                        self.UpdateNum = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(UpdateNumElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.UpdateNum = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("LocalizedInfo" == _currentElementName) {
-                    
-                    LocalizedInfoListArray.append(NGEBasicMetadataInfoType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("RunLength" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let RunLengthElementValue = xmlTextReaderConstValue(reader)
-                    if RunLengthElementValue != nil {
+                    } else if("LocalizedInfo" == _currentElementName) {
                         
-                        self.RunLength = String.fromCString(UnsafePointer<CChar>(RunLengthElementValue))
+                        LocalizedInfoListArray.append(NGEBasicMetadataInfoType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ReleaseYear" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ReleaseYearElementValue = xmlTextReaderConstValue(reader)
-                    if ReleaseYearElementValue != nil {
+                    } else if("RunLength" == _currentElementName) {
                         
-                        self.ReleaseYear = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(ReleaseYearElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.RunLength = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ReleaseDate" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ReleaseDateElementValue = xmlTextReaderConstValue(reader)
-                    if ReleaseDateElementValue != nil {
+                    } else if("ReleaseYear" == _currentElementName) {
                         
-                        self.ReleaseDate = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(ReleaseDateElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ReleaseYear = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ReleaseHistory" == _currentElementName) {
-                    
-                    ReleaseHistoryListArray.append(NGEReleaseHistoryType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("WorkType" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WorkTypeElementValue = xmlTextReaderConstValue(reader)
-                    if WorkTypeElementValue != nil {
+                    } else if("ReleaseDate" == _currentElementName) {
                         
-                        self.WorkType = String.fromCString(UnsafePointer<CChar>(WorkTypeElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ReleaseDate = dateOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("WorkTypeDetail" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WorkTypeDetailElementValue = xmlTextReaderConstValue(reader)
-                    if WorkTypeDetailElementValue != nil {
+                    } else if("ReleaseHistory" == _currentElementName) {
                         
-                        self.WorkTypeDetail = String.fromCString(UnsafePointer<CChar>(WorkTypeDetailElementValue))
+                        ReleaseHistoryListArray.append(NGEReleaseHistoryType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PictureColorType" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PictureColorTypeElementValue = xmlTextReaderConstValue(reader)
-                    if PictureColorTypeElementValue != nil {
+                    } else if("WorkType" == _currentElementName) {
                         
-                        self.PictureColorType = NGEColorTypeTypeEnum.fromString(String.fromCString(UnsafePointer<CChar>(PictureColorTypeElementValue)))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WorkType = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PictureFormat" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PictureFormatElementValue = xmlTextReaderConstValue(reader)
-                    if PictureFormatElementValue != nil {
+                    } else if("WorkTypeDetail" == _currentElementName) {
                         
-                        self.PictureFormat = String.fromCString(UnsafePointer<CChar>(PictureFormatElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WorkTypeDetail = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ThreeD" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ThreeDElementValue = xmlTextReaderConstValue(reader)
-                    if ThreeDElementValue != nil {
+                    } else if("PictureColorType" == _currentElementName) {
                         
-                        self.ThreeD = String.fromCString(UnsafePointer<CChar>(ThreeDElementValue)) == "true"
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PictureColorType = NGEColorTypeTypeEnum.fromString(enumString: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AspectRatio" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AspectRatioElementValue = xmlTextReaderConstValue(reader)
-                    if AspectRatioElementValue != nil {
+                    } else if("PictureFormat" == _currentElementName) {
                         
-                        self.AspectRatio = String.fromCString(UnsafePointer<CChar>(AspectRatioElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PictureFormat = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AltIdentifier" == _currentElementName) {
-                    
-                    AltIdentifierListArray.append(NGEContentIdentifierType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("RatingSet" == _currentElementName) {
-                    
-                    self.RatingSet = NGEContentRatingType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("People" == _currentElementName) {
-                    
-                    PeopleListArray.append(NGEBasicMetadataPeopleType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("CountryOfOrigin" == _currentElementName) {
-                    
-                    self.CountryOfOrigin = NGERegionType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("PrimarySpokenLanguage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PrimarySpokenLanguageElementValue = xmlTextReaderConstValue(reader)
-                    if PrimarySpokenLanguageElementValue != nil {
+                    } else if("ThreeD" == _currentElementName) {
                         
-                        PrimarySpokenLanguageListArray.append(String.fromCString(UnsafePointer<CChar>(PrimarySpokenLanguageElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("OriginalLanguage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let OriginalLanguageElementValue = xmlTextReaderConstValue(reader)
-                    if OriginalLanguageElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ThreeD = String(cString: elementValue) == "true"
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        OriginalLanguageListArray.append(String.fromCString(UnsafePointer<CChar>(OriginalLanguageElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("VersionLanguage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let VersionLanguageElementValue = xmlTextReaderConstValue(reader)
-                    if VersionLanguageElementValue != nil {
+                    } else if("AspectRatio" == _currentElementName) {
                         
-                        VersionLanguageListArray.append(String.fromCString(UnsafePointer<CChar>(VersionLanguageElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AssociatedOrg" == _currentElementName) {
-                    
-                    AssociatedOrgListArray.append(NGEAssociatedOrgType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("SequenceInfo" == _currentElementName) {
-                    
-                    self.SequenceInfo = NGEContentSequenceInfoType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Parent" == _currentElementName) {
-                    
-                    ParentListArray.append(NGEBasicMetadataParentType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEBasicMetadataType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.AspectRatio = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("AltIdentifier" == _currentElementName) {
+                        
+                        AltIdentifierListArray.append(NGEContentIdentifierType(reader))
+                        handledInChild = true
+                        
+                    } else if("RatingSet" == _currentElementName) {
+                        
+                        self.RatingSet = NGEContentRatingType(reader)
+                        handledInChild = true
+                        
+                    } else if("People" == _currentElementName) {
+                        
+                        PeopleListArray.append(NGEBasicMetadataPeopleType(reader))
+                        handledInChild = true
+                        
+                    } else if("CountryOfOrigin" == _currentElementName) {
+                        
+                        self.CountryOfOrigin = NGERegionType(reader)
+                        handledInChild = true
+                        
+                    } else if("PrimarySpokenLanguage" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            PrimarySpokenLanguageListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("OriginalLanguage" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            OriginalLanguageListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("VersionLanguage" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            VersionLanguageListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("AssociatedOrg" == _currentElementName) {
+                        
+                        AssociatedOrgListArray.append(NGEAssociatedOrgType(reader))
+                        handledInChild = true
+                        
+                    } else if("SequenceInfo" == _currentElementName) {
+                        
+                        self.SequenceInfo = NGEContentSequenceInfoType(reader)
+                        handledInChild = true
+                        
+                    } else if("Parent" == _currentElementName) {
+                        
+                        ParentListArray.append(NGEBasicMetadataParentType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEBasicMetadataType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

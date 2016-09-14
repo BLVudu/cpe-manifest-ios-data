@@ -5,7 +5,7 @@
 import Foundation
 
 // Wrapper class for `NGEPresentationType` Manifest object
-public class NGDMPresentation {
+open class NGDMPresentation {
     
     // MARK: Instance Variables
     /// Unique identifier
@@ -15,7 +15,7 @@ public class NGDMPresentation {
     var video: NGDMVideo?
     
     /// Video URL to be used for display
-    public var videoURL: NSURL? {
+    open var videoURL: URL? {
         return video?.url
     }
     
@@ -43,7 +43,7 @@ public class NGDMPresentation {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMPresentation? {
+    static func getById(_ id: String) -> NGDMPresentation? {
         return NGDMManifest.sharedInstance.presentations[id]
     }
     

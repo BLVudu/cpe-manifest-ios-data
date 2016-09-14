@@ -9,19 +9,19 @@ import libxml
 @objc
 class NGEColorPaletteType : NSObject{
     
-    var NeutralPalette: NGENeutralPaletteEnum!
+    var `NeutralPalette`: NGENeutralPaletteEnum!
     
-    var Base: NGEColorPaletteInstanceType!
+    var `Base`: NGEColorPaletteInstanceType!
     
-    var Highlight: NGEColorPaletteInstanceType!
+    var `Highlight`: NGEColorPaletteInstanceType!
     
-    var Defocus: NGEColorPaletteInstanceType!
+    var `Defocus`: NGEColorPaletteInstanceType!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -34,40 +34,40 @@ class NGEColorPaletteType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("NeutralPalette" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let NeutralPaletteElementValue = xmlTextReaderConstValue(reader)
-                    if NeutralPaletteElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("NeutralPalette" == _currentElementName) {
                         
-                        self.NeutralPalette = NGENeutralPaletteEnum.fromString(String.fromCString(UnsafePointer<CChar>(NeutralPaletteElementValue)))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.NeutralPalette = NGENeutralPaletteEnum.fromString(enumString: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Base" == _currentElementName) {
-                    
-                    self.Base = NGEColorPaletteInstanceType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Highlight" == _currentElementName) {
-                    
-                    self.Highlight = NGEColorPaletteInstanceType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Defocus" == _currentElementName) {
-                    
-                    self.Defocus = NGEColorPaletteInstanceType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEColorPaletteType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Base" == _currentElementName) {
+                        
+                        self.Base = NGEColorPaletteInstanceType(reader)
+                        handledInChild = true
+                        
+                    } else if("Highlight" == _currentElementName) {
+                        
+                        self.Highlight = NGEColorPaletteInstanceType(reader)
+                        handledInChild = true
+                        
+                    } else if("Defocus" == _currentElementName) {
+                        
+                        self.Defocus = NGEColorPaletteInstanceType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEColorPaletteType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,43 +9,37 @@ import libxml
 @objc
 class NGEDigitalAssetSubtitleFormatType : NSObject{
     
-    var SDImage: Bool?
+    var `SDImage`: Bool?
     
-    var HDImage: Bool?
+    var `HDImage`: Bool?
     
-    var UHDImage: Bool?
+    var `UHDImage`: Bool?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let SDImageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "SDImage").UTF8String)
-        let SDImageAttrValue = xmlTextReaderGetAttribute(reader, SDImageAttrName)
-        if(SDImageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "SDImage") {
             
-            self.SDImage = (String.fromCString(UnsafePointer<CChar>(SDImageAttrValue)) == "true")
-            xmlFree(SDImageAttrValue)
+            self.SDImage = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
-        let HDImageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "HDImage").UTF8String)
-        let HDImageAttrValue = xmlTextReaderGetAttribute(reader, HDImageAttrName)
-        if(HDImageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "HDImage") {
             
-            self.HDImage = (String.fromCString(UnsafePointer<CChar>(HDImageAttrValue)) == "true")
-            xmlFree(HDImageAttrValue)
+            self.HDImage = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
-        let UHDImageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "UHDImage").UTF8String)
-        let UHDImageAttrValue = xmlTextReaderGetAttribute(reader, UHDImageAttrName)
-        if(UHDImageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "UHDImage") {
             
-            self.UHDImage = (String.fromCString(UnsafePointer<CChar>(UHDImageAttrValue)) == "true")
-            xmlFree(UHDImageAttrValue)
+            self.UHDImage = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -58,18 +52,18 @@ class NGEDigitalAssetSubtitleFormatType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetSubtitleFormatType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetSubtitleFormatType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

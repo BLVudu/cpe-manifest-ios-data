@@ -9,25 +9,23 @@ import libxml
 @objc
 class NGEPhone : NSObject{
     
-    var type: String?
+    var `type`: String?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let typeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "type").UTF8String)
-        let typeAttrValue = xmlTextReaderGetAttribute(reader, typeAttrName)
-        if(typeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "type") {
             
-            self.type = String.fromCString(UnsafePointer<CChar>(typeAttrValue))
-            xmlFree(typeAttrValue)
+            self.type = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -40,18 +38,18 @@ class NGEPhone : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEPhone: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEPhone: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }
