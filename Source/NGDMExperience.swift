@@ -25,8 +25,6 @@ open class NGDMExperience: Equatable {
     /// Appearance object for background images, buttons, etc
     var nodeStyles: [NGDMNodeStyle]?
     
-    open var appearance: NGDMAppearance?
-    
     /// Unique identifier
     open var id: String
     

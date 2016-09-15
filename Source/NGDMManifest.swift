@@ -290,9 +290,14 @@ open class NGDMManifest {
         
         for obj in rootObj.ExperienceStyleMapList {
             for nodeStyleRefObj in obj.NodeStyleRefList {
-                if let nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID], let orientation = nodeStyleRefObj.Orientation {
-                    nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (orientation == .Landscape)
-                    nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (orientation == .Portrait)
+                if let nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID] {
+                    if let orientation = nodeStyleRefObj.Orientation {
+                        nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (orientation == .Landscape)
+                        nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (orientation == .Portrait)
+                    } else {
+                        nodeStyle.supportsLandscape = true
+                        nodeStyle.supportsPortrait = true
+                    }
                     
                     if let deviceTargetObjList = nodeStyleRefObj.DeviceTargetList {
                         for deviceTargetObj in deviceTargetObjList {
@@ -301,6 +306,9 @@ open class NGDMManifest {
                                 nodeStyle.supportsPhone = nodeStyle.supportsPhone || (subClass == DeviceTargetSubClass.Phone.rawValue)
                             }
                         }
+                    } else {
+                        nodeStyle.supportsTablet = true
+                        nodeStyle.supportsPhone = true
                     }
                     
                     for id in obj.ExperienceIDList {
