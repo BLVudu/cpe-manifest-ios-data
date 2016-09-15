@@ -9,54 +9,51 @@ import libxml
 @objc
 class NGEFileDeliveryType : NSObject{
     
-    var UpdateNum: String?
+    var `UpdateNum`: String?
     
-    var DeliveryMethod: String!
+    var `DeliveryMethod`: String!
     
-    var TransferLocation: String?
+    var `TransferLocation`: String?
     
-    var Organization: NGEOrgNameType?
+    var `Organization`: NGEOrgNameType?
     
-    var Contact: NGEContactInfoType?
+    var `Contact`: NGEContactInfoType?
     
-    var EstDeliveryDate: NSDate?
+    var `EstDeliveryDate`: Date?
     
-    var OtherInstructions: String?
+    var `OtherInstructions`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-    }
+    func readAttributes(_ reader: xmlTextReaderPtr) {let dateOnlyFormatter = DateFormatter()
+    dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
+    dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
     
-    init(reader: xmlTextReaderPtr) {
-        let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init()
-        
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-        self.readAttributes(reader)
-        
-        var _readerOk = xmlTextReaderRead(reader)
-        var _currentNodeType = xmlTextReaderNodeType(reader)
-        var _currentXmlDept = xmlTextReaderDepth(reader)
-        
-        while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
-            var handledInChild = false
-            if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
+}
+
+init(_ reader: xmlTextReaderPtr) {
+    let _complexTypeXmlDept = xmlTextReaderDepth(reader)
+    super.init()
+    let dateOnlyFormatter = DateFormatter()
+    dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
+    dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+    
+    self.readAttributes(reader)
+    
+    var _readerOk = xmlTextReaderRead(reader)
+    var _currentNodeType = xmlTextReaderNodeType(reader)
+    var _currentXmlDept = xmlTextReaderDepth(reader)
+    
+    while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
+        var handledInChild = false
+        if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
+            if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                let _currentElementName = String(cString: _currentElementNameXmlChar)
                 if("UpdateNum" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let UpdateNumElementValue = xmlTextReaderConstValue(reader)
-                    if UpdateNumElementValue != nil {
+                    if let elementValue = xmlTextReaderConstValue(reader) {
                         
-                        self.UpdateNum = String.fromCString(UnsafePointer<CChar>(UpdateNumElementValue))
+                        self.UpdateNum = String(cString: elementValue)
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -66,10 +63,9 @@ class NGEFileDeliveryType : NSObject{
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DeliveryMethodElementValue = xmlTextReaderConstValue(reader)
-                    if DeliveryMethodElementValue != nil {
+                    if let elementValue = xmlTextReaderConstValue(reader) {
                         
-                        self.DeliveryMethod = String.fromCString(UnsafePointer<CChar>(DeliveryMethodElementValue))
+                        self.DeliveryMethod = String(cString: elementValue)
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -79,10 +75,9 @@ class NGEFileDeliveryType : NSObject{
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TransferLocationElementValue = xmlTextReaderConstValue(reader)
-                    if TransferLocationElementValue != nil {
+                    if let elementValue = xmlTextReaderConstValue(reader) {
                         
-                        self.TransferLocation = String.fromCString(UnsafePointer<CChar>(TransferLocationElementValue))
+                        self.TransferLocation = String(cString: elementValue)
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -90,22 +85,21 @@ class NGEFileDeliveryType : NSObject{
                     
                 } else if("Organization" == _currentElementName) {
                     
-                    self.Organization = NGEOrgNameType(reader: reader)
+                    self.Organization = NGEOrgNameType(reader)
                     handledInChild = true
                     
                 } else if("Contact" == _currentElementName) {
                     
-                    self.Contact = NGEContactInfoType(reader: reader)
+                    self.Contact = NGEContactInfoType(reader)
                     handledInChild = true
                     
                 } else if("EstDeliveryDate" == _currentElementName) {
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let EstDeliveryDateElementValue = xmlTextReaderConstValue(reader)
-                    if EstDeliveryDateElementValue != nil {
+                    if let elementValue = xmlTextReaderConstValue(reader) {
                         
-                        self.EstDeliveryDate = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(EstDeliveryDateElementValue))!)
+                        self.EstDeliveryDate = dateOnlyFormatter.date(from: String(cString: elementValue))
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -115,10 +109,9 @@ class NGEFileDeliveryType : NSObject{
                     
                     _readerOk = xmlTextReaderRead(reader)
                     _currentNodeType = xmlTextReaderNodeType(reader)
-                    let OtherInstructionsElementValue = xmlTextReaderConstValue(reader)
-                    if OtherInstructionsElementValue != nil {
+                    if let elementValue = xmlTextReaderConstValue(reader) {
                         
-                        self.OtherInstructions = String.fromCString(UnsafePointer<CChar>(OtherInstructionsElementValue))
+                        self.OtherInstructions = String(cString: elementValue)
                         
                     }
                     _readerOk = xmlTextReaderRead(reader)
@@ -131,56 +124,57 @@ class NGEFileDeliveryType : NSObject{
                     }
                 }
             }
-            _readerOk = handledInChild ? xmlTextReaderReadState(reader) : xmlTextReaderRead(reader)
-            _currentNodeType = xmlTextReaderNodeType(reader)
-            _currentXmlDept = xmlTextReaderDepth(reader)
         }
+        _readerOk = handledInChild ? xmlTextReaderReadState(reader) : xmlTextReaderRead(reader)
+        _currentNodeType = xmlTextReaderNodeType(reader)
+        _currentXmlDept = xmlTextReaderDepth(reader)
+    }
+    
+}
+
+/*var dictionary: [String: AnyObject] {
+    var dict = [String: AnyObject]()
+    
+    if(self.UpdateNum != nil) {
+        
+        dict["UpdateNum"] = self.UpdateNum!
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
+    if(self.DeliveryMethod != nil) {
         
-        if(self.UpdateNum != nil) {
-            
-            dict["UpdateNum"] = self.UpdateNum!
-            
-        }
+        dict["DeliveryMethod"] = self.DeliveryMethod!
         
-        if(self.DeliveryMethod != nil) {
-            
-            dict["DeliveryMethod"] = self.DeliveryMethod!
-            
-        }
-        
-        if(self.TransferLocation != nil) {
-            
-            dict["TransferLocation"] = self.TransferLocation!
-            
-        }
-        
-        if(self.Organization != nil) {
-            dict["Organization"] = self.Organization!
-        }
-        
-        if(self.Contact != nil) {
-            dict["Contact"] = self.Contact!
-        }
-        
-        if(self.EstDeliveryDate != nil) {
-            
-            dict["EstDeliveryDate"] = self.EstDeliveryDate!
-            
-        }
-        
-        if(self.OtherInstructions != nil) {
-            
-            dict["OtherInstructions"] = self.OtherInstructions!
-            
-        }
-        
-        return dict
-    }*/
+    }
     
+    if(self.TransferLocation != nil) {
+        
+        dict["TransferLocation"] = self.TransferLocation!
+        
+    }
+    
+    if(self.Organization != nil) {
+        dict["Organization"] = self.Organization!
+    }
+    
+    if(self.Contact != nil) {
+        dict["Contact"] = self.Contact!
+    }
+    
+    if(self.EstDeliveryDate != nil) {
+        
+        dict["EstDeliveryDate"] = self.EstDeliveryDate!
+        
+    }
+    
+    if(self.OtherInstructions != nil) {
+        
+        dict["OtherInstructions"] = self.OtherInstructions!
+        
+    }
+    
+    return dict
+}*/
+
 }
 

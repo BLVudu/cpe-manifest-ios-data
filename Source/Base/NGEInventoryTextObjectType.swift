@@ -9,35 +9,31 @@ import libxml
 @objc
 class NGEInventoryTextObjectType : NSObject{
     
-    var TextObjectID: String!
+    var `TextObjectID`: String!
     
-    var language: String?
+    var `language`: String?
     
-    var ContainerReference: NGEContainerReference!
+    var `ContainerReference`: NGEContainerReference!
     
-    var SubtitleID: String!
+    var `SubtitleID`: String!
     
-    var TextStringList: [NGETextString]!
+    var `TextStringList`: [NGETextString]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let TextObjectIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "TextObjectID").UTF8String)
-        let TextObjectIDAttrValue = xmlTextReaderGetAttribute(reader, TextObjectIDAttrName)
-        if(TextObjectIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "TextObjectID") {
             
-            self.TextObjectID = String.fromCString(UnsafePointer<CChar>(TextObjectIDAttrValue))
-            xmlFree(TextObjectIDAttrValue)
+            self.TextObjectID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let languageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "language").UTF8String)
-        let languageAttrValue = xmlTextReaderGetAttribute(reader, languageAttrName)
-        if(languageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "language") {
             
-            self.language = String.fromCString(UnsafePointer<CChar>(languageAttrValue))
-            xmlFree(languageAttrValue)
+            self.language = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -52,35 +48,35 @@ class NGEInventoryTextObjectType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ContainerReference" == _currentElementName) {
-                    
-                    self.ContainerReference = NGEContainerReference(reader: reader)
-                    handledInChild = true
-                    
-                } else if("SubtitleID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SubtitleIDElementValue = xmlTextReaderConstValue(reader)
-                    if SubtitleIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ContainerReference" == _currentElementName) {
                         
-                        self.SubtitleID = String.fromCString(UnsafePointer<CChar>(SubtitleIDElementValue))
+                        self.ContainerReference = NGEContainerReference(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TextString" == _currentElementName) {
-                    
-                    TextStringListArray.append(NGETextString(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventoryTextObjectType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("SubtitleID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SubtitleID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("TextString" == _currentElementName) {
+                        
+                        TextStringListArray.append(NGETextString(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventoryTextObjectType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

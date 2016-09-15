@@ -9,35 +9,33 @@ import libxml
 @objc
 class NGEMoneyType : NSObject{
     
-    var currency: String?
+    var `currency`: String?
     
     /**
     the type's underlying value
     */
     var value: Double?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
         
-        let currencyAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "currency").UTF8String)
-        let currencyAttrValue = xmlTextReaderGetAttribute(reader, currencyAttrName)
-        if(currencyAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "currency") {
             
-            self.currency = String.fromCString(UnsafePointer<CChar>(currencyAttrValue))
-            xmlFree(currencyAttrValue)
+            self.currency = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
-        
         self.readAttributes(reader)
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -47,25 +45,25 @@ class NGEMoneyType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        
-                        let decFormatter = NSNumberFormatter()
-                        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-                        decFormatter.decimalSeparator = "."
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        if value != nil {
-                            let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            self.value = decFormatter.numberFromString(trimmed)!.doubleValue
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            
+                            let decFormatter = NumberFormatter()
+                            decFormatter.numberStyle = .decimal
+                            decFormatter.decimalSeparator = "."
+                            
+                            let value = String(cString: contentValue)
+                            let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                            self.value = decFormatter.number(from: trimmed)!.doubleValue
+                            
                         }
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEMoneyType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEMoneyType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

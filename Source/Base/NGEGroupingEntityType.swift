@@ -9,19 +9,19 @@ import libxml
 @objc
 class NGEGroupingEntityType : NSObject{
     
-    var Type: String!
+    var `Type`: String!
     
-    var GroupIdentity: String!
+    var `GroupIdentity`: String!
     
-    var DisplayNameList: [NGEDisplayName]!
+    var `DisplayNameList`: [NGEDisplayName]!
     
-    var Region: NGERegionType?
+    var `Region`: NGERegionType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -36,48 +36,47 @@ class NGEGroupingEntityType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Type" == _currentElementName) {
                         
-                        self.Type = String.fromCString(UnsafePointer<CChar>(TypeElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Type = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("GroupIdentity" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let GroupIdentityElementValue = xmlTextReaderConstValue(reader)
-                    if GroupIdentityElementValue != nil {
+                    } else if("GroupIdentity" == _currentElementName) {
                         
-                        self.GroupIdentity = String.fromCString(UnsafePointer<CChar>(GroupIdentityElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.GroupIdentity = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("DisplayName" == _currentElementName) {
-                    
-                    DisplayNameListArray.append(NGEDisplayName(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Region" == _currentElementName) {
-                    
-                    self.Region = NGERegionType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEGroupingEntityType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("DisplayName" == _currentElementName) {
+                        
+                        DisplayNameListArray.append(NGEDisplayName(reader))
+                        handledInChild = true
+                        
+                    } else if("Region" == _currentElementName) {
+                        
+                        self.Region = NGERegionType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEGroupingEntityType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

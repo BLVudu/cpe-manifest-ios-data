@@ -9,50 +9,45 @@ import libxml
 @objc
 class NGEGenre : NSObject{
     
-    var source: String?
+    var `source`: String?
     
-    var identifier: String?
+    var `identifier`: String?
     
-    var level: Int?
+    var `level`: Int?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let sourceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "source").UTF8String)
-        let sourceAttrValue = xmlTextReaderGetAttribute(reader, sourceAttrName)
-        if(sourceAttrValue != nil) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        if let attrValue = xmlTextReaderGetAttribute(reader, "source") {
             
-            self.source = String.fromCString(UnsafePointer<CChar>(sourceAttrValue))
-            xmlFree(sourceAttrValue)
+            self.source = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let idAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "id").UTF8String)
-        let idAttrValue = xmlTextReaderGetAttribute(reader, idAttrName)
-        if(idAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "id") {
             
-            self.identifier = String.fromCString(UnsafePointer<CChar>(idAttrValue))
-            xmlFree(idAttrValue)
+            self.identifier = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let levelAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "level").UTF8String)
-        let levelAttrValue = xmlTextReaderGetAttribute(reader, levelAttrName)
-        if(levelAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "level") {
             
-            self.level = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(levelAttrValue))!)!.integerValue
-            xmlFree(levelAttrValue)
+            self.level = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -63,18 +58,18 @@ class NGEGenre : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEGenre: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEGenre: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

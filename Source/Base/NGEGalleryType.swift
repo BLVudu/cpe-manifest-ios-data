@@ -9,30 +9,28 @@ import libxml
 @objc
 class NGEGalleryType : NSObject{
     
-    var GalleryID: String?
+    var `GalleryID`: String?
     
-    var Type: String!
+    var `Type`: String!
     
-    var SubTypeList: [String]?
+    var `SubTypeList`: [String]?
     
-    var PictureGroupID: String!
+    var `PictureGroupID`: String!
     
-    var GalleryNameList: [NGEGalleryName]?
+    var `GalleryNameList`: [NGEGalleryName]?
     
-    var ContentID: String?
+    var `ContentID`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let GalleryIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "GalleryID").UTF8String)
-        let GalleryIDAttrValue = xmlTextReaderGetAttribute(reader, GalleryIDAttrName)
-        if(GalleryIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "GalleryID") {
             
-            self.GalleryID = String.fromCString(UnsafePointer<CChar>(GalleryIDAttrValue))
-            xmlFree(GalleryIDAttrValue)
+            self.GalleryID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -49,68 +47,65 @@ class NGEGalleryType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Type" == _currentElementName) {
                         
-                        self.Type = String.fromCString(UnsafePointer<CChar>(TypeElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Type = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SubType" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SubTypeElementValue = xmlTextReaderConstValue(reader)
-                    if SubTypeElementValue != nil {
+                    } else if("SubType" == _currentElementName) {
                         
-                        SubTypeListArray.append(String.fromCString(UnsafePointer<CChar>(SubTypeElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PictureGroupID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PictureGroupIDElementValue = xmlTextReaderConstValue(reader)
-                    if PictureGroupIDElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            SubTypeListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.PictureGroupID = String.fromCString(UnsafePointer<CChar>(PictureGroupIDElementValue))
+                    } else if("PictureGroupID" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("GalleryName" == _currentElementName) {
-                    
-                    GalleryNameListArray.append(NGEGalleryName(reader: reader))
-                    handledInChild = true
-                    
-                } else if("ContentID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ContentIDElementValue = xmlTextReaderConstValue(reader)
-                    if ContentIDElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PictureGroupID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
+                    } else if("GalleryName" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEGalleryType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        GalleryNameListArray.append(NGEGalleryName(reader))
+                        handledInChild = true
+                        
+                    } else if("ContentID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ContentID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEGalleryType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

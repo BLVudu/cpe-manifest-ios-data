@@ -15,7 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         do {
-            try NGDMManifest.sharedInstance.loadManifestXMLFile(NSBundle.mainBundle().pathForResource("mos_hls_manifest_r60-v0.4", ofType: "xml")!)
+            try NGDMManifest.sharedInstance.loadManifestXMLFile(Bundle.main.path(forResource: "mos_hls_manifest_r60-v0.4", ofType: "xml")!)
             print("Main Experience ID: \(NGDMManifest.sharedInstance.mainExperience?.id)")
         } catch {
             print("Error loading manifest file")

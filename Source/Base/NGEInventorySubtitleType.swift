@@ -9,25 +9,23 @@ import libxml
 @objc
 class NGEInventorySubtitleType : NGEDigitalAssetSubtitleDataType {
     
-    var SubtitleTrackID: String!
+    var `SubtitleTrackID`: String!
     
-    var ContainerReference: NGEContainerReferenceType?
+    var `ContainerReference`: NGEContainerReferenceType?
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let SubtitleTrackIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "SubtitleTrackID").UTF8String)
-        let SubtitleTrackIDAttrValue = xmlTextReaderGetAttribute(reader, SubtitleTrackIDAttrName)
-        if(SubtitleTrackIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "SubtitleTrackID") {
             
-            self.SubtitleTrackID = String.fromCString(UnsafePointer<CChar>(SubtitleTrackIDAttrValue))
-            xmlFree(SubtitleTrackIDAttrValue)
+            self.SubtitleTrackID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -36,17 +34,18 @@ class NGEInventorySubtitleType : NGEDigitalAssetSubtitleDataType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ContainerReference" == _currentElementName) {
-                    
-                    self.ContainerReference = NGEContainerReferenceType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventorySubtitleType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ContainerReference" == _currentElementName) {
+                        
+                        self.ContainerReference = NGEContainerReferenceType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventorySubtitleType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

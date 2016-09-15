@@ -5,7 +5,7 @@
 import Foundation
 
 // Wrapper class for `NGEPlayableSequence` Manifest object
-public class NGDMPlayableSequence {
+open class NGDMPlayableSequence {
     /// Unique identifier
     var id: String
     
@@ -20,7 +20,7 @@ public class NGDMPlayableSequence {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEPlayableSequence) {
-        id = manifestObject.PlayableSequenceID ?? NSUUID().UUIDString
+        id = manifestObject.PlayableSequenceID ?? UUID().uuidString
         
         if let objList = manifestObject.ClipList {
             presentations = [NGDMPresentation]()
@@ -42,7 +42,7 @@ public class NGDMPlayableSequence {
      
         - Returns: Object associated with identifier if it exists
      */
-    static func getById(id: String) -> NGDMPlayableSequence? {
+    static func getById(_ id: String) -> NGDMPlayableSequence? {
         return NGDMManifest.sharedInstance.playableSequences[id]
     }
     

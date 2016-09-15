@@ -34,7 +34,7 @@ class NGDMTextObject {
 
         - Returns: Value of the child TextString at the given `index` if it exists
     */
-    func textItem(index: Int) -> String? {
+    func textItem(_ index: Int) -> String? {
         return textStrings[index]
     }
     
@@ -47,7 +47,7 @@ class NGDMTextObject {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMTextObject? {
+    static func getById(_ id: String) -> NGDMTextObject? {
         return NGDMManifest.sharedInstance.textObjects[id]
     }
     

@@ -9,23 +9,23 @@ import libxml
 @objc
 class NGEDigitalAssetMetadataType : NSObject{
     
-    var Audio: NGEDigitalAssetAudioDataType!
+    var `Audio`: NGEDigitalAssetAudioDataType!
     
-    var Video: NGEDigitalAssetVideoDataType!
+    var `Video`: NGEDigitalAssetVideoDataType!
     
-    var Subtitle: NGEDigitalAssetSubtitleDataType!
+    var `Subtitle`: NGEDigitalAssetSubtitleDataType!
     
-    var Image: NGEDigitalAssetImageDataType!
+    var `Image`: NGEDigitalAssetImageDataType!
     
-    var Interactive: NGEDigitalAssetInteractiveDataType!
+    var `Interactive`: NGEDigitalAssetInteractiveDataType!
     
-    var Ancillary: NGEDigitalAssetAncillaryDataType!
+    var `Ancillary`: NGEDigitalAssetAncillaryDataType!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -38,42 +38,43 @@ class NGEDigitalAssetMetadataType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Audio" == _currentElementName) {
-                    
-                    self.Audio = NGEDigitalAssetAudioDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Video" == _currentElementName) {
-                    
-                    self.Video = NGEDigitalAssetVideoDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Subtitle" == _currentElementName) {
-                    
-                    self.Subtitle = NGEDigitalAssetSubtitleDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Image" == _currentElementName) {
-                    
-                    self.Image = NGEDigitalAssetImageDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Interactive" == _currentElementName) {
-                    
-                    self.Interactive = NGEDigitalAssetInteractiveDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Ancillary" == _currentElementName) {
-                    
-                    self.Ancillary = NGEDigitalAssetAncillaryDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetMetadataType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Audio" == _currentElementName) {
+                        
+                        self.Audio = NGEDigitalAssetAudioDataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Video" == _currentElementName) {
+                        
+                        self.Video = NGEDigitalAssetVideoDataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Subtitle" == _currentElementName) {
+                        
+                        self.Subtitle = NGEDigitalAssetSubtitleDataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Image" == _currentElementName) {
+                        
+                        self.Image = NGEDigitalAssetImageDataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Interactive" == _currentElementName) {
+                        
+                        self.Interactive = NGEDigitalAssetInteractiveDataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Ancillary" == _currentElementName) {
+                        
+                        self.Ancillary = NGEDigitalAssetAncillaryDataType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetMetadataType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

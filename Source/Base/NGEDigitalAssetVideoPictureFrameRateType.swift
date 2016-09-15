@@ -9,43 +9,38 @@ import libxml
 @objc
 class NGEDigitalAssetVideoPictureFrameRateType : NSObject{
     
-    var multiplier: NGEStringVideoPicFrameRateMultiplierEnum?
+    var `multiplier`: NGEStringVideoPicFrameRateMultiplierEnum?
     
-    var timecode: String?
+    var `timecode`: String?
     
     /**
     the type's underlying value
     */
     var value: Int?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let multiplierAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "multiplier").UTF8String)
-        let multiplierAttrValue = xmlTextReaderGetAttribute(reader, multiplierAttrName)
-        if(multiplierAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "multiplier") {
             
-            self.multiplier = NGEStringVideoPicFrameRateMultiplierEnum.fromString(String.fromCString(UnsafePointer<CChar>(multiplierAttrValue)))
+            self.multiplier = NGEStringVideoPicFrameRateMultiplierEnum.fromString(enumString: String(cString: attrValue))
             
-            xmlFree(multiplierAttrValue)
+            xmlFree(attrValue)
         }
-        let timecodeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "timecode").UTF8String)
-        let timecodeAttrValue = xmlTextReaderGetAttribute(reader, timecodeAttrName)
-        if(timecodeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "timecode") {
             
-            self.timecode = String.fromCString(UnsafePointer<CChar>(timecodeAttrValue))
-            xmlFree(timecodeAttrValue)
+            self.timecode = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -56,25 +51,24 @@ class NGEDigitalAssetVideoPictureFrameRateType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        
-                        let numFormatter = NSNumberFormatter()
-                        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-                        
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        if value != nil {
-                            let trimmed = value!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            self.value = numFormatter.numberFromString(trimmed)!.integerValue
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            
+                            let numFormatter = NumberFormatter()
+                            numFormatter.numberStyle = .decimal
+                            
+                            let value = String(cString: contentValue)
+                            let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+                            self.value = numFormatter.number(from: trimmed)!.intValue
+                            
                         }
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetVideoPictureFrameRateType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetVideoPictureFrameRateType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

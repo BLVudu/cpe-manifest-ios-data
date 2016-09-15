@@ -9,32 +9,30 @@ import libxml
 @objc
 class NGEBackgroundType : NSObject{
     
-    var looping: Bool?
+    var `looping`: Bool?
     
-    var Color: String?
+    var `Color`: String?
     
-    var Image: NGEImage?
+    var `Image`: NGEImage?
     
-    var Video: NGEVideo?
+    var `Video`: NGEVideo?
     
-    var AudioLoop: NGEBackgroundAudioType?
+    var `AudioLoop`: NGEBackgroundAudioType?
     
-    var Adaptation: NGEBackgroundAdaptationType?
+    var `Adaptation`: NGEBackgroundAdaptationType?
     
-    var OverlayAreaList: [NGEBackgroundOverlayAreaType]?
+    var `OverlayAreaList`: [NGEBackgroundOverlayAreaType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let loopingAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "looping").UTF8String)
-        let loopingAttrValue = xmlTextReaderGetAttribute(reader, loopingAttrName)
-        if(loopingAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "looping") {
             
-            self.looping = (String.fromCString(UnsafePointer<CChar>(loopingAttrValue)) == "true")
-            xmlFree(loopingAttrValue)
+            self.looping = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -49,50 +47,50 @@ class NGEBackgroundType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Color" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ColorElementValue = xmlTextReaderConstValue(reader)
-                    if ColorElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Color" == _currentElementName) {
                         
-                        self.Color = String.fromCString(UnsafePointer<CChar>(ColorElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Color = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Image" == _currentElementName) {
-                    
-                    self.Image = NGEImage(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Video" == _currentElementName) {
-                    
-                    self.Video = NGEVideo(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AudioLoop" == _currentElementName) {
-                    
-                    self.AudioLoop = NGEBackgroundAudioType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Adaptation" == _currentElementName) {
-                    
-                    self.Adaptation = NGEBackgroundAdaptationType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("OverlayArea" == _currentElementName) {
-                    
-                    OverlayAreaListArray.append(NGEBackgroundOverlayAreaType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEBackgroundType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Image" == _currentElementName) {
+                        
+                        self.Image = NGEImage(reader)
+                        handledInChild = true
+                        
+                    } else if("Video" == _currentElementName) {
+                        
+                        self.Video = NGEVideo(reader)
+                        handledInChild = true
+                        
+                    } else if("AudioLoop" == _currentElementName) {
+                        
+                        self.AudioLoop = NGEBackgroundAudioType(reader)
+                        handledInChild = true
+                        
+                    } else if("Adaptation" == _currentElementName) {
+                        
+                        self.Adaptation = NGEBackgroundAdaptationType(reader)
+                        handledInChild = true
+                        
+                    } else if("OverlayArea" == _currentElementName) {
+                        
+                        OverlayAreaListArray.append(NGEBackgroundOverlayAreaType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEBackgroundType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,29 +9,29 @@ import libxml
 @objc
 class NGEBasicMetadataJobType : NSObject{
     
-    var JobFunction: NGEJobFunction!
+    var `JobFunction`: NGEJobFunction!
     
-    var JobDisplayList: [NGEJobDisplay]?
+    var `JobDisplayList`: [NGEJobDisplay]?
     
-    var BillingBlockOrder: Int?
+    var `BillingBlockOrder`: Int?
     
-    var CharacterList: [String]?
+    var `CharacterList`: [String]?
     
-    var Guest: Bool?
+    var `Guest`: Bool?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -46,60 +46,58 @@ class NGEBasicMetadataJobType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("JobFunction" == _currentElementName) {
-                    
-                    self.JobFunction = NGEJobFunction(reader: reader)
-                    handledInChild = true
-                    
-                } else if("JobDisplay" == _currentElementName) {
-                    
-                    JobDisplayListArray.append(NGEJobDisplay(reader: reader))
-                    handledInChild = true
-                    
-                } else if("BillingBlockOrder" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let BillingBlockOrderElementValue = xmlTextReaderConstValue(reader)
-                    if BillingBlockOrderElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("JobFunction" == _currentElementName) {
                         
-                        self.BillingBlockOrder = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(BillingBlockOrderElementValue))!)!.integerValue
+                        self.JobFunction = NGEJobFunction(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Character" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let CharacterElementValue = xmlTextReaderConstValue(reader)
-                    if CharacterElementValue != nil {
+                    } else if("JobDisplay" == _currentElementName) {
                         
-                        CharacterListArray.append(String.fromCString(UnsafePointer<CChar>(CharacterElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Guest" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let GuestElementValue = xmlTextReaderConstValue(reader)
-                    if GuestElementValue != nil {
+                        JobDisplayListArray.append(NGEJobDisplay(reader))
+                        handledInChild = true
                         
-                        self.Guest = String.fromCString(UnsafePointer<CChar>(GuestElementValue)) == "true"
+                    } else if("BillingBlockOrder" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEBasicMetadataJobType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.BillingBlockOrder = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Character" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            CharacterListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Guest" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Guest = String(cString: elementValue) == "true"
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEBasicMetadataJobType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,21 +9,21 @@ import libxml
 @objc
 class NGEReleaseHistoryType : NSObject{
     
-    var ReleaseType: NGEReleaseType!
+    var `ReleaseType`: NGEReleaseType!
     
-    var DistrTerritory: NGERegionType?
+    var `DistrTerritory`: NGERegionType?
     
-    var Date: NGEDate!
+    var `Date`: NGEDate!
     
-    var Description: String?
+    var `Description`: String?
     
-    var ReleaseOrgList: [NGEOrgNameType]?
+    var `ReleaseOrgList`: [NGEOrgNameType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -38,45 +38,45 @@ class NGEReleaseHistoryType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ReleaseType" == _currentElementName) {
-                    
-                    self.ReleaseType = NGEReleaseType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("DistrTerritory" == _currentElementName) {
-                    
-                    self.DistrTerritory = NGERegionType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Date" == _currentElementName) {
-                    
-                    self.Date = NGEDate(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Description" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DescriptionElementValue = xmlTextReaderConstValue(reader)
-                    if DescriptionElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ReleaseType" == _currentElementName) {
                         
-                        self.Description = String.fromCString(UnsafePointer<CChar>(DescriptionElementValue))
+                        self.ReleaseType = NGEReleaseType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ReleaseOrg" == _currentElementName) {
-                    
-                    ReleaseOrgListArray.append(NGEOrgNameType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEReleaseHistoryType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("DistrTerritory" == _currentElementName) {
+                        
+                        self.DistrTerritory = NGERegionType(reader)
+                        handledInChild = true
+                        
+                    } else if("Date" == _currentElementName) {
+                        
+                        self.Date = NGEDate(reader)
+                        handledInChild = true
+                        
+                    } else if("Description" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Description = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("ReleaseOrg" == _currentElementName) {
+                        
+                        ReleaseOrgListArray.append(NGEOrgNameType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEReleaseHistoryType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

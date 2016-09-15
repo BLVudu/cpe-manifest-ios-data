@@ -9,123 +9,119 @@ import libxml
 @objc
 class NGEAppNVPairType : NSObject{
     
-    var Name: String!
+    var `Name`: String!
     
-    var Text: String!
+    var `Text`: String!
     
-    var Integer: Int!
+    var `Integer`: Int!
     
-    var Decimal: Double!
+    var `Decimal`: Double!
     
-    var Duration: String!
+    var `Duration`: String!
     
-    var URL: String!
+    var `URL`: String!
     
-    var URLPostfix: String!
+    var `URLPostfix`: String!
     
-    var Language: String!
+    var `Language`: String!
     
-    var Time: NSDate!
+    var `Time`: Date!
     
-    var YearDateTime: NSDate!
+    var `YearDateTime`: Date!
     
-    var Money: NGEMoneyType!
+    var `Money`: NGEMoneyType!
     
-    var base64Binary: String!
+    var `base64Binary`: String!
     
-    var Location: NGEEventLocationType!
+    var `Location`: NGEEventLocationType!
     
-    var Timecode: NGETimecodeType!
+    var `Timecode`: NGETimecodeType!
     
-    var Person: NGEBasicMetadataPeopleType!
+    var `Person`: NGEBasicMetadataPeopleType!
     
-    var TimePeriod: NGEEventPeriodType!
+    var `TimePeriod`: NGEEventPeriodType!
     
-    var TimedEvent: NGETimedEventType!
+    var `TimedEvent`: NGETimedEventType!
     
-    var ExperienceID: String!
+    var `ExperienceID`: String!
     
-    var PlayableSequenceID: String!
+    var `PlayableSequenceID`: String!
     
-    var PresentationID: String!
+    var `PresentationID`: String!
     
-    var ContentID: String!
+    var `ContentID`: String!
     
-    var PictureID: String!
+    var `PictureID`: String!
     
-    var TextGroupIDList: [NGETextGroupID]!
+    var `TextGroupIDList`: [NGETextGroupID]!
     
-    var ALID: String!
+    var `ALID`: String!
     
-    var EIDR: String!
+    var `EIDR`: String!
     
-    var OtherID: NGEOtherIDType!
+    var `OtherID`: NGEOtherIDType!
     
-    var ProductID: NGEOtherIDType!
+    var `ProductID`: NGEOtherIDType!
     
-    var AdID: String!
+    var `AdID`: String!
     
-    var EANUPC: NGEEANUPC!
+    var `EANUPC`: NGEEANUPC!
     
-    var Gallery: NGEAppDataGalleryType!
+    var `Gallery`: NGEAppDataGalleryType!
     
-    var LocationSet: NGEAppDataLocationType!
+    var `LocationSet`: NGEAppDataLocationType!
     
-    var SelectTrack: NGEAppDataTrackSelectionType!
+    var `SelectTrack`: NGEAppDataTrackSelectionType!
     
-    var DataFeedSet: NGEAppDataFeedSetType!
+    var `DataFeedSet`: NGEAppDataFeedSetType!
     
-    var TimedEventSequence: NGETimedEventSequenceType!
+    var `TimedEventSequence`: NGETimedEventSequenceType!
     
-    var AcquireAsset: NGEAppDataAcquireAssetType!
+    var `AcquireAsset`: NGEAppDataAcquireAssetType!
     
-    var KML: NGEAppDataKMLType!
+    var `KML`: NGEAppDataKMLType!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let timeOnlyFormatter = DateFormatter()
+        timeOnlyFormatter.dateFormat = "HH:mm:ss"
+        timeOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        let dateOnlyFormatter = DateFormatter()
+        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-        let timeOnlyFormatter = NSDateFormatter()
-        timeOnlyFormatter.dateFormat = "HH:mm:ss"
-        timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-        let NameAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "Name").UTF8String)
-        let NameAttrValue = xmlTextReaderGetAttribute(reader, NameAttrName)
-        if(NameAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "Name") {
             
-            self.Name = String.fromCString(UnsafePointer<CChar>(NameAttrValue))
-            xmlFree(NameAttrValue)
+            self.Name = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        decFormatter.decimalSeparator = "."
-        
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let dateOnlyFormatter = NSDateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
-        
-        let timeOnlyFormatter = NSDateFormatter()
+        let timeOnlyFormatter = DateFormatter()
         timeOnlyFormatter.dateFormat = "HH:mm:ss"
-        timeOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        timeOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        let dateOnlyFormatter = DateFormatter()
+        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
+        decFormatter.decimalSeparator = "."
         self.readAttributes(reader)
         
         var TextGroupIDListArray = [NGETextGroupID]()
@@ -137,331 +133,314 @@ class NGEAppNVPairType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Text" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TextElementValue = xmlTextReaderConstValue(reader)
-                    if TextElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Text" == _currentElementName) {
                         
-                        self.Text = String.fromCString(UnsafePointer<CChar>(TextElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Text = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Integer" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let IntegerElementValue = xmlTextReaderConstValue(reader)
-                    if IntegerElementValue != nil {
+                    } else if("Integer" == _currentElementName) {
                         
-                        self.Integer = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(IntegerElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Integer = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Decimal" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DecimalElementValue = xmlTextReaderConstValue(reader)
-                    if DecimalElementValue != nil {
+                    } else if("Decimal" == _currentElementName) {
                         
-                        self.Decimal = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(DecimalElementValue))!)!.doubleValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Decimal = decFormatter.number(from: String(cString: elementValue))!.doubleValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Duration" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DurationElementValue = xmlTextReaderConstValue(reader)
-                    if DurationElementValue != nil {
+                    } else if("Duration" == _currentElementName) {
                         
-                        self.Duration = String.fromCString(UnsafePointer<CChar>(DurationElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Duration = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("URL" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let URLElementValue = xmlTextReaderConstValue(reader)
-                    if URLElementValue != nil {
+                    } else if("URL" == _currentElementName) {
                         
-                        self.URL = String.fromCString(UnsafePointer<CChar>(URLElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.URL = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("URLPostfix" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let URLPostfixElementValue = xmlTextReaderConstValue(reader)
-                    if URLPostfixElementValue != nil {
+                    } else if("URLPostfix" == _currentElementName) {
                         
-                        self.URLPostfix = String.fromCString(UnsafePointer<CChar>(URLPostfixElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.URLPostfix = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Language" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LanguageElementValue = xmlTextReaderConstValue(reader)
-                    if LanguageElementValue != nil {
+                    } else if("Language" == _currentElementName) {
                         
-                        self.Language = String.fromCString(UnsafePointer<CChar>(LanguageElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Language = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Time" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TimeElementValue = xmlTextReaderConstValue(reader)
-                    if TimeElementValue != nil {
+                    } else if("Time" == _currentElementName) {
                         
-                        self.Time = timeOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(TimeElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Time = timeOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("YearDateTime" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let YearDateTimeElementValue = xmlTextReaderConstValue(reader)
-                    if YearDateTimeElementValue != nil {
+                    } else if("YearDateTime" == _currentElementName) {
                         
-                        self.YearDateTime = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(YearDateTimeElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.YearDateTime = dateOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Money" == _currentElementName) {
-                    
-                    self.Money = NGEMoneyType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("base64Binary" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let base64BinaryElementValue = xmlTextReaderConstValue(reader)
-                    if base64BinaryElementValue != nil {
+                    } else if("Money" == _currentElementName) {
                         
-                        self.base64Binary = String.fromCString(UnsafePointer<CChar>(base64BinaryElementValue))
+                        self.Money = NGEMoneyType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Location" == _currentElementName) {
-                    
-                    self.Location = NGEEventLocationType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Timecode" == _currentElementName) {
-                    
-                    self.Timecode = NGETimecodeType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Person" == _currentElementName) {
-                    
-                    self.Person = NGEBasicMetadataPeopleType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("TimePeriod" == _currentElementName) {
-                    
-                    self.TimePeriod = NGEEventPeriodType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("TimedEvent" == _currentElementName) {
-                    
-                    self.TimedEvent = NGETimedEventType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ExperienceID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ExperienceIDElementValue = xmlTextReaderConstValue(reader)
-                    if ExperienceIDElementValue != nil {
+                    } else if("base64Binary" == _currentElementName) {
                         
-                        self.ExperienceID = String.fromCString(UnsafePointer<CChar>(ExperienceIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.base64Binary = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PlayableSequenceID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PlayableSequenceIDElementValue = xmlTextReaderConstValue(reader)
-                    if PlayableSequenceIDElementValue != nil {
+                    } else if("Location" == _currentElementName) {
                         
-                        self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))
+                        self.Location = NGEEventLocationType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PresentationID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PresentationIDElementValue = xmlTextReaderConstValue(reader)
-                    if PresentationIDElementValue != nil {
+                    } else if("Timecode" == _currentElementName) {
                         
-                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
+                        self.Timecode = NGETimecodeType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ContentID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ContentIDElementValue = xmlTextReaderConstValue(reader)
-                    if ContentIDElementValue != nil {
+                    } else if("Person" == _currentElementName) {
                         
-                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
+                        self.Person = NGEBasicMetadataPeopleType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PictureID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PictureIDElementValue = xmlTextReaderConstValue(reader)
-                    if PictureIDElementValue != nil {
+                    } else if("TimePeriod" == _currentElementName) {
                         
-                        self.PictureID = String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))
+                        self.TimePeriod = NGEEventPeriodType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TextGroupID" == _currentElementName) {
-                    
-                    TextGroupIDListArray.append(NGETextGroupID(reader: reader))
-                    handledInChild = true
-                    
-                } else if("ALID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ALIDElementValue = xmlTextReaderConstValue(reader)
-                    if ALIDElementValue != nil {
+                    } else if("TimedEvent" == _currentElementName) {
                         
-                        self.ALID = String.fromCString(UnsafePointer<CChar>(ALIDElementValue))
+                        self.TimedEvent = NGETimedEventType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("EIDR" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let EIDRElementValue = xmlTextReaderConstValue(reader)
-                    if EIDRElementValue != nil {
+                    } else if("ExperienceID" == _currentElementName) {
                         
-                        self.EIDR = String.fromCString(UnsafePointer<CChar>(EIDRElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ExperienceID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("OtherID" == _currentElementName) {
-                    
-                    self.OtherID = NGEOtherIDType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ProductID" == _currentElementName) {
-                    
-                    self.ProductID = NGEOtherIDType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AdID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AdIDElementValue = xmlTextReaderConstValue(reader)
-                    if AdIDElementValue != nil {
+                    } else if("PlayableSequenceID" == _currentElementName) {
                         
-                        self.AdID = String.fromCString(UnsafePointer<CChar>(AdIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PlayableSequenceID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("EANUPC" == _currentElementName) {
-                    
-                    self.EANUPC = NGEEANUPC(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Gallery" == _currentElementName) {
-                    
-                    self.Gallery = NGEAppDataGalleryType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("LocationSet" == _currentElementName) {
-                    
-                    self.LocationSet = NGEAppDataLocationType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("SelectTrack" == _currentElementName) {
-                    
-                    self.SelectTrack = NGEAppDataTrackSelectionType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("DataFeedSet" == _currentElementName) {
-                    
-                    self.DataFeedSet = NGEAppDataFeedSetType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("TimedEventSequence" == _currentElementName) {
-                    
-                    self.TimedEventSequence = NGETimedEventSequenceType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AcquireAsset" == _currentElementName) {
-                    
-                    self.AcquireAsset = NGEAppDataAcquireAssetType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("KML" == _currentElementName) {
-                    
-                    self.KML = NGEAppDataKMLType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAppNVPairType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("PresentationID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PresentationID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("ContentID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ContentID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("PictureID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PictureID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("TextGroupID" == _currentElementName) {
+                        
+                        TextGroupIDListArray.append(NGETextGroupID(reader))
+                        handledInChild = true
+                        
+                    } else if("ALID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ALID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("EIDR" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.EIDR = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("OtherID" == _currentElementName) {
+                        
+                        self.OtherID = NGEOtherIDType(reader)
+                        handledInChild = true
+                        
+                    } else if("ProductID" == _currentElementName) {
+                        
+                        self.ProductID = NGEOtherIDType(reader)
+                        handledInChild = true
+                        
+                    } else if("AdID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.AdID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("EANUPC" == _currentElementName) {
+                        
+                        self.EANUPC = NGEEANUPC(reader)
+                        handledInChild = true
+                        
+                    } else if("Gallery" == _currentElementName) {
+                        
+                        self.Gallery = NGEAppDataGalleryType(reader)
+                        handledInChild = true
+                        
+                    } else if("LocationSet" == _currentElementName) {
+                        
+                        self.LocationSet = NGEAppDataLocationType(reader)
+                        handledInChild = true
+                        
+                    } else if("SelectTrack" == _currentElementName) {
+                        
+                        self.SelectTrack = NGEAppDataTrackSelectionType(reader)
+                        handledInChild = true
+                        
+                    } else if("DataFeedSet" == _currentElementName) {
+                        
+                        self.DataFeedSet = NGEAppDataFeedSetType(reader)
+                        handledInChild = true
+                        
+                    } else if("TimedEventSequence" == _currentElementName) {
+                        
+                        self.TimedEventSequence = NGETimedEventSequenceType(reader)
+                        handledInChild = true
+                        
+                    } else if("AcquireAsset" == _currentElementName) {
+                        
+                        self.AcquireAsset = NGEAppDataAcquireAssetType(reader)
+                        handledInChild = true
+                        
+                    } else if("KML" == _currentElementName) {
+                        
+                        self.KML = NGEAppDataKMLType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAppNVPairType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

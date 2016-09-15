@@ -18,10 +18,10 @@ enum NGETypeEnum : Int {
     
     static func fromString(enumString:String?) -> NGETypeEnum {
         if var enumString = enumString {
-            if(NSNumberFormatter().numberFromString(enumString) != nil) {
+            if(NumberFormatter().number(from: enumString) != nil) {
                 enumString = "Value\(enumString)"
             }
-            if let i = namesArray.indexOf(enumString) {
+            if let i = namesArray.index(of: enumString) {
                 if let enumType = NGETypeEnum(rawValue:i-1) {
                     return enumType
                 }

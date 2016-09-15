@@ -9,31 +9,31 @@ import libxml
 @objc
 class NGEDigitalAssetColorVolumeType : NSObject{
     
-    var PrimaryRChromaticity: NGEDigitalAssetChromaticityType!
+    var `PrimaryRChromaticity`: NGEDigitalAssetChromaticityType!
     
-    var PrimaryGChromaticity: NGEDigitalAssetChromaticityType!
+    var `PrimaryGChromaticity`: NGEDigitalAssetChromaticityType!
     
-    var PrimaryBChromaticity: NGEDigitalAssetChromaticityType!
+    var `PrimaryBChromaticity`: NGEDigitalAssetChromaticityType!
     
-    var WhitePointChromaticity: NGEDigitalAssetChromaticityType!
+    var `WhitePointChromaticity`: NGEDigitalAssetChromaticityType!
     
-    var LuminanceMin: Double!
+    var `LuminanceMin`: Double!
     
-    var LuminanceMax: Double!
+    var `LuminanceMax`: Double!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
         self.readAttributes(reader)
         
@@ -44,58 +44,57 @@ class NGEDigitalAssetColorVolumeType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("PrimaryRChromaticity" == _currentElementName) {
-                    
-                    self.PrimaryRChromaticity = NGEDigitalAssetChromaticityType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("PrimaryGChromaticity" == _currentElementName) {
-                    
-                    self.PrimaryGChromaticity = NGEDigitalAssetChromaticityType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("PrimaryBChromaticity" == _currentElementName) {
-                    
-                    self.PrimaryBChromaticity = NGEDigitalAssetChromaticityType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("WhitePointChromaticity" == _currentElementName) {
-                    
-                    self.WhitePointChromaticity = NGEDigitalAssetChromaticityType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("LuminanceMin" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LuminanceMinElementValue = xmlTextReaderConstValue(reader)
-                    if LuminanceMinElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("PrimaryRChromaticity" == _currentElementName) {
                         
-                        self.LuminanceMin = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(LuminanceMinElementValue))!)!.doubleValue
+                        self.PrimaryRChromaticity = NGEDigitalAssetChromaticityType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("LuminanceMax" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LuminanceMaxElementValue = xmlTextReaderConstValue(reader)
-                    if LuminanceMaxElementValue != nil {
+                    } else if("PrimaryGChromaticity" == _currentElementName) {
                         
-                        self.LuminanceMax = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(LuminanceMaxElementValue))!)!.doubleValue
+                        self.PrimaryGChromaticity = NGEDigitalAssetChromaticityType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetColorVolumeType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("PrimaryBChromaticity" == _currentElementName) {
+                        
+                        self.PrimaryBChromaticity = NGEDigitalAssetChromaticityType(reader)
+                        handledInChild = true
+                        
+                    } else if("WhitePointChromaticity" == _currentElementName) {
+                        
+                        self.WhitePointChromaticity = NGEDigitalAssetChromaticityType(reader)
+                        handledInChild = true
+                        
+                    } else if("LuminanceMin" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.LuminanceMin = decFormatter.number(from: String(cString: elementValue))!.doubleValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("LuminanceMax" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.LuminanceMax = decFormatter.number(from: String(cString: elementValue))!.doubleValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetColorVolumeType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

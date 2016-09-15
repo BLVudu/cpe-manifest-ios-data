@@ -9,24 +9,24 @@ import libxml
 @objc
 class NGECompanyCreditsType : NSObject{
     
-    var DisplayStringList: [NGEDisplayString]!
+    var `DisplayStringList`: [NGEDisplayString]!
     
-    var RegionList: [NGERegionType]?
+    var `RegionList`: [NGERegionType]?
     
-    var DisplaySequence: Int?
+    var `DisplaySequence`: Int?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -40,35 +40,35 @@ class NGECompanyCreditsType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("DisplayString" == _currentElementName) {
-                    
-                    DisplayStringListArray.append(NGEDisplayString(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Region" == _currentElementName) {
-                    
-                    RegionListArray.append(NGERegionType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("DisplaySequence" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DisplaySequenceElementValue = xmlTextReaderConstValue(reader)
-                    if DisplaySequenceElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("DisplayString" == _currentElementName) {
                         
-                        self.DisplaySequence = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(DisplaySequenceElementValue))!)!.integerValue
+                        DisplayStringListArray.append(NGEDisplayString(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECompanyCreditsType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Region" == _currentElementName) {
+                        
+                        RegionListArray.append(NGERegionType(reader))
+                        handledInChild = true
+                        
+                    } else if("DisplaySequence" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.DisplaySequence = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECompanyCreditsType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

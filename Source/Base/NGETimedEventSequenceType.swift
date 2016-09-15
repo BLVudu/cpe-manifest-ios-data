@@ -9,26 +9,24 @@ import libxml
 @objc
 class NGETimedEventSequenceType : NSObject{
     
-    var TimedSequenceID: String!
+    var `TimedSequenceID`: String!
     
-    var PresentationID: String!
+    var `PresentationID`: String!
     
-    var PlayableSequenceID: String!
+    var `PlayableSequenceID`: String!
     
-    var TimedEventList: [NGETimedEventType]!
+    var `TimedEventList`: [NGETimedEventType]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let TimedSequenceIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "TimedSequenceID").UTF8String)
-        let TimedSequenceIDAttrValue = xmlTextReaderGetAttribute(reader, TimedSequenceIDAttrName)
-        if(TimedSequenceIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "TimedSequenceID") {
             
-            self.TimedSequenceID = String.fromCString(UnsafePointer<CChar>(TimedSequenceIDAttrValue))
-            xmlFree(TimedSequenceIDAttrValue)
+            self.TimedSequenceID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -43,43 +41,42 @@ class NGETimedEventSequenceType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("PresentationID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PresentationIDElementValue = xmlTextReaderConstValue(reader)
-                    if PresentationIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("PresentationID" == _currentElementName) {
                         
-                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PresentationID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PlayableSequenceID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PlayableSequenceIDElementValue = xmlTextReaderConstValue(reader)
-                    if PlayableSequenceIDElementValue != nil {
+                    } else if("PlayableSequenceID" == _currentElementName) {
                         
-                        self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PlayableSequenceID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TimedEvent" == _currentElementName) {
-                    
-                    TimedEventListArray.append(NGETimedEventType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGETimedEventSequenceType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("TimedEvent" == _currentElementName) {
+                        
+                        TimedEventListArray.append(NGETimedEventType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGETimedEventSequenceType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

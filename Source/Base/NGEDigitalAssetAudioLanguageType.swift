@@ -9,25 +9,23 @@ import libxml
 @objc
 class NGEDigitalAssetAudioLanguageType : NSObject{
     
-    var dubbed: Bool?
+    var `dubbed`: Bool?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let dubbedAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "dubbed").UTF8String)
-        let dubbedAttrValue = xmlTextReaderGetAttribute(reader, dubbedAttrName)
-        if(dubbedAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "dubbed") {
             
-            self.dubbed = (String.fromCString(UnsafePointer<CChar>(dubbedAttrValue)) == "true")
-            xmlFree(dubbedAttrValue)
+            self.dubbed = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -40,18 +38,18 @@ class NGEDigitalAssetAudioLanguageType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetAudioLanguageType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetAudioLanguageType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

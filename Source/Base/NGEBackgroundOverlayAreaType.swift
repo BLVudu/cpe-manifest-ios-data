@@ -9,38 +9,34 @@ import libxml
 @objc
 class NGEBackgroundOverlayAreaType : NGEImageSubAreaType {
     
-    var tag: String?
+    var `tag`: String?
     
-    var priority: Int?
+    var `priority`: Int?
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let tagAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "tag").UTF8String)
-        let tagAttrValue = xmlTextReaderGetAttribute(reader, tagAttrName)
-        if(tagAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "tag") {
             
-            self.tag = String.fromCString(UnsafePointer<CChar>(tagAttrValue))
-            xmlFree(tagAttrValue)
+            self.tag = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let priorityAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "priority").UTF8String)
-        let priorityAttrValue = xmlTextReaderGetAttribute(reader, priorityAttrName)
-        if(priorityAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "priority") {
             
-            self.priority = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(priorityAttrValue))!)!.integerValue
-            xmlFree(priorityAttrValue)
+            self.priority = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -49,12 +45,13 @@ class NGEBackgroundOverlayAreaType : NGEImageSubAreaType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if(true) {
-                    print("Ignoring unexpected in NGEBackgroundOverlayAreaType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if(true) {
+                        print("Ignoring unexpected in NGEBackgroundOverlayAreaType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

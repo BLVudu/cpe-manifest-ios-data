@@ -9,26 +9,24 @@ import libxml
 @objc
 class NGEInventoryMetadataType : NSObject{
     
-    var ContentID: String!
+    var `ContentID`: String!
     
-    var ContainerReferenceList: [NGEContainerReference]?
+    var `ContainerReferenceList`: [NGEContainerReference]?
     
-    var BasicMetadata: NGEBasicMetadataType?
+    var `BasicMetadata`: NGEBasicMetadataType?
     
-    var AliasList: [NGEInventoryMetadataAliasType]?
+    var `AliasList`: [NGEInventoryMetadataAliasType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let ContentIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ContentID").UTF8String)
-        let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
-        if(ContentIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ContentID") {
             
-            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
-            xmlFree(ContentIDAttrValue)
+            self.ContentID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -45,27 +43,28 @@ class NGEInventoryMetadataType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ContainerReference" == _currentElementName) {
-                    
-                    ContainerReferenceListArray.append(NGEContainerReference(reader: reader))
-                    handledInChild = true
-                    
-                } else if("BasicMetadata" == _currentElementName) {
-                    
-                    self.BasicMetadata = NGEBasicMetadataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Alias" == _currentElementName) {
-                    
-                    AliasListArray.append(NGEInventoryMetadataAliasType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventoryMetadataType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ContainerReference" == _currentElementName) {
+                        
+                        ContainerReferenceListArray.append(NGEContainerReference(reader))
+                        handledInChild = true
+                        
+                    } else if("BasicMetadata" == _currentElementName) {
+                        
+                        self.BasicMetadata = NGEBasicMetadataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Alias" == _currentElementName) {
+                        
+                        AliasListArray.append(NGEInventoryMetadataAliasType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventoryMetadataType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

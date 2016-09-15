@@ -9,26 +9,24 @@ import libxml
 @objc
 class NGEChapterType : NSObject{
     
-    var index: String!
+    var `index`: String!
     
-    var EntryTimecode: NGETimecodeType!
+    var `EntryTimecode`: NGETimecodeType!
     
-    var DisplayLabelList: [NGEDisplayLabel]?
+    var `DisplayLabelList`: [NGEDisplayLabel]?
     
-    var ImageIDList: [NGEImageID]?
+    var `ImageIDList`: [NGEImageID]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let indexAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "index").UTF8String)
-        let indexAttrValue = xmlTextReaderGetAttribute(reader, indexAttrName)
-        if(indexAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "index") {
             
-            self.index = String.fromCString(UnsafePointer<CChar>(indexAttrValue))
-            xmlFree(indexAttrValue)
+            self.index = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -44,27 +42,28 @@ class NGEChapterType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("EntryTimecode" == _currentElementName) {
-                    
-                    self.EntryTimecode = NGETimecodeType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("DisplayLabel" == _currentElementName) {
-                    
-                    DisplayLabelListArray.append(NGEDisplayLabel(reader: reader))
-                    handledInChild = true
-                    
-                } else if("ImageID" == _currentElementName) {
-                    
-                    ImageIDListArray.append(NGEImageID(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEChapterType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("EntryTimecode" == _currentElementName) {
+                        
+                        self.EntryTimecode = NGETimecodeType(reader)
+                        handledInChild = true
+                        
+                    } else if("DisplayLabel" == _currentElementName) {
+                        
+                        DisplayLabelListArray.append(NGEDisplayLabel(reader))
+                        handledInChild = true
+                        
+                    } else if("ImageID" == _currentElementName) {
+                        
+                        ImageIDListArray.append(NGEImageID(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEChapterType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

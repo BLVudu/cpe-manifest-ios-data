@@ -9,27 +9,25 @@ import libxml
 @objc
 class NGEInventoryImageType : NGEDigitalAssetImageDataType {
     
-    var ImageID: String?
+    var `ImageID`: String?
     
-    var ContainerReference: NGEContainerReferenceType?
+    var `ContainerReference`: NGEContainerReferenceType?
     
-    var VideoFrameTimecode: NGEVideoFrameTimecode?
+    var `VideoFrameTimecode`: NGEVideoFrameTimecode?
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let ImageIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ImageID").UTF8String)
-        let ImageIDAttrValue = xmlTextReaderGetAttribute(reader, ImageIDAttrName)
-        if(ImageIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ImageID") {
             
-            self.ImageID = String.fromCString(UnsafePointer<CChar>(ImageIDAttrValue))
-            xmlFree(ImageIDAttrValue)
+            self.ImageID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -38,22 +36,23 @@ class NGEInventoryImageType : NGEDigitalAssetImageDataType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ContainerReference" == _currentElementName) {
-                    
-                    self.ContainerReference = NGEContainerReferenceType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("VideoFrameTimecode" == _currentElementName) {
-                    
-                    self.VideoFrameTimecode = NGEVideoFrameTimecode(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventoryImageType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ContainerReference" == _currentElementName) {
+                        
+                        self.ContainerReference = NGEContainerReferenceType(reader)
+                        handledInChild = true
+                        
+                    } else if("VideoFrameTimecode" == _currentElementName) {
+                        
+                        self.VideoFrameTimecode = NGEVideoFrameTimecode(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventoryImageType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

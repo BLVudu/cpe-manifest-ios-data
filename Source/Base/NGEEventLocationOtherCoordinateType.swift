@@ -9,22 +9,20 @@ import libxml
 @objc
 class NGEEventLocationOtherCoordinateType : NSObject{
     
-    var system: String!
+    var `system`: String!
     
-    var CoordinateList: [NGECoordinate]!
+    var `CoordinateList`: [NGECoordinate]!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let systemAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "system").UTF8String)
-        let systemAttrValue = xmlTextReaderGetAttribute(reader, systemAttrName)
-        if(systemAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "system") {
             
-            self.system = String.fromCString(UnsafePointer<CChar>(systemAttrValue))
-            xmlFree(systemAttrValue)
+            self.system = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -39,17 +37,18 @@ class NGEEventLocationOtherCoordinateType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Coordinate" == _currentElementName) {
-                    
-                    CoordinateListArray.append(NGECoordinate(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEEventLocationOtherCoordinateType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Coordinate" == _currentElementName) {
+                        
+                        CoordinateListArray.append(NGECoordinate(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEEventLocationOtherCoordinateType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

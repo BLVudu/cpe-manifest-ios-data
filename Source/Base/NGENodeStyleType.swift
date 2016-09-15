@@ -9,30 +9,28 @@ import libxml
 @objc
 class NGENodeStyleType : NSObject{
     
-    var NodeStyleID: String!
+    var `NodeStyleID`: String!
     
-    var Type: String!
+    var `Type`: String!
     
-    var SubTypeList: [String]?
+    var `SubTypeList`: [String]?
     
-    var ThemeID: String!
+    var `ThemeID`: String!
     
-    var Background: NGEBackgroundType?
+    var `Background`: NGEBackgroundType?
     
-    var Private: NGEPrivate?
+    var `Private`: NGEPrivate?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let NodeStyleIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "NodeStyleID").UTF8String)
-        let NodeStyleIDAttrValue = xmlTextReaderGetAttribute(reader, NodeStyleIDAttrName)
-        if(NodeStyleIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "NodeStyleID") {
             
-            self.NodeStyleID = String.fromCString(UnsafePointer<CChar>(NodeStyleIDAttrValue))
-            xmlFree(NodeStyleIDAttrValue)
+            self.NodeStyleID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -47,60 +45,58 @@ class NGENodeStyleType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Type" == _currentElementName) {
                         
-                        self.Type = String.fromCString(UnsafePointer<CChar>(TypeElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Type = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SubType" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SubTypeElementValue = xmlTextReaderConstValue(reader)
-                    if SubTypeElementValue != nil {
+                    } else if("SubType" == _currentElementName) {
                         
-                        SubTypeListArray.append(String.fromCString(UnsafePointer<CChar>(SubTypeElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ThemeID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ThemeIDElementValue = xmlTextReaderConstValue(reader)
-                    if ThemeIDElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            SubTypeListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.ThemeID = String.fromCString(UnsafePointer<CChar>(ThemeIDElementValue))
+                    } else if("ThemeID" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Background" == _currentElementName) {
-                    
-                    self.Background = NGEBackgroundType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Private" == _currentElementName) {
-                    
-                    self.Private = NGEPrivate(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGENodeStyleType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ThemeID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Background" == _currentElementName) {
+                        
+                        self.Background = NGEBackgroundType(reader)
+                        handledInChild = true
+                        
+                    } else if("Private" == _currentElementName) {
+                        
+                        self.Private = NGEPrivate(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGENodeStyleType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

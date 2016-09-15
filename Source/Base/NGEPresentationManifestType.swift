@@ -9,37 +9,35 @@ import libxml
 @objc
 class NGEPresentationManifestType : NSObject{
     
-    var updateNum: Int?
+    var `updateNum`: Int?
     
-    var Inventory: NGEInventoryType!
+    var `Inventory`: NGEInventoryType!
     
-    var Presentation: NGEPresentationType!
+    var `Presentation`: NGEPresentationType!
     
-    var PictureGroups: NGEPictureGroupListType?
+    var `PictureGroups`: NGEPictureGroupListType?
     
-    var TextGroups: NGETextGroupListType?
+    var `TextGroups`: NGETextGroupListType?
     
-    var TimedEventSequences: NGETimedEventSequenceListType?
+    var `TimedEventSequences`: NGETimedEventSequenceListType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let updateNumAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateNum").UTF8String)
-        let updateNumAttrValue = xmlTextReaderGetAttribute(reader, updateNumAttrName)
-        if(updateNumAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "updateNum") {
             
-            self.updateNum = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(updateNumAttrValue))!)!.integerValue
-            xmlFree(updateNumAttrValue)
+            self.updateNum = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -50,37 +48,38 @@ class NGEPresentationManifestType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Inventory" == _currentElementName) {
-                    
-                    self.Inventory = NGEInventoryType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Presentation" == _currentElementName) {
-                    
-                    self.Presentation = NGEPresentationType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("PictureGroups" == _currentElementName) {
-                    
-                    self.PictureGroups = NGEPictureGroupListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("TextGroups" == _currentElementName) {
-                    
-                    self.TextGroups = NGETextGroupListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("TimedEventSequences" == _currentElementName) {
-                    
-                    self.TimedEventSequences = NGETimedEventSequenceListType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEPresentationManifestType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Inventory" == _currentElementName) {
+                        
+                        self.Inventory = NGEInventoryType(reader)
+                        handledInChild = true
+                        
+                    } else if("Presentation" == _currentElementName) {
+                        
+                        self.Presentation = NGEPresentationType(reader)
+                        handledInChild = true
+                        
+                    } else if("PictureGroups" == _currentElementName) {
+                        
+                        self.PictureGroups = NGEPictureGroupListType(reader)
+                        handledInChild = true
+                        
+                    } else if("TextGroups" == _currentElementName) {
+                        
+                        self.TextGroups = NGETextGroupListType(reader)
+                        handledInChild = true
+                        
+                    } else if("TimedEventSequences" == _currentElementName) {
+                        
+                        self.TimedEventSequences = NGETimedEventSequenceListType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEPresentationManifestType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

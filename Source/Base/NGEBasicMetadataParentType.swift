@@ -9,24 +9,22 @@ import libxml
 @objc
 class NGEBasicMetadataParentType : NSObject{
     
-    var relationshipType: String?
+    var `relationshipType`: String?
     
-    var Parent: NGEBasicMetadataType!
+    var `Parent`: NGEBasicMetadataType!
     
-    var ParentContentID: String!
+    var `ParentContentID`: String!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let relationshipTypeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "relationshipType").UTF8String)
-        let relationshipTypeAttrValue = xmlTextReaderGetAttribute(reader, relationshipTypeAttrName)
-        if(relationshipTypeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "relationshipType") {
             
-            self.relationshipType = String.fromCString(UnsafePointer<CChar>(relationshipTypeAttrValue))
-            xmlFree(relationshipTypeAttrValue)
+            self.relationshipType = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -39,30 +37,30 @@ class NGEBasicMetadataParentType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Parent" == _currentElementName) {
-                    
-                    self.Parent = NGEBasicMetadataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ParentContentID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ParentContentIDElementValue = xmlTextReaderConstValue(reader)
-                    if ParentContentIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Parent" == _currentElementName) {
                         
-                        self.ParentContentID = String.fromCString(UnsafePointer<CChar>(ParentContentIDElementValue))
+                        self.Parent = NGEBasicMetadataType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEBasicMetadataParentType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("ParentContentID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ParentContentID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEBasicMetadataParentType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

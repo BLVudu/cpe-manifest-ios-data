@@ -9,49 +9,45 @@ import libxml
 @objc
 class NGECompatibilityResolutionType : NSObject{
     
-    var rotate: Bool!
+    var `rotate`: Bool!
     
-    var crop: Bool!
+    var `crop`: Bool!
     
-    var WidthPixels: Int!
+    var `WidthPixels`: Int!
     
-    var HeightPixels: Int!
+    var `HeightPixels`: Int!
     
-    var SafeWidthPixels: Int!
+    var `SafeWidthPixels`: Int!
     
-    var SafeHeightPixels: Int!
+    var `SafeHeightPixels`: Int!
     
-    var SafePixelsFromLeft: Int!
+    var `SafePixelsFromLeft`: Int!
     
-    var SafePixelsFromBottom: Int!
+    var `SafePixelsFromBottom`: Int!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let rotateAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "rotate").UTF8String)
-        let rotateAttrValue = xmlTextReaderGetAttribute(reader, rotateAttrName)
-        if(rotateAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "rotate") {
             
-            self.rotate = (String.fromCString(UnsafePointer<CChar>(rotateAttrValue)) == "true")
-            xmlFree(rotateAttrValue)
+            self.rotate = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
-        let cropAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "crop").UTF8String)
-        let cropAttrValue = xmlTextReaderGetAttribute(reader, cropAttrName)
-        if(cropAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "crop") {
             
-            self.crop = (String.fromCString(UnsafePointer<CChar>(cropAttrValue)) == "true")
-            xmlFree(cropAttrValue)
+            self.crop = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -62,90 +58,85 @@ class NGECompatibilityResolutionType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("WidthPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WidthPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if WidthPixelsElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("WidthPixels" == _currentElementName) {
                         
-                        self.WidthPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(WidthPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WidthPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("HeightPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let HeightPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if HeightPixelsElementValue != nil {
+                    } else if("HeightPixels" == _currentElementName) {
                         
-                        self.HeightPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(HeightPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.HeightPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SafeWidthPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SafeWidthPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if SafeWidthPixelsElementValue != nil {
+                    } else if("SafeWidthPixels" == _currentElementName) {
                         
-                        self.SafeWidthPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SafeWidthPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SafeWidthPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SafeHeightPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SafeHeightPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if SafeHeightPixelsElementValue != nil {
+                    } else if("SafeHeightPixels" == _currentElementName) {
                         
-                        self.SafeHeightPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SafeHeightPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SafeHeightPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SafePixelsFromLeft" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SafePixelsFromLeftElementValue = xmlTextReaderConstValue(reader)
-                    if SafePixelsFromLeftElementValue != nil {
+                    } else if("SafePixelsFromLeft" == _currentElementName) {
                         
-                        self.SafePixelsFromLeft = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SafePixelsFromLeftElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SafePixelsFromLeft = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SafePixelsFromBottom" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SafePixelsFromBottomElementValue = xmlTextReaderConstValue(reader)
-                    if SafePixelsFromBottomElementValue != nil {
+                    } else if("SafePixelsFromBottom" == _currentElementName) {
                         
-                        self.SafePixelsFromBottom = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SafePixelsFromBottomElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SafePixelsFromBottom = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECompatibilityResolutionType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECompatibilityResolutionType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

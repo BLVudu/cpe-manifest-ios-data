@@ -9,33 +9,33 @@ import libxml
 @objc
 class NGEPictureType : NSObject{
     
-    var PictureID: String!
+    var `PictureID`: String!
     
-    var ImageID: String!
+    var `ImageID`: String!
     
-    var ThumbnailImageID: String?
+    var `ThumbnailImageID`: String?
     
-    var LanguageInImageList: [String]?
+    var `LanguageInImageList`: [String]?
     
-    var AlternateTextList: [NGEAlternateText]?
+    var `AlternateTextList`: [NGEAlternateText]?
     
-    var CaptionList: [NGECaption]?
+    var `CaptionList`: [NGECaption]?
     
-    var Sequence: Int?
+    var `Sequence`: Int?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -50,86 +50,82 @@ class NGEPictureType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("PictureID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PictureIDElementValue = xmlTextReaderConstValue(reader)
-                    if PictureIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("PictureID" == _currentElementName) {
                         
-                        self.PictureID = String.fromCString(UnsafePointer<CChar>(PictureIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PictureID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ImageID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ImageIDElementValue = xmlTextReaderConstValue(reader)
-                    if ImageIDElementValue != nil {
+                    } else if("ImageID" == _currentElementName) {
                         
-                        self.ImageID = String.fromCString(UnsafePointer<CChar>(ImageIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ImageID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ThumbnailImageID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ThumbnailImageIDElementValue = xmlTextReaderConstValue(reader)
-                    if ThumbnailImageIDElementValue != nil {
+                    } else if("ThumbnailImageID" == _currentElementName) {
                         
-                        self.ThumbnailImageID = String.fromCString(UnsafePointer<CChar>(ThumbnailImageIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ThumbnailImageID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("LanguageInImage" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LanguageInImageElementValue = xmlTextReaderConstValue(reader)
-                    if LanguageInImageElementValue != nil {
+                    } else if("LanguageInImage" == _currentElementName) {
                         
-                        LanguageInImageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageInImageElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("AlternateText" == _currentElementName) {
-                    
-                    AlternateTextListArray.append(NGEAlternateText(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Caption" == _currentElementName) {
-                    
-                    CaptionListArray.append(NGECaption(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Sequence" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SequenceElementValue = xmlTextReaderConstValue(reader)
-                    if SequenceElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            LanguageInImageListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.Sequence = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(SequenceElementValue))!)!.integerValue
+                    } else if("AlternateText" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEPictureType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        AlternateTextListArray.append(NGEAlternateText(reader))
+                        handledInChild = true
+                        
+                    } else if("Caption" == _currentElementName) {
+                        
+                        CaptionListArray.append(NGECaption(reader))
+                        handledInChild = true
+                        
+                    } else if("Sequence" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Sequence = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEPictureType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

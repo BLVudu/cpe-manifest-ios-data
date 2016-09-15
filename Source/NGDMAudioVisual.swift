@@ -5,26 +5,26 @@
 import Foundation
 
 // Wrapper class for `NGEAudiovisualType` Manifest object
-public class NGDMAudioVisual {
+open class NGDMAudioVisual {
     /// Unique identifier
     var id: String
     
     /// Metadata associated with this AudioVisual
-    public var metadata: NGDMMetadata?
+    open var metadata: NGDMMetadata?
     
     /// Image URL to be used for display
-    var imageURL: NSURL? {
-        return metadata?.imageURL
+    var imageURL: URL? {
+        return metadata?.imageURL as URL?
     }
     
     /// Description to be used for display
-    public var descriptionText: String? {
+    open var descriptionText: String? {
         return metadata?.description ?? metadata?.title
     }
     
     /// Presentations associated with this AudioVisual
-    private var playableSequence: NGDMPlayableSequence?
-    private var presentation: NGDMPresentation?
+    fileprivate var playableSequence: NGDMPlayableSequence?
+    fileprivate var presentation: NGDMPresentation?
     var presentations: [NGDMPresentation]? {
         if let playableSequence = playableSequence {
             return playableSequence.presentations
@@ -45,7 +45,7 @@ public class NGDMAudioVisual {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEAudiovisualType) {
-        id = manifestObject.PresentationID ?? manifestObject.PlayableSequenceID ?? manifestObject.ContentID ?? NSUUID().UUIDString
+        id = manifestObject.PresentationID ?? manifestObject.PlayableSequenceID ?? manifestObject.ContentID ?? UUID().uuidString
         
         if let id = manifestObject.ContentID {
             metadata = NGDMMetadata.getById(id)
@@ -67,7 +67,7 @@ public class NGDMAudioVisual {
      
         - Returns: Object associated with identifier if it exists
      */
-    static func getById(id: String) -> NGDMAudioVisual? {
+    static func getById(_ id: String) -> NGDMAudioVisual? {
         return NGDMManifest.sharedInstance.audioVisuals[id]
     }
     

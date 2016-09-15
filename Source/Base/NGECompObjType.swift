@@ -9,15 +9,15 @@ import libxml
 @objc
 class NGECompObjType : NSObject{
     
-    var EntryList: [NGECompObjEntryType]?
+    var `EntryList`: [NGECompObjEntryType]?
     
-    var CompilationClass: NGECompObjClassType?
+    var `CompilationClass`: NGECompObjClassType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -32,22 +32,23 @@ class NGECompObjType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Entry" == _currentElementName) {
-                    
-                    EntryListArray.append(NGECompObjEntryType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("CompilationClass" == _currentElementName) {
-                    
-                    self.CompilationClass = NGECompObjClassType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECompObjType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Entry" == _currentElementName) {
+                        
+                        EntryListArray.append(NGECompObjEntryType(reader))
+                        handledInChild = true
+                        
+                    } else if("CompilationClass" == _currentElementName) {
+                        
+                        self.CompilationClass = NGECompObjClassType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECompObjType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

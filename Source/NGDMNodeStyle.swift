@@ -25,7 +25,7 @@ public enum BackgroundPositionMethod: String {
     case Centered = "centered"
 }
 
-public class NGDMNodeStyle {
+open class NGDMNodeStyle {
     
     // MARK: Instance Variables
     /// Unique identifier
@@ -41,24 +41,24 @@ public class NGDMNodeStyle {
     var theme: NGDMTheme!
     
     /// Background properties
-    public var backgroundColor = UIColor.blackColor()
-    public var backgroundScaleMethod = BackgroundScaleMethod.BestFit
-    public var backgroundPositionMethod = BackgroundPositionMethod.Centered
+    open var backgroundColor = UIColor.black
+    open var backgroundScaleMethod = BackgroundScaleMethod.BestFit
+    open var backgroundPositionMethod = BackgroundPositionMethod.Centered
     
     /// Background image
-    public var backgroundImageURL: NSURL?
+    open var backgroundImageURL: URL?
     
     /// Background video
     var backgroundPresentation: NGDMPresentation?
-    public var backgroundVideoLoops = false
-    public var backgroundVideoLoopTimecode = 0.0
-    public var backgroundVideoURL: NSURL? {
+    open var backgroundVideoLoops = false
+    open var backgroundVideoLoopTimecode = 0.0
+    open var backgroundVideoURL: URL? {
         return backgroundPresentation?.videoURL
     }
     
     /// Button overlay
-    public var buttonOverlaySize: CGSize?
-    public var buttonOverlayBottomLeft: CGPoint?
+    open var buttonOverlaySize: CGSize?
+    open var buttonOverlayBottomLeft: CGPoint?
     
     // MARK: Initialization
     /**
@@ -78,11 +78,11 @@ public class NGDMNodeStyle {
             }
             
             if let backgroundAdaptationObj = backgroundObj.Adaptation {
-                if let rawString = backgroundAdaptationObj.ScaleMethod, scaleMethod = BackgroundScaleMethod(rawValue: rawString) {
+                if let rawString = backgroundAdaptationObj.ScaleMethod, let scaleMethod = BackgroundScaleMethod(rawValue: rawString) {
                     backgroundScaleMethod = scaleMethod
                 }
                 
-                if let rawString = backgroundAdaptationObj.PositioningMethod, positionMethod = BackgroundPositionMethod(rawValue: rawString) {
+                if let rawString = backgroundAdaptationObj.PositioningMethod, let positionMethod = BackgroundPositionMethod(rawValue: rawString) {
                     backgroundPositionMethod = positionMethod
                 }
             }
@@ -104,8 +104,8 @@ public class NGDMNodeStyle {
             if let overlayObjList = backgroundObj.OverlayAreaList {
                 for overlayObj in overlayObjList {
                     if overlayObj.tag == "button" {
-                        buttonOverlaySize = CGSizeMake(CGFloat(overlayObj.WidthPixels), CGFloat(overlayObj.HeightPixels))
-                        buttonOverlayBottomLeft = CGPointMake(CGFloat(overlayObj.PixelsFromLeft), CGFloat(overlayObj.PixelsFromBottom))
+                        buttonOverlaySize = CGSize(width: CGFloat(overlayObj.WidthPixels), height: CGFloat(overlayObj.HeightPixels))
+                        buttonOverlayBottomLeft = CGPoint(x: CGFloat(overlayObj.PixelsFromLeft), y: CGFloat(overlayObj.PixelsFromBottom))
                     }
                 }
             }
@@ -121,7 +121,7 @@ public class NGDMNodeStyle {
  
         - Returns: Button image if it exists
     */
-    public func getButtonImage(label: String) -> NGDMImage? {
+    open func getButtonImage(_ label: String) -> NGDMImage? {
         return theme.buttons[label]
     }
     
@@ -134,7 +134,7 @@ public class NGDMNodeStyle {
      
         - Returns: Object associated with identifier if it exists
      */
-    public static func getById(id: String) -> NGDMNodeStyle? {
+    open static func getById(_ id: String) -> NGDMNodeStyle? {
         return NGDMManifest.sharedInstance.nodeStyles[id]
     }
     

@@ -5,15 +5,15 @@
 
 import Foundation
 
-extension NSLocale {
+extension Locale {
     
     public static func deviceLanguage() -> String {
-        return NSLocale.currentLocale().localeIdentifier.stringByReplacingOccurrencesOfString("_", withString: "-")
+        return Locale.current.identifier.replacingOccurrences(of: "_", with: "-")
     }
     
     public static func deviceLanguageBackup() -> String {
         let deviceLanguage = self.deviceLanguage()
-        return deviceLanguage[deviceLanguage.startIndex ..< deviceLanguage.startIndex.advancedBy(2)]
+        return deviceLanguage[deviceLanguage.startIndex ..< deviceLanguage.characters.index(deviceLanguage.startIndex, offsetBy: 2)]
     }
     
 }
