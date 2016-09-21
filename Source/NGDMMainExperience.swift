@@ -29,7 +29,11 @@ open class NGDMMainExperience: NGDMExperience {
     }
     
     open var interstitialVideoURL: URL? {
-        return audioVisual?.presentations?.first?.videoURL as URL?
+        if let presentations = audioVisual?.presentations, presentations.count > 1 {
+            return presentations.first?.videoURL
+        }
+        
+        return nil
     }
     
     // MARK: Helper Methods
