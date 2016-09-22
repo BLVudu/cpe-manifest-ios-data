@@ -19,6 +19,11 @@ open class NGDMPresentation {
         return video?.url
     }
     
+    /// Original size of the Video
+    open var videoSize: CGSize {
+        return video?.size ?? CGSize.zero
+    }
+    
     // MARK: Initialization
     /**
         Initializes a new Presentation

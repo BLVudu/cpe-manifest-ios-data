@@ -12,10 +12,17 @@ open class NGDMPicture {
     var id: String
     
     /// Image URL to be used for full display
-    open var imageURL: URL?
+    var image: NGDMImage?
+    private var _imageURL: URL?
+    open var imageURL: URL? {
+        return _imageURL ?? image?.url
+    }
     
     /// Image URL to be used for thumbnail display
-    var thumbnailImageURL: URL?
+    var thumbnailImage: NGDMImage?
+    open var thumbnailImageURL: URL? {
+        return thumbnailImage?.url
+    }
     
     /// Caption associated with this image
     fileprivate var captions: [String: String]? // Language: Caption
@@ -38,11 +45,11 @@ open class NGDMPicture {
         id = manifestObject.PictureID
         
         if let id = manifestObject.ImageID {
-            imageURL = NGDMImage.getById(id)?.url
+            image = NGDMImage.getById(id)
         }
         
         if let id = manifestObject.ThumbnailImageID {
-            thumbnailImageURL = NGDMImage.getById(id)?.url
+            thumbnailImage = NGDMImage.getById(id)
         }
         
         captions = [String: String]()
@@ -64,7 +71,7 @@ open class NGDMPicture {
      */
     public init(imageURL: URL) {
         id = UUID().uuidString
-        self.imageURL = imageURL
+        _imageURL = imageURL
     }
     
     // MARK: Search Methods

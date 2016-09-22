@@ -5,13 +5,16 @@
 import Foundation
 
 // Wrapper class for `NGEInventoryVideoType` Manifest object
-class NGDMVideo {
+open class NGDMVideo {
     
     /// Unique identifier
     var id: String
     
+    /// Size in pixels of this Video
+    open var size = CGSize.zero
+    
     /// URL associated with this Video
-    var url: URL?
+    open var url: URL?
     
     /// Video length in seconds
     var runtimeInSeconds: TimeInterval = 0
@@ -25,6 +28,10 @@ class NGDMVideo {
     */
     init(manifestObject: NGEInventoryVideoType) {
         id = manifestObject.VideoTrackID
+        
+        if let pictureObj = manifestObject.Picture, let width = pictureObj.WidthPixels, let height = pictureObj.HeightPixels {
+            size = CGSize(width: width, height: height)
+        }
         
         if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
             if containerLocation.contains("file://") {

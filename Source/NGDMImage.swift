@@ -36,7 +36,7 @@ open class NGDMImage {
             }
         }
         
-        size = CGSize(width: CGFloat(manifestObject.Width), height: CGFloat(manifestObject.Height))
+        size = CGSize(width: manifestObject.Width, height: manifestObject.Height)
     }
     
     // MARK: Search Methods

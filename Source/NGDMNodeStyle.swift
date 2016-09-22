@@ -46,14 +46,14 @@ open class NGDMNodeStyle {
     open var backgroundPositionMethod = BackgroundPositionMethod.Centered
     
     /// Background image
-    open var backgroundImageURL: URL?
+    open var backgroundImage: NGDMImage?
     
     /// Background video
-    var backgroundPresentation: NGDMPresentation?
+    private var backgroundPresentation: NGDMPresentation?
     open var backgroundVideoLoops = false
     open var backgroundVideoLoopTimecode = 0.0
-    open var backgroundVideoURL: URL? {
-        return backgroundPresentation?.videoURL
+    open var backgroundVideo: NGDMVideo? {
+        return backgroundPresentation?.video
     }
     
     /// Button overlay
@@ -98,7 +98,7 @@ open class NGDMNodeStyle {
             }
             
             if let backgroundImagePictureGroupId = backgroundObj.Image?.PictureGroupID {
-                backgroundImageURL = NGDMManifest.sharedInstance.pictureGroups[backgroundImagePictureGroupId]?.first?.imageURL
+                backgroundImage = NGDMManifest.sharedInstance.pictureGroups[backgroundImagePictureGroupId]?.first?.image
             }
             
             if let overlayObjList = backgroundObj.OverlayAreaList {
