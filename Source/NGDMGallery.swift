@@ -70,7 +70,15 @@ open class NGDMGallery {
         if let id = manifestObject.PictureGroupID, let pictures = NGDMManifest.sharedInstance.pictureGroups[id] {
             if subType == .Turntable {
                 self.pictures = [NGDMPicture]()
-                for i in stride(from: 0, to: pictures.count, by: max(Int(ceil(Double(pictures.count) / 50)), 1)) {
+                
+                var turntableStrideBy = 1
+                if #available(iOS 9.3, *) {
+                    turntableStrideBy = 4
+                } else {
+                    turntableStrideBy = 10
+                }
+                
+                for i in stride(from: 0, to: pictures.count, by: turntableStrideBy) {
                     self.pictures.append(pictures[i])
                 }
             } else {

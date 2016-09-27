@@ -14,18 +14,18 @@ extension String {
     func iso8601TimeInSeconds() -> TimeInterval {
         if self.characters.count > 2 && self[0] == "P" && self[1] == "T" {
             var currentNumberString = ""
-            var hours = 0, minutes = 0, seconds = 0
+            var hours = 0.0, minutes = 0.0, seconds = 0.0
             
             let timeString = self.substring(from: self.index(self.startIndex, offsetBy: 2))
             for i in 0 ..< timeString.characters.count {
-                if timeString[i] == "H" {
-                    hours = Int(currentNumberString)!
+                if timeString[i] == "H", let numValue = Double(currentNumberString) {
+                    hours = numValue
                     currentNumberString = ""
-                } else if timeString[i] == "M" {
-                    minutes = Int(currentNumberString)!
+                } else if timeString[i] == "M", let numValue = Double(currentNumberString) {
+                    minutes = numValue
                     currentNumberString = ""
-                } else if timeString[i] == "S" {
-                    seconds = Int(currentNumberString)!
+                } else if timeString[i] == "S", let numValue = Double(currentNumberString) {
+                    seconds = numValue
                     currentNumberString = ""
                 } else {
                     currentNumberString += timeString[i]

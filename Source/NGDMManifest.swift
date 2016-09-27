@@ -263,7 +263,7 @@ open class NGDMManifest {
         
         for imageId in imageIds {
             if let url = NGDMImage.getById(imageId)?.url {
-                UIImageRemoteLoader.loadImage(url, completion: { (image) in
+                _ = UIImageRemoteLoader.loadImage(url, completion: { (image) in
                     NGDMManifest.sharedInstance.imageCache[imageId] = image
                 })
             }
