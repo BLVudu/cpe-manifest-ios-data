@@ -9,7 +9,7 @@ open class NGDMExperienceApp {
     
     // MARK: Instance Variables
     /// Unique identifier
-    var id: String
+    open var id: String
     
     /// Metadata associated with this ExperienceApp
     var metadata: NGDMMetadata?

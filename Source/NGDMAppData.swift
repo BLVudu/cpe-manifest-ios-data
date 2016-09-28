@@ -25,12 +25,23 @@ open class NGDMAppData {
     var id: String!
     
     /// Metadata
+    private var backupTitle: String?
     open var title: String? {
-        return experience?.title
+        return experience?.title ?? backupTitle
     }
     
     open var thumbnailImageURL: URL? {
-        return experience?.imageURL as URL?
+        if let imageURL = experience?.imageURL {
+            return imageURL
+        }
+        
+        if let location = location {
+            let locationString = String(location.latitude) + "," + String(location.longitude)
+            let locationUrlString = "http://maps.googleapis.com/maps/api/staticmap?center=" + locationString + "&zoom=" + String(max(Int(zoomLevel) - 4, 1)) + "&scale=2&size=480x270&maptype=roadmap&format=png&visual_refresh=true"
+            return URL(string: locationUrlString)
+        }
+        
+        return nil
     }
     
     open var description: String? {
@@ -80,6 +91,10 @@ open class NGDMAppData {
                     experience = NGDMExperience.getById(id)
                 }
                 
+                break
+                
+            case NVPairName.AppType:
+                backupTitle = obj.Text
                 break
                 
             default:

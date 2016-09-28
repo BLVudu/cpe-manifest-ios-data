@@ -225,7 +225,7 @@ open class NGDMExperience: Equatable {
             return app?.name == Namespaces.TheTake
             
         case .talentData:
-            return id.contains("ecp_tab.4")
+            return id.contains("castcrew")
         }
     }
     

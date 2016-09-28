@@ -21,7 +21,7 @@ public enum SocialAccountType {
 open class NGDMPeople: NSObject {
     
     // MARK: Instance Variables
-    var id: String!
+    open var id: String!
     open var apiId: String?
     
     open var name: String?
