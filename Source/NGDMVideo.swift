@@ -5,16 +5,19 @@
 import Foundation
 
 // Wrapper class for `NGEInventoryVideoType` Manifest object
-class NGDMVideo {
+open class NGDMVideo {
     
     /// Unique identifier
     var id: String
     
+    /// Size in pixels of this Video
+    open var size = CGSize.zero
+    
     /// URL associated with this Video
-    var url: NSURL?
+    open var url: URL?
     
     /// Video length in seconds
-    var runtimeInSeconds: NSTimeInterval = 0
+    var runtimeInSeconds: TimeInterval = 0
     
     // MARK: Initialization
     /**
@@ -26,12 +29,16 @@ class NGDMVideo {
     init(manifestObject: NGEInventoryVideoType) {
         id = manifestObject.VideoTrackID
         
+        if let pictureObj = manifestObject.Picture, let width = pictureObj.WidthPixels, let height = pictureObj.HeightPixels {
+            size = CGSize(width: width, height: height)
+        }
+        
         if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
-            if containerLocation.containsString("file://") {
-                let tempURL = NSURL(fileURLWithPath: containerLocation.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                url = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+            if containerLocation.contains("file://") {
+                let tempURL = URL(fileURLWithPath: containerLocation.replacingOccurrences(of: "file://", with: ""))
+                url = Bundle.main.url(forResource: tempURL.deletingPathExtension().path, withExtension: tempURL.pathExtension)
             } else {
-                url = NSURL(string: containerLocation)
+                url = URL(string: containerLocation)
             }
         }
         
@@ -47,7 +54,7 @@ class NGDMVideo {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMVideo? {
+    static func getById(_ id: String) -> NGDMVideo? {
         return NGDMManifest.sharedInstance.videos[id]
     }
     

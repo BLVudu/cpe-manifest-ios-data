@@ -9,26 +9,24 @@ import libxml
 @objc
 class NGEThemeType : NSObject{
     
-    var ThemeID: String!
+    var `ThemeID`: String!
     
-    var ColorPalette: NGEColorPaletteType?
+    var `ColorPalette`: NGEColorPaletteType?
     
-    var ButtonImageSet: NGEButtonSetType?
+    var `ButtonImageSet`: NGEButtonSetType?
     
-    var Fonts: NGEFontsType?
+    var `Fonts`: NGEFontsType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let ThemeIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ThemeID").UTF8String)
-        let ThemeIDAttrValue = xmlTextReaderGetAttribute(reader, ThemeIDAttrName)
-        if(ThemeIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ThemeID") {
             
-            self.ThemeID = String.fromCString(UnsafePointer<CChar>(ThemeIDAttrValue))
-            xmlFree(ThemeIDAttrValue)
+            self.ThemeID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -41,27 +39,28 @@ class NGEThemeType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("ColorPalette" == _currentElementName) {
-                    
-                    self.ColorPalette = NGEColorPaletteType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ButtonImageSet" == _currentElementName) {
-                    
-                    self.ButtonImageSet = NGEButtonSetType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Fonts" == _currentElementName) {
-                    
-                    self.Fonts = NGEFontsType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEThemeType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("ColorPalette" == _currentElementName) {
+                        
+                        self.ColorPalette = NGEColorPaletteType(reader)
+                        handledInChild = true
+                        
+                    } else if("ButtonImageSet" == _currentElementName) {
+                        
+                        self.ButtonImageSet = NGEButtonSetType(reader)
+                        handledInChild = true
+                        
+                    } else if("Fonts" == _currentElementName) {
+                        
+                        self.Fonts = NGEFontsType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEThemeType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

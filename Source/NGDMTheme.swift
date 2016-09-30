@@ -4,7 +4,7 @@
 
 import Foundation
 
-public class NGDMTheme {
+open class NGDMTheme {
     
     // MARK: Instance Variables
     /// Unique identifier

@@ -9,49 +9,49 @@ import libxml
 @objc
 class NGEDigitalAssetVideoPictureType : NSObject{
     
-    var AspectRatio: String?
+    var `AspectRatio`: String?
     
-    var PixelAspect: NGEStringVideoPicPixelAspectEnum?
+    var `PixelAspect`: NGEStringVideoPicPixelAspectEnum?
     
-    var WidthPixels: Int?
+    var `WidthPixels`: Int?
     
-    var HeightPixels: Int?
+    var `HeightPixels`: Int?
     
-    var ActiveWidthPixels: Int?
+    var `ActiveWidthPixels`: Int?
     
-    var ActiveHeightPixels: Int?
+    var `ActiveHeightPixels`: Int?
     
-    var FrameRate: NGEDigitalAssetVideoPictureFrameRateType?
+    var `FrameRate`: NGEDigitalAssetVideoPictureFrameRateType?
     
-    var Progressive: NGEDigitalAssetVideoPictureProgressiveType?
+    var `Progressive`: NGEDigitalAssetVideoPictureProgressiveType?
     
-    var ColorSubsampling: String?
+    var `ColorSubsampling`: String?
     
-    var Colorimetry: String?
+    var `Colorimetry`: String?
     
-    var Type3D: String?
+    var `Type3D`: String?
     
-    var MasteredColorVolume: NGEDigitalAssetColorVolumeType?
+    var `MasteredColorVolume`: NGEDigitalAssetColorVolumeType?
     
-    var ColorEncoding: NGEDigitalAssetColorEncodingType?
+    var `ColorEncoding`: NGEDigitalAssetColorEncodingType?
     
-    var LightLevel: NGEDigitalAssetVideoPictureLightLevelType?
+    var `LightLevel`: NGEDigitalAssetVideoPictureLightLevelType?
     
-    var HDRPlaybackInfo: NGEDigitalAssetVideoPictureHDRPlaybackInfoType?
+    var `HDRPlaybackInfo`: NGEDigitalAssetVideoPictureHDRPlaybackInfoType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -62,159 +62,151 @@ class NGEDigitalAssetVideoPictureType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("AspectRatio" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AspectRatioElementValue = xmlTextReaderConstValue(reader)
-                    if AspectRatioElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("AspectRatio" == _currentElementName) {
                         
-                        self.AspectRatio = String.fromCString(UnsafePointer<CChar>(AspectRatioElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.AspectRatio = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PixelAspect" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PixelAspectElementValue = xmlTextReaderConstValue(reader)
-                    if PixelAspectElementValue != nil {
+                    } else if("PixelAspect" == _currentElementName) {
                         
-                        self.PixelAspect = NGEStringVideoPicPixelAspectEnum.fromString(String.fromCString(UnsafePointer<CChar>(PixelAspectElementValue)))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PixelAspect = NGEStringVideoPicPixelAspectEnum.fromString(enumString: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("WidthPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WidthPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if WidthPixelsElementValue != nil {
+                    } else if("WidthPixels" == _currentElementName) {
                         
-                        self.WidthPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(WidthPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WidthPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("HeightPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let HeightPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if HeightPixelsElementValue != nil {
+                    } else if("HeightPixels" == _currentElementName) {
                         
-                        self.HeightPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(HeightPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.HeightPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ActiveWidthPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ActiveWidthPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if ActiveWidthPixelsElementValue != nil {
+                    } else if("ActiveWidthPixels" == _currentElementName) {
                         
-                        self.ActiveWidthPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(ActiveWidthPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ActiveWidthPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ActiveHeightPixels" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ActiveHeightPixelsElementValue = xmlTextReaderConstValue(reader)
-                    if ActiveHeightPixelsElementValue != nil {
+                    } else if("ActiveHeightPixels" == _currentElementName) {
                         
-                        self.ActiveHeightPixels = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(ActiveHeightPixelsElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ActiveHeightPixels = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("FrameRate" == _currentElementName) {
-                    
-                    self.FrameRate = NGEDigitalAssetVideoPictureFrameRateType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Progressive" == _currentElementName) {
-                    
-                    self.Progressive = NGEDigitalAssetVideoPictureProgressiveType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ColorSubsampling" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ColorSubsamplingElementValue = xmlTextReaderConstValue(reader)
-                    if ColorSubsamplingElementValue != nil {
+                    } else if("FrameRate" == _currentElementName) {
                         
-                        self.ColorSubsampling = String.fromCString(UnsafePointer<CChar>(ColorSubsamplingElementValue))
+                        self.FrameRate = NGEDigitalAssetVideoPictureFrameRateType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Colorimetry" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ColorimetryElementValue = xmlTextReaderConstValue(reader)
-                    if ColorimetryElementValue != nil {
+                    } else if("Progressive" == _currentElementName) {
                         
-                        self.Colorimetry = String.fromCString(UnsafePointer<CChar>(ColorimetryElementValue))
+                        self.Progressive = NGEDigitalAssetVideoPictureProgressiveType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Type3D" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let Type3DElementValue = xmlTextReaderConstValue(reader)
-                    if Type3DElementValue != nil {
+                    } else if("ColorSubsampling" == _currentElementName) {
                         
-                        self.Type3D = String.fromCString(UnsafePointer<CChar>(Type3DElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ColorSubsampling = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("MasteredColorVolume" == _currentElementName) {
-                    
-                    self.MasteredColorVolume = NGEDigitalAssetColorVolumeType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ColorEncoding" == _currentElementName) {
-                    
-                    self.ColorEncoding = NGEDigitalAssetColorEncodingType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("LightLevel" == _currentElementName) {
-                    
-                    self.LightLevel = NGEDigitalAssetVideoPictureLightLevelType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("HDRPlaybackInfo" == _currentElementName) {
-                    
-                    self.HDRPlaybackInfo = NGEDigitalAssetVideoPictureHDRPlaybackInfoType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetVideoPictureType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Colorimetry" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Colorimetry = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Type3D" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Type3D = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("MasteredColorVolume" == _currentElementName) {
+                        
+                        self.MasteredColorVolume = NGEDigitalAssetColorVolumeType(reader)
+                        handledInChild = true
+                        
+                    } else if("ColorEncoding" == _currentElementName) {
+                        
+                        self.ColorEncoding = NGEDigitalAssetColorEncodingType(reader)
+                        handledInChild = true
+                        
+                    } else if("LightLevel" == _currentElementName) {
+                        
+                        self.LightLevel = NGEDigitalAssetVideoPictureLightLevelType(reader)
+                        handledInChild = true
+                        
+                    } else if("HDRPlaybackInfo" == _currentElementName) {
+                        
+                        self.HDRPlaybackInfo = NGEDigitalAssetVideoPictureHDRPlaybackInfoType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetVideoPictureType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

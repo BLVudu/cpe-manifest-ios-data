@@ -15,10 +15,10 @@ enum NGEMadeForRegionInternalTypeEnum : Int {
     
     static func fromString(enumString:String?) -> NGEMadeForRegionInternalTypeEnum {
         if var enumString = enumString {
-            if(NSNumberFormatter().numberFromString(enumString) != nil) {
+            if(NumberFormatter().number(from: enumString) != nil) {
                 enumString = "Value\(enumString)"
             }
-            if let i = namesArray.indexOf(enumString) {
+            if let i = namesArray.index(of: enumString) {
                 if let enumType = NGEMadeForRegionInternalTypeEnum(rawValue:i-1) {
                     return enumType
                 }

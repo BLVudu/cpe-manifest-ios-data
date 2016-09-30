@@ -9,52 +9,45 @@ import libxml
 @objc
 class NGEAudiovisualClipRefType : NSObject{
     
-    var sequence: Int?
+    var `sequence`: Int?
     
-    var seamless: Bool?
+    var `seamless`: Bool?
     
-    var audioLanguage: String?
+    var `audioLanguage`: String?
     
-    var PresentationID: String!
+    var `PresentationID`: String!
     
-    var EntryPointTimecode: NGETimecodeType?
+    var `EntryPointTimecode`: NGETimecodeType?
     
-    var ExitPointTimecode: NGETimecodeType?
+    var `ExitPointTimecode`: NGETimecodeType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let sequenceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "sequence").UTF8String)
-        let sequenceAttrValue = xmlTextReaderGetAttribute(reader, sequenceAttrName)
-        if(sequenceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "sequence") {
             
-            self.sequence = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(sequenceAttrValue))!)!.integerValue
-            xmlFree(sequenceAttrValue)
+            self.sequence = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
-        let seamlessAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "seamless").UTF8String)
-        let seamlessAttrValue = xmlTextReaderGetAttribute(reader, seamlessAttrName)
-        if(seamlessAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "seamless") {
             
-            self.seamless = (String.fromCString(UnsafePointer<CChar>(seamlessAttrValue)) == "true")
-            xmlFree(seamlessAttrValue)
+            self.seamless = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
-        let audioLanguageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "audioLanguage").UTF8String)
-        let audioLanguageAttrValue = xmlTextReaderGetAttribute(reader, audioLanguageAttrName)
-        if(audioLanguageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "audioLanguage") {
             
-            self.audioLanguage = String.fromCString(UnsafePointer<CChar>(audioLanguageAttrValue))
-            xmlFree(audioLanguageAttrValue)
+            self.audioLanguage = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -65,35 +58,35 @@ class NGEAudiovisualClipRefType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("PresentationID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PresentationIDElementValue = xmlTextReaderConstValue(reader)
-                    if PresentationIDElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("PresentationID" == _currentElementName) {
                         
-                        self.PresentationID = String.fromCString(UnsafePointer<CChar>(PresentationIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PresentationID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("EntryPointTimecode" == _currentElementName) {
-                    
-                    self.EntryPointTimecode = NGETimecodeType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ExitPointTimecode" == _currentElementName) {
-                    
-                    self.ExitPointTimecode = NGETimecodeType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAudiovisualClipRefType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("EntryPointTimecode" == _currentElementName) {
+                        
+                        self.EntryPointTimecode = NGETimecodeType(reader)
+                        handledInChild = true
+                        
+                    } else if("ExitPointTimecode" == _currentElementName) {
+                        
+                        self.ExitPointTimecode = NGETimecodeType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAudiovisualClipRefType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

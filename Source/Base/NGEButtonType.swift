@@ -9,24 +9,22 @@ import libxml
 @objc
 class NGEButtonType : NSObject{
     
-    var label: String?
+    var `label`: String?
     
-    var Default: NGEDefault!
+    var `Default`: NGEDefault!
     
-    var LocalizedList: [NGELocalized]?
+    var `LocalizedList`: [NGELocalized]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let labelAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "label").UTF8String)
-        let labelAttrValue = xmlTextReaderGetAttribute(reader, labelAttrName)
-        if(labelAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "label") {
             
-            self.label = String.fromCString(UnsafePointer<CChar>(labelAttrValue))
-            xmlFree(labelAttrValue)
+            self.label = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -41,22 +39,23 @@ class NGEButtonType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Default" == _currentElementName) {
-                    
-                    self.Default = NGEDefault(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Localized" == _currentElementName) {
-                    
-                    LocalizedListArray.append(NGELocalized(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEButtonType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Default" == _currentElementName) {
+                        
+                        self.Default = NGEDefault(reader)
+                        handledInChild = true
+                        
+                    } else if("Localized" == _currentElementName) {
+                        
+                        LocalizedListArray.append(NGELocalized(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEButtonType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -4,13 +4,13 @@
 
 import Foundation
 
-public enum NGDMError: ErrorType {
-    case ManifestMissing
-    case AppDataMissing
-    case CPEStyleMissing
-    case MainExperienceMissing
-    case InMovieExperienceMissing
-    case OutOfMovieExperienceMissing
+public enum NGDMError: Error {
+    case manifestMissing
+    case appDataMissing
+    case cpeStyleMissing
+    case mainExperienceMissing
+    case inMovieExperienceMissing
+    case outOfMovieExperienceMissing
 }
 
 public struct Namespaces {
@@ -21,24 +21,25 @@ public struct Namespaces {
 }
 
 /// Manager for communicating with parsed Manifest data
-public class NGDMManifest {
+open class NGDMManifest {
     
     // MARK: Singleton Methods
     /// Static shared instance for singleton
-    public static var sharedInstance: NGDMManifest!
+    open static var sharedInstance: NGDMManifest!
     
     // MARK: Instance variables
     /// The Manifest's main Experiences associated with the feature film, in-movie and out-of-movie experiences
-    public var mainExperience: NGDMMainExperience?
-    public var outOfMovieExperience: NGDMExperience?
-    public var inMovieExperience: NGDMExperience?
-    public var hasActors: Bool {
+    open var mainExperience: NGDMMainExperience?
+    open var outOfMovieExperience: NGDMExperience?
+    open var inMovieExperience: NGDMExperience?
+    open var hasActors: Bool {
         return mainExperience != nil && mainExperience!.hasActors
     }
     
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
     var videos = [String: NGDMVideo]() // VideoTrackID: Video
+    var audios = [String: NGDMAudio]() // AudioTrackID: Audio
     var metadatas = [String: NGDMMetadata]() // ContentID: Metadata
     var interactives = [String: NGDMInteractive]() // InteractiveTrackID: Interactive
     var pictures = [String: NGDMPicture]() // PictureID: Picture
@@ -58,7 +59,7 @@ public class NGDMManifest {
     var themes = [String: NGDMTheme]()
     
     /// AppData mappings
-    public var appData: [String: NGDMAppData]?
+    open var appData: [String: NGDMAppData]?
     
     // MARK: Helper Methods
     /**
@@ -74,12 +75,12 @@ public class NGDMManifest {
      
         - Returns: The resulting `NGEMediaManifestType` object
     */
-    public func loadManifestXMLFile(filePath: String) throws {
+    open func loadManifestXMLFile(_ filePath: String) throws {
         mainExperience = nil
         outOfMovieExperience = nil
         inMovieExperience = nil
         
-        let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(filePath)!
+        let manifest = NGEMediaManifestType.NGEMediaManifestTypeFromFile(path: filePath)!
         
         // Pre-load experience inventory
         if let objList = manifest.Inventory.ImageList {
@@ -93,6 +94,13 @@ public class NGDMManifest {
             for obj in objList {
                 let video = NGDMVideo(manifestObject: obj)
                 videos[video.id] = video
+            }
+        }
+        
+        if let objList = manifest.Inventory.AudioList {
+            for obj in objList {
+                let audio = NGDMAudio(manifestObject: obj)
+                audios[audio.id] = audio
             }
         }
         
@@ -173,11 +181,11 @@ public class NGDMManifest {
         
         // IP1: Assumes the main experience is the first item in the ExperienceList
         guard manifest.Experiences.ExperienceList.count > 0 else {
-            throw NGDMError.MainExperienceMissing
+            throw NGDMError.mainExperienceMissing
         }
         
         for obj in manifest.Experiences.ExperienceList {
-            if let experienceId = obj.ExperienceID where experiences[experienceId] == nil {
+            if let experienceId = obj.ExperienceID , experiences[experienceId] == nil {
                 if mainExperience == nil {
                     mainExperience = NGDMMainExperience(manifestObject: obj)
                     experiences[mainExperience!.id] = mainExperience
@@ -191,7 +199,7 @@ public class NGDMManifest {
         for obj in manifest.Experiences.ExperienceList {
             if let childObjList = obj.ExperienceChildList {
                 for childObj in childObjList {
-                    if let experience = experiences[childObj.ExperienceID], sequenceNumber = childObj.SequenceInfo?.Number {
+                    if let experience = experiences[childObj.ExperienceID], let sequenceNumber = childObj.SequenceInfo?.Number {
                         experience.sequenceNumber = sequenceNumber
                     }
                 }
@@ -202,7 +210,7 @@ public class NGDMManifest {
             for obj in objList {
                 var timedEventExperience: NGDMExperience?
                 for experienceObj in manifest.Experiences.ExperienceList {
-                    if let experienceID = experienceObj.ExperienceID, timedEventSequenceID = experienceObj.TimedSequenceIDList?.first where timedEventSequenceID == obj.TimedSequenceID {
+                    if let experienceID = experienceObj.ExperienceID, let timedEventSequenceID = experienceObj.TimedSequenceIDList?.first , timedEventSequenceID == obj.TimedSequenceID {
                         timedEventExperience = experiences[experienceID]
                     }
                 }
@@ -214,7 +222,7 @@ public class NGDMManifest {
                 }
             }
             
-            timedEvents = timedEvents.sort({ (timedEvent1, timedEvent2) -> Bool in
+            timedEvents = timedEvents.sorted(by: { (timedEvent1, timedEvent2) -> Bool in
                 if timedEvent1.startTime == timedEvent2.startTime {
                     return timedEvent1.endTime < timedEvent2.endTime
                 }
@@ -225,14 +233,14 @@ public class NGDMManifest {
         
         // IP1: Assumes the out-of-movie Experience is the first item in the main Experience's ExperienceList
         guard let outOfMovieExperience = mainExperience?.childExperiences?.first else {
-            throw NGDMError.OutOfMovieExperienceMissing
+            throw NGDMError.outOfMovieExperienceMissing
         }
         
         self.outOfMovieExperience = outOfMovieExperience
         
         // IP1: Assumes the in-movie Experience is the second (and last) item in the main Experience's ExperienceList
         guard let inMovieExperience = mainExperience?.childExperiences?.last else {
-            throw NGDMError.InMovieExperienceMissing
+            throw NGDMError.inMovieExperienceMissing
         }
         
         self.inMovieExperience = inMovieExperience
@@ -246,8 +254,8 @@ public class NGDMManifest {
  
         - Returns: The full AppData object mapping
     */
-    public func loadAppDataXMLFile(filePath: String) throws -> [String: NGDMAppData] {
-        guard let appData = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(filePath) else { throw NGDMError.AppDataMissing }
+    open func loadAppDataXMLFile(_ filePath: String) throws -> [String: NGDMAppData] {
+        guard let appData = NGEManifestAppDataSetType.NGEManifestAppDataSetTypeFromFile(path: filePath) else { throw NGDMError.appDataMissing }
         
         var imageIds = [String]()
         var allAppData = [String: NGDMAppData]()
@@ -256,14 +264,14 @@ public class NGDMManifest {
             allAppData[appData.id] = appData
             
             // Pre-load icons as UIImages
-            if let id = appData.location?.icon?.id where !imageIds.contains(id) {
+            if let id = appData.location?.icon?.id , !imageIds.contains(id) {
                 imageIds.append(id)
             }
         }
         
         for imageId in imageIds {
             if let url = NGDMImage.getById(imageId)?.url {
-                UIImageRemoteLoader.loadImage(url, completion: { (image) in
+                _ = UIImageRemoteLoader.loadImage(url, completion: { (image) in
                     NGDMManifest.sharedInstance.imageCache[imageId] = image
                 })
             }
@@ -272,8 +280,8 @@ public class NGDMManifest {
         return allAppData
     }
     
-    public func loadCPEStyleXMLFile(filePath: String) throws {
-        guard let rootObj = NGECPEStyleSetType.NGECPEStyleSetTypeFromFile(filePath) else { throw NGDMError.CPEStyleMissing }
+    open func loadCPEStyleXMLFile(_ filePath: String) throws {
+        guard let rootObj = NGECPEStyleSetType.NGECPEStyleSetTypeFromFile(path: filePath) else { throw NGDMError.cpeStyleMissing }
         
         var themes = [String: NGDMTheme]()
         
@@ -291,8 +299,13 @@ public class NGDMManifest {
         for obj in rootObj.ExperienceStyleMapList {
             for nodeStyleRefObj in obj.NodeStyleRefList {
                 if let nodeStyle = nodeStyles[nodeStyleRefObj.NodeStyleID] {
-                    nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (nodeStyleRefObj.Orientation == .Landscape)
-                    nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (nodeStyleRefObj.Orientation == .Portrait)
+                    if let orientation = nodeStyleRefObj.Orientation {
+                        nodeStyle.supportsLandscape = nodeStyle.supportsLandscape || (orientation == .Landscape)
+                        nodeStyle.supportsPortrait = nodeStyle.supportsPortrait || (orientation == .Portrait)
+                    } else {
+                        nodeStyle.supportsLandscape = true
+                        nodeStyle.supportsPortrait = true
+                    }
                     
                     if let deviceTargetObjList = nodeStyleRefObj.DeviceTargetList {
                         for deviceTargetObj in deviceTargetObjList {
@@ -301,6 +314,9 @@ public class NGDMManifest {
                                 nodeStyle.supportsPhone = nodeStyle.supportsPhone || (subClass == DeviceTargetSubClass.Phone.rawValue)
                             }
                         }
+                    } else {
+                        nodeStyle.supportsTablet = true
+                        nodeStyle.supportsPhone = true
                     }
                     
                     for id in obj.ExperienceIDList {
@@ -320,14 +336,14 @@ public class NGDMManifest {
     /**
         Creates a new static instance of a Manifest
     */
-    public static func createInstance() {
+    open static func createInstance() {
         sharedInstance = NGDMManifest()
     }
     
     /**
         Destroys the current Manifest instance
     */
-    public static func destroyInstance() {
+    open static func destroyInstance() {
         sharedInstance = nil
     }
     

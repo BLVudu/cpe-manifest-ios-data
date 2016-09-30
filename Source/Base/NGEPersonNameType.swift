@@ -9,25 +9,25 @@ import libxml
 @objc
 class NGEPersonNameType : NSObject{
     
-    var DisplayNameList: [NGEStringAndLanguageType]!
+    var `DisplayNameList`: [NGEStringAndLanguageType]!
     
-    var SortNameList: [NGEStringAndLanguageType]?
+    var `SortNameList`: [NGEStringAndLanguageType]?
     
-    var FirstGivenName: String?
+    var `FirstGivenName`: String?
     
-    var SecondGivenName: String?
+    var `SecondGivenName`: String?
     
-    var FamilyName: String?
+    var `FamilyName`: String?
     
-    var Suffix: String?
+    var `Suffix`: String?
     
-    var Moniker: String?
+    var `Moniker`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -43,87 +43,83 @@ class NGEPersonNameType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("DisplayName" == _currentElementName) {
-                    
-                    DisplayNameListArray.append(NGEStringAndLanguageType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("SortName" == _currentElementName) {
-                    
-                    SortNameListArray.append(NGEStringAndLanguageType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("FirstGivenName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let FirstGivenNameElementValue = xmlTextReaderConstValue(reader)
-                    if FirstGivenNameElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("DisplayName" == _currentElementName) {
                         
-                        self.FirstGivenName = String.fromCString(UnsafePointer<CChar>(FirstGivenNameElementValue))
+                        DisplayNameListArray.append(NGEStringAndLanguageType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SecondGivenName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SecondGivenNameElementValue = xmlTextReaderConstValue(reader)
-                    if SecondGivenNameElementValue != nil {
+                    } else if("SortName" == _currentElementName) {
                         
-                        self.SecondGivenName = String.fromCString(UnsafePointer<CChar>(SecondGivenNameElementValue))
+                        SortNameListArray.append(NGEStringAndLanguageType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("FamilyName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let FamilyNameElementValue = xmlTextReaderConstValue(reader)
-                    if FamilyNameElementValue != nil {
+                    } else if("FirstGivenName" == _currentElementName) {
                         
-                        self.FamilyName = String.fromCString(UnsafePointer<CChar>(FamilyNameElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.FirstGivenName = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Suffix" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SuffixElementValue = xmlTextReaderConstValue(reader)
-                    if SuffixElementValue != nil {
+                    } else if("SecondGivenName" == _currentElementName) {
                         
-                        self.Suffix = String.fromCString(UnsafePointer<CChar>(SuffixElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SecondGivenName = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Moniker" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let MonikerElementValue = xmlTextReaderConstValue(reader)
-                    if MonikerElementValue != nil {
+                    } else if("FamilyName" == _currentElementName) {
                         
-                        self.Moniker = String.fromCString(UnsafePointer<CChar>(MonikerElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.FamilyName = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEPersonNameType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Suffix" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Suffix = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Moniker" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Moniker = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEPersonNameType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

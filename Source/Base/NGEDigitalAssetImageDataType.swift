@@ -9,33 +9,33 @@ import libxml
 @objc
 class NGEDigitalAssetImageDataType : NSObject{
     
-    var Width: Int!
+    var `Width`: Int!
     
-    var Height: Int!
+    var `Height`: Int!
     
-    var Encoding: String!
+    var `Encoding`: String!
     
-    var LanguageList: [String]?
+    var `LanguageList`: [String]?
     
-    var TrackReference: String?
+    var `TrackReference`: String?
     
-    var TrackIdentifierList: [NGEContentIdentifierType]?
+    var `TrackIdentifierList`: [NGEContentIdentifierType]?
     
-    var Private: NGEPrivateDataType?
+    var `Private`: NGEPrivateDataType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -50,86 +50,82 @@ class NGEDigitalAssetImageDataType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Width" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WidthElementValue = xmlTextReaderConstValue(reader)
-                    if WidthElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Width" == _currentElementName) {
                         
-                        self.Width = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(WidthElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Width = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Height" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let HeightElementValue = xmlTextReaderConstValue(reader)
-                    if HeightElementValue != nil {
+                    } else if("Height" == _currentElementName) {
                         
-                        self.Height = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(HeightElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Height = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Encoding" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let EncodingElementValue = xmlTextReaderConstValue(reader)
-                    if EncodingElementValue != nil {
+                    } else if("Encoding" == _currentElementName) {
                         
-                        self.Encoding = String.fromCString(UnsafePointer<CChar>(EncodingElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Encoding = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Language" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LanguageElementValue = xmlTextReaderConstValue(reader)
-                    if LanguageElementValue != nil {
+                    } else if("Language" == _currentElementName) {
                         
-                        LanguageListArray.append(String.fromCString(UnsafePointer<CChar>(LanguageElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TrackReference" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TrackReferenceElementValue = xmlTextReaderConstValue(reader)
-                    if TrackReferenceElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            LanguageListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.TrackReference = String.fromCString(UnsafePointer<CChar>(TrackReferenceElementValue))
+                    } else if("TrackReference" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TrackIdentifier" == _currentElementName) {
-                    
-                    TrackIdentifierListArray.append(NGEContentIdentifierType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Private" == _currentElementName) {
-                    
-                    self.Private = NGEPrivateDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetImageDataType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.TrackReference = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("TrackIdentifier" == _currentElementName) {
+                        
+                        TrackIdentifierListArray.append(NGEContentIdentifierType(reader))
+                        handledInChild = true
+                        
+                    } else if("Private" == _currentElementName) {
+                        
+                        self.Private = NGEPrivateDataType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetImageDataType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

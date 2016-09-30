@@ -9,37 +9,37 @@ import libxml
 @objc
 class NGEMediaManifestEditAddType : NSObject{
     
-    var Compatibility: NGECompatibilityType?
+    var `Compatibility`: NGECompatibilityType?
     
-    var Inventory: NGEInventoryType?
+    var `Inventory`: NGEInventoryType?
     
-    var Presentations: NGEPresentationListType?
+    var `Presentations`: NGEPresentationListType?
     
-    var PlayableSequences: NGEPlayableSequenceListType?
+    var `PlayableSequences`: NGEPlayableSequenceListType?
     
-    var PictureGroups: NGEPictureGroupListType?
+    var `PictureGroups`: NGEPictureGroupListType?
     
-    var AppGroups: NGEAppGroupListType?
+    var `AppGroups`: NGEAppGroupListType?
     
-    var MetadataList: [NGEInventoryMetadataType]?
+    var `MetadataList`: [NGEInventoryMetadataType]?
     
-    var TextObjectList: [String]?
+    var `TextObjectList`: [String]?
     
-    var TextGroupList: [NGETextGroupType]?
+    var `TextGroupList`: [NGETextGroupType]?
     
-    var TextGroupsList: [NGETextGroupListType]?
+    var `TextGroupsList`: [NGETextGroupListType]?
     
-    var TimedEventSequenceList: [NGETimedEventSequenceType]?
+    var `TimedEventSequenceList`: [NGETimedEventSequenceType]?
     
-    var Experiences: NGEExperienceListType?
+    var `Experiences`: NGEExperienceListType?
     
-    var ALIDExperienceMaps: NGEALIDExperienceMapListType?
+    var `ALIDExperienceMaps`: NGEALIDExperienceMapListType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -58,84 +58,84 @@ class NGEMediaManifestEditAddType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Compatibility" == _currentElementName) {
-                    
-                    self.Compatibility = NGECompatibilityType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Inventory" == _currentElementName) {
-                    
-                    self.Inventory = NGEInventoryType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Presentations" == _currentElementName) {
-                    
-                    self.Presentations = NGEPresentationListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("PlayableSequences" == _currentElementName) {
-                    
-                    self.PlayableSequences = NGEPlayableSequenceListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("PictureGroups" == _currentElementName) {
-                    
-                    self.PictureGroups = NGEPictureGroupListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AppGroups" == _currentElementName) {
-                    
-                    self.AppGroups = NGEAppGroupListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Metadata" == _currentElementName) {
-                    
-                    MetadataListArray.append(NGEInventoryMetadataType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("TextObject" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TextObjectElementValue = xmlTextReaderConstValue(reader)
-                    if TextObjectElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Compatibility" == _currentElementName) {
                         
-                        TextObjectListArray.append(String.fromCString(UnsafePointer<CChar>(TextObjectElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("TextGroup" == _currentElementName) {
-                    
-                    TextGroupListArray.append(NGETextGroupType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("TextGroups" == _currentElementName) {
-                    
-                    TextGroupsListArray.append(NGETextGroupListType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("TimedEventSequence" == _currentElementName) {
-                    
-                    TimedEventSequenceListArray.append(NGETimedEventSequenceType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Experiences" == _currentElementName) {
-                    
-                    self.Experiences = NGEExperienceListType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("ALIDExperienceMaps" == _currentElementName) {
-                    
-                    self.ALIDExperienceMaps = NGEALIDExperienceMapListType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEMediaManifestEditAddType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        self.Compatibility = NGECompatibilityType(reader)
+                        handledInChild = true
+                        
+                    } else if("Inventory" == _currentElementName) {
+                        
+                        self.Inventory = NGEInventoryType(reader)
+                        handledInChild = true
+                        
+                    } else if("Presentations" == _currentElementName) {
+                        
+                        self.Presentations = NGEPresentationListType(reader)
+                        handledInChild = true
+                        
+                    } else if("PlayableSequences" == _currentElementName) {
+                        
+                        self.PlayableSequences = NGEPlayableSequenceListType(reader)
+                        handledInChild = true
+                        
+                    } else if("PictureGroups" == _currentElementName) {
+                        
+                        self.PictureGroups = NGEPictureGroupListType(reader)
+                        handledInChild = true
+                        
+                    } else if("AppGroups" == _currentElementName) {
+                        
+                        self.AppGroups = NGEAppGroupListType(reader)
+                        handledInChild = true
+                        
+                    } else if("Metadata" == _currentElementName) {
+                        
+                        MetadataListArray.append(NGEInventoryMetadataType(reader))
+                        handledInChild = true
+                        
+                    } else if("TextObject" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            TextObjectListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("TextGroup" == _currentElementName) {
+                        
+                        TextGroupListArray.append(NGETextGroupType(reader))
+                        handledInChild = true
+                        
+                    } else if("TextGroups" == _currentElementName) {
+                        
+                        TextGroupsListArray.append(NGETextGroupListType(reader))
+                        handledInChild = true
+                        
+                    } else if("TimedEventSequence" == _currentElementName) {
+                        
+                        TimedEventSequenceListArray.append(NGETimedEventSequenceType(reader))
+                        handledInChild = true
+                        
+                    } else if("Experiences" == _currentElementName) {
+                        
+                        self.Experiences = NGEExperienceListType(reader)
+                        handledInChild = true
+                        
+                    } else if("ALIDExperienceMaps" == _currentElementName) {
+                        
+                        self.ALIDExperienceMaps = NGEALIDExperienceMapListType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEMediaManifestEditAddType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

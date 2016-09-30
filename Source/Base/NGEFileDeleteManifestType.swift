@@ -9,36 +9,32 @@ import libxml
 @objc
 class NGEFileDeleteManifestType : NGEFileManifestType {
     
-    var type: String!
+    var `type`: String!
     
-    var reference: String?
+    var `reference`: String?
     
-    var Description: String?
+    var `Description`: String?
     
-    var Instructions: String?
+    var `Instructions`: String?
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let typeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "type").UTF8String)
-        let typeAttrValue = xmlTextReaderGetAttribute(reader, typeAttrName)
-        if(typeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "type") {
             
-            self.type = String.fromCString(UnsafePointer<CChar>(typeAttrValue))
-            xmlFree(typeAttrValue)
+            self.type = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let referenceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "reference").UTF8String)
-        let referenceAttrValue = xmlTextReaderGetAttribute(reader, referenceAttrName)
-        if(referenceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "reference") {
             
-            self.reference = String.fromCString(UnsafePointer<CChar>(referenceAttrValue))
-            xmlFree(referenceAttrValue)
+            self.reference = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -47,38 +43,37 @@ class NGEFileDeleteManifestType : NGEFileManifestType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Description" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DescriptionElementValue = xmlTextReaderConstValue(reader)
-                    if DescriptionElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Description" == _currentElementName) {
                         
-                        self.Description = String.fromCString(UnsafePointer<CChar>(DescriptionElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Description = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Instructions" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let InstructionsElementValue = xmlTextReaderConstValue(reader)
-                    if InstructionsElementValue != nil {
+                    } else if("Instructions" == _currentElementName) {
                         
-                        self.Instructions = String.fromCString(UnsafePointer<CChar>(InstructionsElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Instructions = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEFileDeleteManifestType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEFileDeleteManifestType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

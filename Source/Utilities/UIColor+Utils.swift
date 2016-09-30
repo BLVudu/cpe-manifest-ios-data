@@ -7,14 +7,14 @@ import Foundation
 extension UIColor {
     
     convenience init(hexString: String) {
-        var cString = hexString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet() as NSCharacterSet).uppercaseString
+        var cString = hexString.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
         if cString.hasPrefix("#") {
-            cString = cString.substringFromIndex(cString.startIndex.advancedBy(1))
+            cString = cString.substring(from: cString.characters.index(cString.startIndex, offsetBy: 1))
         }
         
         var rgbValue: UInt32 = 0
-        NSScanner(string: cString).scanHexInt(&rgbValue)
+        Scanner(string: cString).scanHexInt32(&rgbValue)
         
         self.init(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,

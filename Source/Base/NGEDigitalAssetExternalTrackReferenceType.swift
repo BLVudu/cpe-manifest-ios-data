@@ -9,43 +9,37 @@ import libxml
 @objc
 class NGEDigitalAssetExternalTrackReferenceType : NSObject{
     
-    var namespace: String?
+    var `namespace`: String?
     
-    var location: String?
+    var `location`: String?
     
-    var trackReference: String?
+    var `trackReference`: String?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let namespaceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "namespace").UTF8String)
-        let namespaceAttrValue = xmlTextReaderGetAttribute(reader, namespaceAttrName)
-        if(namespaceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "namespace") {
             
-            self.namespace = String.fromCString(UnsafePointer<CChar>(namespaceAttrValue))
-            xmlFree(namespaceAttrValue)
+            self.namespace = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let locationAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "location").UTF8String)
-        let locationAttrValue = xmlTextReaderGetAttribute(reader, locationAttrName)
-        if(locationAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "location") {
             
-            self.location = String.fromCString(UnsafePointer<CChar>(locationAttrValue))
-            xmlFree(locationAttrValue)
+            self.location = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let trackReferenceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "trackReference").UTF8String)
-        let trackReferenceAttrValue = xmlTextReaderGetAttribute(reader, trackReferenceAttrName)
-        if(trackReferenceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "trackReference") {
             
-            self.trackReference = String.fromCString(UnsafePointer<CChar>(trackReferenceAttrValue))
-            xmlFree(trackReferenceAttrValue)
+            self.trackReference = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -58,18 +52,18 @@ class NGEDigitalAssetExternalTrackReferenceType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetExternalTrackReferenceType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetExternalTrackReferenceType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

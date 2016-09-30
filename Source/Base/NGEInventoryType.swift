@@ -9,27 +9,27 @@ import libxml
 @objc
 class NGEInventoryType : NSObject{
     
-    var AudioList: [NGEInventoryAudioType]?
+    var `AudioList`: [NGEInventoryAudioType]?
     
-    var VideoList: [NGEInventoryVideoType]?
+    var `VideoList`: [NGEInventoryVideoType]?
     
-    var SubtitleList: [NGEInventorySubtitleType]?
+    var `SubtitleList`: [NGEInventorySubtitleType]?
     
-    var ImageList: [NGEInventoryImageType]?
+    var `ImageList`: [NGEInventoryImageType]?
     
-    var InteractiveList: [NGEInventoryInteractiveType]?
+    var `InteractiveList`: [NGEInventoryInteractiveType]?
     
-    var AncillaryList: [NGEInventoryAncillaryType]?
+    var `AncillaryList`: [NGEInventoryAncillaryType]?
     
-    var MetadataList: [NGEInventoryMetadataType]?
+    var `MetadataList`: [NGEInventoryMetadataType]?
     
-    var TextObjectList: [NGEInventoryTextObjectType]?
+    var `TextObjectList`: [NGEInventoryTextObjectType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -51,52 +51,53 @@ class NGEInventoryType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Audio" == _currentElementName) {
-                    
-                    AudioListArray.append(NGEInventoryAudioType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Video" == _currentElementName) {
-                    
-                    VideoListArray.append(NGEInventoryVideoType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Subtitle" == _currentElementName) {
-                    
-                    SubtitleListArray.append(NGEInventorySubtitleType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Image" == _currentElementName) {
-                    
-                    ImageListArray.append(NGEInventoryImageType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Interactive" == _currentElementName) {
-                    
-                    InteractiveListArray.append(NGEInventoryInteractiveType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Ancillary" == _currentElementName) {
-                    
-                    AncillaryListArray.append(NGEInventoryAncillaryType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Metadata" == _currentElementName) {
-                    
-                    MetadataListArray.append(NGEInventoryMetadataType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("TextObject" == _currentElementName) {
-                    
-                    TextObjectListArray.append(NGEInventoryTextObjectType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventoryType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Audio" == _currentElementName) {
+                        
+                        AudioListArray.append(NGEInventoryAudioType(reader))
+                        handledInChild = true
+                        
+                    } else if("Video" == _currentElementName) {
+                        
+                        VideoListArray.append(NGEInventoryVideoType(reader))
+                        handledInChild = true
+                        
+                    } else if("Subtitle" == _currentElementName) {
+                        
+                        SubtitleListArray.append(NGEInventorySubtitleType(reader))
+                        handledInChild = true
+                        
+                    } else if("Image" == _currentElementName) {
+                        
+                        ImageListArray.append(NGEInventoryImageType(reader))
+                        handledInChild = true
+                        
+                    } else if("Interactive" == _currentElementName) {
+                        
+                        InteractiveListArray.append(NGEInventoryInteractiveType(reader))
+                        handledInChild = true
+                        
+                    } else if("Ancillary" == _currentElementName) {
+                        
+                        AncillaryListArray.append(NGEInventoryAncillaryType(reader))
+                        handledInChild = true
+                        
+                    } else if("Metadata" == _currentElementName) {
+                        
+                        MetadataListArray.append(NGEInventoryMetadataType(reader))
+                        handledInChild = true
+                        
+                    } else if("TextObject" == _currentElementName) {
+                        
+                        TextObjectListArray.append(NGEInventoryTextObjectType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventoryType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

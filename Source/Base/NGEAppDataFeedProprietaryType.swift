@@ -9,42 +9,36 @@ import libxml
 @objc
 class NGEAppDataFeedProprietaryType : NSObject{
     
-    var category: String!
+    var `category`: String!
     
-    var feedType: String!
+    var `feedType`: String!
     
-    var feedSubType: String?
+    var `feedSubType`: String?
     
-    var SourceURL: String?
+    var `SourceURL`: String?
     
-    var QueryObject: String?
+    var `QueryObject`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let categoryAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "category").UTF8String)
-        let categoryAttrValue = xmlTextReaderGetAttribute(reader, categoryAttrName)
-        if(categoryAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "category") {
             
-            self.category = String.fromCString(UnsafePointer<CChar>(categoryAttrValue))
-            xmlFree(categoryAttrValue)
+            self.category = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let feedTypeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "feedType").UTF8String)
-        let feedTypeAttrValue = xmlTextReaderGetAttribute(reader, feedTypeAttrName)
-        if(feedTypeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "feedType") {
             
-            self.feedType = String.fromCString(UnsafePointer<CChar>(feedTypeAttrValue))
-            xmlFree(feedTypeAttrValue)
+            self.feedType = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let feedSubTypeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "feedSubType").UTF8String)
-        let feedSubTypeAttrValue = xmlTextReaderGetAttribute(reader, feedSubTypeAttrName)
-        if(feedSubTypeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "feedSubType") {
             
-            self.feedSubType = String.fromCString(UnsafePointer<CChar>(feedSubTypeAttrValue))
-            xmlFree(feedSubTypeAttrValue)
+            self.feedSubType = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -57,38 +51,37 @@ class NGEAppDataFeedProprietaryType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("SourceURL" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SourceURLElementValue = xmlTextReaderConstValue(reader)
-                    if SourceURLElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("SourceURL" == _currentElementName) {
                         
-                        self.SourceURL = String.fromCString(UnsafePointer<CChar>(SourceURLElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SourceURL = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("QueryObject" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let QueryObjectElementValue = xmlTextReaderConstValue(reader)
-                    if QueryObjectElementValue != nil {
+                    } else if("QueryObject" == _currentElementName) {
                         
-                        self.QueryObject = String.fromCString(UnsafePointer<CChar>(QueryObjectElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.QueryObject = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAppDataFeedProprietaryType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAppDataFeedProprietaryType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

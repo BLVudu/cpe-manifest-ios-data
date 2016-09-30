@@ -9,26 +9,26 @@ import libxml
 @objc
 class NGEContentSequenceInfoType : NSObject{
     
-    var Number: Int?
+    var `Number`: Int?
     
-    var DistributionNumber: NGEComplexSequenceInfoDistributionNumber?
+    var `DistributionNumber`: NGEComplexSequenceInfoDistributionNumber?
     
-    var HouseSequence: NGEComplexSequenceInfoHouseSequence?
+    var `HouseSequence`: NGEComplexSequenceInfoHouseSequence?
     
-    var AlternateNumberList: [NGEComplexSequenceInfoAlternateNumber]?
+    var `AlternateNumberList`: [NGEComplexSequenceInfoAlternateNumber]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -41,40 +41,40 @@ class NGEContentSequenceInfoType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Number" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let NumberElementValue = xmlTextReaderConstValue(reader)
-                    if NumberElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Number" == _currentElementName) {
                         
-                        self.Number = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(NumberElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Number = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("DistributionNumber" == _currentElementName) {
-                    
-                    self.DistributionNumber = NGEComplexSequenceInfoDistributionNumber(reader: reader)
-                    handledInChild = true
-                    
-                } else if("HouseSequence" == _currentElementName) {
-                    
-                    self.HouseSequence = NGEComplexSequenceInfoHouseSequence(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AlternateNumber" == _currentElementName) {
-                    
-                    AlternateNumberListArray.append(NGEComplexSequenceInfoAlternateNumber(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEContentSequenceInfoType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("DistributionNumber" == _currentElementName) {
+                        
+                        self.DistributionNumber = NGEComplexSequenceInfoDistributionNumber(reader)
+                        handledInChild = true
+                        
+                    } else if("HouseSequence" == _currentElementName) {
+                        
+                        self.HouseSequence = NGEComplexSequenceInfoHouseSequence(reader)
+                        handledInChild = true
+                        
+                    } else if("AlternateNumber" == _currentElementName) {
+                        
+                        AlternateNumberListArray.append(NGEComplexSequenceInfoAlternateNumber(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEContentSequenceInfoType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

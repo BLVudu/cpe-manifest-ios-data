@@ -9,15 +9,15 @@ import libxml
 @objc
 class NGEInventoryMetadataLocalizedPairType : NSObject{
     
-    var LanguageIncluded: String!
+    var `LanguageIncluded`: String!
     
-    var RegionIncluded: NGERegionType?
+    var `RegionIncluded`: NGERegionType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -30,30 +30,30 @@ class NGEInventoryMetadataLocalizedPairType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("LanguageIncluded" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LanguageIncludedElementValue = xmlTextReaderConstValue(reader)
-                    if LanguageIncludedElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("LanguageIncluded" == _currentElementName) {
                         
-                        self.LanguageIncluded = String.fromCString(UnsafePointer<CChar>(LanguageIncludedElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.LanguageIncluded = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("RegionIncluded" == _currentElementName) {
-                    
-                    self.RegionIncluded = NGERegionType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventoryMetadataLocalizedPairType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("RegionIncluded" == _currentElementName) {
+                        
+                        self.RegionIncluded = NGERegionType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventoryMetadataLocalizedPairType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

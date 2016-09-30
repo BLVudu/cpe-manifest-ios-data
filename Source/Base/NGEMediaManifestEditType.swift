@@ -9,80 +9,69 @@ import libxml
 @objc
 class NGEMediaManifestEditType : NSObject{
     
-    var type: String?
+    var `type`: String?
     
-    var reference: String?
+    var `reference`: String?
     
-    var ManifestID: String?
+    var `ManifestID`: String?
     
-    var updateDeliveryType: String?
+    var `updateDeliveryType`: String?
     
-    var updateNum: Int?
+    var `updateNum`: Int?
     
-    var ExtraVersionReference: String?
+    var `ExtraVersionReference`: String?
     
-    var DeleteObjects: NGEMediaManifestEditDeleteType?
+    var `DeleteObjects`: NGEMediaManifestEditDeleteType?
     
-    var AddObjects: NGEMediaManifestEditAddType?
+    var `AddObjects`: NGEMediaManifestEditAddType?
     
-    var Description: String?
+    var `Description`: String?
     
-    var Instructions: String?
+    var `Instructions`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let typeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "type").UTF8String)
-        let typeAttrValue = xmlTextReaderGetAttribute(reader, typeAttrName)
-        if(typeAttrValue != nil) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        if let attrValue = xmlTextReaderGetAttribute(reader, "type") {
             
-            self.type = String.fromCString(UnsafePointer<CChar>(typeAttrValue))
-            xmlFree(typeAttrValue)
+            self.type = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let referenceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "reference").UTF8String)
-        let referenceAttrValue = xmlTextReaderGetAttribute(reader, referenceAttrName)
-        if(referenceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "reference") {
             
-            self.reference = String.fromCString(UnsafePointer<CChar>(referenceAttrValue))
-            xmlFree(referenceAttrValue)
+            self.reference = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let ManifestIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ManifestID").UTF8String)
-        let ManifestIDAttrValue = xmlTextReaderGetAttribute(reader, ManifestIDAttrName)
-        if(ManifestIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ManifestID") {
             
-            self.ManifestID = String.fromCString(UnsafePointer<CChar>(ManifestIDAttrValue))
-            xmlFree(ManifestIDAttrValue)
+            self.ManifestID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let updateDeliveryTypeAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateDeliveryType").UTF8String)
-        let updateDeliveryTypeAttrValue = xmlTextReaderGetAttribute(reader, updateDeliveryTypeAttrName)
-        if(updateDeliveryTypeAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "updateDeliveryType") {
             
-            self.updateDeliveryType = String.fromCString(UnsafePointer<CChar>(updateDeliveryTypeAttrValue))
-            xmlFree(updateDeliveryTypeAttrValue)
+            self.updateDeliveryType = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let updateNumAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "updateNum").UTF8String)
-        let updateNumAttrValue = xmlTextReaderGetAttribute(reader, updateNumAttrName)
-        if(updateNumAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "updateNum") {
             
-            self.updateNum = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(updateNumAttrValue))!)!.integerValue
-            xmlFree(updateNumAttrValue)
+            self.updateNum = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
-        let ExtraVersionReferenceAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ExtraVersionReference").UTF8String)
-        let ExtraVersionReferenceAttrValue = xmlTextReaderGetAttribute(reader, ExtraVersionReferenceAttrName)
-        if(ExtraVersionReferenceAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ExtraVersionReference") {
             
-            self.ExtraVersionReference = String.fromCString(UnsafePointer<CChar>(ExtraVersionReferenceAttrValue))
-            xmlFree(ExtraVersionReferenceAttrValue)
+            self.ExtraVersionReference = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -93,48 +82,47 @@ class NGEMediaManifestEditType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("DeleteObjects" == _currentElementName) {
-                    
-                    self.DeleteObjects = NGEMediaManifestEditDeleteType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("AddObjects" == _currentElementName) {
-                    
-                    self.AddObjects = NGEMediaManifestEditAddType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Description" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DescriptionElementValue = xmlTextReaderConstValue(reader)
-                    if DescriptionElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("DeleteObjects" == _currentElementName) {
                         
-                        self.Description = String.fromCString(UnsafePointer<CChar>(DescriptionElementValue))
+                        self.DeleteObjects = NGEMediaManifestEditDeleteType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Instructions" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let InstructionsElementValue = xmlTextReaderConstValue(reader)
-                    if InstructionsElementValue != nil {
+                    } else if("AddObjects" == _currentElementName) {
                         
-                        self.Instructions = String.fromCString(UnsafePointer<CChar>(InstructionsElementValue))
+                        self.AddObjects = NGEMediaManifestEditAddType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEMediaManifestEditType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Description" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Description = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("Instructions" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Instructions = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEMediaManifestEditType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

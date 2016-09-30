@@ -12,7 +12,7 @@ class NGDMInteractive {
     var id: String
     
     /// URL associated with this Interactive
-    var url: NSURL?
+    var url: URL?
     
     // MARK: Initialization
     /**
@@ -22,10 +22,10 @@ class NGDMInteractive {
             - manifestObject: Raw Manifest data object
     */
     init(manifestObject: NGEInventoryInteractiveType) {
-        id = manifestObject.InteractiveTrackID ?? NSUUID().UUIDString
+        id = manifestObject.InteractiveTrackID ?? UUID().uuidString
         
         if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
-            url = NSURL(string: containerLocation)
+            url = URL(string: containerLocation)
         }
     }
     
@@ -38,7 +38,7 @@ class NGDMInteractive {
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(id: String) -> NGDMInteractive? {
+    static func getById(_ id: String) -> NGDMInteractive? {
         return NGDMManifest.sharedInstance.interactives[id]
     }
     

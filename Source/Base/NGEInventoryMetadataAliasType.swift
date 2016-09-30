@@ -9,22 +9,20 @@ import libxml
 @objc
 class NGEInventoryMetadataAliasType : NSObject{
     
-    var ContentID: String!
+    var `ContentID`: String!
     
-    var LocalizedPairList: [NGEInventoryMetadataLocalizedPairType]?
+    var `LocalizedPairList`: [NGEInventoryMetadataLocalizedPairType]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let ContentIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "ContentID").UTF8String)
-        let ContentIDAttrValue = xmlTextReaderGetAttribute(reader, ContentIDAttrName)
-        if(ContentIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "ContentID") {
             
-            self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDAttrValue))
-            xmlFree(ContentIDAttrValue)
+            self.ContentID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -39,17 +37,18 @@ class NGEInventoryMetadataAliasType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("LocalizedPair" == _currentElementName) {
-                    
-                    LocalizedPairListArray.append(NGEInventoryMetadataLocalizedPairType(reader: reader))
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEInventoryMetadataAliasType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("LocalizedPair" == _currentElementName) {
+                        
+                        LocalizedPairListArray.append(NGEInventoryMetadataLocalizedPairType(reader))
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEInventoryMetadataAliasType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

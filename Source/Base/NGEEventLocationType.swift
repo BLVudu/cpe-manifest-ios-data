@@ -9,21 +9,21 @@ import libxml
 @objc
 class NGEEventLocationType : NSObject{
     
-    var Type: NGEType!
+    var `Type`: NGEType!
     
-    var Name: String?
+    var `Name`: String?
     
-    var Address: String?
+    var `Address`: String?
     
-    var EarthCoordinate: NGEEarthCoordinate?
+    var `EarthCoordinate`: NGEEarthCoordinate?
     
-    var OtherCoordinates: NGEOtherCoordinates?
+    var `OtherCoordinates`: NGEOtherCoordinates?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -36,53 +36,52 @@ class NGEEventLocationType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
-                    
-                    self.Type = NGEType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Name" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let NameElementValue = xmlTextReaderConstValue(reader)
-                    if NameElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Type" == _currentElementName) {
                         
-                        self.Name = String.fromCString(UnsafePointer<CChar>(NameElementValue))
+                        self.Type = NGEType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Address" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let AddressElementValue = xmlTextReaderConstValue(reader)
-                    if AddressElementValue != nil {
+                    } else if("Name" == _currentElementName) {
                         
-                        self.Address = String.fromCString(UnsafePointer<CChar>(AddressElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Name = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("EarthCoordinate" == _currentElementName) {
-                    
-                    self.EarthCoordinate = NGEEarthCoordinate(reader: reader)
-                    handledInChild = true
-                    
-                } else if("OtherCoordinates" == _currentElementName) {
-                    
-                    self.OtherCoordinates = NGEOtherCoordinates(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEEventLocationType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Address" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Address = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("EarthCoordinate" == _currentElementName) {
+                        
+                        self.EarthCoordinate = NGEEarthCoordinate(reader)
+                        handledInChild = true
+                        
+                    } else if("OtherCoordinates" == _currentElementName) {
+                        
+                        self.OtherCoordinates = NGEOtherCoordinates(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEEventLocationType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

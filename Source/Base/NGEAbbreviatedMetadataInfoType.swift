@@ -9,37 +9,33 @@ import libxml
 @objc
 class NGEAbbreviatedMetadataInfoType : NSObject{
     
-    var language: String!
+    var `language`: String!
     
-    var isDefault: Bool?
+    var `isDefault`: Bool?
     
-    var TitleBrief: String!
+    var `TitleBrief`: String!
     
-    var ArtReferenceList: [String]?
+    var `ArtReferenceList`: [String]?
     
-    var SummaryShort: String!
+    var `SummaryShort`: String!
     
-    var DisplayIndicatorsList: [NGEDisplayIndicatorsEnum]?
+    var `DisplayIndicatorsList`: [NGEDisplayIndicatorsEnum]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let languageAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "language").UTF8String)
-        let languageAttrValue = xmlTextReaderGetAttribute(reader, languageAttrName)
-        if(languageAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "language") {
             
-            self.language = String.fromCString(UnsafePointer<CChar>(languageAttrValue))
-            xmlFree(languageAttrValue)
+            self.language = String(cString: attrValue)
+            xmlFree(attrValue)
         }
-        let defaultAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "default").UTF8String)
-        let defaultAttrValue = xmlTextReaderGetAttribute(reader, defaultAttrName)
-        if(defaultAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "default") {
             
-            self.isDefault = (String.fromCString(UnsafePointer<CChar>(defaultAttrValue)) == "true")
-            xmlFree(defaultAttrValue)
+            self.isDefault = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -56,63 +52,60 @@ class NGEAbbreviatedMetadataInfoType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("TitleBrief" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TitleBriefElementValue = xmlTextReaderConstValue(reader)
-                    if TitleBriefElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("TitleBrief" == _currentElementName) {
                         
-                        self.TitleBrief = String.fromCString(UnsafePointer<CChar>(TitleBriefElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.TitleBrief = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ArtReference" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ArtReferenceElementValue = xmlTextReaderConstValue(reader)
-                    if ArtReferenceElementValue != nil {
+                    } else if("ArtReference" == _currentElementName) {
                         
-                        ArtReferenceListArray.append(String.fromCString(UnsafePointer<CChar>(ArtReferenceElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SummaryShort" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SummaryShortElementValue = xmlTextReaderConstValue(reader)
-                    if SummaryShortElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            ArtReferenceListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.SummaryShort = String.fromCString(UnsafePointer<CChar>(SummaryShortElementValue))
+                    } else if("SummaryShort" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("DisplayIndicators" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DisplayIndicatorsElementValue = xmlTextReaderConstValue(reader)
-                    if DisplayIndicatorsElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.SummaryShort = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        DisplayIndicatorsListArray.append(NGEDisplayIndicatorsEnum.fromString(String.fromCString(UnsafePointer<CChar>(DisplayIndicatorsElementValue))))
+                    } else if("DisplayIndicators" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAbbreviatedMetadataInfoType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            DisplayIndicatorsListArray.append(NGEDisplayIndicatorsEnum.fromString(enumString: String(cString: elementValue)))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAbbreviatedMetadataInfoType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

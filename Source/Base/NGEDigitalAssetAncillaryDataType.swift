@@ -9,27 +9,27 @@ import libxml
 @objc
 class NGEDigitalAssetAncillaryDataType : NSObject{
     
-    var Type: String!
+    var `Type`: String!
     
-    var SubTypeList: [String]?
+    var `SubTypeList`: [String]?
     
-    var BaseTrackID: String?
+    var `BaseTrackID`: String?
     
-    var BaseTrackReference: String?
+    var `BaseTrackReference`: String?
     
-    var BaseTrackIdentifierList: [NGEContentIdentifierType]?
+    var `BaseTrackIdentifierList`: [NGEContentIdentifierType]?
     
-    var TrackMetadata: NGEDigitalAssetMetadataType?
+    var `TrackMetadata`: NGEDigitalAssetMetadataType?
     
-    var CombinedMetadata: NGEDigitalAssetMetadataType?
+    var `CombinedMetadata`: NGEDigitalAssetMetadataType?
     
-    var Private: NGEPrivateDataType?
+    var `Private`: NGEPrivateDataType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -46,83 +46,80 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Type" == _currentElementName) {
                         
-                        self.Type = String.fromCString(UnsafePointer<CChar>(TypeElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Type = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("SubType" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let SubTypeElementValue = xmlTextReaderConstValue(reader)
-                    if SubTypeElementValue != nil {
+                    } else if("SubType" == _currentElementName) {
                         
-                        SubTypeListArray.append(String.fromCString(UnsafePointer<CChar>(SubTypeElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("BaseTrackID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let BaseTrackIDElementValue = xmlTextReaderConstValue(reader)
-                    if BaseTrackIDElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            SubTypeListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.BaseTrackID = String.fromCString(UnsafePointer<CChar>(BaseTrackIDElementValue))
+                    } else if("BaseTrackID" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("BaseTrackReference" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let BaseTrackReferenceElementValue = xmlTextReaderConstValue(reader)
-                    if BaseTrackReferenceElementValue != nil {
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.BaseTrackID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                        self.BaseTrackReference = String.fromCString(UnsafePointer<CChar>(BaseTrackReferenceElementValue))
+                    } else if("BaseTrackReference" == _currentElementName) {
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("BaseTrackIdentifier" == _currentElementName) {
-                    
-                    BaseTrackIdentifierListArray.append(NGEContentIdentifierType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("TrackMetadata" == _currentElementName) {
-                    
-                    self.TrackMetadata = NGEDigitalAssetMetadataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("CombinedMetadata" == _currentElementName) {
-                    
-                    self.CombinedMetadata = NGEDigitalAssetMetadataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Private" == _currentElementName) {
-                    
-                    self.Private = NGEPrivateDataType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetAncillaryDataType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.BaseTrackReference = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("BaseTrackIdentifier" == _currentElementName) {
+                        
+                        BaseTrackIdentifierListArray.append(NGEContentIdentifierType(reader))
+                        handledInChild = true
+                        
+                    } else if("TrackMetadata" == _currentElementName) {
+                        
+                        self.TrackMetadata = NGEDigitalAssetMetadataType(reader)
+                        handledInChild = true
+                        
+                    } else if("CombinedMetadata" == _currentElementName) {
+                        
+                        self.CombinedMetadata = NGEDigitalAssetMetadataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Private" == _currentElementName) {
+                        
+                        self.Private = NGEPrivateDataType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetAncillaryDataType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

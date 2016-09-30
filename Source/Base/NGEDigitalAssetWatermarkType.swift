@@ -9,26 +9,24 @@ import libxml
 @objc
 class NGEDigitalAssetWatermarkType : NSObject{
     
-    var guaranteedAbsent: Bool?
+    var `guaranteedAbsent`: Bool?
     
-    var Vendor: String!
+    var `Vendor`: String!
     
-    var ProductAndVersionID: String!
+    var `ProductAndVersionID`: String!
     
-    var Data: String?
+    var `Data`: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let guaranteedAbsentAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "guaranteedAbsent").UTF8String)
-        let guaranteedAbsentAttrValue = xmlTextReaderGetAttribute(reader, guaranteedAbsentAttrName)
-        if(guaranteedAbsentAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "guaranteedAbsent") {
             
-            self.guaranteedAbsent = (String.fromCString(UnsafePointer<CChar>(guaranteedAbsentAttrValue)) == "true")
-            xmlFree(guaranteedAbsentAttrValue)
+            self.guaranteedAbsent = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -41,51 +39,49 @@ class NGEDigitalAssetWatermarkType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Vendor" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let VendorElementValue = xmlTextReaderConstValue(reader)
-                    if VendorElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Vendor" == _currentElementName) {
                         
-                        self.Vendor = String.fromCString(UnsafePointer<CChar>(VendorElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Vendor = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ProductAndVersionID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ProductAndVersionIDElementValue = xmlTextReaderConstValue(reader)
-                    if ProductAndVersionIDElementValue != nil {
+                    } else if("ProductAndVersionID" == _currentElementName) {
                         
-                        self.ProductAndVersionID = String.fromCString(UnsafePointer<CChar>(ProductAndVersionIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ProductAndVersionID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Data" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let DataElementValue = xmlTextReaderConstValue(reader)
-                    if DataElementValue != nil {
+                    } else if("Data" == _currentElementName) {
                         
-                        self.Data = String.fromCString(UnsafePointer<CChar>(DataElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Data = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetWatermarkType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetWatermarkType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,26 +9,24 @@ import libxml
 @objc
 class NGEDigitalAssetVideoPictureProgressiveType : NSObject{
     
-    var scanOrder: NGEStringVideoPicProgressiveScanOrderEnum?
+    var `scanOrder`: NGEStringVideoPicProgressiveScanOrderEnum?
     
     /**
     the type's underlying value
     */
     var value: Bool?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
-        let scanOrderAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "scanOrder").UTF8String)
-        let scanOrderAttrValue = xmlTextReaderGetAttribute(reader, scanOrderAttrName)
-        if(scanOrderAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "scanOrder") {
             
-            self.scanOrder = NGEStringVideoPicProgressiveScanOrderEnum.fromString(String.fromCString(UnsafePointer<CChar>(scanOrderAttrValue)))
+            self.scanOrder = NGEStringVideoPicProgressiveScanOrderEnum.fromString(enumString: String(cString: attrValue))
             
-            xmlFree(scanOrderAttrValue)
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -41,18 +39,18 @@ class NGEDigitalAssetVideoPictureProgressiveType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = (value == "true")
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGEDigitalAssetVideoPictureProgressiveType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = (value == "true")
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGEDigitalAssetVideoPictureProgressiveType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -3,14 +3,14 @@
 //
 
 // Wrapper class for `NGEEventLocationType` Manifest object
-public class NGDMLocation {
+open class NGDMLocation {
     
     // MARK: Instance Variables
     /// Metadata
-    public var name: String?
-    public var address: String?
+    open var name: String?
+    open var address: String?
     var icon: NGDMImage?
-    public var iconImage: UIImage? {
+    open var iconImage: UIImage? {
         if let icon = icon {
             return NGDMManifest.sharedInstance.imageCache[icon.id]
         }
@@ -19,8 +19,8 @@ public class NGDMLocation {
     }
     
     /// Coordinates
-    public var latitude: Double = 0
-    public var longitude: Double = 0
+    open var latitude: Double = 0
+    open var longitude: Double = 0
     
     // MARK: Initialization
     /**
@@ -31,7 +31,7 @@ public class NGDMLocation {
     */
     init(manifestObject: NGEEventLocationType) {
         name = manifestObject.Name
-        if let obj = manifestObject as? NGELocation, id = obj.icon {
+        if let obj = manifestObject as? NGELocation, let id = obj.icon {
             icon = NGDMImage.getById(id)
         }
         

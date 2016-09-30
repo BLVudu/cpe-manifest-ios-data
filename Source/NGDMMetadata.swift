@@ -11,7 +11,7 @@ class NGDMLocalizedInfo {
     var language: String
     var title: String
     var description: String?
-    var imageURL: NSURL?
+    var imageURL: URL?
     
     // MARK: Initialization
     /**
@@ -25,12 +25,12 @@ class NGDMLocalizedInfo {
         title = manifestObject.TitleDisplayUnlimited ?? manifestObject.TitleDisplay60 ?? manifestObject.TitleDisplay19 ?? manifestObject.TitleSort
         description = manifestObject.Summary4000?.value ?? manifestObject.Summary400?.value ?? manifestObject.Summary190.value
         
-        if let url = manifestObject.ArtReferenceList?.reverse().first?.value {
-            if url.containsString("file://") {
-                let tempURL = NSURL(fileURLWithPath: url.stringByReplacingOccurrencesOfString("file://", withString: ""))
-                imageURL = NSBundle.mainBundle().URLForResource(tempURL.URLByDeletingPathExtension!.path, withExtension: tempURL.pathExtension)
+        if let url = manifestObject.ArtReferenceList?.reversed().first?.value {
+            if url.contains("file://") {
+                let tempURL = URL(fileURLWithPath: url.replacingOccurrences(of: "file://", with: ""))
+                imageURL = Bundle.main.url(forResource: tempURL.deletingPathExtension().path, withExtension: tempURL.pathExtension)
             } else {
-                imageURL = NSURL(string: url)
+                imageURL = URL(string: url)
             }
         }
     }
@@ -38,38 +38,38 @@ class NGDMLocalizedInfo {
 }
 
 // Wrapper class for `NGEInventoryMetadataType` Manifest object
-public class NGDMMetadata {
+open class NGDMMetadata {
     
     // MARK: Static Variables
     /// Static mapping of all Metadatas - ContentID: Metadata
-    private static var objectMap = [String: NGDMMetadata]()
+    fileprivate static var objectMap = [String: NGDMMetadata]()
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// Mapping of all LocalizedInfos for this Metadata - Language: LocalizedInfo
-    private var _defaultLocalizedInfo: NGDMLocalizedInfo?
-    private var _localizedInfoMap = [String: NGDMLocalizedInfo]()
-    private var _localizedInfo: NGDMLocalizedInfo? {
-        return _localizedInfoMap[NSLocale.deviceLanguage()] ?? _localizedInfoMap[NSLocale.deviceLanguageBackup()] ?? _defaultLocalizedInfo ?? _localizedInfoMap["en-US"] ?? _localizedInfoMap["en"]
+    fileprivate var _defaultLocalizedInfo: NGDMLocalizedInfo?
+    fileprivate var _localizedInfoMap = [String: NGDMLocalizedInfo]()
+    fileprivate var _localizedInfo: NGDMLocalizedInfo? {
+        return _localizedInfoMap[Locale.deviceLanguage()] ?? _localizedInfoMap[Locale.deviceLanguageBackup()] ?? _defaultLocalizedInfo ?? _localizedInfoMap["en-US"] ?? _localizedInfoMap["en"]
     }
     
     /// Mapping of all content identifiers for this Metadata - Namespace: Identifier
-    private var _contentIdentifiers: [String: String]?
+    fileprivate var _contentIdentifiers: [String: String]?
     
     /// Full title associated with this Metadata
-    public var title: String? {
+    open var title: String? {
         return _localizedInfo?.title
     }
     
     /// Full description or summary associated with this Metadata
-    public var description: String? {
+    open var description: String? {
         return _localizedInfo?.description
     }
     
     /// Image URL to be used for display
-    var imageURL: NSURL? {
+    var imageURL: URL? {
         return _localizedInfo?.imageURL
     }
     
@@ -124,7 +124,7 @@ public class NGDMMetadata {
      
         - Returns: The value of the custom identifier if it exists
      */
-    func customIdentifier(namespace: String) -> String? {
+    func customIdentifier(_ namespace: String) -> String? {
         return _contentIdentifiers?[namespace]
     }
     
@@ -137,7 +137,7 @@ public class NGDMMetadata {
      
         - Returns: Object associated with identifier if it exists
      */
-    static func getById(id: String) -> NGDMMetadata? {
+    static func getById(_ id: String) -> NGDMMetadata? {
         return NGDMManifest.sharedInstance.metadatas[id]
     }
     

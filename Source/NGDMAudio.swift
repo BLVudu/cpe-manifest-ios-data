@@ -1,33 +1,29 @@
 //
-//  NGDMImage.swift
+//  NGDMAudio.swift
 //
 
 import Foundation
 
-// Wrapper class for `NGEInventoryImageType` Manifest object
-open class NGDMImage {
+// Wrapper class for `NGEInventoryAudioType` Manifest object
+open class NGDMAudio {
     
-    // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
-    /// URL associated with this Image
+    /// URL associated with this Video
     open var url: URL?
-    
-    /// Size of the Image as specified in Manifest file
-    open var size = CGSize.zero
     
     // MARK: Initialization
     /**
-        Initializes a new Image
+        Initializes a new Audio
     
         - Parameters:
             - manifestObject: Raw Manifest data object
     */
-    init(manifestObject: NGEInventoryImageType) {
-        id = manifestObject.ImageID ?? UUID().uuidString
+    init(manifestObject: NGEInventoryAudioType) {
+        id = manifestObject.AudioTrackID
         
-        if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value  {
+        if let containerLocation = manifestObject.ContainerReference?.ContainerLocationList?.first?.value {
             if containerLocation.contains("file://") {
                 let tempURL = URL(fileURLWithPath: containerLocation.replacingOccurrences(of: "file://", with: ""))
                 url = Bundle.main.url(forResource: tempURL.deletingPathExtension().path, withExtension: tempURL.pathExtension)
@@ -35,21 +31,19 @@ open class NGDMImage {
                 url = URL(string: containerLocation)
             }
         }
-        
-        size = CGSize(width: manifestObject.Width, height: manifestObject.Height)
     }
     
     // MARK: Search Methods
     /**
-        Find an `NGDMImage` object by unique identifier
+        Find an `NGDMAudio` object by unique identifier
     
         - Parameters:
             - id: Unique identifier to search for
     
         - Returns: Object associated with identifier if it exists
     */
-    static func getById(_ id: String) -> NGDMImage? {
-        return NGDMManifest.sharedInstance.images[id]
+    static func getById(_ id: String) -> NGDMAudio? {
+        return NGDMManifest.sharedInstance.audios[id]
     }
     
 }

@@ -9,41 +9,39 @@ import libxml
 @objc
 class NGEEventPeriodType : NSObject{
     
-    var absolute: Bool?
+    var `absolute`: Bool?
     
-    var Type: NGEType?
+    var `Type`: NGEType?
     
-    var Name: String?
+    var `Name`: String?
     
-    var Start: NSDate!
+    var `Start`: Date!
     
-    var End: NSDate?
+    var `End`: Date?
     
-    var FictionalStart: NGEFictionalStart!
+    var `FictionalStart`: NGEFictionalStart!
     
-    var FictionalEnd: NGEFictionalEnd?
+    var `FictionalEnd`: NGEFictionalEnd?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let dateOnlyFormatter = NSDateFormatter()
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
-        let absoluteAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "absolute").UTF8String)
-        let absoluteAttrValue = xmlTextReaderGetAttribute(reader, absoluteAttrName)
-        if(absoluteAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "absolute") {
             
-            self.absolute = (String.fromCString(UnsafePointer<CChar>(absoluteAttrValue)) == "true")
-            xmlFree(absoluteAttrValue)
+            self.absolute = (String(cString: attrValue) == "true")
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let dateOnlyFormatter = NSDateFormatter()
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
         self.readAttributes(reader)
         
@@ -54,66 +52,64 @@ class NGEEventPeriodType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Type" == _currentElementName) {
-                    
-                    self.Type = NGEType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Name" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let NameElementValue = xmlTextReaderConstValue(reader)
-                    if NameElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Type" == _currentElementName) {
                         
-                        self.Name = String.fromCString(UnsafePointer<CChar>(NameElementValue))
+                        self.Type = NGEType(reader)
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Start" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let StartElementValue = xmlTextReaderConstValue(reader)
-                    if StartElementValue != nil {
+                    } else if("Name" == _currentElementName) {
                         
-                        self.Start = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(StartElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Name = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("End" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let EndElementValue = xmlTextReaderConstValue(reader)
-                    if EndElementValue != nil {
+                    } else if("Start" == _currentElementName) {
                         
-                        self.End = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(EndElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Start = dateOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("FictionalStart" == _currentElementName) {
-                    
-                    self.FictionalStart = NGEFictionalStart(reader: reader)
-                    handledInChild = true
-                    
-                } else if("FictionalEnd" == _currentElementName) {
-                    
-                    self.FictionalEnd = NGEFictionalEnd(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEEventPeriodType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("End" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.End = dateOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("FictionalStart" == _currentElementName) {
+                        
+                        self.FictionalStart = NGEFictionalStart(reader)
+                        handledInChild = true
+                        
+                    } else if("FictionalEnd" == _currentElementName) {
+                        
+                        self.FictionalEnd = NGEFictionalEnd(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEEventPeriodType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

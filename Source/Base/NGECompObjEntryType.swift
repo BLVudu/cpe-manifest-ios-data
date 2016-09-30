@@ -9,23 +9,23 @@ import libxml
 @objc
 class NGECompObjEntryType : NSObject{
     
-    var DisplayNameList: [NGEStringAndLanguageType]?
+    var `DisplayNameList`: [NGEStringAndLanguageType]?
     
-    var EntryNumber: String?
+    var `EntryNumber`: String?
     
-    var EntryClass: String?
+    var `EntryClass`: String?
     
-    var EntryList: [NGECompObjEntryType]?
+    var `EntryList`: [NGECompObjEntryType]?
     
-    var ContentID: String!
+    var `ContentID`: String!
     
-    var BasicMetadata: NGEBasicMetadataType!
+    var `BasicMetadata`: NGEBasicMetadataType!
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
@@ -42,66 +42,64 @@ class NGECompObjEntryType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("DisplayName" == _currentElementName) {
-                    
-                    DisplayNameListArray.append(NGEStringAndLanguageType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("EntryNumber" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let EntryNumberElementValue = xmlTextReaderConstValue(reader)
-                    if EntryNumberElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("DisplayName" == _currentElementName) {
                         
-                        self.EntryNumber = String.fromCString(UnsafePointer<CChar>(EntryNumberElementValue))
+                        DisplayNameListArray.append(NGEStringAndLanguageType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("EntryClass" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let EntryClassElementValue = xmlTextReaderConstValue(reader)
-                    if EntryClassElementValue != nil {
+                    } else if("EntryNumber" == _currentElementName) {
                         
-                        self.EntryClass = String.fromCString(UnsafePointer<CChar>(EntryClassElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.EntryNumber = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Entry" == _currentElementName) {
-                    
-                    EntryListArray.append(NGECompObjEntryType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("ContentID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ContentIDElementValue = xmlTextReaderConstValue(reader)
-                    if ContentIDElementValue != nil {
+                    } else if("EntryClass" == _currentElementName) {
                         
-                        self.ContentID = String.fromCString(UnsafePointer<CChar>(ContentIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.EntryClass = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("BasicMetadata" == _currentElementName) {
-                    
-                    self.BasicMetadata = NGEBasicMetadataType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGECompObjEntryType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Entry" == _currentElementName) {
+                        
+                        EntryListArray.append(NGECompObjEntryType(reader))
+                        handledInChild = true
+                        
+                    } else if("ContentID" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ContentID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("BasicMetadata" == _currentElementName) {
+                        
+                        self.BasicMetadata = NGEBasicMetadataType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGECompObjEntryType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,23 +9,21 @@ import libxml
 @objc
 class NGEPlayableSequence : NGEPlayableSequenceType {
     
-    var PlayableSequenceID: String?
+    var `PlayableSequenceID`: String?
     
-    override func readAttributes(reader: xmlTextReaderPtr) {
+    override func readAttributes(_ reader: xmlTextReaderPtr) {
         super.readAttributes(reader)
         
-        let PlayableSequenceIDAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "PlayableSequenceID").UTF8String)
-        let PlayableSequenceIDAttrValue = xmlTextReaderGetAttribute(reader, PlayableSequenceIDAttrName)
-        if(PlayableSequenceIDAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "PlayableSequenceID") {
             
-            self.PlayableSequenceID = String.fromCString(UnsafePointer<CChar>(PlayableSequenceIDAttrValue))
-            xmlFree(PlayableSequenceIDAttrValue)
+            self.PlayableSequenceID = String(cString: attrValue)
+            xmlFree(attrValue)
         }
     }
     
-    override init(reader: xmlTextReaderPtr) {
+    override init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
-        super.init(reader: reader)
+        super.init(reader)
         
         var _readerOk:Int32=1
         var _currentNodeType = xmlTextReaderNodeType(reader)
@@ -34,12 +32,13 @@ class NGEPlayableSequence : NGEPlayableSequenceType {
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if(true) {
-                    print("Ignoring unexpected in NGEPlayableSequence: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if(true) {
+                        print("Ignoring unexpected in NGEPlayableSequence: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

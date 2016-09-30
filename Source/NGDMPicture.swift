@@ -5,26 +5,33 @@
 import Foundation
 
 // Wrapper class for `NGEPictureType` Manifest object
-public class NGDMPicture {
+open class NGDMPicture {
     
     // MARK: Instance Variables
     /// Unique identifier
     var id: String
     
     /// Image URL to be used for full display
-    public var imageURL: NSURL?
+    var image: NGDMImage?
+    private var _imageURL: URL?
+    open var imageURL: URL? {
+        return _imageURL ?? image?.url
+    }
     
     /// Image URL to be used for thumbnail display
-    var thumbnailImageURL: NSURL?
+    var thumbnailImage: NGDMImage?
+    open var thumbnailImageURL: URL? {
+        return thumbnailImage?.url
+    }
     
     /// Caption associated with this image
-    private var captions: [String: String]? // Language: Caption
-    public var caption: String? {
-        if let caption = captions?[NSLocale.deviceLanguage()] {
+    fileprivate var captions: [String: String]? // Language: Caption
+    open var caption: String? {
+        if let caption = captions?[Locale.deviceLanguage()] {
             return caption
         }
         
-        return captions?[NSLocale.deviceLanguageBackup()]
+        return captions?[Locale.deviceLanguageBackup()]
     }
     
     // MARK: Initialization
@@ -38,17 +45,17 @@ public class NGDMPicture {
         id = manifestObject.PictureID
         
         if let id = manifestObject.ImageID {
-            imageURL = NGDMImage.getById(id)?.url
+            image = NGDMImage.getById(id)
         }
         
         if let id = manifestObject.ThumbnailImageID {
-            thumbnailImageURL = NGDMImage.getById(id)?.url
+            thumbnailImage = NGDMImage.getById(id)
         }
         
         captions = [String: String]()
         if let objList = manifestObject.CaptionList {
             for obj in objList {
-                let language = obj.language ?? NSLocale.deviceLanguage()
+                let language = obj.language ?? Locale.deviceLanguage()
                 if let value = obj.value {
                     captions![language] = value
                 }
@@ -62,9 +69,9 @@ public class NGDMPicture {
         - Parameters:
             - imageURL: Image URL to be used for full display
      */
-    public init(imageURL: NSURL) {
-        id = NSUUID().UUIDString
-        self.imageURL = imageURL
+    public init(imageURL: URL) {
+        id = UUID().uuidString
+        _imageURL = imageURL
     }
     
     // MARK: Search Methods
@@ -76,7 +83,7 @@ public class NGDMPicture {
      
         - Returns: Object associated with identifier if it exists
      */
-    static func getById(id: String) -> NGDMPicture? {
+    static func getById(_ id: String) -> NGDMPicture? {
         return NGDMManifest.sharedInstance.pictures[id]
     }
     

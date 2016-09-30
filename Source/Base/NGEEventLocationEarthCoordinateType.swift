@@ -9,25 +9,25 @@ import libxml
 @objc
 class NGEEventLocationEarthCoordinateType : NSObject{
     
-    var Latitude: Double!
+    var `Latitude`: Double!
     
-    var Longitude: Double!
+    var `Longitude`: Double!
     
-    var ElevationMeters: Double?
+    var `ElevationMeters`: Double?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let decFormatter = NSNumberFormatter()
-        decFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
         self.readAttributes(reader)
         
@@ -38,51 +38,49 @@ class NGEEventLocationEarthCoordinateType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Latitude" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LatitudeElementValue = xmlTextReaderConstValue(reader)
-                    if LatitudeElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Latitude" == _currentElementName) {
                         
-                        self.Latitude = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(LatitudeElementValue))!)!.doubleValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Latitude = decFormatter.number(from: String(cString: elementValue))!.doubleValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Longitude" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LongitudeElementValue = xmlTextReaderConstValue(reader)
-                    if LongitudeElementValue != nil {
+                    } else if("Longitude" == _currentElementName) {
                         
-                        self.Longitude = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(LongitudeElementValue))!)!.doubleValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Longitude = decFormatter.number(from: String(cString: elementValue))!.doubleValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ElevationMeters" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let ElevationMetersElementValue = xmlTextReaderConstValue(reader)
-                    if ElevationMetersElementValue != nil {
+                    } else if("ElevationMeters" == _currentElementName) {
                         
-                        self.ElevationMeters = decFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(ElevationMetersElementValue))!)!.doubleValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.ElevationMeters = decFormatter.number(from: String(cString: elementValue))!.doubleValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEEventLocationEarthCoordinateType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEEventLocationEarthCoordinateType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,48 +9,48 @@ import libxml
 @objc
 class NGEFileInfoType : NSObject{
     
-    var LocationList: [NGELocationType]!
+    var `LocationList`: [NGELocationType]!
     
-    var IdentifierList: [NGEContentIdentifierType]?
+    var `IdentifierList`: [NGEContentIdentifierType]?
     
-    var FileVersion: Int?
+    var `FileVersion`: Int?
     
-    var FiileDate: NSDate?
+    var `FiileDate`: Date?
     
-    var Type: NGETypeEnum!
+    var `Type`: NGETypeEnum!
     
-    var Length: Int?
+    var `Length`: Int?
     
-    var Hash: NGEHashType?
+    var `Hash`: NGEHashType?
     
-    var MIMEType: String?
+    var `MIMEType`: String?
     
-    var WrapperFormat: String?
+    var `WrapperFormat`: String?
     
-    var ContainerMetadata: NGEContainerMetadataType?
+    var `ContainerMetadata`: NGEContainerMetadataType?
     
-    var Delivery: NGEFileDeliveryType?
+    var `Delivery`: NGEFileDeliveryType?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let dateOnlyFormatter = NSDateFormatter()
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let dateOnlyFormatter = NSDateFormatter()
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -64,115 +64,110 @@ class NGEFileInfoType : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             var handledInChild = false
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("Location" == _currentElementName) {
-                    
-                    LocationListArray.append(NGELocationType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("Identifier" == _currentElementName) {
-                    
-                    IdentifierListArray.append(NGEContentIdentifierType(reader: reader))
-                    handledInChild = true
-                    
-                } else if("FileVersion" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let FileVersionElementValue = xmlTextReaderConstValue(reader)
-                    if FileVersionElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("Location" == _currentElementName) {
                         
-                        self.FileVersion = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(FileVersionElementValue))!)!.integerValue
+                        LocationListArray.append(NGELocationType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("FiileDate" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let FiileDateElementValue = xmlTextReaderConstValue(reader)
-                    if FiileDateElementValue != nil {
+                    } else if("Identifier" == _currentElementName) {
                         
-                        self.FiileDate = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(FiileDateElementValue))!)
+                        IdentifierListArray.append(NGEContentIdentifierType(reader))
+                        handledInChild = true
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Type" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TypeElementValue = xmlTextReaderConstValue(reader)
-                    if TypeElementValue != nil {
+                    } else if("FileVersion" == _currentElementName) {
                         
-                        self.Type = NGETypeEnum.fromString(String.fromCString(UnsafePointer<CChar>(TypeElementValue)))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.FileVersion = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Length" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let LengthElementValue = xmlTextReaderConstValue(reader)
-                    if LengthElementValue != nil {
+                    } else if("FiileDate" == _currentElementName) {
                         
-                        self.Length = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(LengthElementValue))!)!.integerValue
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.FiileDate = dateOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Hash" == _currentElementName) {
-                    
-                    self.Hash = NGEHashType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("MIMEType" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let MIMETypeElementValue = xmlTextReaderConstValue(reader)
-                    if MIMETypeElementValue != nil {
+                    } else if("Type" == _currentElementName) {
                         
-                        self.MIMEType = String.fromCString(UnsafePointer<CChar>(MIMETypeElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Type = NGETypeEnum.fromString(enumString: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("WrapperFormat" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WrapperFormatElementValue = xmlTextReaderConstValue(reader)
-                    if WrapperFormatElementValue != nil {
+                    } else if("Length" == _currentElementName) {
                         
-                        self.WrapperFormat = String.fromCString(UnsafePointer<CChar>(WrapperFormatElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Length = numFormatter.number(from: String(cString: elementValue))!.intValue
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("ContainerMetadata" == _currentElementName) {
-                    
-                    self.ContainerMetadata = NGEContainerMetadataType(reader: reader)
-                    handledInChild = true
-                    
-                } else if("Delivery" == _currentElementName) {
-                    
-                    self.Delivery = NGEFileDeliveryType(reader: reader)
-                    handledInChild = true
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEFileInfoType: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                    } else if("Hash" == _currentElementName) {
+                        
+                        self.Hash = NGEHashType(reader)
+                        handledInChild = true
+                        
+                    } else if("MIMEType" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.MIMEType = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("WrapperFormat" == _currentElementName) {
+                        
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WrapperFormat = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else if("ContainerMetadata" == _currentElementName) {
+                        
+                        self.ContainerMetadata = NGEContainerMetadataType(reader)
+                        handledInChild = true
+                        
+                    } else if("Delivery" == _currentElementName) {
+                        
+                        self.Delivery = NGEFileDeliveryType(reader)
+                        handledInChild = true
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEFileInfoType: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

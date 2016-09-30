@@ -9,33 +9,30 @@ import libxml
 @objc
 class NGETextString : NSObject{
     
-    var index: Int?
+    var `index`: Int?
     
     /**
     the type's underlying value
     */
     var value: String?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        
-        let indexAttrName = UnsafePointer<xmlChar>(NSString(stringLiteral: "index").UTF8String)
-        let indexAttrValue = xmlTextReaderGetAttribute(reader, indexAttrName)
-        if(indexAttrValue != nil) {
+        if let attrValue = xmlTextReaderGetAttribute(reader, "index") {
             
-            self.index = numFormatter.numberFromString(String.fromCString(UnsafePointer<CChar>(indexAttrValue))!)!.integerValue
-            xmlFree(indexAttrValue)
+            self.index = numFormatter.number(from: String(cString: attrValue))!.intValue
+            xmlFree(attrValue)
         }
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NSNumberFormatter()
-        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -46,18 +43,18 @@ class NGETextString : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("#text" == _currentElementName){
-                    let contentValue = xmlTextReaderConstValue(reader)
-                    if(contentValue != nil) {
-                        let value = String.fromCString(UnsafePointer<CChar>(contentValue))
-                        self.value = value
-                    }
-                } else  if(true) {
-                    print("Ignoring unexpected in NGETextString: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("#text" == _currentElementName){
+                        if let contentValue = xmlTextReaderConstValue(reader) {
+                            let value = String(cString: contentValue)
+                            self.value = value
+                        }
+                    } else  if(true) {
+                        print("Ignoring unexpected in NGETextString: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }

@@ -9,36 +9,36 @@ import libxml
 @objc
 class NGEAppDataFeedGeneric : NSObject{
     
-    var FeedImageLocation: String?
+    var `FeedImageLocation`: String?
     
-    var FeedImageID: String?
+    var `FeedImageID`: String?
     
-    var PostingImageLocation: String?
+    var `PostingImageLocation`: String?
     
-    var PostingName: String?
+    var `PostingName`: String?
     
-    var WhenPosted: NSDate?
+    var `WhenPosted`: Date?
     
-    var Title: String?
+    var `Title`: String?
     
-    var Body: String!
+    var `Body`: String!
     
-    var BodyImageLocationList: [String]?
+    var `BodyImageLocationList`: [String]?
     
-    func readAttributes(reader: xmlTextReaderPtr) {
-        let dateOnlyFormatter = NSDateFormatter()
+    func readAttributes(_ reader: xmlTextReaderPtr) {
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
     }
     
-    init(reader: xmlTextReaderPtr) {
+    init(_ reader: xmlTextReaderPtr) {
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let dateOnlyFormatter = NSDateFormatter()
+        let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = NSTimeZone(name:"UTC")
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
         self.readAttributes(reader)
         
@@ -51,115 +51,108 @@ class NGEAppDataFeedGeneric : NSObject{
         while(_readerOk > 0 && _currentNodeType != 0/*XML_READER_TYPE_NONE*/ && _complexTypeXmlDept < _currentXmlDept) {
             
             if(_currentNodeType == 1/*XML_READER_TYPE_ELEMENT*/ || _currentNodeType == 3/*XML_READER_TYPE_TEXT*/) {
-                let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader)
-                let _currentElementName = String.fromCString(UnsafePointer<CChar>(_currentElementNameXmlChar))
-                if("FeedImageLocation" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let FeedImageLocationElementValue = xmlTextReaderConstValue(reader)
-                    if FeedImageLocationElementValue != nil {
+                if let _currentElementNameXmlChar = xmlTextReaderConstLocalName(reader) {
+                    let _currentElementName = String(cString: _currentElementNameXmlChar)
+                    if("FeedImageLocation" == _currentElementName) {
                         
-                        self.FeedImageLocation = String.fromCString(UnsafePointer<CChar>(FeedImageLocationElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.FeedImageLocation = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("FeedImageID" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let FeedImageIDElementValue = xmlTextReaderConstValue(reader)
-                    if FeedImageIDElementValue != nil {
+                    } else if("FeedImageID" == _currentElementName) {
                         
-                        self.FeedImageID = String.fromCString(UnsafePointer<CChar>(FeedImageIDElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.FeedImageID = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PostingImageLocation" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PostingImageLocationElementValue = xmlTextReaderConstValue(reader)
-                    if PostingImageLocationElementValue != nil {
+                    } else if("PostingImageLocation" == _currentElementName) {
                         
-                        self.PostingImageLocation = String.fromCString(UnsafePointer<CChar>(PostingImageLocationElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PostingImageLocation = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("PostingName" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let PostingNameElementValue = xmlTextReaderConstValue(reader)
-                    if PostingNameElementValue != nil {
+                    } else if("PostingName" == _currentElementName) {
                         
-                        self.PostingName = String.fromCString(UnsafePointer<CChar>(PostingNameElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.PostingName = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("WhenPosted" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let WhenPostedElementValue = xmlTextReaderConstValue(reader)
-                    if WhenPostedElementValue != nil {
+                    } else if("WhenPosted" == _currentElementName) {
                         
-                        self.WhenPosted = dateOnlyFormatter.dateFromString(String.fromCString(UnsafePointer<CChar>(WhenPostedElementValue))!)
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.WhenPosted = dateOnlyFormatter.date(from: String(cString: elementValue))
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Title" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let TitleElementValue = xmlTextReaderConstValue(reader)
-                    if TitleElementValue != nil {
+                    } else if("Title" == _currentElementName) {
                         
-                        self.Title = String.fromCString(UnsafePointer<CChar>(TitleElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Title = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("Body" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let BodyElementValue = xmlTextReaderConstValue(reader)
-                    if BodyElementValue != nil {
+                    } else if("Body" == _currentElementName) {
                         
-                        self.Body = String.fromCString(UnsafePointer<CChar>(BodyElementValue))
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            self.Body = String(cString: elementValue)
+                            
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
                         
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else if("BodyImageLocation" == _currentElementName) {
-                    
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    let BodyImageLocationElementValue = xmlTextReaderConstValue(reader)
-                    if BodyImageLocationElementValue != nil {
+                    } else if("BodyImageLocation" == _currentElementName) {
                         
-                        BodyImageLocationListArray.append(String.fromCString(UnsafePointer<CChar>(BodyImageLocationElementValue))!)
-                    }
-                    _readerOk = xmlTextReaderRead(reader)
-                    _currentNodeType = xmlTextReaderNodeType(reader)
-                    
-                } else   if(true) {
-                    print("Ignoring unexpected in NGEAppDataFeedGeneric: \(_currentElementName)")
-                    if superclass != NSObject.self {
-                        break
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        if let elementValue = xmlTextReaderConstValue(reader) {
+                            
+                            BodyImageLocationListArray.append(String(cString: elementValue))
+                        }
+                        _readerOk = xmlTextReaderRead(reader)
+                        _currentNodeType = xmlTextReaderNodeType(reader)
+                        
+                    } else   if(true) {
+                        print("Ignoring unexpected in NGEAppDataFeedGeneric: \(_currentElementName)")
+                        if superclass != NSObject.self {
+                            break
+                        }
                     }
                 }
             }
