@@ -10,11 +10,11 @@ public enum TalentType: String {
     case Writer = "Writer"
 }
 
-public enum SocialAccountType {
-    case unknown
-    case facebook
-    case twitter
-    case instagram
+public enum SocialAccountType: String {
+    case unknown = "UNKNOWN"
+    case facebook = "FACEBOOK"
+    case twitter = "TWITTER"
+    case instagram = "INSTAGRAM"
 }
 
 // Wrapper class for `NGEBasicMetadataPeopleType` Manifest object
