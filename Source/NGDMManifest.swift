@@ -39,6 +39,7 @@ open class NGDMManifest {
     /// Experience and Inventory mappings
     var images = [String: NGDMImage]() // ImageID: Image
     var videos = [String: NGDMVideo]() // VideoTrackID: Video
+    var audios = [String: NGDMAudio]() // AudioTrackID: Audio
     var metadatas = [String: NGDMMetadata]() // ContentID: Metadata
     var interactives = [String: NGDMInteractive]() // InteractiveTrackID: Interactive
     var pictures = [String: NGDMPicture]() // PictureID: Picture
@@ -93,6 +94,13 @@ open class NGDMManifest {
             for obj in objList {
                 let video = NGDMVideo(manifestObject: obj)
                 videos[video.id] = video
+            }
+        }
+        
+        if let objList = manifest.Inventory.AudioList {
+            for obj in objList {
+                let audio = NGDMAudio(manifestObject: obj)
+                audios[audio.id] = audio
             }
         }
         

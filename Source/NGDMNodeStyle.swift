@@ -56,6 +56,9 @@ open class NGDMNodeStyle {
         return backgroundPresentation?.video
     }
     
+    /// Background audio
+    open var backgroundAudio: NGDMAudio?
+    
     /// Button overlay
     open var buttonOverlaySize: CGSize?
     open var buttonOverlayBottomLeft: CGPoint?
@@ -99,6 +102,12 @@ open class NGDMNodeStyle {
             
             if let backgroundImagePictureGroupId = backgroundObj.Image?.PictureGroupID {
                 backgroundImage = NGDMManifest.sharedInstance.pictureGroups[backgroundImagePictureGroupId]?.first?.image
+            }
+            
+            if let backgroundAudioObj = backgroundObj.AudioLoop {
+                if let id = backgroundAudioObj.AudioTrackID {
+                    backgroundAudio = NGDMAudio.getById(id)
+                }
             }
             
             if let overlayObjList = backgroundObj.OverlayAreaList {
