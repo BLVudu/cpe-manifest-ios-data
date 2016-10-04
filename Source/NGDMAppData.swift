@@ -22,7 +22,7 @@ open class NGDMAppData {
     
     // MARK: Instance Variables
     /// Unique identifier
-    var id: String!
+    open var id: String!
     
     /// Metadata
     private var backupTitle: String?
