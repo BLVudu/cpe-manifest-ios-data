@@ -71,23 +71,5 @@ class NGENVPairType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Name != nil) {
-            
-            dict["Name"] = self.Name!
-            
-        }
-        
-        if(self.Value != nil) {
-            
-            dict["Value"] = self.Value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

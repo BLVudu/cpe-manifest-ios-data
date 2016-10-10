@@ -80,27 +80,5 @@ class NGEInteractiveTrackReferenceType : NSObject{
         if(CompatibilityListArray.count > 0) { self.CompatibilityList = CompatibilityListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.priority != nil) {
-            
-            dict["priority"] = self.priority!
-            
-        }
-        
-        if(self.InteractiveTrackID != nil) {
-            
-            dict["InteractiveTrackID"] = self.InteractiveTrackID!
-            
-        }
-        
-        if(self.CompatibilityList != nil) {
-            dict["CompatibilityList"] = self.CompatibilityList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

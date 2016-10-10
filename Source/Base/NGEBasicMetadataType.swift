@@ -56,13 +56,12 @@ class NGEBasicMetadataType : NSObject{
     var `ParentList`: [NGEBasicMetadataParentType]?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .decimal
-        
         let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         if let attrValue = xmlTextReaderGetAttribute(reader, "ContentID") {
             
@@ -75,12 +74,12 @@ class NGEBasicMetadataType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .decimal
-        
         let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
         
         self.readAttributes(reader)
         
@@ -334,133 +333,6 @@ class NGEBasicMetadataType : NSObject{
         
         if(ParentListArray.count > 0) { self.ParentList = ParentListArray }
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.UpdateNum != nil) {
-            
-            dict["UpdateNum"] = self.UpdateNum!
-            
-        }
-        
-        if(self.LocalizedInfoList != nil) {
-            dict["LocalizedInfoList"] = self.LocalizedInfoList!.map({$0.dictionary})
-        }
-        
-        if(self.RunLength != nil) {
-            
-            dict["RunLength"] = self.RunLength!
-            
-        }
-        
-        if(self.ReleaseYear != nil) {
-            
-            dict["ReleaseYear"] = self.ReleaseYear!
-            
-        }
-        
-        if(self.ReleaseDate != nil) {
-            
-            dict["ReleaseDate"] = self.ReleaseDate!
-            
-        }
-        
-        if(self.ReleaseHistoryList != nil) {
-            dict["ReleaseHistoryList"] = self.ReleaseHistoryList!.map({$0.dictionary})
-        }
-        
-        if(self.WorkType != nil) {
-            
-            dict["WorkType"] = self.WorkType!
-            
-        }
-        
-        if(self.WorkTypeDetail != nil) {
-            
-            dict["WorkTypeDetail"] = self.WorkTypeDetail!
-            
-        }
-        
-        if(self.PictureColorType != nil) {
-            
-            let obj = NGEColorTypeTypeEnum.toString(PictureColorType!)
-            dict["value"] = obj
-            
-        }
-        
-        if(self.PictureFormat != nil) {
-            
-            dict["PictureFormat"] = self.PictureFormat!
-            
-        }
-        
-        if(self.ThreeD != nil) {
-            
-            dict["ThreeD"] = self.ThreeD!
-            
-        }
-        
-        if(self.AspectRatio != nil) {
-            
-            dict["AspectRatio"] = self.AspectRatio!
-            
-        }
-        
-        if(self.AltIdentifierList != nil) {
-            dict["AltIdentifierList"] = self.AltIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.RatingSet != nil) {
-            dict["RatingSet"] = self.RatingSet!
-        }
-        
-        if(self.PeopleList != nil) {
-            dict["PeopleList"] = self.PeopleList!.map({$0.dictionary})
-        }
-        
-        if(self.CountryOfOrigin != nil) {
-            dict["CountryOfOrigin"] = self.CountryOfOrigin!
-        }
-        
-        if(self.PrimarySpokenLanguageList != nil) {
-            
-            dict["PrimarySpokenLanguageList"] = self.PrimarySpokenLanguageList!
-            
-        }
-        
-        if(self.OriginalLanguageList != nil) {
-            
-            dict["OriginalLanguageList"] = self.OriginalLanguageList!
-            
-        }
-        
-        if(self.VersionLanguageList != nil) {
-            
-            dict["VersionLanguageList"] = self.VersionLanguageList!
-            
-        }
-        
-        if(self.AssociatedOrgList != nil) {
-            dict["AssociatedOrgList"] = self.AssociatedOrgList!.map({$0.dictionary})
-        }
-        
-        if(self.SequenceInfo != nil) {
-            dict["SequenceInfo"] = self.SequenceInfo!
-        }
-        
-        if(self.ParentList != nil) {
-            dict["ParentList"] = self.ParentList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
     
 }
 

@@ -83,27 +83,5 @@ class NGEDigitalAssetCardsetListType : NSObject{
         if(CardsetListArray.count > 0) { self.CardsetList = CardsetListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TypeList != nil) {
-            
-            dict["TypeList"] = self.TypeList!
-            
-        }
-        
-        if(self.RegionList != nil) {
-            
-            dict["RegionList"] = self.RegionList!
-            
-        }
-        
-        if(self.CardsetList != nil) {
-            dict["CardsetList"] = self.CardsetList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

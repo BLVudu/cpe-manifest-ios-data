@@ -72,23 +72,5 @@ class NGEFrameAverageMax : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.interpretation != nil) {
-            
-            dict["interpretation"] = self.interpretation!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

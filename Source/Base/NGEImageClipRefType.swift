@@ -20,6 +20,7 @@ class NGEImageClipRefType : NSObject{
     var `Duration`: String!
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -96,42 +97,6 @@ class NGEImageClipRefType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.sequence != nil) {
-            
-            dict["sequence"] = self.sequence!
-            
-        }
-        
-        if(self.seamless != nil) {
-            
-            dict["seamless"] = self.seamless!
-            
-        }
-        
-        if(self.audioLanguage != nil) {
-            
-            dict["audioLanguage"] = self.audioLanguage!
-            
-        }
-        
-        if(self.ImageID != nil) {
-            
-            dict["ImageID"] = self.ImageID!
-            
-        }
-        
-        if(self.Duration != nil) {
-            
-            dict["Duration"] = self.Duration!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

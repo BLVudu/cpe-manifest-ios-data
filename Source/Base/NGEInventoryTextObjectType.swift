@@ -88,37 +88,5 @@ class NGEInventoryTextObjectType : NSObject{
         if(TextStringListArray.count > 0) { self.TextStringList = TextStringListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TextObjectID != nil) {
-            
-            dict["TextObjectID"] = self.TextObjectID!
-            
-        }
-        
-        if(self.language != nil) {
-            
-            dict["language"] = self.language!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            dict["ContainerReference"] = self.ContainerReference!
-        }
-        
-        if(self.SubtitleID != nil) {
-            
-            dict["SubtitleID"] = self.SubtitleID!
-            
-        }
-        
-        if(self.TextStringList != nil) {
-            dict["TextStringList"] = self.TextStringList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

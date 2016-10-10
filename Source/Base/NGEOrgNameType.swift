@@ -101,41 +101,5 @@ class NGEOrgNameType : NSObject{
         if(AlternateNameListArray.count > 0) { self.AlternateNameList = AlternateNameListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.organizationID != nil) {
-            
-            dict["organizationID"] = self.organizationID!
-            
-        }
-        
-        if(self.idType != nil) {
-            
-            dict["idType"] = self.idType!
-            
-        }
-        
-        if(self.DisplayName != nil) {
-            
-            dict["DisplayName"] = self.DisplayName!
-            
-        }
-        
-        if(self.SortName != nil) {
-            
-            dict["SortName"] = self.SortName!
-            
-        }
-        
-        if(self.AlternateNameList != nil) {
-            
-            dict["AlternateNameList"] = self.AlternateNameList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

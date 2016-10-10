@@ -17,7 +17,6 @@ class NGEMoneyType : NSObject{
     var value: Double?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        
         let decFormatter = NumberFormatter()
         decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
@@ -36,6 +35,7 @@ class NGEMoneyType : NSObject{
         let decFormatter = NumberFormatter()
         decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
+        
         self.readAttributes(reader)
         
         var _readerOk = xmlTextReaderRead(reader)
@@ -73,24 +73,6 @@ class NGEMoneyType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.currency != nil) {
-            
-            dict["currency"] = self.currency!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

@@ -53,15 +53,5 @@ class NGEChapterListType : NSObject{
         if(ChapterListArray.count > 0) { self.ChapterList = ChapterListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ChapterList != nil) {
-            dict["ChapterList"] = self.ChapterList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

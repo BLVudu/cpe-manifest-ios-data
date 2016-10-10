@@ -63,28 +63,5 @@ class NGEInventoryImageType : NGEDigitalAssetImageDataType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.ImageID != nil) {
-            
-            dict["ImageID"] = self.ImageID!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            dict["ContainerReference"] = self.ContainerReference!
-        }
-        
-        if(self.VideoFrameTimecode != nil) {
-            dict["VideoFrameTimecode"] = self.VideoFrameTimecode!
-        }
-        
-        return dict
-    }*/
-    
 }
 

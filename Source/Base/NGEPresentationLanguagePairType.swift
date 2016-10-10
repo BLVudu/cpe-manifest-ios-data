@@ -85,29 +85,5 @@ class NGEPresentationLanguagePairType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.SystemLanguage != nil) {
-            
-            dict["SystemLanguage"] = self.SystemLanguage!
-            
-        }
-        
-        if(self.AudioLanguage != nil) {
-            
-            dict["AudioLanguage"] = self.AudioLanguage!
-            
-        }
-        
-        if(self.SubtitleLanguage != nil) {
-            
-            dict["SubtitleLanguage"] = self.SubtitleLanguage!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

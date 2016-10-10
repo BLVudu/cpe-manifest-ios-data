@@ -133,49 +133,5 @@ class NGEPersonNameType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.DisplayNameList != nil) {
-            dict["DisplayNameList"] = self.DisplayNameList!.map({$0.dictionary})
-        }
-        
-        if(self.SortNameList != nil) {
-            dict["SortNameList"] = self.SortNameList!.map({$0.dictionary})
-        }
-        
-        if(self.FirstGivenName != nil) {
-            
-            dict["FirstGivenName"] = self.FirstGivenName!
-            
-        }
-        
-        if(self.SecondGivenName != nil) {
-            
-            dict["SecondGivenName"] = self.SecondGivenName!
-            
-        }
-        
-        if(self.FamilyName != nil) {
-            
-            dict["FamilyName"] = self.FamilyName!
-            
-        }
-        
-        if(self.Suffix != nil) {
-            
-            dict["Suffix"] = self.Suffix!
-            
-        }
-        
-        if(self.Moniker != nil) {
-            
-            dict["Moniker"] = self.Moniker!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

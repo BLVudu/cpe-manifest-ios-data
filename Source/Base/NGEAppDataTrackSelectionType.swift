@@ -99,35 +99,5 @@ class NGEAppDataTrackSelectionType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PresentationID != nil) {
-            
-            dict["PresentationID"] = self.PresentationID!
-            
-        }
-        
-        if(self.SelectVideoTrack != nil) {
-            
-            dict["SelectVideoTrack"] = self.SelectVideoTrack!
-            
-        }
-        
-        if(self.SelectSubtitleTrack != nil) {
-            
-            dict["SelectSubtitleTrack"] = self.SelectSubtitleTrack!
-            
-        }
-        
-        if(self.SelectAudioTrack != nil) {
-            
-            dict["SelectAudioTrack"] = self.SelectAudioTrack!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

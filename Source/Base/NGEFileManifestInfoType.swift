@@ -159,55 +159,5 @@ class NGEFileManifestInfoType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PackageID != nil) {
-            
-            dict["PackageID"] = self.PackageID!
-            
-        }
-        
-        if(self.PackageDateTime != nil) {
-            
-            dict["PackageDateTime"] = self.PackageDateTime!
-            
-        }
-        
-        if(self.Publisher != nil) {
-            dict["Publisher"] = self.Publisher!
-        }
-        
-        if(self.AvailsEntryIDList != nil) {
-            
-            dict["AvailsEntryIDList"] = self.AvailsEntryIDList!
-            
-        }
-        
-        if(self.TotalFilesInPackage != nil) {
-            
-            dict["TotalFilesInPackage"] = self.TotalFilesInPackage!
-            
-        }
-        
-        if(self.FileInfoList != nil) {
-            dict["FileInfoList"] = self.FileInfoList!.map({$0.dictionary})
-        }
-        
-        if(self.ExceptionFlag != nil) {
-            
-            dict["ExceptionFlag"] = self.ExceptionFlag!
-            
-        }
-        
-        if(self.Comments != nil) {
-            
-            dict["Comments"] = self.Comments!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

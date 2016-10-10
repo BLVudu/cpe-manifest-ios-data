@@ -19,6 +19,7 @@ class NGEDigitalAssetVideoPictureFrameRateType : NSObject{
     var value: Int?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -78,31 +79,6 @@ class NGEDigitalAssetVideoPictureFrameRateType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.multiplier != nil) {
-            
-            let obj = NGEStringVideoPicFrameRateMultiplierEnum.toString(self.multiplier!)
-            dict["multiplier"] = obj
-            
-        }
-        
-        if(self.timecode != nil) {
-            
-            dict["timecode"] = self.timecode!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

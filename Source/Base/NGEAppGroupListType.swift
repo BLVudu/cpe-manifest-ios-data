@@ -53,15 +53,5 @@ class NGEAppGroupListType : NSObject{
         if(AppGroupListArray.count > 0) { self.AppGroupList = AppGroupListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.AppGroupList != nil) {
-            dict["AppGroupList"] = self.AppGroupList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

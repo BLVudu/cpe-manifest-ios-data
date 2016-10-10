@@ -90,31 +90,5 @@ class NGEVideoTrackReferenceType : NSObject{
         if(TrackProfileListArray.count > 0) { self.TrackProfileList = TrackProfileListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.priority != nil) {
-            
-            dict["priority"] = self.priority!
-            
-        }
-        
-        if(self.VideoTrackIDList != nil) {
-            
-            dict["VideoTrackIDList"] = self.VideoTrackIDList!
-            
-        }
-        
-        if(self.AdaptationSetID != nil) {
-            dict["AdaptationSetID"] = self.AdaptationSetID!
-        }
-        
-        if(self.TrackProfileList != nil) {
-            dict["TrackProfileList"] = self.TrackProfileList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

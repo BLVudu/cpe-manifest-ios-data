@@ -85,29 +85,5 @@ class NGEAppDataGalleryType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.GalleryID != nil) {
-            
-            dict["GalleryID"] = self.GalleryID!
-            
-        }
-        
-        if(self.AutoNextSlideTime != nil) {
-            
-            dict["AutoNextSlideTime"] = self.AutoNextSlideTime!
-            
-        }
-        
-        if(self.Loop != nil) {
-            
-            dict["Loop"] = self.Loop!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

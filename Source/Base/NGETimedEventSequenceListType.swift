@@ -53,15 +53,5 @@ class NGETimedEventSequenceListType : NSObject{
         if(TimedEventSequenceListArray.count > 0) { self.TimedEventSequenceList = TimedEventSequenceListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TimedEventSequenceList != nil) {
-            dict["TimedEventSequenceList"] = self.TimedEventSequenceList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

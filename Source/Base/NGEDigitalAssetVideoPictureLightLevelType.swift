@@ -62,19 +62,5 @@ class NGEDigitalAssetVideoPictureLightLevelType : NSObject{
         if(FrameAverageMaxListArray.count > 0) { self.FrameAverageMaxList = FrameAverageMaxListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContentMaxList != nil) {
-            dict["ContentMaxList"] = self.ContentMaxList!.map({$0.dictionary})
-        }
-        
-        if(self.FrameAverageMaxList != nil) {
-            dict["FrameAverageMaxList"] = self.FrameAverageMaxList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

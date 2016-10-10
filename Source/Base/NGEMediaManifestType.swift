@@ -38,7 +38,6 @@ class NGEMediaManifestType : NSObject{
     var `ALIDExperienceMaps`: NGEALIDExperienceMapListType?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -146,76 +145,6 @@ class NGEMediaManifestType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ManifestID != nil) {
-            
-            dict["ManifestID"] = self.ManifestID!
-            
-        }
-        
-        if(self.updateNum != nil) {
-            
-            dict["updateNum"] = self.updateNum!
-            
-        }
-        
-        if(self.ExtraVersionReference != nil) {
-            
-            dict["ExtraVersionReference"] = self.ExtraVersionReference!
-            
-        }
-        
-        if(self.updateDeliveryType != nil) {
-            
-            dict["updateDeliveryType"] = self.updateDeliveryType!
-            
-        }
-        
-        if(self.Compatibility != nil) {
-            dict["Compatibility"] = self.Compatibility!
-        }
-        
-        if(self.Inventory != nil) {
-            dict["Inventory"] = self.Inventory!
-        }
-        
-        if(self.Presentations != nil) {
-            dict["Presentations"] = self.Presentations!
-        }
-        
-        if(self.PlayableSequences != nil) {
-            dict["PlayableSequences"] = self.PlayableSequences!
-        }
-        
-        if(self.PictureGroups != nil) {
-            dict["PictureGroups"] = self.PictureGroups!
-        }
-        
-        if(self.AppGroups != nil) {
-            dict["AppGroups"] = self.AppGroups!
-        }
-        
-        if(self.TextGroups != nil) {
-            dict["TextGroups"] = self.TextGroups!
-        }
-        
-        if(self.Experiences != nil) {
-            dict["Experiences"] = self.Experiences!
-        }
-        
-        if(self.TimedEventSequences != nil) {
-            dict["TimedEventSequences"] = self.TimedEventSequences!
-        }
-        
-        if(self.ALIDExperienceMaps != nil) {
-            dict["ALIDExperienceMaps"] = self.ALIDExperienceMaps!
-        }
-        
-        return dict
-    }*/
     
 }
 

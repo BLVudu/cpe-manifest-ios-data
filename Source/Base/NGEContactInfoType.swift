@@ -111,39 +111,5 @@ class NGEContactInfoType : NSObject{
         if(PhoneListArray.count > 0) { self.PhoneList = PhoneListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Name != nil) {
-            
-            dict["Name"] = self.Name!
-            
-        }
-        
-        if(self.PrimaryEmail != nil) {
-            
-            dict["PrimaryEmail"] = self.PrimaryEmail!
-            
-        }
-        
-        if(self.AlternateEmailList != nil) {
-            
-            dict["AlternateEmailList"] = self.AlternateEmailList!
-            
-        }
-        
-        if(self.AddressList != nil) {
-            
-            dict["AddressList"] = self.AddressList!
-            
-        }
-        
-        if(self.PhoneList != nil) {
-            dict["PhoneList"] = self.PhoneList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

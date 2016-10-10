@@ -92,33 +92,5 @@ class NGEBackgroundVideoType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Inherit != nil) {
-            
-            dict["Inherit"] = self.Inherit!
-            
-        }
-        
-        if(self.PresentationID != nil) {
-            
-            dict["PresentationID"] = self.PresentationID!
-            
-        }
-        
-        if(self.PlayableSequenceID != nil) {
-            
-            dict["PlayableSequenceID"] = self.PlayableSequenceID!
-            
-        }
-        
-        if(self.LoopTimecode != nil) {
-            dict["LoopTimecode"] = self.LoopTimecode!
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -74,35 +74,5 @@ class NGEDigitalAssetExternalTrackReferenceType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.namespace != nil) {
-            
-            dict["namespace"] = self.namespace!
-            
-        }
-        
-        if(self.location != nil) {
-            
-            dict["location"] = self.location!
-            
-        }
-        
-        if(self.trackReference != nil) {
-            
-            dict["trackReference"] = self.trackReference!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

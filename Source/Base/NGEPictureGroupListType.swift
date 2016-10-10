@@ -53,15 +53,5 @@ class NGEPictureGroupListType : NSObject{
         if(PictureGroupListArray.count > 0) { self.PictureGroupList = PictureGroupListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PictureGroupList != nil) {
-            dict["PictureGroupList"] = self.PictureGroupList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -85,29 +85,5 @@ class NGEAppDataSpecialBehaviorType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ChoseAudioTrackRef != nil) {
-            
-            dict["ChoseAudioTrackRef"] = self.ChoseAudioTrackRef!
-            
-        }
-        
-        if(self.ChoseVideoTrackRef != nil) {
-            
-            dict["ChoseVideoTrackRef"] = self.ChoseVideoTrackRef!
-            
-        }
-        
-        if(self.ChoseSubTrackRef != nil) {
-            
-            dict["ChoseSubTrackRef"] = self.ChoseSubTrackRef!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

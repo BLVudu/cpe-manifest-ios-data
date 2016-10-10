@@ -71,27 +71,5 @@ class NGEBasicMetadataParentType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.relationshipType != nil) {
-            
-            dict["relationshipType"] = self.relationshipType!
-            
-        }
-        
-        if(self.Parent != nil) {
-            dict["Parent"] = self.Parent!
-        }
-        
-        if(self.ParentContentID != nil) {
-            
-            dict["ParentContentID"] = self.ParentContentID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

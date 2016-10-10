@@ -129,45 +129,5 @@ class NGEContainerMetadataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.TrackList != nil) {
-            dict["TrackList"] = self.TrackList!.map({$0.dictionary})
-        }
-        
-        if(self.HashList != nil) {
-            dict["HashList"] = self.HashList!.map({$0.dictionary})
-        }
-        
-        if(self.Size != nil) {
-            
-            dict["Size"] = self.Size!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            
-            dict["ContainerReference"] = self.ContainerReference!
-            
-        }
-        
-        if(self.ContainerIdentifierList != nil) {
-            dict["ContainerIdentifierList"] = self.ContainerIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.ContainerSpecificMetadata != nil) {
-            dict["ContainerSpecificMetadata"] = self.ContainerSpecificMetadata!
-        }
-        
-        return dict
-    }*/
-    
 }
 

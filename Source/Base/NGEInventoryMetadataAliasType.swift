@@ -60,21 +60,5 @@ class NGEInventoryMetadataAliasType : NSObject{
         if(LocalizedPairListArray.count > 0) { self.LocalizedPairList = LocalizedPairListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.LocalizedPairList != nil) {
-            dict["LocalizedPairList"] = self.LocalizedPairList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

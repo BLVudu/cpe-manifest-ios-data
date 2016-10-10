@@ -129,49 +129,5 @@ class NGEExperienceAppType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.AppID != nil) {
-            
-            dict["AppID"] = self.AppID!
-            
-        }
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.AppGroupID != nil) {
-            
-            dict["AppGroupID"] = self.AppGroupID!
-            
-        }
-        
-        if(self.AppNameList != nil) {
-            dict["AppNameList"] = self.AppNameList!.map({$0.dictionary})
-        }
-        
-        if(self.RatingList != nil) {
-            dict["RatingList"] = self.RatingList!.map({$0.dictionary})
-        }
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -114,41 +114,5 @@ class NGECompObjEntryType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.DisplayNameList != nil) {
-            dict["DisplayNameList"] = self.DisplayNameList!.map({$0.dictionary})
-        }
-        
-        if(self.EntryNumber != nil) {
-            
-            dict["EntryNumber"] = self.EntryNumber!
-            
-        }
-        
-        if(self.EntryClass != nil) {
-            
-            dict["EntryClass"] = self.EntryClass!
-            
-        }
-        
-        if(self.EntryList != nil) {
-            dict["EntryList"] = self.EntryList!.map({$0.dictionary})
-        }
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.BasicMetadata != nil) {
-            dict["BasicMetadata"] = self.BasicMetadata!
-        }
-        
-        return dict
-    }*/
-    
 }
 

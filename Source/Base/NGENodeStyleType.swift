@@ -109,43 +109,5 @@ class NGENodeStyleType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.NodeStyleID != nil) {
-            
-            dict["NodeStyleID"] = self.NodeStyleID!
-            
-        }
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.ThemeID != nil) {
-            
-            dict["ThemeID"] = self.ThemeID!
-            
-        }
-        
-        if(self.Background != nil) {
-            dict["Background"] = self.Background!
-        }
-        
-        if(self.Private != nil) {
-            dict["Private"] = self.Private!
-        }
-        
-        return dict
-    }*/
-    
 }
 

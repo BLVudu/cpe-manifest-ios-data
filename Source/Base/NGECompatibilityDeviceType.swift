@@ -73,23 +73,5 @@ class NGECompatibilityDeviceType : NSObject{
         if(SubClassListArray.count > 0) { self.SubClassList = SubClassListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Class != nil) {
-            
-            dict["Class"] = self.Class!
-            
-        }
-        
-        if(self.SubClassList != nil) {
-            
-            dict["SubClassList"] = self.SubClassList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -60,21 +60,5 @@ class NGEEventLocationOtherCoordinateType : NSObject{
         if(CoordinateListArray.count > 0) { self.CoordinateList = CoordinateListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.system != nil) {
-            
-            dict["system"] = self.system!
-            
-        }
-        
-        if(self.CoordinateList != nil) {
-            dict["CoordinateList"] = self.CoordinateList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

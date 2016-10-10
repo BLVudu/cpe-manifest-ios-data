@@ -57,19 +57,5 @@ class NGEAppDataFeedSetType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Generic != nil) {
-            dict["Generic"] = self.Generic!
-        }
-        
-        if(self.Proprietary != nil) {
-            dict["Proprietary"] = self.Proprietary!
-        }
-        
-        return dict
-    }*/
-    
 }
 

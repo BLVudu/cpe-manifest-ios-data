@@ -49,20 +49,5 @@ class NGELocation : NGEEventLocationType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.icon != nil) {
-            
-            dict["icon"] = self.icon!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

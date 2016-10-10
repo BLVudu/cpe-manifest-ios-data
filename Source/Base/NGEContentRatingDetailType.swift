@@ -123,45 +123,5 @@ class NGEContentRatingDetailType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Region != nil) {
-            dict["Region"] = self.Region!
-        }
-        
-        if(self.System != nil) {
-            
-            dict["System"] = self.System!
-            
-        }
-        
-        if(self.Value != nil) {
-            
-            dict["Value"] = self.Value!
-            
-        }
-        
-        if(self.ReasonList != nil) {
-            
-            dict["ReasonList"] = self.ReasonList!
-            
-        }
-        
-        if(self.LinkToLogo != nil) {
-            
-            dict["LinkToLogo"] = self.LinkToLogo!
-            
-        }
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

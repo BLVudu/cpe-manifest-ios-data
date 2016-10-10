@@ -78,29 +78,5 @@ class NGEInventoryMetadataType : NSObject{
         if(AliasListArray.count > 0) { self.AliasList = AliasListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.ContainerReferenceList != nil) {
-            dict["ContainerReferenceList"] = self.ContainerReferenceList!.map({$0.dictionary})
-        }
-        
-        if(self.BasicMetadata != nil) {
-            dict["BasicMetadata"] = self.BasicMetadata!
-        }
-        
-        if(self.AliasList != nil) {
-            dict["AliasList"] = self.AliasList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

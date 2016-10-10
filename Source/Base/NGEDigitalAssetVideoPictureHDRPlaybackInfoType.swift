@@ -57,17 +57,5 @@ class NGEDigitalAssetVideoPictureHDRPlaybackInfoType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.SDRDownconversion != nil) {
-            
-            dict["SDRDownconversion"] = self.SDRDownconversion!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

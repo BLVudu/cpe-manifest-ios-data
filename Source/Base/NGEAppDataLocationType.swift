@@ -68,21 +68,5 @@ class NGEAppDataLocationType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.LocationList != nil) {
-            dict["LocationList"] = self.LocationList!.map({$0.dictionary})
-        }
-        
-        if(self.MapImageID != nil) {
-            
-            dict["MapImageID"] = self.MapImageID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

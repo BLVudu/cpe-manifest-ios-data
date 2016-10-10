@@ -85,29 +85,5 @@ class NGEButtonImagesType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.BaseImage != nil) {
-            
-            dict["BaseImage"] = self.BaseImage!
-            
-        }
-        
-        if(self.HighlightImage != nil) {
-            
-            dict["HighlightImage"] = self.HighlightImage!
-            
-        }
-        
-        if(self.DefocusImage != nil) {
-            
-            dict["DefocusImage"] = self.DefocusImage!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

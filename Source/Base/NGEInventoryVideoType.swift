@@ -56,24 +56,5 @@ class NGEInventoryVideoType : NGEDigitalAssetVideoDataType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.VideoTrackID != nil) {
-            
-            dict["VideoTrackID"] = self.VideoTrackID!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            dict["ContainerReference"] = self.ContainerReference!
-        }
-        
-        return dict
-    }*/
-    
 }
 

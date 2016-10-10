@@ -43,11 +43,5 @@ class NGEAppDataKMLType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        return dict
-    }*/
-    
 }
 

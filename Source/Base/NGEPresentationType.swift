@@ -77,29 +77,5 @@ class NGEPresentationType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PresentationID != nil) {
-            
-            dict["PresentationID"] = self.PresentationID!
-            
-        }
-        
-        if(self.TrackMetadataList != nil) {
-            dict["TrackMetadataList"] = self.TrackMetadataList!.map({$0.dictionary})
-        }
-        
-        if(self.LanguagePairList != nil) {
-            dict["LanguagePairList"] = self.LanguagePairList!.map({$0.dictionary})
-        }
-        
-        if(self.Chapters != nil) {
-            dict["Chapters"] = self.Chapters!
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -92,41 +92,5 @@ class NGEAppDataFeedProprietaryType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.category != nil) {
-            
-            dict["category"] = self.category!
-            
-        }
-        
-        if(self.feedType != nil) {
-            
-            dict["feedType"] = self.feedType!
-            
-        }
-        
-        if(self.feedSubType != nil) {
-            
-            dict["feedSubType"] = self.feedSubType!
-            
-        }
-        
-        if(self.SourceURL != nil) {
-            
-            dict["SourceURL"] = self.SourceURL!
-            
-        }
-        
-        if(self.QueryObject != nil) {
-            
-            dict["QueryObject"] = self.QueryObject!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

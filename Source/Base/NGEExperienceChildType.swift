@@ -78,27 +78,5 @@ class NGEExperienceChildType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Relationship != nil) {
-            
-            dict["Relationship"] = self.Relationship!
-            
-        }
-        
-        if(self.SequenceInfo != nil) {
-            dict["SequenceInfo"] = self.SequenceInfo!
-        }
-        
-        if(self.ExperienceID != nil) {
-            
-            dict["ExperienceID"] = self.ExperienceID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

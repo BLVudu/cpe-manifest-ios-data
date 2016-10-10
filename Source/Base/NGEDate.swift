@@ -71,23 +71,5 @@ init(_ reader: xmlTextReaderPtr) {
     
 }
 
-/*var dictionary: [String: AnyObject] {
-    var dict = [String: AnyObject]()
-    
-    if(self.scheduled != nil) {
-        
-        dict["scheduled"] = self.scheduled!
-        
-    }
-    
-    if(self.value != nil) {
-        
-        dict["value"] = self.value!
-        
-    }
-    
-    return dict
-}*/
-
 }
 

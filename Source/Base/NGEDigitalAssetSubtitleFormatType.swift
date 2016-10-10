@@ -74,35 +74,5 @@ class NGEDigitalAssetSubtitleFormatType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.SDImage != nil) {
-            
-            dict["SDImage"] = self.SDImage!
-            
-        }
-        
-        if(self.HDImage != nil) {
-            
-            dict["HDImage"] = self.HDImage!
-            
-        }
-        
-        if(self.UHDImage != nil) {
-            
-            dict["UHDImage"] = self.UHDImage!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

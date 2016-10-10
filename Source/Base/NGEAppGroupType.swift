@@ -60,21 +60,5 @@ class NGEAppGroupType : NSObject{
         if(InteractiveTrackReferenceListArray.count > 0) { self.InteractiveTrackReferenceList = InteractiveTrackReferenceListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.AppGroupID != nil) {
-            
-            dict["AppGroupID"] = self.AppGroupID!
-            
-        }
-        
-        if(self.InteractiveTrackReferenceList != nil) {
-            dict["InteractiveTrackReferenceList"] = self.InteractiveTrackReferenceList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

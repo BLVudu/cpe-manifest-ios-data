@@ -85,29 +85,5 @@ class NGEColorPaletteInstanceType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Outline != nil) {
-            
-            dict["Outline"] = self.Outline!
-            
-        }
-        
-        if(self.Fill != nil) {
-            
-            dict["Fill"] = self.Fill!
-            
-        }
-        
-        if(self.Shadow != nil) {
-            
-            dict["Shadow"] = self.Shadow!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

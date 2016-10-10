@@ -82,25 +82,5 @@ class NGECompanyCreditsType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.DisplayStringList != nil) {
-            dict["DisplayStringList"] = self.DisplayStringList!.map({$0.dictionary})
-        }
-        
-        if(self.RegionList != nil) {
-            dict["RegionList"] = self.RegionList!.map({$0.dictionary})
-        }
-        
-        if(self.DisplaySequence != nil) {
-            
-            dict["DisplaySequence"] = self.DisplaySequence!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

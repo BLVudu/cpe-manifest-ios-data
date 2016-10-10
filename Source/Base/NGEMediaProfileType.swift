@@ -67,21 +67,5 @@ class NGEMediaProfileType : NSObject{
         if(ProfileListArray.count > 0) { self.ProfileList = ProfileListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Namespace != nil) {
-            
-            dict["Namespace"] = self.Namespace!
-            
-        }
-        
-        if(self.ProfileList != nil) {
-            dict["ProfileList"] = self.ProfileList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

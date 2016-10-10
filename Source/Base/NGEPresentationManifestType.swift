@@ -90,37 +90,5 @@ class NGEPresentationManifestType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.updateNum != nil) {
-            
-            dict["updateNum"] = self.updateNum!
-            
-        }
-        
-        if(self.Inventory != nil) {
-            dict["Inventory"] = self.Inventory!
-        }
-        
-        if(self.Presentation != nil) {
-            dict["Presentation"] = self.Presentation!
-        }
-        
-        if(self.PictureGroups != nil) {
-            dict["PictureGroups"] = self.PictureGroups!
-        }
-        
-        if(self.TextGroups != nil) {
-            dict["TextGroups"] = self.TextGroups!
-        }
-        
-        if(self.TimedEventSequences != nil) {
-            dict["TimedEventSequences"] = self.TimedEventSequences!
-        }
-        
-        return dict
-    }*/
-    
 }
 

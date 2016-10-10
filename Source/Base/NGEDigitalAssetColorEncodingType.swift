@@ -85,29 +85,5 @@ class NGEDigitalAssetColorEncodingType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Primaries != nil) {
-            
-            dict["Primaries"] = self.Primaries!
-            
-        }
-        
-        if(self.TransferFunction != nil) {
-            
-            dict["TransferFunction"] = self.TransferFunction!
-            
-        }
-        
-        if(self.ColorDifferencing != nil) {
-            
-            dict["ColorDifferencing"] = self.ColorDifferencing!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

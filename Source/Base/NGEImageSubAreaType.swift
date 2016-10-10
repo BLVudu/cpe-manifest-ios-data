@@ -104,35 +104,5 @@ class NGEImageSubAreaType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.WidthPixels != nil) {
-            
-            dict["WidthPixels"] = self.WidthPixels!
-            
-        }
-        
-        if(self.HeightPixels != nil) {
-            
-            dict["HeightPixels"] = self.HeightPixels!
-            
-        }
-        
-        if(self.PixelsFromLeft != nil) {
-            
-            dict["PixelsFromLeft"] = self.PixelsFromLeft!
-            
-        }
-        
-        if(self.PixelsFromBottom != nil) {
-            
-            dict["PixelsFromBottom"] = self.PixelsFromBottom!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

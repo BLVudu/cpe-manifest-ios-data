@@ -82,20 +82,20 @@ class NGEAppNVPairType : NSObject{
     var `KML`: NGEAppDataKMLType!
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        let timeOnlyFormatter = DateFormatter()
-        timeOnlyFormatter.dateFormat = "HH:mm:ss"
-        timeOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
-        
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .decimal
-        
-        let dateOnlyFormatter = DateFormatter()
-        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
-        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
         let decFormatter = NumberFormatter()
         decFormatter.numberStyle = .decimal
         decFormatter.decimalSeparator = "."
+        let dateOnlyFormatter = DateFormatter()
+        dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
+        dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        let timeOnlyFormatter = DateFormatter()
+        timeOnlyFormatter.dateFormat = "HH:mm:ss"
+        timeOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
         if let attrValue = xmlTextReaderGetAttribute(reader, "Name") {
             
@@ -108,20 +108,20 @@ class NGEAppNVPairType : NSObject{
         let _complexTypeXmlDept = xmlTextReaderDepth(reader)
         super.init()
         
-        let timeOnlyFormatter = DateFormatter()
-        timeOnlyFormatter.dateFormat = "HH:mm:ss"
-        timeOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
-        
-        let numFormatter = NumberFormatter()
-        numFormatter.numberStyle = .decimal
-        
+        let decFormatter = NumberFormatter()
+        decFormatter.numberStyle = .decimal
+        decFormatter.decimalSeparator = "."
         let dateOnlyFormatter = DateFormatter()
         dateOnlyFormatter.dateFormat = "yyyy-MM-dd"
         dateOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
         
-        let decFormatter = NumberFormatter()
-        decFormatter.numberStyle = .decimal
-        decFormatter.decimalSeparator = "."
+        let numFormatter = NumberFormatter()
+        numFormatter.numberStyle = .decimal
+        
+        let timeOnlyFormatter = DateFormatter()
+        timeOnlyFormatter.dateFormat = "HH:mm:ss"
+        timeOnlyFormatter.timeZone = TimeZone(abbreviation:"UTC")
+        
         self.readAttributes(reader)
         
         var TextGroupIDListArray = [NGETextGroupID]()
@@ -452,194 +452,6 @@ class NGEAppNVPairType : NSObject{
         if(TextGroupIDListArray.count > 0) { self.TextGroupIDList = TextGroupIDListArray }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Name != nil) {
-            
-            dict["Name"] = self.Name!
-            
-        }
-        
-        if(self.Text != nil) {
-            
-            dict["Text"] = self.Text!
-            
-        }
-        
-        if(self.Integer != nil) {
-            
-            dict["Integer"] = self.Integer!
-            
-        }
-        
-        if(self.Decimal != nil) {
-            
-            dict["Decimal"] = self.Decimal!
-            
-        }
-        
-        if(self.Duration != nil) {
-            
-            dict["Duration"] = self.Duration!
-            
-        }
-        
-        if(self.URL != nil) {
-            
-            dict["URL"] = self.URL!
-            
-        }
-        
-        if(self.URLPostfix != nil) {
-            
-            dict["URLPostfix"] = self.URLPostfix!
-            
-        }
-        
-        if(self.Language != nil) {
-            
-            dict["Language"] = self.Language!
-            
-        }
-        
-        if(self.Time != nil) {
-            
-            dict["Time"] = self.Time!
-            
-        }
-        
-        if(self.YearDateTime != nil) {
-            
-            dict["YearDateTime"] = self.YearDateTime!
-            
-        }
-        
-        if(self.Money != nil) {
-            dict["Money"] = self.Money!
-        }
-        
-        if(self.base64Binary != nil) {
-            
-            dict["base64Binary"] = self.base64Binary!
-            
-        }
-        
-        if(self.Location != nil) {
-            dict["Location"] = self.Location!
-        }
-        
-        if(self.Timecode != nil) {
-            dict["Timecode"] = self.Timecode!
-        }
-        
-        if(self.Person != nil) {
-            dict["Person"] = self.Person!
-        }
-        
-        if(self.TimePeriod != nil) {
-            dict["TimePeriod"] = self.TimePeriod!
-        }
-        
-        if(self.TimedEvent != nil) {
-            dict["TimedEvent"] = self.TimedEvent!
-        }
-        
-        if(self.ExperienceID != nil) {
-            
-            dict["ExperienceID"] = self.ExperienceID!
-            
-        }
-        
-        if(self.PlayableSequenceID != nil) {
-            
-            dict["PlayableSequenceID"] = self.PlayableSequenceID!
-            
-        }
-        
-        if(self.PresentationID != nil) {
-            
-            dict["PresentationID"] = self.PresentationID!
-            
-        }
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.PictureID != nil) {
-            
-            dict["PictureID"] = self.PictureID!
-            
-        }
-        
-        if(self.TextGroupIDList != nil) {
-            dict["TextGroupIDList"] = self.TextGroupIDList!.map({$0.dictionary})
-        }
-        
-        if(self.ALID != nil) {
-            
-            dict["ALID"] = self.ALID!
-            
-        }
-        
-        if(self.EIDR != nil) {
-            
-            dict["EIDR"] = self.EIDR!
-            
-        }
-        
-        if(self.OtherID != nil) {
-            dict["OtherID"] = self.OtherID!
-        }
-        
-        if(self.ProductID != nil) {
-            dict["ProductID"] = self.ProductID!
-        }
-        
-        if(self.AdID != nil) {
-            
-            dict["AdID"] = self.AdID!
-            
-        }
-        
-        if(self.EANUPC != nil) {
-            dict["EANUPC"] = self.EANUPC!
-        }
-        
-        if(self.Gallery != nil) {
-            dict["Gallery"] = self.Gallery!
-        }
-        
-        if(self.LocationSet != nil) {
-            dict["LocationSet"] = self.LocationSet!
-        }
-        
-        if(self.SelectTrack != nil) {
-            dict["SelectTrack"] = self.SelectTrack!
-        }
-        
-        if(self.DataFeedSet != nil) {
-            dict["DataFeedSet"] = self.DataFeedSet!
-        }
-        
-        if(self.TimedEventSequence != nil) {
-            dict["TimedEventSequence"] = self.TimedEventSequence!
-        }
-        
-        if(self.AcquireAsset != nil) {
-            dict["AcquireAsset"] = self.AcquireAsset!
-        }
-        
-        if(self.KML != nil) {
-            dict["KML"] = self.KML!
-        }
-        
-        return dict
-    }*/
     
 }
 

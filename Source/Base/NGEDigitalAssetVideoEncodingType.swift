@@ -28,6 +28,7 @@ class NGEDigitalAssetVideoEncodingType : NSObject{
     var `ActualLength`: String?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -173,64 +174,6 @@ class NGEDigitalAssetVideoEncodingType : NSObject{
         if(WatermarkListArray.count > 0) { self.WatermarkList = WatermarkListArray }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Codec != nil) {
-            
-            dict["Codec"] = self.Codec!
-            
-        }
-        
-        if(self.CodecTypeList != nil) {
-            
-            dict["CodecTypeList"] = self.CodecTypeList!
-            
-        }
-        
-        if(self.MPEGProfile != nil) {
-            
-            dict["MPEGProfile"] = self.MPEGProfile!
-            
-        }
-        
-        if(self.MPEGLevel != nil) {
-            
-            dict["MPEGLevel"] = self.MPEGLevel!
-            
-        }
-        
-        if(self.BitrateMax != nil) {
-            
-            dict["BitrateMax"] = self.BitrateMax!
-            
-        }
-        
-        if(self.BitRateAverage != nil) {
-            
-            dict["BitRateAverage"] = self.BitRateAverage!
-            
-        }
-        
-        if(self.VBR != nil) {
-            
-            dict["VBR"] = self.VBR!
-            
-        }
-        
-        if(self.WatermarkList != nil) {
-            dict["WatermarkList"] = self.WatermarkList!.map({$0.dictionary})
-        }
-        
-        if(self.ActualLength != nil) {
-            
-            dict["ActualLength"] = self.ActualLength!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

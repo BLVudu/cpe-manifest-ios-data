@@ -49,20 +49,5 @@ class NGELocalized : NGEButtonImagesType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.language != nil) {
-            
-            dict["language"] = self.language!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

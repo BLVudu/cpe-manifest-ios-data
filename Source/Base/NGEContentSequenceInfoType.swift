@@ -86,29 +86,5 @@ class NGEContentSequenceInfoType : NSObject{
         if(AlternateNumberListArray.count > 0) { self.AlternateNumberList = AlternateNumberListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Number != nil) {
-            
-            dict["Number"] = self.Number!
-            
-        }
-        
-        if(self.DistributionNumber != nil) {
-            dict["DistributionNumber"] = self.DistributionNumber!
-        }
-        
-        if(self.HouseSequence != nil) {
-            dict["HouseSequence"] = self.HouseSequence!
-        }
-        
-        if(self.AlternateNumberList != nil) {
-            dict["AlternateNumberList"] = self.AlternateNumberList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

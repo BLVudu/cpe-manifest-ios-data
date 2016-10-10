@@ -88,33 +88,5 @@ class NGEManifestAppDataSetType : NSObject{
         if(ManifestAppDataListArray.count > 0) { self.ManifestAppDataList = ManifestAppDataListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ManifestDataSetID != nil) {
-            
-            dict["ManifestDataSetID"] = self.ManifestDataSetID!
-            
-        }
-        
-        if(self.updateNum != nil) {
-            
-            dict["updateNum"] = self.updateNum!
-            
-        }
-        
-        if(self.ManifestIDList != nil) {
-            
-            dict["ManifestIDList"] = self.ManifestIDList!
-            
-        }
-        
-        if(self.ManifestAppDataList != nil) {
-            dict["ManifestAppDataList"] = self.ManifestAppDataList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

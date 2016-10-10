@@ -20,7 +20,6 @@ class NGEBasicMetadataJobType : NSObject{
     var `Guest`: Bool?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -111,38 +110,6 @@ class NGEBasicMetadataJobType : NSObject{
         if(CharacterListArray.count > 0) { self.CharacterList = CharacterListArray }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.JobFunction != nil) {
-            dict["JobFunction"] = self.JobFunction!
-        }
-        
-        if(self.JobDisplayList != nil) {
-            dict["JobDisplayList"] = self.JobDisplayList!.map({$0.dictionary})
-        }
-        
-        if(self.BillingBlockOrder != nil) {
-            
-            dict["BillingBlockOrder"] = self.BillingBlockOrder!
-            
-        }
-        
-        if(self.CharacterList != nil) {
-            
-            dict["CharacterList"] = self.CharacterList!
-            
-        }
-        
-        if(self.Guest != nil) {
-            
-            dict["Guest"] = self.Guest!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

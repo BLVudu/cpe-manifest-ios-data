@@ -86,29 +86,5 @@ class NGEDigitalAssetInteractiveDataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.EncodingList != nil) {
-            dict["EncodingList"] = self.EncodingList!.map({$0.dictionary})
-        }
-        
-        if(self.TrackReference != nil) {
-            
-            dict["TrackReference"] = self.TrackReference!
-            
-        }
-        
-        if(self.TrackIdentifierList != nil) {
-            dict["TrackIdentifierList"] = self.TrackIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.Private != nil) {
-            dict["Private"] = self.Private!
-        }
-        
-        return dict
-    }*/
-    
 }
 

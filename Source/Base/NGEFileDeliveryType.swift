@@ -132,49 +132,5 @@ init(_ reader: xmlTextReaderPtr) {
     
 }
 
-/*var dictionary: [String: AnyObject] {
-    var dict = [String: AnyObject]()
-    
-    if(self.UpdateNum != nil) {
-        
-        dict["UpdateNum"] = self.UpdateNum!
-        
-    }
-    
-    if(self.DeliveryMethod != nil) {
-        
-        dict["DeliveryMethod"] = self.DeliveryMethod!
-        
-    }
-    
-    if(self.TransferLocation != nil) {
-        
-        dict["TransferLocation"] = self.TransferLocation!
-        
-    }
-    
-    if(self.Organization != nil) {
-        dict["Organization"] = self.Organization!
-    }
-    
-    if(self.Contact != nil) {
-        dict["Contact"] = self.Contact!
-    }
-    
-    if(self.EstDeliveryDate != nil) {
-        
-        dict["EstDeliveryDate"] = self.EstDeliveryDate!
-        
-    }
-    
-    if(self.OtherInstructions != nil) {
-        
-        dict["OtherInstructions"] = self.OtherInstructions!
-        
-    }
-    
-    return dict
-}*/
-
 }
 

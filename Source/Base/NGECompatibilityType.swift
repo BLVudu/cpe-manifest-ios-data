@@ -88,29 +88,5 @@ class NGECompatibilityType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.SpecVersion != nil) {
-            
-            dict["SpecVersion"] = self.SpecVersion!
-            
-        }
-        
-        if(self.SystemList != nil) {
-            
-            dict["SystemList"] = self.SystemList!
-            
-        }
-        
-        if(self.Profile != nil) {
-            
-            dict["Profile"] = self.Profile!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

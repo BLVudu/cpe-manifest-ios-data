@@ -131,51 +131,5 @@ class NGEDigitalAssetAudioDataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
-            
-        }
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.Encoding != nil) {
-            dict["Encoding"] = self.Encoding!
-        }
-        
-        if(self.Language != nil) {
-            dict["Language"] = self.Language!
-        }
-        
-        if(self.Channels != nil) {
-            
-            dict["Channels"] = self.Channels!
-            
-        }
-        
-        if(self.TrackReference != nil) {
-            
-            dict["TrackReference"] = self.TrackReference!
-            
-        }
-        
-        if(self.TrackIdentifierList != nil) {
-            dict["TrackIdentifierList"] = self.TrackIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.Private != nil) {
-            dict["Private"] = self.Private!
-        }
-        
-        return dict
-    }*/
-    
 }
 

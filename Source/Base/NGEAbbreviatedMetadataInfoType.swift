@@ -119,47 +119,5 @@ class NGEAbbreviatedMetadataInfoType : NSObject{
         if(DisplayIndicatorsListArray.count > 0) { self.DisplayIndicatorsList = DisplayIndicatorsListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.language != nil) {
-            
-            dict["language"] = self.language!
-            
-        }
-        
-        if(self.isDefault != nil) {
-            
-            dict["isDefault"] = self.isDefault!
-            
-        }
-        
-        if(self.TitleBrief != nil) {
-            
-            dict["TitleBrief"] = self.TitleBrief!
-            
-        }
-        
-        if(self.ArtReferenceList != nil) {
-            
-            dict["ArtReferenceList"] = self.ArtReferenceList!
-            
-        }
-        
-        if(self.SummaryShort != nil) {
-            
-            dict["SummaryShort"] = self.SummaryShort!
-            
-        }
-        
-        if(self.DisplayIndicatorsList != nil) {
-            
-            dict["DisplayIndicatorsList"] = self.DisplayIndicatorsList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

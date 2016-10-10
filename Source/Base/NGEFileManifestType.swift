@@ -42,14 +42,5 @@ class NGEFileManifestType : NGEFileManifestInfoType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        return dict
-    }*/
-    
 }
 

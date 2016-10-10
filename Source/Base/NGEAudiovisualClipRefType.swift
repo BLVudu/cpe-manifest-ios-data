@@ -22,6 +22,7 @@ class NGEAudiovisualClipRefType : NSObject{
     var `ExitPointTimecode`: NGETimecodeType?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -96,44 +97,6 @@ class NGEAudiovisualClipRefType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.sequence != nil) {
-            
-            dict["sequence"] = self.sequence!
-            
-        }
-        
-        if(self.seamless != nil) {
-            
-            dict["seamless"] = self.seamless!
-            
-        }
-        
-        if(self.audioLanguage != nil) {
-            
-            dict["audioLanguage"] = self.audioLanguage!
-            
-        }
-        
-        if(self.PresentationID != nil) {
-            
-            dict["PresentationID"] = self.PresentationID!
-            
-        }
-        
-        if(self.EntryPointTimecode != nil) {
-            dict["EntryPointTimecode"] = self.EntryPointTimecode!
-        }
-        
-        if(self.ExitPointTimecode != nil) {
-            dict["ExitPointTimecode"] = self.ExitPointTimecode!
-        }
-        
-        return dict
-    }*/
     
 }
 

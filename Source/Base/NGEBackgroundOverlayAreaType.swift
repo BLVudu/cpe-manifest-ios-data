@@ -62,26 +62,5 @@ class NGEBackgroundOverlayAreaType : NGEImageSubAreaType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.tag != nil) {
-            
-            dict["tag"] = self.tag!
-            
-        }
-        
-        if(self.priority != nil) {
-            
-            dict["priority"] = self.priority!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

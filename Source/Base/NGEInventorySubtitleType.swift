@@ -56,24 +56,5 @@ class NGEInventorySubtitleType : NGEDigitalAssetSubtitleDataType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.SubtitleTrackID != nil) {
-            
-            dict["SubtitleTrackID"] = self.SubtitleTrackID!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            dict["ContainerReference"] = self.ContainerReference!
-        }
-        
-        return dict
-    }*/
-    
 }
 

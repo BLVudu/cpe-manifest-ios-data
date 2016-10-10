@@ -77,23 +77,5 @@ class NGEDigitalAssetChromaticityType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ChromaticityCIEx != nil) {
-            
-            dict["ChromaticityCIEx"] = self.ChromaticityCIEx!
-            
-        }
-        
-        if(self.ChromaticityCIEy != nil) {
-            
-            dict["ChromaticityCIEy"] = self.ChromaticityCIEy!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

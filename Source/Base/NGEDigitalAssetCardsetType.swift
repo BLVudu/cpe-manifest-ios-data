@@ -110,35 +110,5 @@ class NGEDigitalAssetCardsetType : NSObject{
         if(LanguageListArray.count > 0) { self.LanguageList = LanguageListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TypeList != nil) {
-            
-            dict["TypeList"] = self.TypeList!
-            
-        }
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
-            
-        }
-        
-        if(self.Sequence != nil) {
-            
-            dict["Sequence"] = self.Sequence!
-            
-        }
-        
-        if(self.LanguageList != nil) {
-            
-            dict["LanguageList"] = self.LanguageList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

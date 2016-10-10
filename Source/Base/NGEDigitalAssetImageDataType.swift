@@ -140,49 +140,5 @@ class NGEDigitalAssetImageDataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Width != nil) {
-            
-            dict["Width"] = self.Width!
-            
-        }
-        
-        if(self.Height != nil) {
-            
-            dict["Height"] = self.Height!
-            
-        }
-        
-        if(self.Encoding != nil) {
-            
-            dict["Encoding"] = self.Encoding!
-            
-        }
-        
-        if(self.LanguageList != nil) {
-            
-            dict["LanguageList"] = self.LanguageList!
-            
-        }
-        
-        if(self.TrackReference != nil) {
-            
-            dict["TrackReference"] = self.TrackReference!
-            
-        }
-        
-        if(self.TrackIdentifierList != nil) {
-            dict["TrackIdentifierList"] = self.TrackIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.Private != nil) {
-            dict["Private"] = self.Private!
-        }
-        
-        return dict
-    }*/
-    
 }
 
