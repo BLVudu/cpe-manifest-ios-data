@@ -60,23 +60,5 @@ class NGEDigitalAssetAudioLanguageType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.dubbed != nil) {
-            
-            dict["dubbed"] = self.dubbed!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

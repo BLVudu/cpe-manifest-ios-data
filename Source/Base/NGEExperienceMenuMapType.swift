@@ -68,21 +68,5 @@ class NGEExperienceMenuMapType : NSObject{
         if(NodeStyleRefListArray.count > 0) { self.NodeStyleRefList = NodeStyleRefListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ExperienceIDList != nil) {
-            
-            dict["ExperienceIDList"] = self.ExperienceIDList!
-            
-        }
-        
-        if(self.NodeStyleRefList != nil) {
-            dict["NodeStyleRefList"] = self.NodeStyleRefList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

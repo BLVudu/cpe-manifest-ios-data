@@ -106,45 +106,5 @@ class NGEContainerTrackMetadataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Audio != nil) {
-            dict["Audio"] = self.Audio!
-        }
-        
-        if(self.Video != nil) {
-            dict["Video"] = self.Video!
-        }
-        
-        if(self.Subtitle != nil) {
-            dict["Subtitle"] = self.Subtitle!
-        }
-        
-        if(self.Image != nil) {
-            dict["Image"] = self.Image!
-        }
-        
-        if(self.Interactive != nil) {
-            dict["Interactive"] = self.Interactive!
-        }
-        
-        if(self.Container != nil) {
-            dict["Container"] = self.Container!
-        }
-        
-        if(self.ExternalTrackReference != nil) {
-            dict["ExternalTrackReference"] = self.ExternalTrackReference!
-        }
-        
-        if(self.InternalTrackReference != nil) {
-            
-            dict["InternalTrackReference"] = self.InternalTrackReference!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

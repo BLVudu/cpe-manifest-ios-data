@@ -120,47 +120,5 @@ class NGEEventPeriodType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.absolute != nil) {
-            
-            dict["absolute"] = self.absolute!
-            
-        }
-        
-        if(self.Type != nil) {
-            dict["Type"] = self.Type!
-        }
-        
-        if(self.Name != nil) {
-            
-            dict["Name"] = self.Name!
-            
-        }
-        
-        if(self.Start != nil) {
-            
-            dict["Start"] = self.Start!
-            
-        }
-        
-        if(self.End != nil) {
-            
-            dict["End"] = self.End!
-            
-        }
-        
-        if(self.FictionalStart != nil) {
-            dict["FictionalStart"] = self.FictionalStart!
-        }
-        
-        if(self.FictionalEnd != nil) {
-            dict["FictionalEnd"] = self.FictionalEnd!
-        }
-        
-        return dict
-    }*/
-    
 }
 

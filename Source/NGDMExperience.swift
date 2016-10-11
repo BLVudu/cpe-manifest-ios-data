@@ -106,8 +106,12 @@ open class NGDMExperience: Equatable {
     }
     
     /// Video URL to be used for video display, if it exists
+    open var video: NGDMVideo? {
+        return presentation?.video
+    }
+    
     open var videoURL: URL? {
-        return presentation?.videoURL as URL?
+        return video?.url
     }
     
     /// Video runtime length in seconds

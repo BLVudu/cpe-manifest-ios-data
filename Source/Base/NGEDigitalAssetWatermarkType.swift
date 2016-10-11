@@ -92,35 +92,5 @@ class NGEDigitalAssetWatermarkType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.guaranteedAbsent != nil) {
-            
-            dict["guaranteedAbsent"] = self.guaranteedAbsent!
-            
-        }
-        
-        if(self.Vendor != nil) {
-            
-            dict["Vendor"] = self.Vendor!
-            
-        }
-        
-        if(self.ProductAndVersionID != nil) {
-            
-            dict["ProductAndVersionID"] = self.ProductAndVersionID!
-            
-        }
-        
-        if(self.Data != nil) {
-            
-            dict["Data"] = self.Data!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -120,45 +120,5 @@ class NGEGalleryType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.GalleryID != nil) {
-            
-            dict["GalleryID"] = self.GalleryID!
-            
-        }
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.PictureGroupID != nil) {
-            
-            dict["PictureGroupID"] = self.PictureGroupID!
-            
-        }
-        
-        if(self.GalleryNameList != nil) {
-            dict["GalleryNameList"] = self.GalleryNameList!.map({$0.dictionary})
-        }
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

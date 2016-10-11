@@ -73,23 +73,5 @@ init(_ reader: xmlTextReaderPtr) {
     
 }
 
-/*var dictionary: [String: AnyObject] {
-    var dict = [String: AnyObject]()
-    
-    if(self.Start != nil) {
-        
-        dict["Start"] = self.Start!
-        
-    }
-    
-    if(self.End != nil) {
-        
-        dict["End"] = self.End!
-        
-    }
-    
-    return dict
-}*/
-
 }
 

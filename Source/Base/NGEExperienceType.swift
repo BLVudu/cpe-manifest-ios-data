@@ -40,6 +40,7 @@ class NGEExperienceType : NSObject{
     var `ExperienceChildList`: [NGEExperienceChildType]?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -208,90 +209,6 @@ class NGEExperienceType : NSObject{
         if(TimedSequenceIDListArray.count > 0) { self.TimedSequenceIDList = TimedSequenceIDListArray }
         if(ExperienceChildListArray.count > 0) { self.ExperienceChildList = ExperienceChildListArray }
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ExperienceID != nil) {
-            
-            dict["ExperienceID"] = self.ExperienceID!
-            
-        }
-        
-        if(self.version != nil) {
-            
-            dict["version"] = self.version!
-            
-        }
-        
-        if(self.updateNum != nil) {
-            
-            dict["updateNum"] = self.updateNum!
-            
-        }
-        
-        if(self.LanguageList != nil) {
-            
-            dict["LanguageList"] = self.LanguageList!
-            
-        }
-        
-        if(self.ExcludedLanguageList != nil) {
-            
-            dict["ExcludedLanguageList"] = self.ExcludedLanguageList!
-            
-        }
-        
-        if(self.RegionList != nil) {
-            dict["RegionList"] = self.RegionList!.map({$0.dictionary})
-        }
-        
-        if(self.ExcludedRegionList != nil) {
-            dict["ExcludedRegionList"] = self.ExcludedRegionList!.map({$0.dictionary})
-        }
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.Audiovisual != nil) {
-            dict["Audiovisual"] = self.Audiovisual!
-        }
-        
-        if(self.App != nil) {
-            dict["App"] = self.App!
-        }
-        
-        if(self.Gallery != nil) {
-            dict["Gallery"] = self.Gallery!
-        }
-        
-        if(self.PictureGroupIDList != nil) {
-            
-            dict["PictureGroupIDList"] = self.PictureGroupIDList!
-            
-        }
-        
-        if(self.TextGroupIDList != nil) {
-            
-            dict["TextGroupIDList"] = self.TextGroupIDList!
-            
-        }
-        
-        if(self.TimedSequenceIDList != nil) {
-            
-            dict["TimedSequenceIDList"] = self.TimedSequenceIDList!
-            
-        }
-        
-        if(self.ExperienceChildList != nil) {
-            dict["ExperienceChildList"] = self.ExperienceChildList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
     
 }
 

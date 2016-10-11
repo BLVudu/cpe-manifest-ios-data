@@ -8,7 +8,7 @@ import Foundation
 open class NGDMVideo {
     
     /// Unique identifier
-    var id: String
+    open var id: String
     
     /// Size in pixels of this Video
     open var size = CGSize.zero

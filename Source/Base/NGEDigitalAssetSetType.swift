@@ -98,35 +98,5 @@ class NGEDigitalAssetSetType : NSObject{
         if(AncillaryListArray.count > 0) { self.AncillaryList = AncillaryListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.AudioList != nil) {
-            dict["AudioList"] = self.AudioList!.map({$0.dictionary})
-        }
-        
-        if(self.VideoList != nil) {
-            dict["VideoList"] = self.VideoList!.map({$0.dictionary})
-        }
-        
-        if(self.SubtitleList != nil) {
-            dict["SubtitleList"] = self.SubtitleList!.map({$0.dictionary})
-        }
-        
-        if(self.ImageList != nil) {
-            dict["ImageList"] = self.ImageList!.map({$0.dictionary})
-        }
-        
-        if(self.InteractiveList != nil) {
-            dict["InteractiveList"] = self.InteractiveList!.map({$0.dictionary})
-        }
-        
-        if(self.AncillaryList != nil) {
-            dict["AncillaryList"] = self.AncillaryList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -102,43 +102,5 @@ class NGEBackgroundType : NSObject{
         if(OverlayAreaListArray.count > 0) { self.OverlayAreaList = OverlayAreaListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.looping != nil) {
-            
-            dict["looping"] = self.looping!
-            
-        }
-        
-        if(self.Color != nil) {
-            
-            dict["Color"] = self.Color!
-            
-        }
-        
-        if(self.Image != nil) {
-            dict["Image"] = self.Image!
-        }
-        
-        if(self.Video != nil) {
-            dict["Video"] = self.Video!
-        }
-        
-        if(self.AudioLoop != nil) {
-            dict["AudioLoop"] = self.AudioLoop!
-        }
-        
-        if(self.Adaptation != nil) {
-            dict["Adaptation"] = self.Adaptation!
-        }
-        
-        if(self.OverlayAreaList != nil) {
-            dict["OverlayAreaList"] = self.OverlayAreaList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

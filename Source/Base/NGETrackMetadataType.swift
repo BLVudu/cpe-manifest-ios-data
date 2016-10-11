@@ -99,33 +99,5 @@ class NGETrackMetadataType : NSObject{
         if(AncillaryTrackReferenceListArray.count > 0) { self.AncillaryTrackReferenceList = AncillaryTrackReferenceListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TrackSelectionNumber != nil) {
-            
-            dict["TrackSelectionNumber"] = self.TrackSelectionNumber!
-            
-        }
-        
-        if(self.VideoTrackReferenceList != nil) {
-            dict["VideoTrackReferenceList"] = self.VideoTrackReferenceList!.map({$0.dictionary})
-        }
-        
-        if(self.AudioTrackReferenceList != nil) {
-            dict["AudioTrackReferenceList"] = self.AudioTrackReferenceList!.map({$0.dictionary})
-        }
-        
-        if(self.SubtitleTrackReferenceList != nil) {
-            dict["SubtitleTrackReferenceList"] = self.SubtitleTrackReferenceList!.map({$0.dictionary})
-        }
-        
-        if(self.AncillaryTrackReferenceList != nil) {
-            dict["AncillaryTrackReferenceList"] = self.AncillaryTrackReferenceList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

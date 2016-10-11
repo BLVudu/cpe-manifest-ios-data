@@ -18,7 +18,7 @@ open class NGDMGallery {
     
     // MARK: Instance Variables
     /// Unique identifier
-    var id: String
+    open var id: String
     
     /// Metadata
     fileprivate var _metadata: NGDMMetadata?

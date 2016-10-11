@@ -53,15 +53,5 @@ class NGEALIDExperienceMapListType : NSObject{
         if(ALIDExperienceMapListArray.count > 0) { self.ALIDExperienceMapList = ALIDExperienceMapListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ALIDExperienceMapList != nil) {
-            dict["ALIDExperienceMapList"] = self.ALIDExperienceMapList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

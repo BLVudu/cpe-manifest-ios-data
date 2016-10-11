@@ -64,21 +64,5 @@ class NGEInventoryMetadataLocalizedPairType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.LanguageIncluded != nil) {
-            
-            dict["LanguageIncluded"] = self.LanguageIncluded!
-            
-        }
-        
-        if(self.RegionIncluded != nil) {
-            dict["RegionIncluded"] = self.RegionIncluded!
-        }
-        
-        return dict
-    }*/
-    
 }
 

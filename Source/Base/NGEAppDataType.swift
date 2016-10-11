@@ -22,6 +22,7 @@ class NGEAppDataType : NSObject{
     var `NVPairList`: [NGEAppNVPairType]!
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -116,46 +117,6 @@ class NGEAppDataType : NSObject{
         
         if(NVPairListArray.count > 0) { self.NVPairList = NVPairListArray }
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.AppID != nil) {
-            
-            dict["AppID"] = self.AppID!
-            
-        }
-        
-        if(self.updateNum != nil) {
-            
-            dict["updateNum"] = self.updateNum!
-            
-        }
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.AppGroupID != nil) {
-            
-            dict["AppGroupID"] = self.AppGroupID!
-            
-        }
-        
-        if(self.NVPairList != nil) {
-            dict["NVPairList"] = self.NVPairList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
     
 }
 

@@ -53,15 +53,5 @@ class NGEButtonSetType : NSObject{
         if(ButtonListArray.count > 0) { self.ButtonList = ButtonListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ButtonList != nil) {
-            dict["ButtonList"] = self.ButtonList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

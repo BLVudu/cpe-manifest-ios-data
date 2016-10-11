@@ -49,20 +49,5 @@ class NGEVideoFrameTimecode : NGETimecodeType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.VideoTrackID != nil) {
-            
-            dict["VideoTrackID"] = self.VideoTrackID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -105,39 +105,5 @@ class NGEDigitalAssetColorVolumeType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PrimaryRChromaticity != nil) {
-            dict["PrimaryRChromaticity"] = self.PrimaryRChromaticity!
-        }
-        
-        if(self.PrimaryGChromaticity != nil) {
-            dict["PrimaryGChromaticity"] = self.PrimaryGChromaticity!
-        }
-        
-        if(self.PrimaryBChromaticity != nil) {
-            dict["PrimaryBChromaticity"] = self.PrimaryBChromaticity!
-        }
-        
-        if(self.WhitePointChromaticity != nil) {
-            dict["WhitePointChromaticity"] = self.WhitePointChromaticity!
-        }
-        
-        if(self.LuminanceMin != nil) {
-            
-            dict["LuminanceMin"] = self.LuminanceMin!
-            
-        }
-        
-        if(self.LuminanceMax != nil) {
-            
-            dict["LuminanceMax"] = self.LuminanceMax!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -60,23 +60,5 @@ class NGETimecodeType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.dropframe != nil) {
-            
-            dict["dropframe"] = self.dropframe!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -71,23 +71,5 @@ class NGERegionType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.country != nil) {
-            
-            dict["country"] = self.country!
-            
-        }
-        
-        if(self.countryRegion != nil) {
-            
-            dict["countryRegion"] = self.countryRegion!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

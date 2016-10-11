@@ -17,7 +17,6 @@ class NGELocationType : NSObject{
     var value: String?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -65,24 +64,6 @@ class NGELocationType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.priority != nil) {
-            
-            dict["priority"] = self.priority!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

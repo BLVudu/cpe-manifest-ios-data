@@ -76,29 +76,5 @@ class NGEChapterType : NSObject{
         if(ImageIDListArray.count > 0) { self.ImageIDList = ImageIDListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.index != nil) {
-            
-            dict["index"] = self.index!
-            
-        }
-        
-        if(self.EntryTimecode != nil) {
-            dict["EntryTimecode"] = self.EntryTimecode!
-        }
-        
-        if(self.DisplayLabelList != nil) {
-            dict["DisplayLabelList"] = self.DisplayLabelList!.map({$0.dictionary})
-        }
-        
-        if(self.ImageIDList != nil) {
-            dict["ImageIDList"] = self.ImageIDList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

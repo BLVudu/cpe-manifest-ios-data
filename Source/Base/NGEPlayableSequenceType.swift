@@ -71,23 +71,5 @@ class NGEPlayableSequenceType : NSObject{
         if(ReferenceIDListArray.count > 0) { self.ReferenceIDList = ReferenceIDListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ClipList != nil) {
-            dict["ClipList"] = self.ClipList!.map({$0.dictionary})
-        }
-        
-        if(self.ImageClipList != nil) {
-            dict["ImageClipList"] = self.ImageClipList!.map({$0.dictionary})
-        }
-        
-        if(self.ReferenceIDList != nil) {
-            dict["ReferenceIDList"] = self.ReferenceIDList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

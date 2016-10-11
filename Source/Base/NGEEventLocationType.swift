@@ -92,35 +92,5 @@ class NGEEventLocationType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Type != nil) {
-            dict["Type"] = self.Type!
-        }
-        
-        if(self.Name != nil) {
-            
-            dict["Name"] = self.Name!
-            
-        }
-        
-        if(self.Address != nil) {
-            
-            dict["Address"] = self.Address!
-            
-        }
-        
-        if(self.EarthCoordinate != nil) {
-            dict["EarthCoordinate"] = self.EarthCoordinate!
-        }
-        
-        if(self.OtherCoordinates != nil) {
-            dict["OtherCoordinates"] = self.OtherCoordinates!
-        }
-        
-        return dict
-    }*/
-    
 }
 

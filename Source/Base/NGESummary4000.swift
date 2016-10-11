@@ -60,23 +60,5 @@ class NGESummary4000 : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.cast != nil) {
-            
-            dict["cast"] = self.cast!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

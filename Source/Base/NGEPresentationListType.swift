@@ -53,15 +53,5 @@ class NGEPresentationListType : NSObject{
         if(PresentationListArray.count > 0) { self.PresentationList = PresentationListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PresentationList != nil) {
-            dict["PresentationList"] = self.PresentationList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

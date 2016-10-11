@@ -68,21 +68,5 @@ class NGEALIDExperienceMapType : NSObject{
         if(ExperienceIDListArray.count > 0) { self.ExperienceIDList = ExperienceIDListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ALIDList != nil) {
-            
-            dict["ALIDList"] = self.ALIDList!
-            
-        }
-        
-        if(self.ExperienceIDList != nil) {
-            dict["ExperienceIDList"] = self.ExperienceIDList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

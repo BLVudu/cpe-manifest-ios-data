@@ -99,35 +99,5 @@ class NGESlideshow : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PictureGroupID != nil) {
-            
-            dict["PictureGroupID"] = self.PictureGroupID!
-            
-        }
-        
-        if(self.Shuffle != nil) {
-            
-            dict["Shuffle"] = self.Shuffle!
-            
-        }
-        
-        if(self.Duration != nil) {
-            
-            dict["Duration"] = self.Duration!
-            
-        }
-        
-        if(self.Transition != nil) {
-            
-            dict["Transition"] = self.Transition!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

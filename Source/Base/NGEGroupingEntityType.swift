@@ -89,31 +89,5 @@ class NGEGroupingEntityType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.GroupIdentity != nil) {
-            
-            dict["GroupIdentity"] = self.GroupIdentity!
-            
-        }
-        
-        if(self.DisplayNameList != nil) {
-            dict["DisplayNameList"] = self.DisplayNameList!.map({$0.dictionary})
-        }
-        
-        if(self.Region != nil) {
-            dict["Region"] = self.Region!
-        }
-        
-        return dict
-    }*/
-    
 }
 

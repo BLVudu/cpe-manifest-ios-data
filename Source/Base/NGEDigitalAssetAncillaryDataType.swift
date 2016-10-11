@@ -134,51 +134,5 @@ class NGEDigitalAssetAncillaryDataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.BaseTrackID != nil) {
-            
-            dict["BaseTrackID"] = self.BaseTrackID!
-            
-        }
-        
-        if(self.BaseTrackReference != nil) {
-            
-            dict["BaseTrackReference"] = self.BaseTrackReference!
-            
-        }
-        
-        if(self.BaseTrackIdentifierList != nil) {
-            dict["BaseTrackIdentifierList"] = self.BaseTrackIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.TrackMetadata != nil) {
-            dict["TrackMetadata"] = self.TrackMetadata!
-        }
-        
-        if(self.CombinedMetadata != nil) {
-            dict["CombinedMetadata"] = self.CombinedMetadata!
-        }
-        
-        if(self.Private != nil) {
-            dict["Private"] = self.Private!
-        }
-        
-        return dict
-    }*/
-    
 }
 

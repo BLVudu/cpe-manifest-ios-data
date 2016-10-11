@@ -73,29 +73,5 @@ class NGETextGroupType : NSObject{
         if(TextObjectIDListArray.count > 0) { self.TextObjectIDList = TextObjectIDListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TextGroupID != nil) {
-            
-            dict["TextGroupID"] = self.TextGroupID!
-            
-        }
-        
-        if(self.language != nil) {
-            
-            dict["language"] = self.language!
-            
-        }
-        
-        if(self.TextObjectIDList != nil) {
-            
-            dict["TextObjectIDList"] = self.TextObjectIDList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

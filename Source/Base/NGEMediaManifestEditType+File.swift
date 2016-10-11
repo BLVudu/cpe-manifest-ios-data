@@ -8,7 +8,7 @@ import libxml
 
 extension NGEMediaManifestEditType {
     class func NGEMediaManifestEditTypeFromURL(url:NSURL) -> NGEMediaManifestEditType? {
-        if let s = (url.absoluteString as? NSString)?.utf8String {
+        if let absoluteString = url.absoluteString, let s = NSString(string: absoluteString).utf8String {
             let reader = xmlReaderForFile( s, nil, 0/*options*/)
             
             if let reader = reader {
@@ -26,23 +26,6 @@ extension NGEMediaManifestEditType {
     class func NGEMediaManifestEditTypeFromFile(path:String) -> NGEMediaManifestEditType? {
         let url = NSURL(fileURLWithPath:path)
         return self.NGEMediaManifestEditTypeFromURL(url: url)
-    }
-    
-    class func NGEMediaManifestEditTypeFromData(data:NSData) -> NGEMediaManifestEditType? {
-        if let bytes = data.bytes as? UnsafePointer<Int8> {
-            let length = Int32(data.length)
-            let reader = xmlReaderForMemory(bytes, length, nil, nil, 0/*options*/)
-            
-            if let reader = reader {
-                let ret = xmlTextReaderRead(reader)
-                if(ret > 0) {
-                    return NGEMediaManifestEditType(reader)
-                }
-                xmlFreeTextReader(reader)
-            }
-        }
-        
-        return nil
     }
 }
 

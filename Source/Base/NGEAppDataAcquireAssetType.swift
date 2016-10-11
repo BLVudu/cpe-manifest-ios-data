@@ -101,35 +101,5 @@ class NGEAppDataAcquireAssetType : NSObject{
         if(PurchaseURLListArray.count > 0) { self.PurchaseURLList = PurchaseURLListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ALID != nil) {
-            
-            dict["ALID"] = self.ALID!
-            
-        }
-        
-        if(self.RequestType != nil) {
-            
-            dict["RequestType"] = self.RequestType!
-            
-        }
-        
-        if(self.FormatProfile != nil) {
-            
-            dict["FormatProfile"] = self.FormatProfile!
-            
-        }
-        
-        if(self.PurchaseURLList != nil) {
-            
-            dict["PurchaseURLList"] = self.PurchaseURLList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

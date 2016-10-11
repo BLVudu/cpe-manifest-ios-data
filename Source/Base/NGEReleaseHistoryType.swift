@@ -88,33 +88,5 @@ class NGEReleaseHistoryType : NSObject{
         if(ReleaseOrgListArray.count > 0) { self.ReleaseOrgList = ReleaseOrgListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ReleaseType != nil) {
-            dict["ReleaseType"] = self.ReleaseType!
-        }
-        
-        if(self.DistrTerritory != nil) {
-            dict["DistrTerritory"] = self.DistrTerritory!
-        }
-        
-        if(self.Date != nil) {
-            dict["Date"] = self.Date!
-        }
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
-            
-        }
-        
-        if(self.ReleaseOrgList != nil) {
-            dict["ReleaseOrgList"] = self.ReleaseOrgList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -101,33 +101,5 @@ class NGEContainerReferenceType : NSObject{
         if(HashListArray.count > 0) { self.HashList = HashListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContainerLocationList != nil) {
-            dict["ContainerLocationList"] = self.ContainerLocationList!.map({$0.dictionary})
-        }
-        
-        if(self.ParentContainer != nil) {
-            dict["ParentContainer"] = self.ParentContainer!
-        }
-        
-        if(self.ContainerIdentifierList != nil) {
-            dict["ContainerIdentifierList"] = self.ContainerIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.Length != nil) {
-            
-            dict["Length"] = self.Length!
-            
-        }
-        
-        if(self.HashList != nil) {
-            dict["HashList"] = self.HashList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

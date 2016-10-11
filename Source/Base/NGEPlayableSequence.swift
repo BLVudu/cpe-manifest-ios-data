@@ -49,20 +49,5 @@ class NGEPlayableSequence : NGEPlayableSequenceType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.PlayableSequenceID != nil) {
-            
-            dict["PlayableSequenceID"] = self.PlayableSequenceID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

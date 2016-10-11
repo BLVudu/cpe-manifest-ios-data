@@ -65,8 +65,8 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
                         _currentNodeType = xmlTextReaderNodeType(reader)
                         
                     } else   if(true) {
-                        print("Ignoring unexpected in NGEInventoryInteractiveType: \(_currentElementName)")
-                        /*if superclass != NSObject.self {
+                        /*print("Ignoring unexpected in NGEInventoryInteractiveType: \(_currentElementName)")
+                        if superclass != NSObject.self {
                             break
                         }*/
                     }
@@ -80,35 +80,6 @@ class NGEInventoryInteractiveType : NGEDigitalAssetInteractiveDataType {
         if(ManifestAppListArray.count > 0) { self.ManifestAppList = ManifestAppListArray }
         
     }
-    
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.InteractiveTrackID != nil) {
-            
-            dict["InteractiveTrackID"] = self.InteractiveTrackID!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            dict["ContainerReference"] = self.ContainerReference!
-        }
-        
-        if(self.ManifestAppList != nil) {
-            dict["ManifestAppList"] = self.ManifestAppList!.map({$0.dictionary})
-        }
-        
-        if(self.PictureID != nil) {
-            
-            dict["PictureID"] = self.PictureID!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

@@ -60,23 +60,5 @@ class NGEHashType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.method != nil) {
-            
-            dict["method"] = self.method!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

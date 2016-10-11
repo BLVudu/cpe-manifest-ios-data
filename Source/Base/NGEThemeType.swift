@@ -71,29 +71,5 @@ class NGEThemeType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ThemeID != nil) {
-            
-            dict["ThemeID"] = self.ThemeID!
-            
-        }
-        
-        if(self.ColorPalette != nil) {
-            dict["ColorPalette"] = self.ColorPalette!
-        }
-        
-        if(self.ButtonImageSet != nil) {
-            dict["ButtonImageSet"] = self.ButtonImageSet!
-        }
-        
-        if(self.Fonts != nil) {
-            dict["Fonts"] = self.Fonts!
-        }
-        
-        return dict
-    }*/
-    
 }
 

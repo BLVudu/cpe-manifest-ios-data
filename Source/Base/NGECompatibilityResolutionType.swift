@@ -26,7 +26,6 @@ class NGECompatibilityResolutionType : NSObject{
     var `SafePixelsFromBottom`: Int!
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
-        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -146,60 +145,6 @@ class NGECompatibilityResolutionType : NSObject{
         }
         
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.rotate != nil) {
-            
-            dict["rotate"] = self.rotate!
-            
-        }
-        
-        if(self.crop != nil) {
-            
-            dict["crop"] = self.crop!
-            
-        }
-        
-        if(self.WidthPixels != nil) {
-            
-            dict["WidthPixels"] = self.WidthPixels!
-            
-        }
-        
-        if(self.HeightPixels != nil) {
-            
-            dict["HeightPixels"] = self.HeightPixels!
-            
-        }
-        
-        if(self.SafeWidthPixels != nil) {
-            
-            dict["SafeWidthPixels"] = self.SafeWidthPixels!
-            
-        }
-        
-        if(self.SafeHeightPixels != nil) {
-            
-            dict["SafeHeightPixels"] = self.SafeHeightPixels!
-            
-        }
-        
-        if(self.SafePixelsFromLeft != nil) {
-            
-            dict["SafePixelsFromLeft"] = self.SafePixelsFromLeft!
-            
-        }
-        
-        if(self.SafePixelsFromBottom != nil) {
-            
-            dict["SafePixelsFromBottom"] = self.SafePixelsFromBottom!
-            
-        }
-        
-        return dict
-    }*/
     
 }
 

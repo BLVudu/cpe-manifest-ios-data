@@ -98,41 +98,5 @@ class NGECPEStyleSetType : NSObject{
         if(ThemeListArray.count > 0) { self.ThemeList = ThemeListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.CPEStyleSetID != nil) {
-            
-            dict["CPEStyleSetID"] = self.CPEStyleSetID!
-            
-        }
-        
-        if(self.updateNum != nil) {
-            
-            dict["updateNum"] = self.updateNum!
-            
-        }
-        
-        if(self.specVersion != nil) {
-            
-            dict["specVersion"] = self.specVersion!
-            
-        }
-        
-        if(self.ExperienceStyleMapList != nil) {
-            dict["ExperienceStyleMapList"] = self.ExperienceStyleMapList!.map({$0.dictionary})
-        }
-        
-        if(self.NodeStyleList != nil) {
-            dict["NodeStyleList"] = self.NodeStyleList!.map({$0.dictionary})
-        }
-        
-        if(self.ThemeList != nil) {
-            dict["ThemeList"] = self.ThemeList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

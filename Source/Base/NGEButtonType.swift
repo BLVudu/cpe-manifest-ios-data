@@ -67,25 +67,5 @@ class NGEButtonType : NSObject{
         if(LocalizedListArray.count > 0) { self.LocalizedList = LocalizedListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.label != nil) {
-            
-            dict["label"] = self.label!
-            
-        }
-        
-        if(self.Default != nil) {
-            dict["Default"] = self.Default!
-        }
-        
-        if(self.LocalizedList != nil) {
-            dict["LocalizedList"] = self.LocalizedList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

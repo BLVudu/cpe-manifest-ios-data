@@ -85,29 +85,5 @@ class NGEContentIdentifierType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Namespace != nil) {
-            
-            dict["Namespace"] = self.Namespace!
-            
-        }
-        
-        if(self.Identifier != nil) {
-            
-            dict["Identifier"] = self.Identifier!
-            
-        }
-        
-        if(self.Location != nil) {
-            
-            dict["Location"] = self.Location!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

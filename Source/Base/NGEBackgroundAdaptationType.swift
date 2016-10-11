@@ -92,33 +92,5 @@ class NGEBackgroundAdaptationType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ScaleMethod != nil) {
-            
-            dict["ScaleMethod"] = self.ScaleMethod!
-            
-        }
-        
-        if(self.PositioningMethod != nil) {
-            
-            dict["PositioningMethod"] = self.PositioningMethod!
-            
-        }
-        
-        if(self.FillColor != nil) {
-            
-            dict["FillColor"] = self.FillColor!
-            
-        }
-        
-        if(self.SafeArea != nil) {
-            dict["SafeArea"] = self.SafeArea!
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -91,29 +91,5 @@ class NGEEventLocationEarthCoordinateType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Latitude != nil) {
-            
-            dict["Latitude"] = self.Latitude!
-            
-        }
-        
-        if(self.Longitude != nil) {
-            
-            dict["Longitude"] = self.Longitude!
-            
-        }
-        
-        if(self.ElevationMeters != nil) {
-            
-            dict["ElevationMeters"] = self.ElevationMeters!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

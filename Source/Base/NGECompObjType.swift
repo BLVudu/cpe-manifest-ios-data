@@ -61,19 +61,5 @@ class NGECompObjType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.EntryList != nil) {
-            dict["EntryList"] = self.EntryList!.map({$0.dictionary})
-        }
-        
-        if(self.CompilationClass != nil) {
-            dict["CompilationClass"] = self.CompilationClass!
-        }
-        
-        return dict
-    }*/
-    
 }
 

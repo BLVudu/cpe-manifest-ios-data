@@ -60,23 +60,5 @@ class NGEFictionalStart : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.units != nil) {
-            
-            dict["units"] = self.units!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

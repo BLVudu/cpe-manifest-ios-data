@@ -61,24 +61,5 @@ class NGEDigitalAssetVideoPictureProgressiveType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.scanOrder != nil) {
-            
-            let obj = NGEStringVideoPicProgressiveScanOrderEnum.toString(self.scanOrder!)
-            dict["scanOrder"] = obj
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

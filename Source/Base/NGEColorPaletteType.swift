@@ -78,30 +78,5 @@ class NGEColorPaletteType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.NeutralPalette != nil) {
-            
-            let obj = NGENeutralPaletteEnum.toString(NeutralPalette!)
-            dict["value"] = obj
-            
-        }
-        
-        if(self.Base != nil) {
-            dict["Base"] = self.Base!
-        }
-        
-        if(self.Highlight != nil) {
-            dict["Highlight"] = self.Highlight!
-        }
-        
-        if(self.Defocus != nil) {
-            dict["Defocus"] = self.Defocus!
-        }
-        
-        return dict
-    }*/
-    
 }
 

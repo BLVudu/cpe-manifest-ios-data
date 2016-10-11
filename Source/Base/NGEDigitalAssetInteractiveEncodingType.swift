@@ -85,29 +85,5 @@ class NGEDigitalAssetInteractiveEncodingType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.RuntimeEnvironment != nil) {
-            
-            dict["RuntimeEnvironment"] = self.RuntimeEnvironment!
-            
-        }
-        
-        if(self.FirstVersion != nil) {
-            
-            dict["FirstVersion"] = self.FirstVersion!
-            
-        }
-        
-        if(self.LastVersion != nil) {
-            
-            dict["LastVersion"] = self.LastVersion!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

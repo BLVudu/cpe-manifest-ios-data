@@ -140,49 +140,5 @@ class NGEPictureType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PictureID != nil) {
-            
-            dict["PictureID"] = self.PictureID!
-            
-        }
-        
-        if(self.ImageID != nil) {
-            
-            dict["ImageID"] = self.ImageID!
-            
-        }
-        
-        if(self.ThumbnailImageID != nil) {
-            
-            dict["ThumbnailImageID"] = self.ThumbnailImageID!
-            
-        }
-        
-        if(self.LanguageInImageList != nil) {
-            
-            dict["LanguageInImageList"] = self.LanguageInImageList!
-            
-        }
-        
-        if(self.AlternateTextList != nil) {
-            dict["AlternateTextList"] = self.AlternateTextList!.map({$0.dictionary})
-        }
-        
-        if(self.CaptionList != nil) {
-            dict["CaptionList"] = self.CaptionList!.map({$0.dictionary})
-        }
-        
-        if(self.Sequence != nil) {
-            
-            dict["Sequence"] = self.Sequence!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

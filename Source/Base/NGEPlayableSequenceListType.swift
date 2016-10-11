@@ -53,15 +53,5 @@ class NGEPlayableSequenceListType : NSObject{
         if(PlayableSequenceListArray.count > 0) { self.PlayableSequenceList = PlayableSequenceListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PlayableSequenceList != nil) {
-            dict["PlayableSequenceList"] = self.PlayableSequenceList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -56,24 +56,5 @@ class NGEInventoryAncillaryType : NGEDigitalAssetAncillaryDataType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.AncillaryTrackID != nil) {
-            
-            dict["AncillaryTrackID"] = self.AncillaryTrackID!
-            
-        }
-        
-        if(self.ContainerReference != nil) {
-            dict["ContainerReference"] = self.ContainerReference!
-        }
-        
-        return dict
-    }*/
-    
 }
 

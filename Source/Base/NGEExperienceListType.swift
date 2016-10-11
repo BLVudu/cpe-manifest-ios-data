@@ -53,15 +53,5 @@ class NGEExperienceListType : NSObject{
         if(ExperienceListArray.count > 0) { self.ExperienceList = ExperienceListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ExperienceList != nil) {
-            dict["ExperienceList"] = self.ExperienceList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -78,27 +78,5 @@ class NGEBackgroundImageType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Inherit != nil) {
-            
-            dict["Inherit"] = self.Inherit!
-            
-        }
-        
-        if(self.PictureGroupID != nil) {
-            
-            dict["PictureGroupID"] = self.PictureGroupID!
-            
-        }
-        
-        if(self.Slideshow != nil) {
-            dict["Slideshow"] = self.Slideshow!
-        }
-        
-        return dict
-    }*/
-    
 }
 

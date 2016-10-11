@@ -78,29 +78,5 @@ class NGEBackgroundAudioType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.AudioTrackID != nil) {
-            
-            dict["AudioTrackID"] = self.AudioTrackID!
-            
-        }
-        
-        if(self.EntryPointTimecode != nil) {
-            dict["EntryPointTimecode"] = self.EntryPointTimecode!
-        }
-        
-        if(self.ExitPointTimecode != nil) {
-            dict["ExitPointTimecode"] = self.ExitPointTimecode!
-        }
-        
-        if(self.LoopTimecode != nil) {
-            dict["LoopTimecode"] = self.LoopTimecode!
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -53,15 +53,5 @@ class NGETextGroupListType : NSObject{
         if(TextGroupListArray.count > 0) { self.TextGroupList = TextGroupListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.TextGroupList != nil) {
-            dict["TextGroupList"] = self.TextGroupList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -106,39 +106,5 @@ class NGEPictureGroupType : NSObject{
         if(StyleRefListArray.count > 0) { self.StyleRefList = StyleRefListArray }
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.PictureGroupID != nil) {
-            
-            dict["PictureGroupID"] = self.PictureGroupID!
-            
-        }
-        
-        if(self.PictureList != nil) {
-            dict["PictureList"] = self.PictureList!.map({$0.dictionary})
-        }
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.StyleRefList != nil) {
-            
-            dict["StyleRefList"] = self.StyleRefList!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

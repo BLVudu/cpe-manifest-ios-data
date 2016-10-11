@@ -84,38 +84,5 @@ class NGEFileDeleteManifestType : NGEFileManifestType {
         
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.type != nil) {
-            
-            dict["type"] = self.type!
-            
-        }
-        
-        if(self.reference != nil) {
-            
-            dict["reference"] = self.reference!
-            
-        }
-        
-        if(self.Description != nil) {
-            
-            dict["Description"] = self.Description!
-            
-        }
-        
-        if(self.Instructions != nil) {
-            
-            dict["Instructions"] = self.Instructions!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

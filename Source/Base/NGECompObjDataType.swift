@@ -59,24 +59,5 @@ class NGECompObjDataType : NGECompObjType {
         if(DisplayNameListArray.count > 0) { self.DisplayNameList = DisplayNameListArray }
     }
     
-    /*override var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        for (name, value) in super.dictionary {
-            dict[name] = value
-        }
-        
-        if(self.CompObjID != nil) {
-            
-            dict["CompObjID"] = self.CompObjID!
-            
-        }
-        
-        if(self.DisplayNameList != nil) {
-            dict["DisplayNameList"] = self.DisplayNameList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
-    
 }
 

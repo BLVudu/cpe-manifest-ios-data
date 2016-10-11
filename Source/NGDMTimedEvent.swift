@@ -26,7 +26,7 @@ open class NGDMTimedEvent: Equatable {
     
     // MARK: Instance Variables
     /// Unique identifier
-    var id: String = ""
+    open var id: String = ""
     
     /// Position in full TimedEvent list
     open var sortedIndex: Int {

@@ -86,30 +86,5 @@ class NGEBasicMetadataPeopleType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.JobList != nil) {
-            dict["JobList"] = self.JobList!.map({$0.dictionary})
-        }
-        
-        if(self.Name != nil) {
-            dict["Name"] = self.Name!
-        }
-        
-        if(self.IdentifierList != nil) {
-            dict["IdentifierList"] = self.IdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.Gender != nil) {
-            
-            let obj = NGEGenderEnum.toString(Gender!)
-            dict["value"] = obj
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -80,35 +80,5 @@ class NGEGenre : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.source != nil) {
-            
-            dict["source"] = self.source!
-            
-        }
-        
-        if(self.identifier != nil) {
-            
-            dict["identifier"] = self.identifier!
-            
-        }
-        
-        if(self.level != nil) {
-            
-            dict["level"] = self.level!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

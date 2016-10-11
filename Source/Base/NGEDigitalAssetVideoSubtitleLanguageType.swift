@@ -67,29 +67,5 @@ class NGEDigitalAssetVideoSubtitleLanguageType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.closed != nil) {
-            
-            dict["closed"] = self.closed!
-            
-        }
-        
-        if(self.type != nil) {
-            
-            dict["type"] = self.type!
-            
-        }
-        
-        if(self.value != nil) {
-            
-            dict["value"] = self.value!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

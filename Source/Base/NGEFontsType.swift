@@ -85,29 +85,5 @@ class NGEFontsType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.FontGroup != nil) {
-            
-            dict["FontGroup"] = self.FontGroup!
-            
-        }
-        
-        if(self.CSSFontFamily != nil) {
-            
-            dict["CSSFontFamily"] = self.CSSFontFamily!
-            
-        }
-        
-        if(self.CSS3FontProperties != nil) {
-            
-            dict["CSS3FontProperties"] = self.CSS3FontProperties!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

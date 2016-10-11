@@ -40,7 +40,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		7071C2511C6BAB89006F4275 /* Resources */ = {
+		7038763F1DAC16D200544D5B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -68,13 +68,13 @@
 		70A411901C6026EC003A65D2 /* NextGenDataManagerExample */ = {
 			isa = PBXGroup;
 			children = (
-				7071C2511C6BAB89006F4275 /* Resources */,
 				70A411911C6026EC003A65D2 /* AppDelegate.swift */,
 				70A411931C6026EC003A65D2 /* ViewController.swift */,
 				70A411951C6026EC003A65D2 /* Main.storyboard */,
 				70A411981C6026EC003A65D2 /* Assets.xcassets */,
 				70A4119A1C6026EC003A65D2 /* LaunchScreen.storyboard */,
 				70A4119D1C6026EC003A65D2 /* Info.plist */,
+				7038763F1DAC16D200544D5B /* Resources */,
 			);
 			path = NextGenDataManagerExample;
 			sourceTree = "<group>";
@@ -129,7 +129,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Warner Bros.";
 				TargetAttributes = {
 					70A4118D1C6026EC003A65D2 = {
@@ -307,8 +307,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -352,8 +354,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -372,6 +376,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -381,7 +386,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6391694651CCDA44F10369EB /* Pods-NextGenDataManagerExample.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -401,7 +406,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E825BA1926FE70E1B1181AE1 /* Pods-NextGenDataManagerExample.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

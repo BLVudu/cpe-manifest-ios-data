@@ -112,41 +112,5 @@ class NGEAbbreviatedMetadataType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.UpdateNum != nil) {
-            
-            dict["UpdateNum"] = self.UpdateNum!
-            
-        }
-        
-        if(self.LocalizedInfoList != nil) {
-            dict["LocalizedInfoList"] = self.LocalizedInfoList!.map({$0.dictionary})
-        }
-        
-        if(self.RatingList != nil) {
-            dict["RatingList"] = self.RatingList!.map({$0.dictionary})
-        }
-        
-        if(self.AltIdentifierList != nil) {
-            dict["AltIdentifierList"] = self.AltIdentifierList!.map({$0.dictionary})
-        }
-        
-        if(self.Studio != nil) {
-            
-            dict["Studio"] = self.Studio!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

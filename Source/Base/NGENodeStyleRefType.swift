@@ -18,6 +18,7 @@ class NGENodeStyleRefType : NSObject{
     var `DeviceTargetList`: [NGECompatibilityDeviceType]?
     
     func readAttributes(_ reader: xmlTextReaderPtr) {
+        
         let numFormatter = NumberFormatter()
         numFormatter.numberStyle = .decimal
         
@@ -92,35 +93,6 @@ class NGENodeStyleRefType : NSObject{
         
         if(DeviceTargetListArray.count > 0) { self.DeviceTargetList = DeviceTargetListArray }
     }
-    
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.NodeStyleID != nil) {
-            
-            dict["NodeStyleID"] = self.NodeStyleID!
-            
-        }
-        
-        if(self.Orientation != nil) {
-            
-            let obj = NGEOrientationEnum.toString(Orientation!)
-            dict["value"] = obj
-            
-        }
-        
-        if(self.WidthPixelsMax != nil) {
-            
-            dict["WidthPixelsMax"] = self.WidthPixelsMax!
-            
-        }
-        
-        if(self.DeviceTargetList != nil) {
-            dict["DeviceTargetList"] = self.DeviceTargetList!.map({$0.dictionary})
-        }
-        
-        return dict
-    }*/
     
 }
 

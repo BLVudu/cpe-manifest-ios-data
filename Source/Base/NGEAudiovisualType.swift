@@ -123,45 +123,5 @@ class NGEAudiovisualType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Type != nil) {
-            
-            dict["Type"] = self.Type!
-            
-        }
-        
-        if(self.SubTypeList != nil) {
-            
-            dict["SubTypeList"] = self.SubTypeList!
-            
-        }
-        
-        if(self.PresentationID != nil) {
-            
-            dict["PresentationID"] = self.PresentationID!
-            
-        }
-        
-        if(self.PlayableSequenceID != nil) {
-            
-            dict["PlayableSequenceID"] = self.PlayableSequenceID!
-            
-        }
-        
-        if(self.PlayableSequence != nil) {
-            dict["PlayableSequence"] = self.PlayableSequence!
-        }
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

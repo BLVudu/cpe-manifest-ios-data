@@ -57,17 +57,5 @@ class NGETimelineStyleType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.something != nil) {
-            
-            dict["something"] = self.something!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

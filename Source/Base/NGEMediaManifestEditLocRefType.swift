@@ -78,27 +78,5 @@ class NGEMediaManifestEditLocRefType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.ContentID != nil) {
-            
-            dict["ContentID"] = self.ContentID!
-            
-        }
-        
-        if(self.Language != nil) {
-            
-            dict["Language"] = self.Language!
-            
-        }
-        
-        if(self.Region != nil) {
-            dict["Region"] = self.Region!
-        }
-        
-        return dict
-    }*/
-    
 }
 

@@ -85,29 +85,5 @@ class NGEPersonIdentifierType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.Identifier != nil) {
-            
-            dict["Identifier"] = self.Identifier!
-            
-        }
-        
-        if(self.Namespace != nil) {
-            
-            dict["Namespace"] = self.Namespace!
-            
-        }
-        
-        if(self.ReferenceLocation != nil) {
-            
-            dict["ReferenceLocation"] = self.ReferenceLocation!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 

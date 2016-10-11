@@ -75,25 +75,5 @@ class NGEContentRatingType : NSObject{
         
     }
     
-    /*var dictionary: [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        
-        if(self.NotRated != nil) {
-            dict["NotRated"] = self.NotRated!
-        }
-        
-        if(self.RatingList != nil) {
-            dict["RatingList"] = self.RatingList!.map({$0.dictionary})
-        }
-        
-        if(self.AdultContent != nil) {
-            
-            dict["AdultContent"] = self.AdultContent!
-            
-        }
-        
-        return dict
-    }*/
-    
 }
 
