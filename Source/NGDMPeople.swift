@@ -116,7 +116,7 @@ open class NGDMTalent: NGDMPeople {
         if detailsLoaded {
             successBlock(biography, socialAccounts, films)
         } else if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, let id = apiId {
-            talentAPIUtil.getTalentDetails(id, successBlock: { [weak self] (biography, socialAccounts, films) in
+            talentAPIUtil.getTalentDetails(id, completion: { [weak self] (biography, socialAccounts, films) in
                 if let strongSelf = self {
                     strongSelf.biography = biography
                     strongSelf.socialAccounts = socialAccounts
