@@ -25,7 +25,7 @@ class NGDMLocalizedInfo {
         title = manifestObject.TitleDisplayUnlimited ?? manifestObject.TitleDisplay60 ?? manifestObject.TitleDisplay19 ?? manifestObject.TitleSort
         description = manifestObject.Summary4000?.value ?? manifestObject.Summary400?.value ?? manifestObject.Summary190.value
         
-        if let url = manifestObject.ArtReferenceList?.reversed().first?.value {
+        if let url = manifestObject.ArtReferenceList?.first?.value {
             if url.contains("file://") {
                 let tempURL = URL(fileURLWithPath: url.replacingOccurrences(of: "file://", with: ""))
                 imageURL = Bundle.main.url(forResource: tempURL.deletingPathExtension().path, withExtension: tempURL.pathExtension)

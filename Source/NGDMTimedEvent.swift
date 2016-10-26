@@ -226,20 +226,8 @@ open class NGDMTimedEvent: Equatable {
     }
     
     open static func findByTimecode(_ timecode: Double, type: TimedEventType) -> [NGDMTimedEvent] {
-        var timedEvents = [NGDMTimedEvent]()
-        for timedEvent in NGDMManifest.sharedInstance.timedEvents {
-            if timedEvent.startTime <= timecode {
-                if timedEvent.isType(type) && timedEvent.endTime >= timecode {
-                    timedEvents.append(timedEvent)
-                }
-            } else {
-                break
-            }
-        }
-        
-        return timedEvents.sorted(by: { (timedEvent1, timedEvent2) -> Bool in
-            return (timedEvent1.experience?.sequenceNumber ?? 0) < (timedEvent2.experience?.sequenceNumber ?? 0)
-        })
+        let timedEvents = NGDMManifest.sharedInstance.timedEvents.filter({ $0.isType(type) && timecode >= $0.startTime && timecode <= $0.endTime })
+        return timedEvents.sorted(by: { ($0.experience?.sequenceNumber ?? 0) < ($1.experience?.sequenceNumber ?? 0) })
     }
     
 }

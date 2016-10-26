@@ -57,7 +57,7 @@ open class NGDMMainExperience: NGDMExperience {
             if let talentAPIUtil = NGDMConfiguration.talentAPIUtil, let talents = self.talents {
                 for talent in talents.values {
                     if talent.images == nil, let talentId = talent.apiId {
-                        talentAPIUtil.getTalentImages(talentId, successBlock: { (talentImages) in
+                        talentAPIUtil.getTalentImages(talentId, completion: { (talentImages) in
                             talent.images = talentImages
                         })
                     }
